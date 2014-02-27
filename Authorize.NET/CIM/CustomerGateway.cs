@@ -12,6 +12,7 @@ namespace AuthorizeNet {
     public class CustomerGateway : ICustomerGateway {
 
         HttpXmlUtility _gateway;
+        validationModeEnum _mode = validationModeEnum.liveMode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerGateway"/> class.
@@ -23,9 +24,10 @@ namespace AuthorizeNet {
             
             if (mode == ServiceMode.Live) {
                 _gateway = new HttpXmlUtility(ServiceMode.Live, apiLogin, transactionKey);
+                _mode = validationModeEnum.liveMode;
             } else {
                 _gateway = new HttpXmlUtility(ServiceMode.Test, apiLogin, transactionKey);
-
+                _mode = validationModeEnum.testMode;
             }
         }
         /// <summary>
@@ -147,6 +149,8 @@ namespace AuthorizeNet {
             if (billToAddress != null)
                 req.paymentProfile.billTo = billToAddress.ToAPIType();
 
+            req.validationModeSpecified = true;
+            req.validationMode = this._mode;
 
             var response = (createCustomerPaymentProfileResponse)_gateway.Send(req);
             
