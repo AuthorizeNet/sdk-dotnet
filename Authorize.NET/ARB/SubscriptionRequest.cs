@@ -199,15 +199,31 @@ namespace AuthorizeNet {
             var sub = new ARBSubscriptionType();
             sub.name = this.SubscriptionName;
 
-            if (!String.IsNullOrEmpty(this.CardNumber)) {
-                var creditCard = new creditCardType();
-                creditCard.cardNumber = this.CardNumber;
-                creditCard.expirationDate = string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
-                sub.payment = new paymentType();
-                sub.payment.Item = creditCard;
-            } else {
-                throw new InvalidOperationException("Need a credit card number to set up this subscription");
+            StringBuilder sbError = new StringBuilder("");
+            bool bError = false;
+            if (String.IsNullOrEmpty(this.CardNumber) || (this.CardNumber.Trim().Length == 0))
+            {
+                sbError.Append("Need a credit card number to set up this subscription");
+                bError = true;
             }
+
+            DateTime dt;
+            if (!DateTime.TryParse(this.CardExpirationMonth.ToString() + "-1-" + this.CardExpirationYear.ToString(), out dt))
+            {
+                sbError.Append("Need a valid CardExpirationMonth and CardExpirationYear to set up this subscription");
+                bError = true;
+            }
+
+            if (bError)
+            {
+                throw new InvalidOperationException(sbError.ToString());
+            }
+
+            var creditCard = new creditCardType();
+            creditCard.cardNumber = this.CardNumber;
+            creditCard.expirationDate = dt.ToString("yyyy-MM");  // required format for API is YYYY-MM
+            sub.payment = new paymentType();
+            sub.payment.Item = creditCard;
             
             if(this.BillingAddress!=null)
                 sub.billTo = this.BillingAddress.ToAPINameAddressType();
@@ -272,8 +288,6 @@ namespace AuthorizeNet {
                 creditCard.expirationDate = string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
                 sub.payment = new paymentType();
                 sub.payment.Item = creditCard;
-            } else {
-                throw new InvalidOperationException("Need a credit card number to set up this subscription");
             }
 
             if (this.BillingAddress != null)
