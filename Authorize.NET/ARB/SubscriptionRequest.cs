@@ -283,9 +283,15 @@ namespace AuthorizeNet {
             sub.name = this.SubscriptionName;
 
             if (!String.IsNullOrEmpty(this.CardNumber)) {
+                DateTime dt;
+                if (!DateTime.TryParse(this.CardExpirationMonth.ToString() + "-1-" + this.CardExpirationYear.ToString(), out dt))
+                {
+                    throw new InvalidOperationException("Need a valid CardExpirationMonth and CardExpirationYear to set up this subscription");
+                }
+
                 var creditCard = new creditCardType();
                 creditCard.cardNumber = this.CardNumber;
-                creditCard.expirationDate = string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
+                creditCard.expirationDate = dt.ToString("yyyy-MM");//string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
                 sub.payment = new paymentType();
                 sub.payment.Item = creditCard;
             }
