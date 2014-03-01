@@ -208,7 +208,7 @@ namespace AuthorizeNet {
             }
 
             DateTime dt;
-            if (!DateTime.TryParse(this.CardExpirationMonth.ToString() + "-1-" + this.CardExpirationYear.ToString(), out dt))
+            if (!CommonFunctions.ParseDateTime(this.CardExpirationYear, this.CardExpirationMonth, 1, out dt))
             {
                 sbError.Append("Need a valid CardExpirationMonth and CardExpirationYear to set up this subscription");
                 bError = true;
@@ -282,9 +282,10 @@ namespace AuthorizeNet {
             var sub = new ARBSubscriptionType();
             sub.name = this.SubscriptionName;
 
-            if (!String.IsNullOrEmpty(this.CardNumber)) {
+            if (!String.IsNullOrEmpty(this.CardNumber))
+            {
                 DateTime dt;
-                if (!DateTime.TryParse(this.CardExpirationMonth.ToString() + "-1-" + this.CardExpirationYear.ToString(), out dt))
+                if (!CommonFunctions.ParseDateTime(this.CardExpirationYear, this.CardExpirationMonth, 1, out dt))
                 {
                     throw new InvalidOperationException("Need a valid CardExpirationMonth and CardExpirationYear to set up this subscription");
                 }

@@ -126,7 +126,11 @@ namespace AuthorizeNet {
         public string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode, Address billToAddress) {
 
             // Get the expiration date.
-            DateTime dt = DateTime.Parse(expirationMonth.ToString() + "-1-" + expirationYear.ToString());
+
+            DateTime dt; // = DateTime.Parse(expirationMonth.ToString() + "-1-" + expirationYear.ToString());
+            if (!CommonFunctions.ParseDateTime(expirationYear, expirationMonth, 1, out dt))
+            { throw new Exception("Invalid credit card expiration date"); }
+
             DateTime expDate = new DateTime(dt.Year, dt.Month, 1).AddMonths(1).AddDays(-1);
             string sExpDate = expDate.ToString("yyyy-MM");
             // Make sure the card has not expired.
