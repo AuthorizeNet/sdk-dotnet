@@ -280,6 +280,19 @@ namespace AuthorizeNet {
             if(!String.IsNullOrEmpty(order.CardCode))
                 trans.cardCode = order.CardCode;
 
+            if ((!String.IsNullOrEmpty(order.InvoiceNumber)) ||
+                (!String.IsNullOrEmpty(order.Description)) ||
+                (!String.IsNullOrEmpty(order.PONumber)))
+            {
+                trans.order = new orderExType();
+                if (!String.IsNullOrEmpty(order.InvoiceNumber))
+                    trans.order.invoiceNumber = order.InvoiceNumber;
+                if (!String.IsNullOrEmpty(order.Description))
+                    trans.order.description = order.Description;
+                if (!String.IsNullOrEmpty(order.PONumber))
+                    trans.order.purchaseOrderNumber = order.PONumber;
+            }
+
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
 
