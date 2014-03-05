@@ -453,7 +453,8 @@ namespace AuthorizeNet {
             if (!String.IsNullOrEmpty(profileID)) trans.customerProfileId = profileID;
             if (!String.IsNullOrEmpty(paymentProfileId)) trans.customerPaymentProfileId = paymentProfileId;
             //else trans.customerPaymentProfileId = null;
-            if (!String.IsNullOrEmpty(transId)) trans.transId = transId;
+            //if (!String.IsNullOrEmpty(transId)) 
+            trans.transId = transId;  //required
             //else trans.transId = null;
             trans.amount = amount; // required.
             if (!String.IsNullOrEmpty(shippingProfileId)) trans.customerShippingAddressId = shippingProfileId;
