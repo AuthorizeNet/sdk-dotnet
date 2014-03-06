@@ -313,6 +313,10 @@ namespace AuthorizeNet {
             sub.customer.email = this.CustomerEmail;
             sub.customer.id = this.CustomerID;
 
+            sub.order = new orderType();
+            sub.order.description = this.Description;
+            sub.order.invoiceNumber = this.Invoice;
+                                                        
             return sub;
 
         }

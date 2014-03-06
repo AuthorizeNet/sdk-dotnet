@@ -195,8 +195,43 @@ namespace AuthorizeNETtest
                                                                                   "ARB Update Subscrition Test",
                                                                                   (decimal) 1.33, 12);
             subscription.SubscriptionID = "2010573";
-
             subscription.BillingCycles = 15;
+
+            bool actual = false;
+
+            // if choose "USEFAKE", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.UpdateSubscription(subscription);
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+            }
+
+            Assert.IsTrue(actual);
+        }
+
+        /// <summary>
+        /// UpdateSubscription Occurence Amount Changes - success
+        /// </summary>
+        [TestMethod()]
+        public void UpdateSubscriptionTest_Description_Invoice()
+        {
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
+            FakeRequestObject.ResponseString = responseString;
+
+            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
+            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
+            SubscriptionGateway target = new SubscriptionGateway(apiLogin, transactionKey);
+
+            ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
+                                                                                  "ARB Update Subscrition Test Description and Invoice",
+                                                                                  (decimal)1.34, 12);
+            subscription.SubscriptionID = "2010573";
+            subscription.Invoice = "INV12345";
+            subscription.Description = "update Description and Invoice";
 
             bool actual = false;
 
