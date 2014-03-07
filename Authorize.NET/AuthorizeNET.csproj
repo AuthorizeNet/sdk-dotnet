@@ -38,9 +38,9 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AuthorizeNet.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'USEFAKE|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'USELOCAL|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\USEFAKE\</OutputPath>
+    <OutputPath>bin\USELOCAL\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DocumentationFile>bin\Debug\AuthorizeNet.XML</DocumentationFile>
     <DebugType>full</DebugType>

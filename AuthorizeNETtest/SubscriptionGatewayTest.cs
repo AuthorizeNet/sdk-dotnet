@@ -62,13 +62,15 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void CreateSubscriptionTest()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             string responseString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBCreateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><subscriptionId>2010573</subscriptionId></ARBCreateSubscriptionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            SubscriptionGateway target = new SubscriptionGateway(apiLogin, transactionKey);
+            SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
                                                                                   "ARB Subscrition Test", (decimal) 1.31,
@@ -84,7 +86,7 @@ namespace AuthorizeNETtest
 
             ISubscriptionRequest actual = null;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -109,13 +111,15 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void UpdateSubscriptionTest()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             string responseString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            SubscriptionGateway target = new SubscriptionGateway(apiLogin, transactionKey);
+            SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
                                                                                   "ARB Update Subscrition Test",
@@ -124,7 +128,7 @@ namespace AuthorizeNETtest
 
             bool actual = false;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -144,13 +148,15 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void UpdateSubscriptionTest_SingleDigitMonth()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             string responseString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            SubscriptionGateway target = new SubscriptionGateway(apiLogin, transactionKey);
+            SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
                                                                                   "ARB Update Subscrition Test",
@@ -163,7 +169,7 @@ namespace AuthorizeNETtest
 
             bool actual = false;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -183,13 +189,15 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void UpdateSubscriptionTest_Occurence_Amount()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             string responseString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            SubscriptionGateway target = new SubscriptionGateway(apiLogin, transactionKey);
+            SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
                                                                                   "ARB Update Subscrition Test",
@@ -199,7 +207,7 @@ namespace AuthorizeNETtest
 
             bool actual = false;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -219,12 +227,14 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void UpdateSubscriptionTest_Description_Invoice()
         {
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            SubscriptionGateway target = new SubscriptionGateway(apiLogin, transactionKey);
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
                                                                                   "ARB Update Subscrition Test Description and Invoice",
@@ -235,7 +245,7 @@ namespace AuthorizeNETtest
 
             bool actual = false;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {

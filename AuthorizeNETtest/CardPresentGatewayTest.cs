@@ -65,13 +65,15 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void SendTest_Auth_Approved()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             string responseString = "1.0|1|1|This transaction has been approved.|N8IV1Z|Y||2207395117|4BA6F435F8046E347710457856F3BAD1||||||||||||XXXX1111|Visa";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLoginCP"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKeyCP"];
-            CardPresentGateway target = new CardPresentGateway(apiLogin, transactionKey, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
 
             IGatewayRequest request = new CardPresentAuthorizationRequest((decimal)30.11, "4111111111111111", "02", "16");
             string description = "CP Auth transaction approved testing";
@@ -94,6 +96,10 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void SendTest_Capture_Approved()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             //setup
             decimal amount = (decimal)30.12;
             string authCode = SendAuthOnly(amount + 1, false);
@@ -101,12 +107,10 @@ namespace AuthorizeNETtest
 
             //start testing
             string responseString = "1.0|1|1|This transaction has been approved.||P||2207702802|9FE994E47A8F0F44552C5CA59D09BE79||||||||||||XXXX1111|Visa";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLoginCP"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKeyCP"];
-            CardPresentGateway target = new CardPresentGateway(apiLogin, transactionKey, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
 
             IGatewayRequest request = new CardPresentCaptureOnly(authCode, "4111111111111111", "0224", amount);
             string description = "CP Capture transaction approved testing";
@@ -129,6 +133,10 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void SendTest_PriorAuthCap_Approved()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             //setup
             decimal amount = (decimal) 30.13;
             string transID = SendAuthOnly(amount + 1, true);
@@ -137,12 +145,10 @@ namespace AuthorizeNETtest
 
             //start testing
             string responseString = "1.0|1|1|This transaction has been approved.||P||2207397444|37887CB02372C5074386923E7E33BB3C||||||||||||XXXX1111|Visa";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLoginCP"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKeyCP"];
-            CardPresentGateway target = new CardPresentGateway(apiLogin, transactionKey, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
 
             IGatewayRequest request = new CardPresentPriorAuthCapture(transID, amount);
             string description = "CP PriorAuthCap transaction approved testing";
@@ -165,6 +171,10 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void SendTest_PriorAuthCap_LessAmount_Failed()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             //setup
             decimal amount = (decimal)30.13;
             string transID = SendAuthOnly(amount - 1, true);
@@ -173,12 +183,10 @@ namespace AuthorizeNETtest
 
             //start testing
             string responseString = "1.0|3|47|The amount requested for settlement cannot be greater than the original amount authorized.||P||0|723B86547E0A4F9D9A2293081DA46A70|||||||||||||Visa";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLoginCP"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKeyCP"];
-            CardPresentGateway target = new CardPresentGateway(apiLogin, transactionKey, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
 
             IGatewayRequest request = new CardPresentPriorAuthCapture(transID, amount);
             string description = "CP PriorAuthCap transaction approved testing";
@@ -198,11 +206,9 @@ namespace AuthorizeNETtest
         private string SendAuthOnly(decimal amount, bool returnTransID)
         {
             string responseString = "1.0|1|1|This transaction has been approved.|N8IV1Z|Y||2207395117|4BA6F435F8046E347710457856F3BAD1||||||||||||XXXX1111|Visa";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLoginCP"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKeyCP"];
-            CardPresentGateway target = new CardPresentGateway(apiLogin, transactionKey, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
 
             IGatewayRequest request = new CardPresentAuthorizationRequest(amount, "4111111111111111", "02", "16");
             string description = "CP Auth transaction approved testing";

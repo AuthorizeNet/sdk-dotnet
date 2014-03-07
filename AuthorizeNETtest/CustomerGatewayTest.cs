@@ -68,12 +68,14 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void CreateCustomerTest()
         {
-            string responseString ="<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerProfileId>24231938</customerProfileId><customerPaymentProfileIdList /><customerShippingAddressIdList /><validationDirectResponseList /></createCustomerProfileResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            string responseString ="<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerProfileId>24231938</customerProfileId><customerPaymentProfileIdList /><customerShippingAddressIdList /><validationDirectResponseList /></createCustomerProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
             string email = "suzhu@visa.com";
             string description = "CreateCustomerTest Success";
             Customer expected = new Customer()
@@ -83,7 +85,7 @@ namespace AuthorizeNETtest
                 };
             Customer actual = null;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -108,12 +110,14 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void UpdateCustomerTest()
         {
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerProfileResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             Customer customer = new Customer()
             {
@@ -124,7 +128,7 @@ namespace AuthorizeNETtest
             };
             bool actual = false;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -144,12 +148,14 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void AddCreditCardTest()
         {
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             string profileID = "24231938";
             string cardNumber = "4111111111111111";
@@ -159,7 +165,7 @@ namespace AuthorizeNETtest
             string expected = "22219473";
             string actual = "";
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -179,12 +185,14 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void AddCreditCardTest_ValidationMode()
         {
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey, ServiceMode.Test);
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey, ServiceMode.Test);
 
             string profileID = "24231938";
             string cardNumber = "4111111111111111";
@@ -194,7 +202,7 @@ namespace AuthorizeNETtest
             string expected = "22219473";
             string actual = "";
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -215,12 +223,14 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void UpdatePaymentProfileMinTest()
         {
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             string profileID = "24231938";
             customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
@@ -232,7 +242,7 @@ namespace AuthorizeNETtest
 
             bool actual = false;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -252,16 +262,18 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void AuthorizeAndCaptureTest()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2C99N3,Y,2207640586,,,25.10,CC,auth_capture,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,C40BBCC10984A7A95471323B34FD4FFB,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
             StringReader reader = new StringReader(responseString);
             createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
             IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             string profileID = "24231938";
             string paymentProfileID = "22219473";
@@ -270,7 +282,7 @@ namespace AuthorizeNETtest
 
             IGatewayResponse actual = null;
             
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -298,16 +310,18 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void AuthorizeAndCaptureTest_InvoiceDescriptionPONumber()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,Q5G0UI,Y,2207641147,Invoice#123,Testing InvoiceDescriptionPONumber,25.10,CC,auth_capture,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,PO23456,BEEEB7C9F2F22B9955338A7E19427369,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
             StringReader reader = new StringReader(responseString);
             createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
             IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             string profileID = "24231938";
             string paymentProfileID = "22219473";
@@ -319,7 +333,7 @@ namespace AuthorizeNETtest
 
             IGatewayResponse actual = null;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -349,6 +363,10 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void SendTest_Capture_Approved()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             //setup
             decimal amount = (decimal)25.12;
             string authCode = SendAuthOnly(amount + 1, false);
@@ -356,22 +374,20 @@ namespace AuthorizeNETtest
 
             //start testing
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2JM6IE,P,2207702175,,,25.12,CC,capture_only,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,5BB96CB66C1E0BCE123915E970D70166,,,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
             StringReader reader = new StringReader(responseString);
             createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
             IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             string profileID = "24231938";
             string paymentProfileID = "22219473";
 
             IGatewayResponse actual = null;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -399,6 +415,10 @@ namespace AuthorizeNETtest
         [TestMethod()]
         public void SendTest_PriorAuthCapture_Approved()
         {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
             //setup
             decimal amount = (decimal)25.13;
             string transID = SendAuthOnly(amount + 1, true);
@@ -407,19 +427,17 @@ namespace AuthorizeNETtest
 
             //start testing
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,MFSOM8,P,2207702374,,,25.13,CC,prior_auth_capture,,,,,,,,,,,,,,,,,,,,,,,,,,E0DF3A88533C1F9CBE3B55159C514513,,,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
             XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
             StringReader reader = new StringReader(responseString);
             createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
             IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             IGatewayResponse actual = null;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
@@ -444,18 +462,16 @@ namespace AuthorizeNETtest
         private string SendAuthOnly(decimal amount, bool returnTransID)
         {
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2JM6IE,Y,2207702136,,,11.21,CC,auth_only,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,C8E9860C9B9DF58A73FFD9D7A8BFB82F,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
-            FakeRequestObject.ResponseString = responseString;
+            LocalRequestObject.ResponseString = responseString;
 
-            string apiLogin = ConfigurationManager.AppSettings["ApiLogin"];
-            string transactionKey = ConfigurationManager.AppSettings["TransactionKey"];
-            CustomerGateway target = new CustomerGateway(apiLogin, transactionKey);
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
             string profileID = "24231938";
             string paymentProfileID = "22219473";
 
             IGatewayResponse response = null;
 
-            // if choose "USEFAKE", the test should pass with no exception
+            // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {

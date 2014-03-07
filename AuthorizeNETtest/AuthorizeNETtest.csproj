@@ -30,10 +30,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'USEFAKE|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'USELOCAL|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\USEFAKE\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;USEFAKE</DefineConstants>
+    <OutputPath>bin\USELOCAL\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;USELOCAL</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -71,7 +71,7 @@
     <Compile Include="CustomerGatewayTest.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="SubscriptionGatewayTest.cs" />
-    <Compile Include="WebRequestFake.cs" />
+    <Compile Include="WebRequestLocal.cs" />
     <Compile Include="GatewayTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

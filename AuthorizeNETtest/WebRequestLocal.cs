@@ -9,13 +9,13 @@ using System.Threading;
 
 namespace AuthorizeNETtest
 {
-    public class WebRequestCreateFake : IWebRequestCreate
+    public class WebRequestCreateLocal : IWebRequestCreate
     {
-        public WebRequestCreateFake()
+        public WebRequestCreateLocal()
         {
         }
 
-        public WebRequestCreateFake(string response)
+        public WebRequestCreateLocal(string response)
         {
             ResponseString = response;
         }
@@ -47,15 +47,15 @@ namespace AuthorizeNETtest
             si.AddValue("_Version", HttpVersion.Version11, typeof(Version));
             si.AddValue("_OriginUri", new Uri("http://localhost"), typeof(Uri));
 
-            WebRequestFake request = new WebRequestFake(si, sc);
+            WebRequestLocal request = new WebRequestLocal(si, sc);
             request.ResponseString = ResponseString;
             return request;
         }
     }
 
-    public class WebRequestFake : HttpWebRequest
+    public class WebRequestLocal : HttpWebRequest
     {
-        public WebRequestFake(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        public WebRequestLocal(SerializationInfo serializationInfo, StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {
         }
@@ -83,18 +83,18 @@ namespace AuthorizeNETtest
             si.AddValue("m_StatusCode", HttpStatusCode.OK);
             si.AddValue("m_ContentLength", 0);
             si.AddValue("m_Verb", "GET");
-            si.AddValue("m_StatusDescription", "Fake Response");
+            si.AddValue("m_StatusDescription", "Local Response");
             si.AddValue("m_MediaType", null);
 
-            WebResponseFake response = new WebResponseFake(si, sc);
+            WebResponseLocal response = new WebResponseLocal(si, sc);
             response.ResponseString = ResponseString;
             return response;
         }
     }
 
-    public class WebResponseFake : HttpWebResponse
+    public class WebResponseLocal : HttpWebResponse
     {
-        public WebResponseFake(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        public WebResponseLocal(SerializationInfo serializationInfo, StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {
         }
@@ -103,7 +103,6 @@ namespace AuthorizeNETtest
 
         public override Stream GetResponseStream()
         {
-            //string s = "sue|is|Genius";
             Encoding ascii = Encoding.ASCII;
             byte[] bytes = ascii.GetBytes(ResponseString);
             MemoryStream ms = new MemoryStream();
