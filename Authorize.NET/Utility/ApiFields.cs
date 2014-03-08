@@ -144,7 +144,7 @@ namespace AuthorizeNet
 
             ApiKeys.Add("x_cust_id");
 
-            ApiKeys.Add("x_cust_ip");
+            ApiKeys.Add("x_customer_ip");
 
             ApiKeys.Add("x_ship_to_first_name");
 
@@ -281,8 +281,8 @@ namespace AuthorizeNet
 		/// The ID of the Customer as relates to your application
 		/// </summary>
 		public const string CustomerID = "x_cust_id";
-		
-		public const string CustomerIPAddress = "x_cust_ip";		
+
+        public const string CustomerIPAddress = "x_customer_ip";		
 		
 		public const string ShipFirstName = "x_ship_to_first_name";
 

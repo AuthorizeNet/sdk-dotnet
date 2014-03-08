@@ -90,6 +90,39 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
+        /// AuthCap Transaction - Approved
+        /// </summary>
+        [TestMethod()]
+        public void SendTest_AuthCap_Approved_CustomerIP()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "1|1|1|This transaction has been approved.|7339F5|Y|2207176015||testing|20.10|CC|auth_capture||||||||||||||||||||||||||7639D026F54F4DF70EA3F7DE5A350929||2|||||||||||XXXX1111|Visa||||||||||||||||";
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+
+            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+
+            IGatewayRequest request = new AuthorizationRequest("4111111111111111", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
+            string description = "AuthCap transaction approved testing";
+            request.CustId = "CID1234";
+            request.CustomerIp = "CIP456789";
+            IGatewayResponse actual = target.Send(request, description);
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+
+            Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+        }
+
+        /// <summary>
         /// Capture Transaction - Approved
         /// </summary>
         [TestMethod()]
