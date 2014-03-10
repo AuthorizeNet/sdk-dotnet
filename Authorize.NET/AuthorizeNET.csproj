@@ -38,6 +38,15 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AuthorizeNet.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'USELOCAL|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\USELOCAL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\AuthorizeNet.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,6 +59,7 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIM\Requests\PriorAuthCaptureRequest.cs" />
     <Compile Include="AIM\Requests\EcheckRequest.cs" />
     <Compile Include="AIM\Requests\IGatewayRequest.cs" />
     <Compile Include="AIM\Requests\UnlinkedCredit.cs" />
@@ -80,7 +90,10 @@
     <Compile Include="Reporting\IReportingGateway.cs" />
     <Compile Include="Reporting\ReportingGateway.cs" />
     <Compile Include="Reporting\Transaction.cs" />
+    <Compile Include="SIM\SIMFormGenerator.cs" />
+    <Compile Include="TestFriends.cs" />
     <Compile Include="Utility\AnetApiSchema.cs" />
+    <Compile Include="Utility\CommonFunctions.cs" />
     <Compile Include="Utility\Crypto.cs" />
     <Compile Include="AIM\Gateway.cs" />
     <Compile Include="AIM\Requests\GatewayRequest.cs" />
