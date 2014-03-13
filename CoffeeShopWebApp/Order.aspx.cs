@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using AuthorizeNet;
-using AuthorizeNet.Helpers;
 using System.Configuration;
 using CoffeeShopWebApp.Model;
 
@@ -13,6 +7,7 @@ namespace CoffeeShopWebApp {
     public partial class Order : System.Web.UI.Page {
         protected void Page_Load(object sender, EventArgs e) {
             var order = (CoffeeOrder)Session["order"];
+            OrderID = order.OrderID.ToString();
             imgProduct.ImageUrl = "/content/images/mug_" + order.Slug + ".png";
         }
         //pretend this is injected with IoC
@@ -76,9 +71,25 @@ namespace CoffeeShopWebApp {
                                              ConfigurationManager.AppSettings["TransactionKey"],
                                              order.Price, "", true);
         }
+
         protected string SIMFormEnd()
         {
             return SIMFormGenerator.EndForm();
+        }
+
+
+        protected string OrderID = "";
+        protected string DPMFormOpen()
+        {
+            var order = (CoffeeOrder)Session["order"];
+            return DPMFormGenerator.OpenForm(ConfigurationManager.AppSettings["ApiLogin"],
+                                             ConfigurationManager.AppSettings["TransactionKey"],
+                                             order.Price, "", true);
+        }
+
+        protected string DPMFormEnd()
+        {
+            return DPMFormGenerator.EndForm();
         }
     }
 }

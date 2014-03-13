@@ -86,6 +86,7 @@
     <Compile Include="CP\CardPresentPriorAuthCapture.cs" />
     <Compile Include="CP\CardPresentVoid.cs" />
     <Compile Include="CP\ICardPresentGateway.cs" />
+    <Compile Include="DPM\DPMFormGenerator.cs" />
     <Compile Include="Reporting\Batch.cs" />
     <Compile Include="Reporting\IReportingGateway.cs" />
     <Compile Include="Reporting\ReportingGateway.cs" />

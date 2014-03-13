@@ -1,11 +1,14 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace AuthorizeNet
 {
     /// <summary>
-    /// A class that builds out a SIM-ready form for submission to Auth.net.
+    /// A class that builds out a DPM-ready form for submission to Auth.net.
     /// </summary>
-    public static class SIMFormGenerator
+    public static class DPMFormGenerator
     {
         public static string OpenForm(string apiLogin, string transactionKey, decimal amount, string returnUrl,
                                       bool isTest)
@@ -30,7 +33,6 @@ namespace AuthorizeNet
             sbForm.Append("\t\t<input type = 'hidden' name = 'x_fp_timestamp' value = '" + stamp + "' \\>\n");
             sbForm.Append("\t\t<input type = 'hidden' name = 'x_login' value = '" + apiLogin + "' \\>\n");
             sbForm.Append("\t\t<input type = 'hidden' name = 'x_amount' value = '" + amount + "' \\>\n");
-            sbForm.Append("\t\t<input type = 'hidden' name = 'x_show_form' value = 'PAYMENT_FORM' \\>\n");
 
             if ((!string.IsNullOrEmpty(returnUrl)) && (returnUrl.Trim().Length > 0))
             {
