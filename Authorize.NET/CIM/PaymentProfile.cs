@@ -32,7 +32,10 @@ namespace AuthorizeNet {
         /// <returns></returns>
         public customerPaymentProfileExType ToAPI() {
             var result = new customerPaymentProfileExType();
-            result.billTo = this.BillingAddress.ToAPIType();
+            
+            if (null != this.BillingAddress)
+            { result.billTo = this.BillingAddress.ToAPIType(); }
+
             result.customerPaymentProfileId = this.ProfileID;
             
             if (!String.IsNullOrEmpty(this.DriversLicenseNumber)) {
@@ -49,6 +52,7 @@ namespace AuthorizeNet {
             }
             result.customerTypeSpecified = true;
             
+            result.payment = new paymentType();
             if (!String.IsNullOrEmpty(this.CardNumber)) {
                 var card = new creditCardType();
                 card.cardCode = this.CardCode;

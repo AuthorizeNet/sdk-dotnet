@@ -32,40 +32,41 @@ namespace AuthorizeNet.Helpers {
             _transactionkey = transactionKey;
             _returnUrl = returnUrl;
             _isTest = isTest;
-            OpenForm();
+            _response.Write(SIMFormGenerator.OpenForm(_apiLogin, _transactionkey, _amount, _returnUrl, _isTest));
         }
-        void OpenForm() {
+        //void OpenForm() {
 
-            var seq = Crypto.GenerateSequence();
-            var stamp = Crypto.GenerateTimestamp();
+        //    var seq = Crypto.GenerateSequence();
+        //    var stamp = Crypto.GenerateTimestamp();
 
-            var fingerPrint = Crypto.GenerateFingerprint(_transactionkey, 
-                _apiLogin, _amount, seq.ToString(), stamp.ToString());
+        //    var fingerPrint = Crypto.GenerateFingerprint(_transactionkey, 
+        //        _apiLogin, _amount, seq.ToString(), stamp.ToString());
             
-            var formAction = Gateway.LIVE_URL;
+        //    var formAction = Gateway.LIVE_URL;
 
-            //for testing
-            if(_isTest)
-                formAction = Gateway.TEST_URL;
+        //    //for testing
+        //    if(_isTest)
+        //        formAction = Gateway.TEST_URL;
 
-            _response.Write("<form action = '"+formAction+"' method = 'post'>\n");
-            _response.Write("\t\t<input type = 'hidden' name = 'x_fp_hash' value = '" + fingerPrint + "' \\>\n");
-            _response.Write("\t\t<input type = 'hidden' name = 'x_fp_sequence' value = '" + seq + "'\\>\n");
-            _response.Write("\t\t<input type = 'hidden' name = 'x_fp_timestamp' value = '" + stamp + "' \\>\n");
-            _response.Write("\t\t<input type = 'hidden' name = 'x_login' value = '" + _apiLogin + "' \\>\n");
-            _response.Write("\t\t<input type = 'hidden' name = 'x_amount' value = '" + _amount + "' \\>\n");
-            _response.Write("\t\t<input type = 'hidden' name = 'x_relay_url' value = '" + _returnUrl + "' \\>\n");
-            _response.Write("\t\t<input type = 'hidden' name = 'x_relay_response' value = 'TRUE' \\>\n");
+        //    _response.Write("<form action = '"+formAction+"' method = 'post'>\n");
+        //    _response.Write("\t\t<input type = 'hidden' name = 'x_fp_hash' value = '" + fingerPrint + "' \\>\n");
+        //    _response.Write("\t\t<input type = 'hidden' name = 'x_fp_sequence' value = '" + seq + "'\\>\n");
+        //    _response.Write("\t\t<input type = 'hidden' name = 'x_fp_timestamp' value = '" + stamp + "' \\>\n");
+        //    _response.Write("\t\t<input type = 'hidden' name = 'x_login' value = '" + _apiLogin + "' \\>\n");
+        //    _response.Write("\t\t<input type = 'hidden' name = 'x_amount' value = '" + _amount + "' \\>\n");
+        //    _response.Write("\t\t<input type = 'hidden' name = 'x_relay_url' value = '" + _returnUrl + "' \\>\n");
+        //    _response.Write("\t\t<input type = 'hidden' name = 'x_relay_response' value = 'TRUE' \\>\n");
 
-        }
+        //}
 
-        void EndForm() {
-            _response.Write("</form>");
-        }
+        //void EndForm() {
+        //    _response.Write("</form>");
+        //}
 
         
-        public void Dispose() {
-            EndForm();
+        public void Dispose()
+        {
+            _response.Write(SIMFormGenerator.EndForm());
         }
     }
     

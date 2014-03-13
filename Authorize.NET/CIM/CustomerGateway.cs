@@ -12,6 +12,7 @@ namespace AuthorizeNet {
     public class CustomerGateway : ICustomerGateway {
 
         HttpXmlUtility _gateway;
+        validationModeEnum _mode = validationModeEnum.liveMode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerGateway"/> class.
@@ -23,9 +24,10 @@ namespace AuthorizeNet {
             
             if (mode == ServiceMode.Live) {
                 _gateway = new HttpXmlUtility(ServiceMode.Live, apiLogin, transactionKey);
+                _mode = validationModeEnum.liveMode;
             } else {
                 _gateway = new HttpXmlUtility(ServiceMode.Test, apiLogin, transactionKey);
-
+                _mode = validationModeEnum.testMode;
             }
         }
         /// <summary>
@@ -124,7 +126,11 @@ namespace AuthorizeNet {
         public string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode, Address billToAddress) {
 
             // Get the expiration date.
-            DateTime dt = DateTime.Parse(expirationMonth.ToString() + "-1-" + expirationYear.ToString());
+
+            DateTime dt; // = DateTime.Parse(expirationMonth.ToString() + "-1-" + expirationYear.ToString());
+            if (!CommonFunctions.ParseDateTime(expirationYear, expirationMonth, 1, out dt))
+            { throw new Exception("Invalid credit card expiration date"); }
+
             DateTime expDate = new DateTime(dt.Year, dt.Month, 1).AddMonths(1).AddDays(-1);
             string sExpDate = expDate.ToString("yyyy-MM");
             // Make sure the card has not expired.
@@ -147,6 +153,8 @@ namespace AuthorizeNet {
             if (billToAddress != null)
                 req.paymentProfile.billTo = billToAddress.ToAPIType();
 
+            req.validationModeSpecified = true;
+            req.validationMode = this._mode;
 
             var response = (createCustomerPaymentProfileResponse)_gateway.Send(req);
             
@@ -271,6 +279,19 @@ namespace AuthorizeNet {
             }
             if(!String.IsNullOrEmpty(order.CardCode))
                 trans.cardCode = order.CardCode;
+
+            if ((!String.IsNullOrEmpty(order.InvoiceNumber)) ||
+                (!String.IsNullOrEmpty(order.Description)) ||
+                (!String.IsNullOrEmpty(order.PONumber)))
+            {
+                trans.order = new orderExType();
+                if (!String.IsNullOrEmpty(order.InvoiceNumber))
+                    trans.order.invoiceNumber = order.InvoiceNumber;
+                if (!String.IsNullOrEmpty(order.Description))
+                    trans.order.description = order.Description;
+                if (!String.IsNullOrEmpty(order.PONumber))
+                    trans.order.purchaseOrderNumber = order.PONumber;
+            }
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
@@ -432,7 +453,8 @@ namespace AuthorizeNet {
             if (!String.IsNullOrEmpty(profileID)) trans.customerProfileId = profileID;
             if (!String.IsNullOrEmpty(paymentProfileId)) trans.customerPaymentProfileId = paymentProfileId;
             //else trans.customerPaymentProfileId = null;
-            if (!String.IsNullOrEmpty(transId)) trans.transId = transId;
+            //if (!String.IsNullOrEmpty(transId)) 
+            trans.transId = transId;  //required
             //else trans.transId = null;
             trans.amount = amount; // required.
             if (!String.IsNullOrEmpty(shippingProfileId)) trans.customerShippingAddressId = shippingProfileId;
