@@ -41,7 +41,8 @@ namespace AuthorizeNet {
         void AuthenticateRequest(ANetApiRequest request) {
             request.merchantAuthentication = new merchantAuthenticationType();
             request.merchantAuthentication.name = _apiLogin;
-            request.merchantAuthentication.transactionKey = _transactionKey;
+            request.merchantAuthentication.Item = _transactionKey;
+            request.merchantAuthentication.ItemElementName = ItemChoiceType.transactionKey;
         }
 
         /// <summary>
@@ -244,6 +245,5 @@ namespace AuthorizeNet {
             return apiResponse;
 
         }
-
     }
 }

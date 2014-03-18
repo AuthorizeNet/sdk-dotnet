@@ -70,6 +70,7 @@
     <Compile Include="GatewayECheckTest.cs" />
     <Compile Include="CustomerGatewayTest.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="ReportingGatewayTest.cs" />
     <Compile Include="SubscriptionGatewayTest.cs" />
     <Compile Include="WebRequestLocal.cs" />
     <Compile Include="GatewayTest.cs" />

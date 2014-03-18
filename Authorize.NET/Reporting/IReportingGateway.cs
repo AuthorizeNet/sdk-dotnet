@@ -1,7 +1,7 @@
 ﻿using System;
 namespace AuthorizeNet {
     public interface IReportingGateway {
-        AuthorizeNet.Batch GetBatchStatistics(string batchId);
+        System.Collections.Generic.List<AuthorizeNet.Batch> GetBatchStatistics(string batchId);
         System.Collections.Generic.List<AuthorizeNet.Batch> GetSettledBatchList(bool includeStats);
         System.Collections.Generic.List<AuthorizeNet.Batch> GetSettledBatchList(DateTime from, DateTime to, bool includeStats);
         System.Collections.Generic.List<AuthorizeNet.Batch> GetSettledBatchList(DateTime from, DateTime to);
