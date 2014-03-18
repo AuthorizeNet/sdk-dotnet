@@ -74,7 +74,8 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="batchId">the batch id</param>
         /// <returns>a batch with statistics</returns>
-        public Batch GetBatchStatistics(string batchId) {
+        public List<Batch> GetBatchStatistics(string batchId)
+        {
             var req = new getBatchStatisticsRequest();
             req.batchId = batchId;
             var response = (getBatchStatisticsResponse)_gateway.Send(req);

@@ -97,5 +97,42 @@ namespace AuthorizeNETtest
             Assert.AreEqual(dtExpected, dt);
         }
 
+        /// <summary>
+        /// ParseDateTime year 99 - success
+        /// </summary>
+        [TestMethod()]
+        public void ParseDateTimeTest_99()
+        {
+            int year = 1999;
+            int month = 2;
+            int day = 1;
+            DateTime dtExpected = new DateTime(year, month, day);
+
+            DateTime dt;
+
+            bool actual = CommonFunctions.ParseDateTime(99, month, day, out dt);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(dtExpected, dt);
+        }
+
+        /// <summary>
+        /// ParseDateTime year 00 - success
+        /// </summary>
+        [TestMethod()]
+        public void ParseDateTimeTest_00()
+        {
+            int year = 2000;
+            int month = 2;
+            int day = 1;
+            DateTime dtExpected = new DateTime(year, month, day);
+
+            DateTime dt;
+
+            bool actual = CommonFunctions.ParseDateTime(00, month, day, out dt);
+
+            Assert.IsTrue(actual);
+            Assert.AreEqual(dtExpected, dt);
+        }
     }
 }

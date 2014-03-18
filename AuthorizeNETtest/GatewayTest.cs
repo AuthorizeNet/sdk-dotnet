@@ -74,7 +74,7 @@ namespace AuthorizeNETtest
 
             Gateway target = new Gateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new AuthorizationRequest("4111111111111111", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
+            IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
             string description = "AuthCap transaction approved testing";
             IGatewayResponse actual = target.Send(request, description);
             
