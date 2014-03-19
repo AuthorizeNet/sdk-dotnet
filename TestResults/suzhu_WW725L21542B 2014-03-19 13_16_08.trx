@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="c23cdaae-3da7-4a47-a94d-25f5df3ae1e7" name="suzhu@WW725L21542B 2014-03-19 13:16:08" runUser="VISA\suzhu" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestRunConfiguration name="Default Run Configuration" id="b6a943d3-d93a-4a4f-a39d-ff278fd12028">
+    <Deployment runDeploymentRoot="C:\Data\SDK\GitHub\sdk-dotnet\TestResults\suzhu_WW725L21542B 2014-03-19 13_16_08">
+      <DeploymentItem filename="C:\Data\SDK\GitHub\sdk-dotnet\Authorize.NET\bin\USELOCAL\AuthorizeNet.dll" />
+    </Deployment>
+    <Hosts skipUnhostableTests="false" />
+    <TestTypeSpecific />
+  </TestRunConfiguration>
+  <ResultSummary outcome="Completed">
+    <Counters total="38" executed="38" passed="38" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <Times creation="2014-03-19T13:16:08.8222191-07:00" queuing="2014-03-19T13:16:09.2772191-07:00" start="2014-03-19T13:16:09.3972191-07:00" finish="2014-03-19T13:16:14.3362191-07:00" />
+  <TestDefinitions>
+    <UnitTest name="AddCreditCardTest_ValidationMode" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="a10b9264-95de-e524-b17c-b5398674b1ba">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="4b22bcde-cef3-45aa-9ea5-a86da7bfbf0c" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="AddCreditCardTest_ValidationMode" />
+    </UnitTest>
+    <UnitTest name="SendTest_PriorAuthCap_LessAmount_Failed" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="957a3d3f-3e49-feb7-36e8-a0daf3f5e384">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="ba04e660-b644-4830-a1d1-71217c78fea6" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CardPresentGatewayTest, AuthorizeNETtest" name="SendTest_PriorAuthCap_LessAmount_Failed" />
+    </UnitTest>
+    <UnitTest name="SendTest_AuthCap_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="dd4dcaaa-2613-b7c1-1a9d-278d6c537d4d">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="2eb17cad-dba4-49fb-9f5d-11edba00c5a4" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayTest, AuthorizeNETtest" name="SendTest_AuthCap_Approved" />
+    </UnitTest>
+    <UnitTest name="UpdateSubscriptionTest_Occurence_Amount" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="6041195a-574c-6347-3923-348520adf5d0">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="45442a09-dd2d-4fc6-b2df-658570459289" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.SubscriptionGatewayTest, AuthorizeNETtest" name="UpdateSubscriptionTest_Occurence_Amount" />
+    </UnitTest>
+    <UnitTest name="SendTest_PriorAuthCap_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="db9deb54-38b1-96fc-8c4e-f196b58b9bad">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="f364ff1d-73c2-4c26-9a03-2a7591b0330a" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CardPresentGatewayTest, AuthorizeNETtest" name="SendTest_PriorAuthCap_Approved" />
+    </UnitTest>
+    <UnitTest name="ParseDateTimeTest_00" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="8bdcbe09-3322-1159-cd19-a4a59485dcb3">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="b52b768e-2d70-41cd-b6e2-041e0f0bdbf2" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CommonFunctionsTest, AuthorizeNETtest" name="ParseDateTimeTest_00" />
+    </UnitTest>
+    <UnitTest name="SendTest_Capture_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="1479fa9e-9bc8-2c7d-85bf-9398cf94cf29">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="39cebdca-4bf1-416e-b5e9-f5f09dff6d91" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="SendTest_Capture_Approved" />
+    </UnitTest>
+    <UnitTest name="UpdateSubscriptionTest_Description_Invoice" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="9bd06e75-2f71-5610-7433-12745df4733a">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="7e1d1840-4e9c-4680-9543-a15e857f4850" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.SubscriptionGatewayTest, AuthorizeNETtest" name="UpdateSubscriptionTest_Description_Invoice" />
+    </UnitTest>
+    <UnitTest name="SendTest_Capture_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="bdd856b5-220f-7e72-39d3-629c2dae0524">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="a9574b53-742d-405a-b400-df4c191f048f" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayTest, AuthorizeNETtest" name="SendTest_Capture_Approved" />
+    </UnitTest>
+    <UnitTest name="SendTest_Auth_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="012cfeed-d109-0ca5-01eb-39ca5099ce71">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="57dbafa2-e3dc-4259-b952-b40ea4f90d32" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayECheckTest, AuthorizeNETtest" name="SendTest_Auth_Approved" />
+    </UnitTest>
+    <UnitTest name="SendTest_AuthCap_Approved_CustomerIP" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="03a2196c-18fc-5455-bed8-2f5b2b232fb2">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="34905ba3-08ee-4282-9fcb-2549b9bebb06" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayTest, AuthorizeNETtest" name="SendTest_AuthCap_Approved_CustomerIP" />
+    </UnitTest>
+    <UnitTest name="CreateSubscriptionTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="4717d988-37fe-750b-feca-01f50913097e">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="f1029526-b435-4720-ab8f-3c5031f9e96d" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.SubscriptionGatewayTest, AuthorizeNETtest" name="CreateSubscriptionTest" />
+    </UnitTest>
+    <UnitTest name="SendTest_AuthCap_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="c9ef75b9-dbd3-6eeb-e9be-743af7d8539a">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="9c15ee6b-fc2c-4d48-8564-1e902c1e0738" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayECheckTest, AuthorizeNETtest" name="SendTest_AuthCap_Approved" />
+    </UnitTest>
+    <UnitTest name="SendTest_Auth_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="dd248263-4efc-889c-7069-2a351b8a6c12">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6f89ecda-0c24-4a77-a2e7-f96bf84b6b46" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CardPresentGatewayTest, AuthorizeNETtest" name="SendTest_Auth_Approved" />
+    </UnitTest>
+    <UnitTest name="SendTest_PriorAuthCapture_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="f6eb4f74-1da0-0ee0-f85f-a34a4ecaf429">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="53eeb3ba-6186-406e-b326-76a203971d6f" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayTest, AuthorizeNETtest" name="SendTest_PriorAuthCapture_Approved" />
+    </UnitTest>
+    <UnitTest name="SendTest_Void_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="e5c74800-0bd7-6bea-15e7-5e50b15b0ce8">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="d114b9d7-e6ff-415a-9b0f-f4d030d80617" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayECheckTest, AuthorizeNETtest" name="SendTest_Void_Approved" />
+    </UnitTest>
+    <UnitTest name="UpdatePaymentProfileMinTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="bbeb0294-42a9-336e-baf5-1dec902c6cad">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="081c2f20-4250-48b6-a8e9-390dee2b2c85" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="UpdatePaymentProfileMinTest" />
+    </UnitTest>
+    <UnitTest name="ParseDateTimeTest_FRCulture" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="7a0e6f71-c0f8-45c9-da9b-b06bbc98dd4e">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="41de99be-df33-488f-9337-50d84be00bac" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CommonFunctionsTest, AuthorizeNETtest" name="ParseDateTimeTest_FRCulture" />
+    </UnitTest>
+    <UnitTest name="Reporting_GetBatchStatisticsTest_NoRecord" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="ada22b99-9ff0-3e68-b057-ff82f32919b9">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="c5d8be77-f341-4f03-a97a-90ecc097f518" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.ReportingGatewayTest, AuthorizeNETtest" name="Reporting_GetBatchStatisticsTest_NoRecord" />
+    </UnitTest>
+    <UnitTest name="SendTest_Credit_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="52f08972-6c50-6ff7-a6bb-df307a0bd225">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="a20eaf25-1ae7-4549-92f5-a6cdfc2655a8" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayECheckTest, AuthorizeNETtest" name="SendTest_Credit_Approved" />
+    </UnitTest>
+    <UnitTest name="Reporting_GetBatchStatisticsTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="d6063968-67be-2d8a-674d-329b3ec4cabf">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="53fa43b0-c84d-42ef-be13-9a596d803a6e" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.ReportingGatewayTest, AuthorizeNETtest" name="Reporting_GetBatchStatisticsTest" />
+    </UnitTest>
+    <UnitTest name="SendTest_Capture_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="c149a1e4-a053-db81-3d32-a8c98ddde83d">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="35529b04-2c47-4bfc-a122-a5de8981bb58" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CardPresentGatewayTest, AuthorizeNETtest" name="SendTest_Capture_Approved" />
+    </UnitTest>
+    <UnitTest name="ParseDateTimeTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="7636fcf2-2722-2f71-11b9-2359e1e3524c">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="a77e1e3e-7b51-4950-bb3f-f0c7db56505b" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CommonFunctionsTest, AuthorizeNETtest" name="ParseDateTimeTest" />
+    </UnitTest>
+    <UnitTest name="UpdateSubscriptionTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="1c94c1e3-d3fb-cf47-738d-cb8d29762a55">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="c8e1e65e-b2cd-4262-b95a-7560ba315c71" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.SubscriptionGatewayTest, AuthorizeNETtest" name="UpdateSubscriptionTest" />
+    </UnitTest>
+    <UnitTest name="SendTest_Capture_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="c5534e75-9ab0-dbec-aaf0-9c5762adb34a">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="f47890aa-4f6d-47f9-9f18-2163917d5b3e" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayECheckTest, AuthorizeNETtest" name="SendTest_Capture_Approved" />
+    </UnitTest>
+    <UnitTest name="AuthorizeAndCaptureTest_InvoiceDescriptionPONumber" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="87775317-2470-1c27-6b2d-9d8359c1be1b">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="075eb4a7-4ee1-4717-8f52-39377911579d" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="AuthorizeAndCaptureTest_InvoiceDescriptionPONumber" />
+    </UnitTest>
+    <UnitTest name="SendTest_PriorAuthCapture_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="dda789b6-f258-b31a-071a-0e67594d1fc3">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="776c5099-c475-4445-9a69-bab884b44151" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="SendTest_PriorAuthCapture_Approved" />
+    </UnitTest>
+    <UnitTest name="UpdateCustomerTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="508c7bcc-021b-3d5f-1510-0bf4da810051">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="7a79c572-97d3-4e05-871a-6d599a170bfc" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="UpdateCustomerTest" />
+    </UnitTest>
+    <UnitTest name="SendTest_UnlinkedCredit_InvalidExpirationDate" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="407f154c-0f11-a0cc-7535-7f7ec8a60e80">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="ccd63d1c-a730-47ad-be30-b5add70251bf" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayTest, AuthorizeNETtest" name="SendTest_UnlinkedCredit_InvalidExpirationDate" />
+    </UnitTest>
+    <UnitTest name="CreateCustomerTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="027d6531-2a9c-b4ef-d6b4-6a2264e7ac68">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="1e372091-ab12-4e96-9262-bd6a94a3a80d" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="CreateCustomerTest" />
+    </UnitTest>
+    <UnitTest name="SendTest_Credit_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="5965dc2b-8d03-b1f8-06f9-92175ac391bc">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="def07472-3749-43c3-998a-6fed92a77828" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayTest, AuthorizeNETtest" name="SendTest_Credit_Approved" />
+    </UnitTest>
+    <UnitTest name="UpdateSubscriptionTest_SingleDigitMonth" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="8ace9b52-6c78-ff1a-f69d-301ea04a093e">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6d0ab969-9e33-47d4-8638-602497cf5ab1" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.SubscriptionGatewayTest, AuthorizeNETtest" name="UpdateSubscriptionTest_SingleDigitMonth" />
+    </UnitTest>
+    <UnitTest name="SendTest_UnlinkedCredit_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="530d5f7e-3f10-671b-cc41-761fd056754d">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="4fd143c7-e11c-49d8-9a03-e02baa45fd70" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayECheckTest, AuthorizeNETtest" name="SendTest_UnlinkedCredit_Approved" />
+    </UnitTest>
+    <UnitTest name="ParseDateTimeTest_99" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="bdc29de8-8e0a-b519-a54b-5de35d9cf29b">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="abffefd7-7cd8-46c9-a139-33e88dcd6b9d" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CommonFunctionsTest, AuthorizeNETtest" name="ParseDateTimeTest_99" />
+    </UnitTest>
+    <UnitTest name="SendTest_PriorAuthCapture_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="f53d6d70-dd2d-9f2b-ef68-adf270e7fb47">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="6c3dfac7-f188-4ec1-8010-ec491238ad9f" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayECheckTest, AuthorizeNETtest" name="SendTest_PriorAuthCapture_Approved" />
+    </UnitTest>
+    <UnitTest name="AuthorizeAndCaptureTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="de3e0fcf-ac8f-dd68-4699-b70f2629341e">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="ef474b7f-a50b-43f3-8ee1-01b6c665519f" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="AuthorizeAndCaptureTest" />
+    </UnitTest>
+    <UnitTest name="AddCreditCardTest" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="71d1ecfb-c58b-5ac5-2ab3-7bf0f5290216">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="57ac8a61-2336-4d86-974c-7ffca3b763ea" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.CustomerGatewayTest, AuthorizeNETtest" name="AddCreditCardTest" />
+    </UnitTest>
+    <UnitTest name="SendTest_UnlinkedCredit_Approved" storage="c:\data\sdk\github\sdk-dotnet\authorizenettest\bin\uselocal\authorizenettest.dll" id="e921f783-1725-c5cc-c9b9-03c7f476614c">
+      <Css projectStructure="" iteration="" />
+      <Owners>
+        <Owner name="" />
+      </Owners>
+      <Execution id="0eb26324-f6eb-4bf1-b03c-4d3a76f7f403" />
+      <TestMethod codeBase="C:\Data\SDK\GitHub\sdk-dotnet\AuthorizeNETtest\bin\USELOCAL\AuthorizeNETtest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="AuthorizeNETtest.GatewayTest, AuthorizeNETtest" name="SendTest_UnlinkedCredit_Approved" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="012cfeed-d109-0ca5-01eb-39ca5099ce71" executionId="57dbafa2-e3dc-4259-b952-b40ea4f90d32" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="027d6531-2a9c-b4ef-d6b4-6a2264e7ac68" executionId="1e372091-ab12-4e96-9262-bd6a94a3a80d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="03a2196c-18fc-5455-bed8-2f5b2b232fb2" executionId="34905ba3-08ee-4282-9fcb-2549b9bebb06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1479fa9e-9bc8-2c7d-85bf-9398cf94cf29" executionId="39cebdca-4bf1-416e-b5e9-f5f09dff6d91" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c94c1e3-d3fb-cf47-738d-cb8d29762a55" executionId="c8e1e65e-b2cd-4262-b95a-7560ba315c71" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="407f154c-0f11-a0cc-7535-7f7ec8a60e80" executionId="ccd63d1c-a730-47ad-be30-b5add70251bf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4717d988-37fe-750b-feca-01f50913097e" executionId="f1029526-b435-4720-ab8f-3c5031f9e96d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="508c7bcc-021b-3d5f-1510-0bf4da810051" executionId="7a79c572-97d3-4e05-871a-6d599a170bfc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="52f08972-6c50-6ff7-a6bb-df307a0bd225" executionId="a20eaf25-1ae7-4549-92f5-a6cdfc2655a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="530d5f7e-3f10-671b-cc41-761fd056754d" executionId="4fd143c7-e11c-49d8-9a03-e02baa45fd70" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5965dc2b-8d03-b1f8-06f9-92175ac391bc" executionId="def07472-3749-43c3-998a-6fed92a77828" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6041195a-574c-6347-3923-348520adf5d0" executionId="45442a09-dd2d-4fc6-b2df-658570459289" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="71d1ecfb-c58b-5ac5-2ab3-7bf0f5290216" executionId="57ac8a61-2336-4d86-974c-7ffca3b763ea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7636fcf2-2722-2f71-11b9-2359e1e3524c" executionId="a77e1e3e-7b51-4950-bb3f-f0c7db56505b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7a0e6f71-c0f8-45c9-da9b-b06bbc98dd4e" executionId="41de99be-df33-488f-9337-50d84be00bac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="87775317-2470-1c27-6b2d-9d8359c1be1b" executionId="075eb4a7-4ee1-4717-8f52-39377911579d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ace9b52-6c78-ff1a-f69d-301ea04a093e" executionId="6d0ab969-9e33-47d4-8638-602497cf5ab1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8bdcbe09-3322-1159-cd19-a4a59485dcb3" executionId="b52b768e-2d70-41cd-b6e2-041e0f0bdbf2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="957a3d3f-3e49-feb7-36e8-a0daf3f5e384" executionId="ba04e660-b644-4830-a1d1-71217c78fea6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9bd06e75-2f71-5610-7433-12745df4733a" executionId="7e1d1840-4e9c-4680-9543-a15e857f4850" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a10b9264-95de-e524-b17c-b5398674b1ba" executionId="4b22bcde-cef3-45aa-9ea5-a86da7bfbf0c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ada22b99-9ff0-3e68-b057-ff82f32919b9" executionId="c5d8be77-f341-4f03-a97a-90ecc097f518" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bbeb0294-42a9-336e-baf5-1dec902c6cad" executionId="081c2f20-4250-48b6-a8e9-390dee2b2c85" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bdc29de8-8e0a-b519-a54b-5de35d9cf29b" executionId="abffefd7-7cd8-46c9-a139-33e88dcd6b9d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bdd856b5-220f-7e72-39d3-629c2dae0524" executionId="a9574b53-742d-405a-b400-df4c191f048f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c149a1e4-a053-db81-3d32-a8c98ddde83d" executionId="35529b04-2c47-4bfc-a122-a5de8981bb58" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5534e75-9ab0-dbec-aaf0-9c5762adb34a" executionId="f47890aa-4f6d-47f9-9f18-2163917d5b3e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9ef75b9-dbd3-6eeb-e9be-743af7d8539a" executionId="9c15ee6b-fc2c-4d48-8564-1e902c1e0738" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d6063968-67be-2d8a-674d-329b3ec4cabf" executionId="53fa43b0-c84d-42ef-be13-9a596d803a6e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="db9deb54-38b1-96fc-8c4e-f196b58b9bad" executionId="f364ff1d-73c2-4c26-9a03-2a7591b0330a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dd248263-4efc-889c-7069-2a351b8a6c12" executionId="6f89ecda-0c24-4a77-a2e7-f96bf84b6b46" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dd4dcaaa-2613-b7c1-1a9d-278d6c537d4d" executionId="2eb17cad-dba4-49fb-9f5d-11edba00c5a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dda789b6-f258-b31a-071a-0e67594d1fc3" executionId="776c5099-c475-4445-9a69-bab884b44151" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="de3e0fcf-ac8f-dd68-4699-b70f2629341e" executionId="ef474b7f-a50b-43f3-8ee1-01b6c665519f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e5c74800-0bd7-6bea-15e7-5e50b15b0ce8" executionId="d114b9d7-e6ff-415a-9b0f-f4d030d80617" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e921f783-1725-c5cc-c9b9-03c7f476614c" executionId="0eb26324-f6eb-4bf1-b03c-4d3a76f7f403" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f53d6d70-dd2d-9f2b-ef68-adf270e7fb47" executionId="6c3dfac7-f188-4ec1-8010-ec491238ad9f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f6eb4f74-1da0-0ee0-f85f-a34a4ecaf429" executionId="53eeb3ba-6186-406e-b326-76a203971d6f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="57dbafa2-e3dc-4259-b952-b40ea4f90d32" testId="012cfeed-d109-0ca5-01eb-39ca5099ce71" testName="SendTest_Auth_Approved" computerName="WW725L21542B" duration="00:00:00.1049474" startTime="2014-03-19T13:16:09.4132191-07:00" endTime="2014-03-19T13:16:09.7412191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1e372091-ab12-4e96-9262-bd6a94a3a80d" testId="027d6531-2a9c-b4ef-d6b4-6a2264e7ac68" testName="CreateCustomerTest" computerName="WW725L21542B" duration="00:00:00.5920859" startTime="2014-03-19T13:16:09.7412191-07:00" endTime="2014-03-19T13:16:10.3352191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="34905ba3-08ee-4282-9fcb-2549b9bebb06" testId="03a2196c-18fc-5455-bed8-2f5b2b232fb2" testName="SendTest_AuthCap_Approved_CustomerIP" computerName="WW725L21542B" duration="00:00:00.0025118" startTime="2014-03-19T13:16:10.3372191-07:00" endTime="2014-03-19T13:16:10.3432191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="39cebdca-4bf1-416e-b5e9-f5f09dff6d91" testId="1479fa9e-9bc8-2c7d-85bf-9398cf94cf29" testName="SendTest_Capture_Approved" computerName="WW725L21542B" duration="00:00:00.5697773" startTime="2014-03-19T13:16:10.3512191-07:00" endTime="2014-03-19T13:16:10.9262191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c8e1e65e-b2cd-4262-b95a-7560ba315c71" testId="1c94c1e3-d3fb-cf47-738d-cb8d29762a55" testName="UpdateSubscriptionTest" computerName="WW725L21542B" duration="00:00:00.5794726" startTime="2014-03-19T13:16:10.9332191-07:00" endTime="2014-03-19T13:16:11.5162191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ccd63d1c-a730-47ad-be30-b5add70251bf" testId="407f154c-0f11-a0cc-7535-7f7ec8a60e80" testName="SendTest_UnlinkedCredit_InvalidExpirationDate" computerName="WW725L21542B" duration="00:00:00.0017630" startTime="2014-03-19T13:16:11.5162191-07:00" endTime="2014-03-19T13:16:11.5202191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f1029526-b435-4720-ab8f-3c5031f9e96d" testId="4717d988-37fe-750b-feca-01f50913097e" testName="CreateSubscriptionTest" computerName="WW725L21542B" duration="00:00:00.5267874" startTime="2014-03-19T13:16:11.5212191-07:00" endTime="2014-03-19T13:16:12.0552191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7a79c572-97d3-4e05-871a-6d599a170bfc" testId="508c7bcc-021b-3d5f-1510-0bf4da810051" testName="UpdateCustomerTest" computerName="WW725L21542B" duration="00:00:00.5086429" startTime="2014-03-19T13:16:12.0712191-07:00" endTime="2014-03-19T13:16:12.5842191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a20eaf25-1ae7-4549-92f5-a6cdfc2655a8" testId="52f08972-6c50-6ff7-a6bb-df307a0bd225" testName="SendTest_Credit_Approved" computerName="WW725L21542B" duration="00:00:00.0015013" startTime="2014-03-19T13:16:12.5852191-07:00" endTime="2014-03-19T13:16:12.5892191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4fd143c7-e11c-49d8-9a03-e02baa45fd70" testId="530d5f7e-3f10-671b-cc41-761fd056754d" testName="SendTest_UnlinkedCredit_Approved" computerName="WW725L21542B" duration="00:00:00.0014097" startTime="2014-03-19T13:16:12.5902191-07:00" endTime="2014-03-19T13:16:12.5932191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="def07472-3749-43c3-998a-6fed92a77828" testId="5965dc2b-8d03-b1f8-06f9-92175ac391bc" testName="SendTest_Credit_Approved" computerName="WW725L21542B" duration="00:00:00.0016288" startTime="2014-03-19T13:16:12.5952191-07:00" endTime="2014-03-19T13:16:12.6012191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="45442a09-dd2d-4fc6-b2df-658570459289" testId="6041195a-574c-6347-3923-348520adf5d0" testName="UpdateSubscriptionTest_Occurence_Amount" computerName="WW725L21542B" duration="00:00:00.0018671" startTime="2014-03-19T13:16:12.6022191-07:00" endTime="2014-03-19T13:16:12.6062191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="57ac8a61-2336-4d86-974c-7ffca3b763ea" testId="71d1ecfb-c58b-5ac5-2ab3-7bf0f5290216" testName="AddCreditCardTest" computerName="WW725L21542B" duration="00:00:00.5270883" startTime="2014-03-19T13:16:12.6062191-07:00" endTime="2014-03-19T13:16:13.1362191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a77e1e3e-7b51-4950-bb3f-f0c7db56505b" testId="7636fcf2-2722-2f71-11b9-2359e1e3524c" testName="ParseDateTimeTest" computerName="WW725L21542B" duration="00:00:00.0008690" startTime="2014-03-19T13:16:13.1372191-07:00" endTime="2014-03-19T13:16:13.1412191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="41de99be-df33-488f-9337-50d84be00bac" testId="7a0e6f71-c0f8-45c9-da9b-b06bbc98dd4e" testName="ParseDateTimeTest_FRCulture" computerName="WW725L21542B" duration="00:00:00.0013400" startTime="2014-03-19T13:16:13.1412191-07:00" endTime="2014-03-19T13:16:13.1452191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="075eb4a7-4ee1-4717-8f52-39377911579d" testId="87775317-2470-1c27-6b2d-9d8359c1be1b" testName="AuthorizeAndCaptureTest_InvoiceDescriptionPONumber" computerName="WW725L21542B" duration="00:00:00.0050010" startTime="2014-03-19T13:16:13.1462191-07:00" endTime="2014-03-19T13:16:13.1542191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6d0ab969-9e33-47d4-8638-602497cf5ab1" testId="8ace9b52-6c78-ff1a-f69d-301ea04a093e" testName="UpdateSubscriptionTest_SingleDigitMonth" computerName="WW725L21542B" duration="00:00:00.0026482" startTime="2014-03-19T13:16:13.1552191-07:00" endTime="2014-03-19T13:16:13.1602191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b52b768e-2d70-41cd-b6e2-041e0f0bdbf2" testId="8bdcbe09-3322-1159-cd19-a4a59485dcb3" testName="ParseDateTimeTest_00" computerName="WW725L21542B" duration="00:00:00.0007217" startTime="2014-03-19T13:16:13.1632191-07:00" endTime="2014-03-19T13:16:13.1652191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ba04e660-b644-4830-a1d1-71217c78fea6" testId="957a3d3f-3e49-feb7-36e8-a0daf3f5e384" testName="SendTest_PriorAuthCap_LessAmount_Failed" computerName="WW725L21542B" duration="00:00:00.0040623" startTime="2014-03-19T13:16:13.1662191-07:00" endTime="2014-03-19T13:16:13.1722191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7e1d1840-4e9c-4680-9543-a15e857f4850" testId="9bd06e75-2f71-5610-7433-12745df4733a" testName="UpdateSubscriptionTest_Description_Invoice" computerName="WW725L21542B" duration="00:00:00.0010299" startTime="2014-03-19T13:16:13.1722191-07:00" endTime="2014-03-19T13:16:13.1772191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4b22bcde-cef3-45aa-9ea5-a86da7bfbf0c" testId="a10b9264-95de-e524-b17c-b5398674b1ba" testName="AddCreditCardTest_ValidationMode" computerName="WW725L21542B" duration="00:00:00.0013675" startTime="2014-03-19T13:16:13.1772191-07:00" endTime="2014-03-19T13:16:13.1812191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c5d8be77-f341-4f03-a97a-90ecc097f518" testId="ada22b99-9ff0-3e68-b057-ff82f32919b9" testName="Reporting_GetBatchStatisticsTest_NoRecord" computerName="WW725L21542B" duration="00:00:00.5175059" startTime="2014-03-19T13:16:13.1812191-07:00" endTime="2014-03-19T13:16:13.7012191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="081c2f20-4250-48b6-a8e9-390dee2b2c85" testId="bbeb0294-42a9-336e-baf5-1dec902c6cad" testName="UpdatePaymentProfileMinTest" computerName="WW725L21542B" duration="00:00:00.5280647" startTime="2014-03-19T13:16:13.7032191-07:00" endTime="2014-03-19T13:16:14.2332191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="abffefd7-7cd8-46c9-a139-33e88dcd6b9d" testId="bdc29de8-8e0a-b519-a54b-5de35d9cf29b" testName="ParseDateTimeTest_99" computerName="WW725L21542B" duration="00:00:00.0006660" startTime="2014-03-19T13:16:14.2362191-07:00" endTime="2014-03-19T13:16:14.2402191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a9574b53-742d-405a-b400-df4c191f048f" testId="bdd856b5-220f-7e72-39d3-629c2dae0524" testName="SendTest_Capture_Approved" computerName="WW725L21542B" duration="00:00:00.0019584" startTime="2014-03-19T13:16:14.2422191-07:00" endTime="2014-03-19T13:16:14.2472191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="35529b04-2c47-4bfc-a122-a5de8981bb58" testId="c149a1e4-a053-db81-3d32-a8c98ddde83d" testName="SendTest_Capture_Approved" computerName="WW725L21542B" duration="00:00:00.0018425" startTime="2014-03-19T13:16:14.2482191-07:00" endTime="2014-03-19T13:16:14.2522191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f47890aa-4f6d-47f9-9f18-2163917d5b3e" testId="c5534e75-9ab0-dbec-aaf0-9c5762adb34a" testName="SendTest_Capture_Approved" computerName="WW725L21542B" duration="00:00:00.0026742" startTime="2014-03-19T13:16:14.2542191-07:00" endTime="2014-03-19T13:16:14.2592191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9c15ee6b-fc2c-4d48-8564-1e902c1e0738" testId="c9ef75b9-dbd3-6eeb-e9be-743af7d8539a" testName="SendTest_AuthCap_Approved" computerName="WW725L21542B" duration="00:00:00.0011348" startTime="2014-03-19T13:16:14.2592191-07:00" endTime="2014-03-19T13:16:14.2632191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="53fa43b0-c84d-42ef-be13-9a596d803a6e" testId="d6063968-67be-2d8a-674d-329b3ec4cabf" testName="Reporting_GetBatchStatisticsTest" computerName="WW725L21542B" duration="00:00:00.0156035" startTime="2014-03-19T13:16:14.2632191-07:00" endTime="2014-03-19T13:16:14.2812191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f364ff1d-73c2-4c26-9a03-2a7591b0330a" testId="db9deb54-38b1-96fc-8c4e-f196b58b9bad" testName="SendTest_PriorAuthCap_Approved" computerName="WW725L21542B" duration="00:00:00.0023553" startTime="2014-03-19T13:16:14.2812191-07:00" endTime="2014-03-19T13:16:14.2862191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6f89ecda-0c24-4a77-a2e7-f96bf84b6b46" testId="dd248263-4efc-889c-7069-2a351b8a6c12" testName="SendTest_Auth_Approved" computerName="WW725L21542B" duration="00:00:00.0011677" startTime="2014-03-19T13:16:14.2892191-07:00" endTime="2014-03-19T13:16:14.2922191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2eb17cad-dba4-49fb-9f5d-11edba00c5a4" testId="dd4dcaaa-2613-b7c1-1a9d-278d6c537d4d" testName="SendTest_AuthCap_Approved" computerName="WW725L21542B" duration="00:00:00.0008562" startTime="2014-03-19T13:16:14.2932191-07:00" endTime="2014-03-19T13:16:14.2962191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="776c5099-c475-4445-9a69-bab884b44151" testId="dda789b6-f258-b31a-071a-0e67594d1fc3" testName="SendTest_PriorAuthCapture_Approved" computerName="WW725L21542B" duration="00:00:00.0043031" startTime="2014-03-19T13:16:14.2972191-07:00" endTime="2014-03-19T13:16:14.3042191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ef474b7f-a50b-43f3-8ee1-01b6c665519f" testId="de3e0fcf-ac8f-dd68-4699-b70f2629341e" testName="AuthorizeAndCaptureTest" computerName="WW725L21542B" duration="00:00:00.0017410" startTime="2014-03-19T13:16:14.3042191-07:00" endTime="2014-03-19T13:16:14.3082191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d114b9d7-e6ff-415a-9b0f-f4d030d80617" testId="e5c74800-0bd7-6bea-15e7-5e50b15b0ce8" testName="SendTest_Void_Approved" computerName="WW725L21542B" duration="00:00:00.0015893" startTime="2014-03-19T13:16:14.3092191-07:00" endTime="2014-03-19T13:16:14.3142191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0eb26324-f6eb-4bf1-b03c-4d3a76f7f403" testId="e921f783-1725-c5cc-c9b9-03c7f476614c" testName="SendTest_UnlinkedCredit_Approved" computerName="WW725L21542B" duration="00:00:00.0011186" startTime="2014-03-19T13:16:14.3152191-07:00" endTime="2014-03-19T13:16:14.3182191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6c3dfac7-f188-4ec1-8010-ec491238ad9f" testId="f53d6d70-dd2d-9f2b-ef68-adf270e7fb47" testName="SendTest_PriorAuthCapture_Approved" computerName="WW725L21542B" duration="00:00:00.0016010" startTime="2014-03-19T13:16:14.3182191-07:00" endTime="2014-03-19T13:16:14.3242191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="53eeb3ba-6186-406e-b326-76a203971d6f" testId="f6eb4f74-1da0-0ee0-f85f-a34a4ecaf429" testName="SendTest_PriorAuthCapture_Approved" computerName="WW725L21542B" duration="00:00:00.0016970" startTime="2014-03-19T13:16:14.3252191-07:00" endTime="2014-03-19T13:16:14.3282191-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d">
+      <Output>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>
