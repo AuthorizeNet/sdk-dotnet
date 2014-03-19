@@ -76,6 +76,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CheckoutFormReaders.cs" />
     <Compile Include="Coffee.aspx.cs">
       <DependentUpon>Coffee.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -97,6 +98,7 @@
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CheckoutFormBuilders.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Order.aspx.cs">
       <DependentUpon>Order.aspx</DependentUpon>
@@ -135,10 +137,6 @@
     <ProjectReference Include="..\Authorize.NET\AuthorizeNET.csproj">
       <Project>{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}</Project>
       <Name>AuthorizeNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AuthorizeNet.Helpers\AuthorizeNet.Helpers.csproj">
-      <Project>{D8408F53-8F1E-4A71-8B05-76023B09B716}</Project>
-      <Name>AuthorizeNet.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
