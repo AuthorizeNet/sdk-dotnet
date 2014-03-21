@@ -109,7 +109,7 @@ namespace AuthorizeNETtest
 
             CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
-            string profileID = "24231938";
+            string profileID = "24232683";
             string cardNumber = "4111111111111111";
             int expirationMonth = 1;
             int expirationYear = 16;
@@ -169,6 +169,62 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
+        /// GetCustomer - success
+        /// </summary>
+        [TestMethod()]
+        public void GetCustomerTest()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><profile><merchantCustomerId /><description>UpdateCustomerTest Success</description><email>suzhu@visa.com</email><customerProfileId>24231938</customerProfileId><paymentProfiles><customerType>individual</customerType><customerPaymentProfileId>22219473</customerPaymentProfileId><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate></creditCard></payment></paymentProfiles></profile></getCustomerProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+
+            string profileID = "24231938";
+
+            Customer expected = new Customer()
+            {
+                ProfileID = "24231938",
+                Email = "suzhu@visa.com",
+                Description = "UpdateCustomerTest Success",
+                PaymentProfiles =
+                    {
+                        new PaymentProfile(new customerPaymentProfileMaskedType())
+                            {
+                                CardExpiration = "XXXX",
+                                CardNumber = "XXXX1111",
+                                ProfileID = "22219473"
+                            }
+                    }
+            };
+
+            Customer actual = null;
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.GetCustomer(profileID);
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+            }
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.ProfileID, actual.ProfileID);
+            Assert.AreEqual(expected.Email, actual.Email);
+            Assert.AreEqual(expected.Description, actual.Description);
+            Assert.AreEqual(expected.PaymentProfiles.Count, actual.PaymentProfiles.Count);
+            Assert.AreEqual(expected.PaymentProfiles[0].CardExpiration, actual.PaymentProfiles[0].CardExpiration);
+            Assert.AreEqual(expected.PaymentProfiles[0].CardNumber, actual.PaymentProfiles[0].CardNumber);
+            Assert.AreEqual(expected.PaymentProfiles[0].ProfileID, actual.PaymentProfiles[0].ProfileID);
+        }
+
+        /// <summary>
         /// UpdatePaymentProfile - success
         /// Minimum parameters to ensure a successful response
         /// </summary>
@@ -184,13 +240,115 @@ namespace AuthorizeNETtest
 
             CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
 
+            string profileID = "24232683";
+            customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
+
+            PaymentProfile profile = new PaymentProfile(apiType);
+            profile.ProfileID = "22804148";
+            profile.CardNumber = "4111111111111112";
+            profile.CardExpiration = "2016-02";
+
+            bool actual = false;
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.UpdatePaymentProfile(profileID, profile);
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+            }
+
+            Assert.IsTrue(actual);
+        }
+
+        /// <summary>
+        /// UpdatePaymentProfile - success
+        /// no mask and with billing
+        /// </summary>
+        [TestMethod()]
+        public void UpdatePaymentProfileTest_NotMask()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+
             string profileID = "24231938";
             customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
 
             PaymentProfile profile = new PaymentProfile(apiType);
             profile.ProfileID = "22219473";
-            profile.CardNumber = "4111111111111111";
-            profile.CardExpiration = "2016-02";
+            profile.CardNumber = "4111111111111112";
+            profile.CardExpiration = "2016-03";
+            profile.BillingAddress = new Address()
+                {
+                    First = "Sue",
+                    Last = "Zhu",
+                    Company = "Visa",
+                    Street = "123 Elm Street",
+                    City = "Bellevue",
+                    State = "WA",
+                    Country = "US",
+                    Zip = "98006"
+                };
+
+            bool actual = false;
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.UpdatePaymentProfile(profileID, profile);
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+            }
+
+            Assert.IsTrue(actual);
+        }
+
+        /// <summary>
+        /// UpdatePaymentProfile - success
+        /// with mask
+        /// </summary>
+        [TestMethod()]
+        public void UpdatePaymentProfileTest_Mask()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+
+            string profileID = "24232683";
+            customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
+
+            PaymentProfile profile = new PaymentProfile(apiType);
+            profile.ProfileID = "22804148";
+            profile.CardNumber = "XXXX1112";
+            profile.CardExpiration = "XXXX";
+            profile.BillingAddress = new Address()
+                {
+                    First = "Sue",
+                    Last = "Zhu",
+                    Company = "Visa",
+                    Street = "123 Elm Street",
+                    City = "Bellevue",
+                    State = "WA",
+                    Country = "US",
+                    Zip = "98006"
+                };
 
             bool actual = false;
 
