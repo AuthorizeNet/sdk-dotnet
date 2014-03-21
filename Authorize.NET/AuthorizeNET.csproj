@@ -104,6 +104,7 @@
     <Compile Include="Utility\ApiFields.cs" />
     <Compile Include="AIM\Responses\SIMResponse.cs" />
     <Compile Include="AIM\Requests\VoidRequest.cs" />
+    <Compile Include="Utility\CryptoRandom.cs" />
     <Compile Include="Utility\HttpXmlUtility.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -64,8 +64,8 @@ namespace AuthorizeNet {
         /// </summary>
         /// <returns></returns>
         public static string GenerateSequence() {
-            Random random = new Random();
-            return (random.Next(0, 1000)).ToString();
+            CryptoRandom random = new CryptoRandom();
+            return (random.Next(0, 10000000)).ToString();
 
         }
 
