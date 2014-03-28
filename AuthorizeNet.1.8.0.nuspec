@@ -1,18 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>yAuthorizeNet</id>
+        <id>AuthorizeNet</id>
         <version>1.8.0</version>
+        <title>AuthorizeNet</title>
         <authors>Authorize.Net</authors>
+        <owners>AuthorizeNet</owners>
         <licenseUrl>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/license.txt</licenseUrl>
         <projectUrl>https://github.com/AuthorizeNet/sdk-dotnet</projectUrl>
         <iconUrl>http://developer.authorize.net/resources/images/favicon.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Use this SDK to integrate with the Authorize.Net AIM, SIM, ARB and CIM APIs for Payment Transactions, Recurrinf Billing and Customer Payment Profiles.</description>
-        <summary>Authorize.Net SDK for C#</summary>
+        <description>Use this SDK to integrate with the Authorize.Net AIM, SIM, ARB and CIM APIs for Payment Transactions, Recurring Billing and Customer Payment Profiles.</description>
+        <summary>Authorize.Net SDK for .Net</summary>
+        <tags>Payments API Authorize.Net</tags>
     </metadata>
     <files>
-        <file src="lib\AuthorizeNet.dll" target="lib\AuthorizeNet.dll" />
-        <file src="lib\AuthorizeNet.xml" target="lib\AuthorizeNet.xml" />
+        <file src="Authorize.NET\bin\Release\AuthorizeNet.dll" target="lib\AuthorizeNet.dll" />
     </files>
 </package>
