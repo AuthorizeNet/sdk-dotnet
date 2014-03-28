@@ -1,9 +1,8 @@
-using System;
+using AuthorizeNet;
 using System.Web;
-using System.Web.Mvc;
 using System.Collections.Specialized;
 
-namespace AuthorizeNet
+namespace CoffeeShopWebApp
 {
 	public static class CheckoutFormReaders
 	{

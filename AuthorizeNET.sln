@@ -3,22 +3,38 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeNET", "Authorize.NET\AuthorizeNET.csproj", "{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeNet.Helpers", "AuthorizeNet.Helpers\AuthorizeNet.Helpers.csproj", "{D8408F53-8F1E-4A71-8B05-76023B09B716}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeNETtest", "AuthorizeNETtest\AuthorizeNETtest.csproj", "{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShopWebApp", "CoffeeShopWebApp\CoffeeShopWebApp.csproj", "{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}"
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = AuthorizeNET11.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		USELOCAL|Any CPU = USELOCAL|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8408F53-8F1E-4A71-8B05-76023B09B716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8408F53-8F1E-4A71-8B05-76023B09B716}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8408F53-8F1E-4A71-8B05-76023B09B716}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8408F53-8F1E-4A71-8B05-76023B09B716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}.USELOCAL|Any CPU.ActiveCfg = USELOCAL|Any CPU
+		{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}.USELOCAL|Any CPU.Build.0 = USELOCAL|Any CPU
+		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.USELOCAL|Any CPU.ActiveCfg = USELOCAL|Any CPU
+		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.USELOCAL|Any CPU.Build.0 = USELOCAL|Any CPU
+		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.USELOCAL|Any CPU.ActiveCfg = USELOCAL|Any CPU
+		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.USELOCAL|Any CPU.Build.0 = USELOCAL|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

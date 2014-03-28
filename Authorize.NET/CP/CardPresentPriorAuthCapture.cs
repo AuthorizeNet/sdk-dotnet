@@ -16,6 +16,7 @@ namespace AuthorizeNet {
         public CardPresentPriorAuthCapture(string transactionID, decimal amount) {
             this.SetApiAction(RequestAction.PriorAuthCapture);
             this.Queue("x_ref_trans_id", transactionID);
+            this.Queue(ApiFields.Amount, amount.ToString());
         }
     }
 }

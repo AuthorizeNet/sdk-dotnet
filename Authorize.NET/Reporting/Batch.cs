@@ -98,14 +98,24 @@ namespace AuthorizeNet {
         /// <summary>
         /// Creates a new batch from a stats response
         /// </summary>
-        public static Batch NewFromResponse(getBatchStatisticsResponse batch) {
-            return new Batch {
-                ID = batch.batchDetails.batchId,
-                PaymentMethod = batch.batchDetails.paymentMethod,
-                SettledOn = batch.batchDetails.settlementTimeUTC,
-                State = batch.batchDetails.settlementState,
-                Charges = Charge.NewFromStat(batch.batchDetails.statistics)
-            };
+        public static List<Batch> NewFromResponse(getBatchStatisticsResponse batch)
+        {
+            var result = new List<Batch>();
+            if (null != batch && null != batch.batch)
+            {
+                foreach (var item in batch.batch)
+                {
+                    result.Add(new Batch
+                    {
+                        Charges = Charge.NewFromStat(item.statistics),
+                        ID = item.batchId,
+                        PaymentMethod = item.paymentMethod,
+                        SettledOn = item.settlementTimeUTC,
+                        State = item.settlementState
+                    });
+                }
+            }
+            return result;
         }
 
         /// <summary>
