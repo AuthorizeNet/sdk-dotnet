@@ -1,6 +1,6 @@
 # Authorize.Net .Net SDK
 
-`nuget install AuthorizeNet -version 1.8.0`
+`PM> Install-Package AuthorizeNet`
 
 
 
@@ -10,8 +10,9 @@ Requires .NET 3.5 or later and Microsoft&reg; Visual Studio 2008 or 2010
 
 
 ## Installation
+To install AuthorizeNet, run the following command in the Package Manager Console:
 
-`nuget install AuthorizeNet -version 1.8.0`
+`PM> Install-Package AuthorizeNet`
 
 
 ## Registration & Configuration
