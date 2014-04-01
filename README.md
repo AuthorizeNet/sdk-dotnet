@@ -57,7 +57,7 @@ Place the following code in the default action of a simple MVC application to di
  public ActionResult Index()
         {
 
-            String checkoutform = SIMFormGenerator.OpenForm(ApiLogin, TransactionKey, 2.25M, "http://developer.authorize.net", true);
+            String checkoutform = SIMFormGenerator.OpenForm(ApiLogin, TransactionKey, 2.25M, "", true);
             checkoutform = checkoutform+"<input type = \"submit\" class=\"submit\" value = \"Order with SIM!\" />";
             checkoutform = checkoutform+SIMFormGenerator.EndForm();
 
