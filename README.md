@@ -120,10 +120,12 @@ For your reference, you can use the following test credit card numbers.
 The expiration date must be set to the present date or later. Use 123 for
 the CCV code.
 
-American Express::  370000000000002
-Discover::  6011000000000012
-Visa::  4007000000027
-JCB:: 3088000000000017
-Diners Club/ Carte Blanche::  38000000000006
-Visa (Card Present Track 1):: %B4111111111111111^DOE/JOHN^1803101000000000020000831000000?
+| Card                        | Test Numbers                                                 |
+| :-------------------------- | :----------------------------------------------------------- |
+| American Express            | 370000000000002                                              |
+| Discover                    | 6011000000000012                                             |
+| Visa                        | 4007000000027                                                |
+| JCB                         | 3088000000000017                                             |
+| Diners Club/ Carte Blanche  | 38000000000006                                               |
+| Visa (Card Present Track 1) | %B4111111111111111^DOE/JOHN^1803101000000000020000831000000? |
 
