@@ -236,48 +236,67 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="order">The order.</param>
         /// <returns></returns>
-        public IGatewayResponse AuthorizeAndCapture(Order order) {
+        public IGatewayResponse AuthorizeAndCapture(Order order)
+        {
+            return AuthorizeAndCapture(order, null);
+        }
+
+        /// <summary>
+        /// Authorizes and Captures a transaction using the supplied profile information, abstracted through an Order object. Using the Order
+        /// you can add line items, specify shipping and tax, etc.
+        /// </summary>
+        /// <param name="order">The order.</param>
+        /// <param name="extraOptions">extra options</param>
+        /// <returns></returns>
+        public IGatewayResponse AuthorizeAndCapture(Order order, string extraOptions)
+        {
             var req = new createCustomerProfileTransactionRequest();
-            
+
             var trans = new profileTransAuthCaptureType();
 
             trans.customerProfileId = order.CustomerProfileID;
             trans.customerPaymentProfileId = order.PaymentProfileID;
             trans.amount = order.Total;
 
-            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID)) {
+            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID))
+            {
                 trans.customerShippingAddressId = order.ShippingAddressProfileID;
             }
 
             if (order.SalesTaxAmount > 0)
-                trans.tax = new extendedAmountType {
+                trans.tax = new extendedAmountType
+                {
                     amount = order.SalesTaxAmount,
                     description = order.SalesTaxName,
                     name = order.SalesTaxName
                 };
 
             if (order.ShippingAmount > 0)
-                trans.shipping = new extendedAmountType {
+                trans.shipping = new extendedAmountType
+                {
                     amount = order.ShippingAmount,
                     description = order.ShippingName,
                     name = order.ShippingName
                 };
 
             //line items
-            if (order._lineItems.Count > 0) {
+            if (order._lineItems.Count > 0)
+            {
                 trans.lineItems = order._lineItems.ToArray();
             }
 
-            if (order.TaxExempt.HasValue) {
+            if (order.TaxExempt.HasValue)
+            {
                 trans.taxExempt = order.TaxExempt.Value;
                 trans.taxExemptSpecified = true;
             }
 
-            if (order.RecurringBilling.HasValue) {
+            if (order.RecurringBilling.HasValue)
+            {
                 trans.recurringBilling = order.RecurringBilling.Value;
                 trans.recurringBillingSpecified = true;
             }
-            if(!String.IsNullOrEmpty(order.CardCode))
+            if (!String.IsNullOrEmpty(order.CardCode))
                 trans.cardCode = order.CardCode;
 
             if ((!String.IsNullOrEmpty(order.InvoiceNumber)) ||
@@ -295,13 +314,12 @@ namespace AuthorizeNet {
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
+            if (!string.IsNullOrEmpty(extraOptions))
+                req.extraOptions = extraOptions;
 
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
-            
-            
+
             return new GatewayResponse(response.directResponse.Split(','));
-
-
         }
 
         /// <summary>

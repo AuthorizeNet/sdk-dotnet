@@ -9,6 +9,7 @@ namespace AuthorizeNet {
         IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping);
         IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount);
         IGatewayResponse AuthorizeAndCapture(AuthorizeNet.Order order);
+        IGatewayResponse AuthorizeAndCapture(AuthorizeNet.Order order, string extraOptions);
 
         IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping);
         IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount);
