@@ -195,6 +195,16 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public decimal settleAmount;
+        public subscriptionPaymentType subscription;
+    }
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class subscriptionPaymentType {
+        public int id;
+        public int payNum;
     }
     
     /// <remarks/>
@@ -1292,6 +1302,9 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string responseReasonDescription;
+        
+        /// <remarks/>
+        public subscriptionPaymentType subscription;
         
         /// <remarks/>
         public string authCode;
