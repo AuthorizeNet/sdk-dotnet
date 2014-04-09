@@ -64,6 +64,13 @@ namespace AuthorizeNet {
             }
         }
 
+        /// <summary>
+        /// For the Information in name/value pair format that does not exist within CIM.  
+        /// Example: x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options
+        /// </summary>
+        public string ExtraOptions { get; set; }
+
+
         public void RemoveLineItem(string ID) {
             var line = _lineItems.FirstOrDefault(x => x.itemId == ID);
             if (line != null) {

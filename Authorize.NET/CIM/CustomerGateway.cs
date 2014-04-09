@@ -295,6 +295,7 @@ namespace AuthorizeNet {
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
+            req.extraOptions = order.ExtraOptions;
 
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
             
@@ -402,7 +403,8 @@ namespace AuthorizeNet {
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
-            
+            req.extraOptions = order.ExtraOptions;
+
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
 
             return new GatewayResponse(response.directResponse.Split(','));

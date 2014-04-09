@@ -466,6 +466,54 @@ namespace AuthorizeNETtest
             Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
         }
 
+        /// <summary>
+        /// AuthorizeAndCapture Transaction - Approved
+        /// </summary>
+        [TestMethod()]
+        public void AuthorizeAndCaptureTest_ExtraOptions()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,0PI2II,Y,2210620905,,,25.10,CC,auth_capture,Testing Extra Option,Sue,Zhu,Visa,123 Elm Street,Bellevue,WA,98006,US,,,suzhu@visa.com,,,,,,,,,,,,,,070CC74A6FDD5EA7951444C547FE7829,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            LocalRequestObject.ResponseString = responseString;
+            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
+            StringReader reader = new StringReader(responseString);
+            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
+            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+
+            string profileID = "24231938";
+            string paymentProfileID = "22219473";
+            Order order = new Order(profileID, paymentProfileID, "");
+            order.Amount = (decimal)25.10;
+            order.ExtraOptions = "x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options";
+
+            IGatewayResponse actual = null;
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.AuthorizeAndCapture(order);
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+            }
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+
+            Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+        }
 
         /// <summary>
         /// Capture Transaction - Approved
@@ -607,6 +655,55 @@ namespace AuthorizeNETtest
             {
                 return "";
             }
+        }
+
+        /// <summary>
+        /// PriorAuthCapture Transaction - Approved
+        /// </summary>
+        [TestMethod()]
+        public void SendTest_AuthOnly_ExtraOptions()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,E4CGH9,Y,2210636215,,,25.15,CC,auth_only,Testing Extra Option,Sue,Zhu,Visa,123 Elm Street,Bellevue,WA,98006,US,,,suzhu@visa.com,,,,,,,,,,,,,,3445C1C7DFFB2F32357A316DE94C13D1,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            LocalRequestObject.ResponseString = responseString;
+            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
+            StringReader reader = new StringReader(responseString);
+            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
+            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+
+            string profileID = "24231938";
+            string paymentProfileID = "22219473";
+            Order order = new Order(profileID, paymentProfileID, "");
+            order.Amount = (decimal)25.15;
+            order.ExtraOptions = "x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options";
+
+            IGatewayResponse actual = null;
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.Authorize(order);
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+            }
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+
+            Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
         }
     }
 }
