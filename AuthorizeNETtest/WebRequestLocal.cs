@@ -20,7 +20,24 @@ namespace AuthorizeNETtest
             ResponseString = response;
         }
 
-        public string ResponseString { get; set; }
+        public string ResponseString
+        {
+            get { return ResponseStrings[ResponseStringCount - 1]; }
+            set
+            {
+                ResponseStringCount = 0;
+                if (ResponseStrings == null)
+                {
+                    ResponseStrings = new string[] {value};
+                }
+                else
+                {
+                    ResponseStrings[0] = value;
+                }
+            }
+        }
+        public string[] ResponseStrings { get; set; }
+        public int ResponseStringCount { get; set; }
 
         public WebRequest Create(Uri uri)
         {
@@ -48,7 +65,9 @@ namespace AuthorizeNETtest
             si.AddValue("_OriginUri", new Uri("http://localhost"), typeof(Uri));
 
             WebRequestLocal request = new WebRequestLocal(si, sc);
+            ResponseStringCount++;            
             request.ResponseString = ResponseString;
+
             return request;
         }
     }
