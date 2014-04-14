@@ -58,6 +58,74 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
+        /// GetBatchStatistics - Success
+        /// </summary>
+        [TestMethod()]
+        public void Reporting_GetSettledBatchListTest()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getSettledBatchListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><batchList><batch><batchId>3269565</batchId><settlementTimeUTC>2014-03-18T15:14:28Z</settlementTimeUTC><settlementTimeLocal>2014-03-18T08:14:28</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod></batch><batch><batchId>3275644</batchId><settlementTimeUTC>2014-03-20T15:17:09Z</settlementTimeUTC><settlementTimeLocal>2014-03-20T08:17:09</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod></batch></batchList></getSettledBatchListResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            ReportingGateway target = new ReportingGateway(ApiLogin, TransactionKey);
+
+            List<Batch> actual = null;
+            string sErr = "";
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error.
+            try
+            {
+                actual = target.GetSettledBatchList();
+            }
+            catch (Exception e)
+            {
+                sErr = e.Message;
+            }
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(actual.Count, 2);
+            Assert.AreEqual(actual[0].ID, "3269565");
+            Assert.AreEqual(actual[1].ID, "3275644");
+        }
+
+        /// <summary>
+        /// GetBatchStatistics - No Record
+        /// </summary>
+        [TestMethod()]
+        public void Reporting_GetSettledBatchListTest_NoRecord()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getSettledBatchListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00004</code><text>No records found.</text></message></messages></getSettledBatchListResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            ReportingGateway target = new ReportingGateway(ApiLogin, TransactionKey);
+
+            List<Batch> actual = null;
+            string sErr = "";
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error.
+            try
+            {
+                actual = target.GetSettledBatchList(DateTime.UtcNow, DateTime.UtcNow.AddDays(2));
+            }
+            catch (Exception e)
+            {
+                sErr = e.Message;
+            }
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(actual.Count, 0);
+        }
+
+        /// <summary>
         /// GetTransactionDetails - Access Denied
         /// The default setup for the sandbox testing account will get an AccessDenied error.  
         /// </summary>
