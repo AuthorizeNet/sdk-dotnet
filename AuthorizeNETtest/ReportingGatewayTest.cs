@@ -172,7 +172,51 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transaction><transId>2210248566</transId><submitTimeUTC>2014-04-07T08:53:45.063Z</submitTimeUTC><submitTimeLocal>2014-04-07T01:53:45.063</submitTimeLocal><transactionType>authCaptureTransaction</transactionType><transactionStatus>settledSuccessfully</transactionStatus><responseCode>1</responseCode><responseReasonCode>1</responseReasonCode><responseReasonDescription>Approval</responseReasonDescription><authCode>9QW0L9</authCode><AVSResponse>Y</AVSResponse><batch><batchId>3323130</batchId><settlementTimeUTC>2014-04-07T15:20:19.703Z</settlementTimeUTC><settlementTimeLocal>2014-04-07T08:20:19.703</settlementTimeLocal><settlementState>settledSuccessfully</settlementState></batch><authAmount>1.31</authAmount><settleAmount>1.31</settleAmount><taxExempt>false</taxExempt><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate><cardType>Visa</cardType></creditCard></payment><customer><type>individual</type><email>suzhu@visa.com</email></customer><billTo><firstName>Sue</firstName><lastName>Zhu</lastName></billTo><recurringBilling>true</recurringBilling></transaction></getTransactionDetailsResponse>";
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transaction><transId>2209067941</transId><submitTimeUTC>2014-03-21T23:16:25.797Z</submitTimeUTC><submitTimeLocal>2014-03-21T16:16:25.797</submitTimeLocal><transactionType>authCaptureTransaction</transactionType><transactionStatus>settledSuccessfully</transactionStatus><responseCode>1</responseCode><responseReasonCode>1</responseReasonCode><responseReasonDescription>Approval</responseReasonDescription><authCode>UUV1S1</authCode><AVSResponse>Y</AVSResponse><cardCodeResponse>P</cardCodeResponse><batch><batchId>3282059</batchId><settlementTimeUTC>2014-03-22T15:21:44.343Z</settlementTimeUTC><settlementTimeLocal>2014-03-22T08:21:44.343</settlementTimeLocal><settlementState>settledSuccessfully</settlementState></batch><authAmount>3.99</authAmount><settleAmount>3.99</settleAmount><taxExempt>false</taxExempt><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate><cardType>Visa</cardType></creditCard></payment><recurringBilling>false</recurringBilling><customerIP>10.1.186.51</customerIP></transaction></getTransactionDetailsResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            ReportingGateway target = new ReportingGateway(ApiLogin, TransactionKey);
+            string transId = "2209067941";
+            Transaction actual = null;
+            string sErr = "";
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.GetTransactionDetails(transId);
+            }
+            catch (Exception e)
+            {
+                sErr = e.Message;
+            }
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(actual.AuthorizationAmount, (decimal)3.99);
+            Assert.AreEqual(actual.BatchSettlementState, "settledSuccessfully");
+            Assert.AreEqual(actual.CardType, "Visa");
+            Assert.AreEqual(actual.ResponseReason, "Approval");
+            Assert.AreEqual(actual.SettleAmount, (decimal)3.99);
+            Assert.AreEqual(actual.Status, "settledSuccessfully");
+            Assert.AreEqual(actual.TransactionType, "authCaptureTransaction");
+            Assert.AreEqual(actual.TransactionID, transId);
+        }
+
+        /// <summary>
+        /// GetTransactionDetails WithSubscription - Success
+        /// The default setup for the sandbox testing account will get an AccessDenied error. 
+        /// The "Transaction Details API" permission needs to be granded to the account 
+        /// by logging to https://sandbox.authorize.net/.  
+        /// Then going to Account / Settings and clicking on the Transaction Details API link.
+        /// </summary>
+        [TestMethod()]
+        public void Reporting_GetTransactionDetailsTest_WithSubscription()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transaction><transId>2210248566</transId><submitTimeUTC>2014-04-07T08:53:45.063Z</submitTimeUTC><submitTimeLocal>2014-04-07T01:53:45.063</submitTimeLocal><transactionType>authCaptureTransaction</transactionType><transactionStatus>settledSuccessfully</transactionStatus><responseCode>1</responseCode><responseReasonCode>1</responseReasonCode><subscription><id>2017665</id><payNum>2</payNum></subscription><responseReasonDescription>Approval</responseReasonDescription><authCode>9QW0L9</authCode><AVSResponse>Y</AVSResponse><batch><batchId>3323130</batchId><settlementTimeUTC>2014-04-07T15:20:19.703Z</settlementTimeUTC><settlementTimeLocal>2014-04-07T08:20:19.703</settlementTimeLocal><settlementState>settledSuccessfully</settlementState></batch><authAmount>1.31</authAmount><settleAmount>1.31</settleAmount><taxExempt>false</taxExempt><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate><cardType>Visa</cardType></creditCard></payment><customer><type>individual</type><email>suzhu@visa.com</email></customer><billTo><firstName>Sue</firstName><lastName>Zhu</lastName></billTo><recurringBilling>true</recurringBilling></transaction></getTransactionDetailsResponse>";
             LocalRequestObject.ResponseString = responseString;
 
             ReportingGateway target = new ReportingGateway(ApiLogin, TransactionKey);
@@ -200,6 +244,9 @@ namespace AuthorizeNETtest
             Assert.AreEqual(actual.Status, "settledSuccessfully");
             Assert.AreEqual(actual.TransactionType, "authCaptureTransaction");
             Assert.AreEqual(actual.TransactionID, transId);
+            Assert.IsNotNull(actual.Subscription);
+            Assert.AreEqual(actual.Subscription.ID, 2017665); 
+            Assert.AreEqual(actual.Subscription.PayNum, 2);
         }
 
         /// <summary>
@@ -260,8 +307,8 @@ namespace AuthorizeNETtest
             string[] responseStrings = new string[]
                 {
                     "<?xml version=\"1.0\" encoding=\"utf-8\"?><getSettledBatchListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><batchList><batch><batchId>3321516</batchId><settlementTimeUTC>2014-04-06T15:20:51Z</settlementTimeUTC><settlementTimeLocal>2014-04-06T08:20:51</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod></batch><batch><batchId>3323130</batchId><settlementTimeUTC>2014-04-07T15:20:19Z</settlementTimeUTC><settlementTimeLocal>2014-04-07T08:20:19</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod></batch></batchList></getSettledBatchListResponse>",
-                    "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transactions><transaction><transId>2210220767</transId><submitTimeUTC>2014-04-06T08:48:39Z</submitTimeUTC><submitTimeLocal>2014-04-06T01:48:39</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><firstName>Sue</firstName><lastName>Zhu</lastName><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>1.31</settleAmount></transaction></transactions></getTransactionListResponse>",
-                    "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transactions><transaction><transId>2210248566</transId><submitTimeUTC>2014-04-07T08:53:45Z</submitTimeUTC><submitTimeLocal>2014-04-07T01:53:45</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><firstName>Sue</firstName><lastName>Zhu</lastName><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>1.31</settleAmount></transaction></transactions></getTransactionListResponse>"
+                    "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transactions><transaction><transId>2210220767</transId><submitTimeUTC>2014-04-06T08:48:39Z</submitTimeUTC><submitTimeLocal>2014-04-06T01:48:39</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><firstName>Sue</firstName><lastName>Zhu</lastName><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>1.31</settleAmount><subscription><id>2016601</id><payNum>2</payNum></subscription></transaction></transactions></getTransactionListResponse>",
+                    "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transactions><transaction><transId>2210248566</transId><submitTimeUTC>2014-04-07T08:53:45Z</submitTimeUTC><submitTimeLocal>2014-04-07T01:53:45</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><firstName>Sue</firstName><lastName>Zhu</lastName><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>1.31</settleAmount><subscription><id>2017665</id><payNum>2</payNum></subscription></transaction></transactions></getTransactionListResponse>"
                 };
             LocalRequestObject.ResponseStrings = responseStrings;
             LocalRequestObject.ResponseStringCount = 0;

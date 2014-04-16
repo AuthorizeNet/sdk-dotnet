@@ -215,6 +215,13 @@ namespace AuthorizeNet {
 
             result.IsRecurring = trans.recurringBilling;
             result.TaxExempt = trans.taxExempt;
+
+            if ((trans.subscription != null) && (trans.subscription.id > 0))
+            {
+                result.Subscription = new SubscriptionPayment();
+                result.Subscription.ID = trans.subscription.id;
+                result.Subscription.PayNum = trans.subscription.payNum;
+            }
             return result;
         }
 
@@ -525,5 +532,17 @@ namespace AuthorizeNet {
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or Sets the SubscriptionPayment
+        /// </summary>
+        /// <value>SubscriptionPayment</value>
+        public SubscriptionPayment Subscription { get; set; }
+    }
+
+    public class SubscriptionPayment
+    {
+        public int ID;
+        public int PayNum;
     }
 }
