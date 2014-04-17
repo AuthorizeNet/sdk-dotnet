@@ -34,8 +34,8 @@ namespace AuthorizeNETtest
             Customer expected = new Customer()
                 {
                     Email = email,
-                    Description = description
-                    MerchantCustomerID = merchantCustomerId;
+                    Description = description,
+                    MerchantCustomerID = merchantCustomerId
                 };
             Customer actual = null;
 
