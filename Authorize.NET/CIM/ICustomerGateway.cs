@@ -18,7 +18,7 @@ namespace AuthorizeNet {
         IGatewayResponse Void(string profileID, string paymentProfileId, string approvalCode, string transactionId);
 
 
-        AuthorizeNet.Customer CreateCustomer(string email, string description);
+        AuthorizeNet.Customer CreateCustomer(string merchantCustomerId, string email, string description);
         bool DeleteCustomer(string profileID);
         bool DeletePaymentProfile(string profileID, string paymentProfileID);
         bool DeleteShippingAddress(string profileID, string shippingAddressID);

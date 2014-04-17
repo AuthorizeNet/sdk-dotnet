@@ -8,8 +8,10 @@ using System.Xml;
 using System.Net;
 using AuthorizeNet.APICore;
 
-namespace AuthorizeNet {
-    public class CustomerGateway : ICustomerGateway {
+namespace AuthorizeNet
+{
+    public class CustomerGateway : ICustomerGateway
+    {
 
         HttpXmlUtility _gateway;
         validationModeEnum _mode = validationModeEnum.liveMode;
@@ -20,12 +22,16 @@ namespace AuthorizeNet {
         /// <param name="apiLogin">The API login.</param>
         /// <param name="transactionKey">The transaction key.</param>
         /// <param name="mode">Test or Live.</param>
-        public CustomerGateway(string apiLogin, string transactionKey, ServiceMode mode) {
-            
-            if (mode == ServiceMode.Live) {
+        public CustomerGateway(string apiLogin, string transactionKey, ServiceMode mode)
+        {
+
+            if (mode == ServiceMode.Live)
+            {
                 _gateway = new HttpXmlUtility(ServiceMode.Live, apiLogin, transactionKey);
                 _mode = validationModeEnum.liveMode;
-            } else {
+            }
+            else
+            {
                 _gateway = new HttpXmlUtility(ServiceMode.Test, apiLogin, transactionKey);
                 _mode = validationModeEnum.testMode;
             }
@@ -37,21 +43,32 @@ namespace AuthorizeNet {
         /// <param name="transactionKey">The transaction key.</param>
         public CustomerGateway(string apiLogin, string transactionKey) : this(apiLogin, transactionKey, ServiceMode.Test) { }
 
-        public Customer CreateCustomer(string email, string description) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="merchantCustomerId"></param>
+        /// <param name="email"></param>
+        /// <param name="description"></param>
+        /// <remarks>Added merchantCustomerId to method signature. 4/7/2014</remarks>
+        /// <returns></returns>
+        public Customer CreateCustomer(string merchantCustomerId, string email, string description)
+        {
             //use the XSD class to create the profile
             var newCustomer = new customerProfileType();
             newCustomer.description = description;
             newCustomer.email = email;
+            newCustomer.merchantCustomerId = merchantCustomerId; //added 4/7/2014
 
             var req = new createCustomerProfileRequest();
-            
+
             req.profile = newCustomer;
 
             //serialize and send
             var response = (createCustomerProfileResponse)_gateway.Send(req);
 
             //set the profile ID
-            return new Customer {
+            return new Customer
+            {
                 Email = email,
                 Description = description,
                 ProfileID = response.customerProfileId
@@ -62,31 +79,36 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="profileID">The profile ID</param>
         /// <returns></returns>
-        public Customer GetCustomer(string profileID) {
+        public Customer GetCustomer(string profileID)
+        {
             var response = new getCustomerProfileResponse();
             var req = new getCustomerProfileRequest();
-            
+
             req.customerProfileId = profileID;
 
             response = (getCustomerProfileResponse)_gateway.Send(req);
-            
+
 
             var result = new Customer();
-            
+
             result.Email = response.profile.email;
             result.Description = response.profile.description;
             result.ProfileID = response.profile.customerProfileId;
             result.ID = response.profile.merchantCustomerId;
 
-            if (response.profile.shipToList !=null) {
-                for (int i = 0; i < response.profile.shipToList.Length; i++) {
+            if (response.profile.shipToList != null)
+            {
+                for (int i = 0; i < response.profile.shipToList.Length; i++)
+                {
                     result.ShippingAddresses.Add(new Address(response.profile.shipToList[i]));
                 }
             }
 
-            if (response.profile.paymentProfiles != null) {
+            if (response.profile.paymentProfiles != null)
+            {
 
-                for (int i = 0; i < response.profile.paymentProfiles.Length; i++) {
+                for (int i = 0; i < response.profile.paymentProfiles.Length; i++)
+                {
                     result.PaymentProfiles.Add(new PaymentProfile(response.profile.paymentProfiles[i]));
                 }
             }
@@ -102,8 +124,9 @@ namespace AuthorizeNet {
         /// <param name="expirationYear">The expiration year.</param>
         /// <param name="cardCode">The card code.</param>
         /// <returns></returns>
-        public string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode) {
-            return AddCreditCard(profileID, cardNumber, expirationMonth,expirationYear, cardCode, null);
+        public string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode)
+        {
+            return AddCreditCard(profileID, cardNumber, expirationMonth, expirationYear, cardCode, null);
         }
 
         /// <summary>
@@ -123,7 +146,8 @@ namespace AuthorizeNet {
         /// Adds a credit card profile to the user and returns the profile ID
         /// </summary>
         /// <returns></returns>
-        public string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode, Address billToAddress) {
+        public string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode, Address billToAddress)
+        {
 
             // Get the expiration date.
 
@@ -138,7 +162,7 @@ namespace AuthorizeNet {
                 throw new Exception("The credit card expiration date \"" + sExpDate + "\" is expired.");
 
             var req = new createCustomerPaymentProfileRequest();
-            
+
 
             req.customerProfileId = profileID;
             req.paymentProfile = new customerPaymentProfileType();
@@ -157,16 +181,18 @@ namespace AuthorizeNet {
             req.validationMode = this._mode;
 
             var response = (createCustomerPaymentProfileResponse)_gateway.Send(req);
-            
+
             return response.customerPaymentProfileId;
         }
 
         /// <summary>
         /// Adds a Shipping Address to the customer profile
         /// </summary>
-        public string AddShippingAddress(string profileID, string first, string last, string street, string city, string state, string zip, string country, string phone) {
+        public string AddShippingAddress(string profileID, string first, string last, string street, string city, string state, string zip, string country, string phone)
+        {
             return AddShippingAddress(profileID,
-                new Address {
+                new Address
+                {
                     First = first,
                     Last = last,
                     City = city,
@@ -180,13 +206,14 @@ namespace AuthorizeNet {
         /// <summary>
         /// Adds a Shipping Address to the customer profile
         /// </summary>
-        public string AddShippingAddress(string profileID, Address address) {
+        public string AddShippingAddress(string profileID, Address address)
+        {
             var req = new createCustomerShippingAddressRequest();
-            
+
             req.address = address.ToAPIType();
             req.customerProfileId = profileID;
             var response = (createCustomerShippingAddressResponse)_gateway.Send(req);
-            
+
             return response.customerAddressId;
         }
 
@@ -197,8 +224,9 @@ namespace AuthorizeNet {
         /// <param name="paymentProfileID">The payment profile ID.</param>
         /// <param name="amount">The amount.</param>
         /// <returns></returns>
-        public IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount) {
-            return AuthorizeAndCapture(profileID, paymentProfileID, amount, 0,0);
+        public IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount)
+        {
+            return AuthorizeAndCapture(profileID, paymentProfileID, amount, 0, 0);
         }
 
 
@@ -212,17 +240,20 @@ namespace AuthorizeNet {
         /// <param name="tax">The tax.</param>
         /// <param name="shipping">The shipping.</param>
         /// <returns></returns>
-        public IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping) {
+        public IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping)
+        {
 
-            var order = new Order(profileID, paymentProfileID,"");
+            var order = new Order(profileID, paymentProfileID, "");
             order.Amount = amount;
 
-            if (tax > 0){
+            if (tax > 0)
+            {
                 order.SalesTaxAmount = tax;
                 order.SalesTaxName = "Sales Tax";
             }
 
-            if (shipping > 0) {
+            if (shipping > 0)
+            {
                 order.ShippingAmount = shipping;
                 order.ShippingName = "Shipping";
             }
@@ -236,48 +267,55 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="order">The order.</param>
         /// <returns></returns>
-        public IGatewayResponse AuthorizeAndCapture(Order order) {
+        public IGatewayResponse AuthorizeAndCapture(Order order)
+        {
             var req = new createCustomerProfileTransactionRequest();
-            
+
             var trans = new profileTransAuthCaptureType();
 
             trans.customerProfileId = order.CustomerProfileID;
             trans.customerPaymentProfileId = order.PaymentProfileID;
             trans.amount = order.Total;
 
-            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID)) {
+            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID))
+            {
                 trans.customerShippingAddressId = order.ShippingAddressProfileID;
             }
 
             if (order.SalesTaxAmount > 0)
-                trans.tax = new extendedAmountType {
+                trans.tax = new extendedAmountType
+                {
                     amount = order.SalesTaxAmount,
                     description = order.SalesTaxName,
                     name = order.SalesTaxName
                 };
 
             if (order.ShippingAmount > 0)
-                trans.shipping = new extendedAmountType {
+                trans.shipping = new extendedAmountType
+                {
                     amount = order.ShippingAmount,
                     description = order.ShippingName,
                     name = order.ShippingName
                 };
 
             //line items
-            if (order._lineItems.Count > 0) {
+            if (order._lineItems.Count > 0)
+            {
                 trans.lineItems = order._lineItems.ToArray();
             }
 
-            if (order.TaxExempt.HasValue) {
+            if (order.TaxExempt.HasValue)
+            {
                 trans.taxExempt = order.TaxExempt.Value;
                 trans.taxExemptSpecified = true;
             }
 
-            if (order.RecurringBilling.HasValue) {
+            if (order.RecurringBilling.HasValue)
+            {
                 trans.recurringBilling = order.RecurringBilling.Value;
                 trans.recurringBillingSpecified = true;
             }
-            if(!String.IsNullOrEmpty(order.CardCode))
+            if (!String.IsNullOrEmpty(order.CardCode))
                 trans.cardCode = order.CardCode;
 
             if ((!String.IsNullOrEmpty(order.InvoiceNumber)) ||
@@ -297,8 +335,8 @@ namespace AuthorizeNet {
             req.transaction.Item = trans;
 
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
-            
-            
+
+
             return new GatewayResponse(response.directResponse.Split(','));
 
 
@@ -311,7 +349,8 @@ namespace AuthorizeNet {
         /// <param name="paymentProfileID">The payment profile ID.</param>
         /// <param name="amount">The amount.</param>
         /// <returns></returns>
-        public IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount) {
+        public IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount)
+        {
             return Authorize(profileID, paymentProfileID, amount, 0, 0);
         }
 
@@ -326,17 +365,20 @@ namespace AuthorizeNet {
         /// <param name="tax">The tax.</param>
         /// <param name="shipping">The shipping.</param>
         /// <returns></returns>
-        public IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping) {
+        public IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping)
+        {
 
             var order = new Order(profileID, paymentProfileID, "");
             order.Amount = amount;
 
-            if (tax > 0) {
+            if (tax > 0)
+            {
                 order.SalesTaxAmount = tax;
                 order.SalesTaxName = "Sales Tax";
             }
 
-            if (shipping > 0) {
+            if (shipping > 0)
+            {
                 order.ShippingAmount = shipping;
                 order.ShippingName = "Shipping";
             }
@@ -350,50 +392,57 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="order">The order.</param>
         /// <returns>A string representing the approval code</returns>
-        public IGatewayResponse Authorize(Order order) {
+        public IGatewayResponse Authorize(Order order)
+        {
             var req = new createCustomerProfileTransactionRequest();
-           
+
             var trans = new profileTransAuthOnlyType();
 
             trans.customerProfileId = order.CustomerProfileID;
             trans.customerPaymentProfileId = order.PaymentProfileID;
             trans.amount = order.Total;
-           
+
             //order information
             trans.order = new orderExType();
             trans.order.description = order.Description;
             trans.order.invoiceNumber = order.InvoiceNumber;
             trans.order.purchaseOrderNumber = order.PONumber;
 
-            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID)) {
+            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID))
+            {
                 trans.customerShippingAddressId = order.ShippingAddressProfileID;
             }
 
             if (order.SalesTaxAmount > 0)
-                trans.tax = new extendedAmountType {
+                trans.tax = new extendedAmountType
+                {
                     amount = order.SalesTaxAmount,
                     description = order.SalesTaxName,
                     name = order.SalesTaxName
                 };
 
             if (order.ShippingAmount > 0)
-                trans.shipping = new extendedAmountType {
+                trans.shipping = new extendedAmountType
+                {
                     amount = order.ShippingAmount,
                     description = order.ShippingName,
                     name = order.ShippingName
                 };
 
             //line items
-            if (order._lineItems.Count > 0) {
+            if (order._lineItems.Count > 0)
+            {
                 trans.lineItems = order._lineItems.ToArray();
             }
 
-            if (order.TaxExempt.HasValue) {
+            if (order.TaxExempt.HasValue)
+            {
                 trans.taxExempt = order.TaxExempt.Value;
                 trans.taxExemptSpecified = true;
             }
 
-            if (order.RecurringBilling.HasValue) {
+            if (order.RecurringBilling.HasValue)
+            {
                 trans.recurringBilling = order.RecurringBilling.Value;
                 trans.recurringBillingSpecified = true;
             }
@@ -402,7 +451,7 @@ namespace AuthorizeNet {
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
-            
+
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
 
             return new GatewayResponse(response.directResponse.Split(','));
@@ -419,7 +468,8 @@ namespace AuthorizeNet {
         /// <param name="amount">The amount.</param>
         /// <param name="approvalCode">The approval code.</param>
         /// <returns></returns>
-        public IGatewayResponse Capture(string profileID, string paymentProfileId, string cardCode, decimal amount, string approvalCode) {
+        public IGatewayResponse Capture(string profileID, string paymentProfileId, string cardCode, decimal amount, string approvalCode)
+        {
             var req = new createCustomerProfileTransactionRequest();
 
             var trans = new profileTransCaptureOnlyType();
@@ -428,7 +478,7 @@ namespace AuthorizeNet {
             trans.amount = amount;
             if (!String.IsNullOrEmpty(cardCode)) trans.cardCode = cardCode;
             trans.customerPaymentProfileId = paymentProfileId;
-            
+
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
 
@@ -455,7 +505,7 @@ namespace AuthorizeNet {
             trans.transId = transId;  //required
             trans.amount = amount; // required.
             if (!String.IsNullOrEmpty(shippingProfileId)) trans.customerShippingAddressId = shippingProfileId;
-            
+
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
 
@@ -495,7 +545,8 @@ namespace AuthorizeNet {
         /// <param name="approvalCode">The approval code.</param>
         /// <param name="amount">The amount.</param>
         /// <returns></returns>
-        public IGatewayResponse Refund(string profileID, string paymentProfileId, string transactionId, string approvalCode, decimal amount) {
+        public IGatewayResponse Refund(string profileID, string paymentProfileId, string transactionId, string approvalCode, decimal amount)
+        {
             var req = new createCustomerProfileTransactionRequest();
 
             var trans = new profileTransRefundType();
@@ -518,7 +569,8 @@ namespace AuthorizeNet {
         /// <param name="transactionId">The transaction id.</param>
         /// <param name="approvalCode">The approval code.</param>
         /// <returns></returns>
-        public IGatewayResponse Void(string profileID, string paymentProfileId, string transactionId, string approvalCode) {
+        public IGatewayResponse Void(string profileID, string paymentProfileId, string transactionId, string approvalCode)
+        {
             var req = new createCustomerProfileTransactionRequest();
 
             var trans = new profileTransVoidType();
@@ -538,12 +590,13 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="profileID">The profile ID.</param>
         /// <returns></returns>
-        public bool DeleteCustomer(string profileID) {
+        public bool DeleteCustomer(string profileID)
+        {
             var req = new deleteCustomerProfileRequest();
             req.customerProfileId = profileID;
-            
+
             var response = (deleteCustomerProfileResponse)_gateway.Send(req);
-            
+
             return true;
         }
 
@@ -553,13 +606,14 @@ namespace AuthorizeNet {
         /// <param name="profileID">The profile ID.</param>
         /// <param name="paymentProfileID">The payment profile ID.</param>
         /// <returns></returns>
-        public bool DeletePaymentProfile(string profileID,string paymentProfileID) {
+        public bool DeletePaymentProfile(string profileID, string paymentProfileID)
+        {
             var req = new deleteCustomerPaymentProfileRequest();
-            
+
             req.customerPaymentProfileId = paymentProfileID;
             req.customerProfileId = profileID;
             var response = (deleteCustomerPaymentProfileResponse)_gateway.Send(req);
-            
+
             return true;
         }
 
@@ -569,13 +623,14 @@ namespace AuthorizeNet {
         /// <param name="profileID">The profile ID.</param>
         /// <param name="shippingAddressID">The shipping address ID.</param>
         /// <returns></returns>
-        public bool DeleteShippingAddress(string profileID, string shippingAddressID) {
+        public bool DeleteShippingAddress(string profileID, string shippingAddressID)
+        {
             var req = new deleteCustomerShippingAddressRequest();
-            
+
             req.customerAddressId = shippingAddressID;
             req.customerProfileId = profileID;
             var response = (deleteCustomerShippingAddressResponse)_gateway.Send(req);
-            
+
             return true;
         }
 
@@ -583,11 +638,12 @@ namespace AuthorizeNet {
         /// Returns all Customer IDs stored at Authorize.NET
         /// </summary>
         /// <returns></returns>
-        public string[] GetCustomerIDs() {
+        public string[] GetCustomerIDs()
+        {
             var req = new getCustomerProfileIdsRequest();
-            
+
             var response = (getCustomerProfileIdsResponse)_gateway.Send(req);
-            
+
             return response.ids;
         }
 
@@ -597,13 +653,14 @@ namespace AuthorizeNet {
         /// <param name="profileID">The profile ID.</param>
         /// <param name="shippingAddressID">The shipping address ID.</param>
         /// <returns></returns>
-        public Address GetShippingAddress(string profileID, string shippingAddressID) {
+        public Address GetShippingAddress(string profileID, string shippingAddressID)
+        {
             var req = new getCustomerShippingAddressRequest();
-            
+
             req.customerAddressId = shippingAddressID;
             req.customerProfileId = profileID;
             var response = (getCustomerShippingAddressResponse)_gateway.Send(req);
-            
+
             return new Address(response.address);
         }
 
@@ -612,7 +669,8 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="customer">The customer.</param>
         /// <returns></returns>
-        public bool UpdateCustomer(Customer customer) {
+        public bool UpdateCustomer(Customer customer)
+        {
 
             var req = new updateCustomerProfileRequest();
             req.profile = new customerProfileExType();
@@ -622,7 +680,7 @@ namespace AuthorizeNet {
             req.profile.merchantCustomerId = customer.ID;
 
             var response = (updateCustomerProfileResponse)_gateway.Send(req);
-            
+
             return true;
 
 
@@ -634,15 +692,16 @@ namespace AuthorizeNet {
         /// <param name="profileID">The profile ID.</param>
         /// <param name="profile">The profile.</param>
         /// <returns></returns>
-        public bool UpdatePaymentProfile(string profileID, PaymentProfile profile) {
+        public bool UpdatePaymentProfile(string profileID, PaymentProfile profile)
+        {
 
             var req = new updateCustomerPaymentProfileRequest();
-            
+
             req.customerProfileId = profileID;
             req.paymentProfile = profile.ToAPI();
 
             var response = (updateCustomerPaymentProfileResponse)_gateway.Send(req);
-            
+
             return true;
         }
 
@@ -653,13 +712,14 @@ namespace AuthorizeNet {
         /// <param name="profileID">The profile ID.</param>
         /// <param name="address">The address.</param>
         /// <returns></returns>
-        public bool UpdateShippingAddress(string profileID, Address address) {
+        public bool UpdateShippingAddress(string profileID, Address address)
+        {
             var req = new updateCustomerShippingAddressRequest();
-            
+
             req.customerProfileId = profileID;
             req.address = address.ToAPIExType();
             var response = (updateCustomerShippingAddressResponse)_gateway.Send(req);
-            
+
             return true;
         }
 
@@ -670,7 +730,8 @@ namespace AuthorizeNet {
         /// <param name="paymentProfileID">The payment profile ID.</param>
         /// <param name="mode">The mode.</param>
         /// <returns></returns>
-        public string ValidateProfile(string profileID, string paymentProfileID, ValidationMode mode) {
+        public string ValidateProfile(string profileID, string paymentProfileID, ValidationMode mode)
+        {
             return ValidateProfile(profileID, paymentProfileID, null, mode);
         }
 
@@ -707,13 +768,15 @@ namespace AuthorizeNet {
         /// <param name="shippingAddressID">The shipping address ID.</param>
         /// <param name="mode">The mode.</param>
         /// <returns></returns>
-        public string ValidateProfile(string profileID, string paymentProfileID, string shippingAddressID, ValidationMode mode) {
+        public string ValidateProfile(string profileID, string paymentProfileID, string shippingAddressID, ValidationMode mode)
+        {
             var req = new validateCustomerPaymentProfileRequest();
-            
+
 
             req.customerProfileId = profileID;
             req.customerPaymentProfileId = paymentProfileID;
-            if (!String.IsNullOrEmpty(shippingAddressID)) {
+            if (!String.IsNullOrEmpty(shippingAddressID))
+            {
                 req.customerShippingAddressId = shippingAddressID;
             }
             req.validationMode = Customer.ToValidationMode(mode);
@@ -722,5 +785,50 @@ namespace AuthorizeNet {
             return response.directResponse;
 
         }
+
+        #region Custom - Not provided by Authorize.Net
+        /// <summary>
+        /// Adds a bank account profile to the user and returns the profile ID
+        /// </summary>
+        /// <returns></returns>
+        public string AddBankAccount(string profileID, string nameOnAccount, string accountNumber, string routingNumber, BankAccountType accountType)
+        {
+            var req = new createCustomerPaymentProfileRequest();
+            req.customerProfileId = profileID;
+            req.paymentProfile = new customerPaymentProfileType();
+            req.paymentProfile.payment = new paymentType();
+
+            bankAccountType new_bank = new bankAccountType();
+            new_bank.nameOnAccount = nameOnAccount;
+            new_bank.accountNumber = accountNumber;
+            new_bank.routingNumber = routingNumber;
+
+            switch (accountType)
+            {
+                case BankAccountType.BusinessChecking:
+                    {
+                        new_bank.accountType = bankAccountTypeEnum.businessChecking;
+                        break;
+                    }
+                case BankAccountType.Savings:
+                    {
+                        new_bank.accountType = bankAccountTypeEnum.savings;
+                        break;
+                    }
+                default:
+                    {
+                        //Default to checking account
+                        new_bank.accountType = bankAccountTypeEnum.checking;
+                        break;
+                    }
+            }
+
+            req.paymentProfile.payment.Item = new_bank;
+
+            var response = (createCustomerPaymentProfileResponse)_gateway.Send(req);
+
+            return response.customerPaymentProfileId;
+        }
+        #endregion
     }
 }
