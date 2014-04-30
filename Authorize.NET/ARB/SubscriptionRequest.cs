@@ -184,6 +184,11 @@ namespace AuthorizeNet {
         public int CardExpirationMonth { get; set; }
         public string CardCode { get; set; }
 
+        public string BankNameOnAccount { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string BankRoutingNumber { get; set; }
+        public bankAccountTypeEnum BankAccountType { get; set; }
+
         public Address BillingAddress { get; set; }
         public Address ShippingAddress { get; set; }
 
@@ -219,11 +224,26 @@ namespace AuthorizeNet {
                 throw new InvalidOperationException(sbError.ToString());
             }
 
-            var creditCard = new creditCardType();
-            creditCard.cardNumber = this.CardNumber;
-            creditCard.expirationDate = dt.ToString("yyyy-MM");  // required format for API is YYYY-MM
-            sub.payment = new paymentType();
-            sub.payment.Item = creditCard;
+
+            if (!string.IsNullOrEmpty(this.CardNumber))
+            {
+                var creditCard = new creditCardType();
+                creditCard.cardNumber = this.CardNumber;
+                creditCard.expirationDate = dt.ToString("yyyy-MM");  // required format for API is YYYY-MM
+                sub.payment = new paymentType();
+                sub.payment.Item = creditCard;
+            }
+            else if (!String.IsNullOrEmpty(this.BankAccountNumber))
+            {
+                bankAccountType new_bank = new bankAccountType();
+                new_bank.nameOnAccount = BankNameOnAccount;
+                new_bank.accountNumber = BankAccountNumber;
+                new_bank.routingNumber = BankRoutingNumber;
+                new_bank.accountType = BankAccountType;
+
+                sub.payment = new paymentType();
+                sub.payment.Item = new_bank;
+            }
             
             if(this.BillingAddress!=null)
                 sub.billTo = this.BillingAddress.ToAPINameAddressType();
@@ -259,6 +279,7 @@ namespace AuthorizeNet {
             } else {
                 sub.paymentSchedule.interval.unit = ARBSubscriptionUnitEnum.days;
             }
+
             sub.customer = new customerType();
             sub.customer.email = this.CustomerEmail;
 
@@ -295,6 +316,17 @@ namespace AuthorizeNet {
                 creditCard.expirationDate = dt.ToString("yyyy-MM");//string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
                 sub.payment = new paymentType();
                 sub.payment.Item = creditCard;
+            }
+            else if (!String.IsNullOrEmpty(this.BankAccountNumber))
+            {
+                bankAccountType new_bank = new bankAccountType();
+                new_bank.nameOnAccount = BankNameOnAccount;
+                new_bank.accountNumber = BankAccountNumber;
+                new_bank.routingNumber = BankRoutingNumber;
+                new_bank.accountType = BankAccountType;
+
+                sub.payment = new paymentType();
+                sub.payment.Item = new_bank;
             }
 
             if (this.BillingAddress != null)

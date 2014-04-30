@@ -27,6 +27,7 @@ namespace AuthorizeNet {
 
         public string ID { get; set; }
         public string ProfileID { get; set; }
+        public string MerchantCustomerID { get; set; }
         public string Description { get; set; }
         public string Email { get; set; }
         public Address BillingAddress { get; set; }

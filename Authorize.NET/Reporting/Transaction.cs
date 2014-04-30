@@ -190,7 +190,6 @@ namespace AuthorizeNet {
                     line.UnitPrice = item.unitPrice;
                     result._lineItems.Add(line);
                 }
-
             }
             if (trans.payment != null) {
                 if (trans.payment.Item.GetType() == typeof(creditCardMaskedType))
@@ -199,6 +198,14 @@ namespace AuthorizeNet {
                     result.CardNumber = cc.cardNumber;
                     result.CardExpiration = cc.expirationDate;
                     result.CardType = cc.cardType;
+                }
+                else if (trans.payment.Item.GetType() == typeof(bankAccountMaskedType))
+                {
+                    var bankAccount = (bankAccountMaskedType)trans.payment.Item;
+                    result.BankNameOnAccount = bankAccount.nameOnAccount;
+                    result.BankAccountNumber = bankAccount.accountNumber;
+                    result.BankRoutingNumber = bankAccount.routingNumber;
+                    result.BankAccountType = bankAccount.accountType;
                 }
             }
             if (trans.customer != null) {
@@ -415,6 +422,10 @@ namespace AuthorizeNet {
         /// </value>
         public bool IsRecurring { get; set; }
 
+        public string BankNameOnAccount { get; set; }
+        public string BankAccountNumber { get; set; }
+        public string BankRoutingNumber { get; set; }
+        public bankAccountTypeEnum BankAccountType { get; set; }
 
         /// <summary>
         /// Gets the CAVV response.

@@ -30,10 +30,12 @@ namespace AuthorizeNETtest
             CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
             string email = "suzhu@visa.com";
             string description = "CreateCustomerTest Success";
+            string merchantCustomerId = "123-456789";
             Customer expected = new Customer()
                 {
                     Email = email,
-                    Description = description
+                    Description = description,
+                    MerchantCustomerID = merchantCustomerId
                 };
             Customer actual = null;
 
@@ -41,7 +43,7 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.CreateCustomer(email, description);
+                actual = target.CreateCustomer(merchantCustomerId, email, description);
             }
             catch (Exception e)
             {
@@ -50,6 +52,7 @@ namespace AuthorizeNETtest
 
             Assert.AreEqual(expected.Email, actual.Email);
             Assert.AreEqual(expected.Description, actual.Description);
+            Assert.AreEqual(expected.MerchantCustomerID, actual.MerchantCustomerID);
             Assert.IsFalse(string.IsNullOrEmpty(actual.ID));
             Assert.IsTrue(actual.ID.Trim().Length > 0);
             Assert.IsFalse(string.IsNullOrEmpty(actual.ProfileID));
