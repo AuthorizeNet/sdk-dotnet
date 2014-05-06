@@ -30,7 +30,6 @@ namespace AuthorizeNet {
     }
 
 
-
     /// <summary>
     /// Representational class for a transactional line item
     /// </summary>
@@ -115,7 +114,27 @@ namespace AuthorizeNet {
             result.SettleAmount = trans.settleAmount;
             result.CardNumber = trans.accountNumber;
             result.CardType = trans.accountType;
-            
+
+            result.MarketType = trans.marketType;
+            result.Product = trans.product;
+            result.MobileDeviceID = trans.mobileDeviceId;
+
+            if ((trans.subscription != null) && (trans.subscription.id > 0))
+            {
+                result.Subscription = new SubscriptionPayment();
+                result.Subscription.ID = trans.subscription.id;
+                result.Subscription.PayNum = trans.subscription.payNum;
+            }
+
+            if (trans.hasReturnedItemsSpecified)
+            {
+                result.HasReturnedItems = trans.hasReturnedItems ? NullableBooleanEnum.True : NullableBooleanEnum.False;
+            }
+            else
+            {
+                result.HasReturnedItems = NullableBooleanEnum.Null;
+            }
+
             return result;
         }
         /// <summary>
@@ -192,13 +211,28 @@ namespace AuthorizeNet {
                 }
 
             }
-            if (trans.payment != null) {
-                if (trans.payment.Item.GetType() == typeof(creditCardMaskedType))
+            if (trans.payment != null)
+            {
+                if (trans.payment.Item.GetType() == typeof (creditCardMaskedType))
                 {
-                    var cc = (creditCardMaskedType)trans.payment.Item;
+                    var cc = (creditCardMaskedType) trans.payment.Item;
                     result.CardNumber = cc.cardNumber;
                     result.CardExpiration = cc.expirationDate;
                     result.CardType = cc.cardType;
+                }
+                if (trans.payment.Item.GetType() == typeof (bankAccountMaskedType))
+                {
+                    var ba = (bankAccountMaskedType) trans.payment.Item;
+                    result.eCheckBankAccount = new BankAccount()
+                        {
+                            accountTypeSpecified = ba.accountTypeSpecified,
+                            accountType = (BankAccountType) Enum.Parse(typeof (BankAccountType), ba.accountType.ToString(), true),
+                            routingNumber = ba.routingNumber,
+                            nameOnAccount = ba.nameOnAccount,
+                            echeckTypeSpecified = ba.echeckTypeSpecified,
+                            echeckType = (EcheckType) Enum.Parse(typeof (EcheckType), ba.echeckType.ToString(), true),
+                            bankName = ba.bankName
+                        };
                 }
             }
             if (trans.customer != null) {
@@ -216,12 +250,46 @@ namespace AuthorizeNet {
             result.IsRecurring = trans.recurringBilling;
             result.TaxExempt = trans.taxExempt;
 
+            result.MarketType = trans.marketType;
+            result.Product = trans.product;
+            result.MobileDeviceID = trans.mobileDeviceId;
+
             if ((trans.subscription != null) && (trans.subscription.id > 0))
             {
                 result.Subscription = new SubscriptionPayment();
                 result.Subscription.ID = trans.subscription.id;
                 result.Subscription.PayNum = trans.subscription.payNum;
             }
+
+            if ((trans.returnedItems != null) && (trans.returnedItems.Any()))
+            {
+                result.HasReturnedItems = NullableBooleanEnum.True;
+                result.ReturnedItems = new ReturnedItemType[trans.returnedItems.Count()];
+                int iRI = 0;
+                foreach (var ri in trans.returnedItems)
+                {
+                    result.ReturnedItems[iRI] = new ReturnedItemType()
+                        {
+                            id = ri.id,
+                            code = ri.code,
+                            dateLocal = ri.dateLocal,
+                            dateUTC = ri.dateUTC,
+                            description = ri.description
+                        };
+                    iRI++;
+
+                }
+            }
+
+            if ((trans.solution != null) && (trans.solution.id.Length > 0))
+            {
+                result.Solution = new SolutionType()
+                    {
+                        id = trans.solution.id,
+                        name = trans.solution.name
+                    };
+            }
+
             return result;
         }
 
@@ -393,6 +461,13 @@ namespace AuthorizeNet {
         /// </summary>
         /// <value>The type of the card.</value>
         public string CardType { get; set; }
+
+        /// <summary>
+        /// Gets or sets eCheckBankAccount.
+        /// </summary>
+        /// <value>eCheckBankAccount</value>
+        public BankAccount eCheckBankAccount { get; set; }
+
         /// <summary>
         /// Gets or sets the customer ID.
         /// </summary>
@@ -532,17 +607,76 @@ namespace AuthorizeNet {
                 }
             }
         }
-
+        /// <summary>
+        /// Gets or Sets the MarketType
+        /// </summary>
+        /// <value>MarketType</value>
+        public string MarketType;
+        /// <summary>
+        /// Gets or Sets the Product
+        /// </summary>
+        /// <value>Product</value>
+        public string Product;
+        /// <summary>
+        /// Gets or Sets the MobileDeviceID
+        /// </summary>
+        /// <value>MobileDeviceID</value>
+        public string MobileDeviceID;
         /// <summary>
         /// Gets or Sets the SubscriptionPayment
         /// </summary>
         /// <value>SubscriptionPayment</value>
         public SubscriptionPayment Subscription { get; set; }
+        /// <summary>
+        /// Gets or Sets the HasReturnedItems
+        /// True - has eCheck returned items.  use GetTransactionDetails to get detailed information on returned items
+        /// False - has no eCheck returned items.
+        /// Null - eCheck returned items information is not returned.
+        /// </summary>
+        /// <value>HasReturnedItems</value>
+        public NullableBooleanEnum HasReturnedItems;
+        /// <summary>
+        /// Gets or Sets the ReturnedItems
+        /// </summary>
+        /// <value>ReturnedItems</value>
+        public ReturnedItemType[] ReturnedItems;
+        /// <summary>
+        /// Gets or Sets the Solution
+        /// </summary>
+        /// <value>Solution</value>
+        public SolutionType Solution;
     }
 
     public class SubscriptionPayment
     {
         public int ID;
         public int PayNum;
+    }
+
+    public class ReturnedItemType
+    {
+        public string id;
+        public System.DateTime dateUTC;
+        public System.DateTime dateLocal;
+        public string code;
+        public string description;
+    }
+
+    public  class SolutionType
+    {
+        public string id;
+        public string name;
+    }
+
+    public class BankAccount
+    {
+        public BankAccountType accountType;
+        public bool accountTypeSpecified;
+        public string routingNumber;
+        public string accountNumber;
+        public string nameOnAccount;
+        public EcheckType echeckType;
+        public bool echeckTypeSpecified;
+        public string bankName;
     }
 }

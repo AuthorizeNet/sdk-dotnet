@@ -195,7 +195,13 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public decimal settleAmount;
+        public string marketType;
+        public string product;
+        public string mobileDeviceId;
         public subscriptionPaymentType subscription;
+        public bool hasReturnedItems;
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hasReturnedItemsSpecified;
     }
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
     [System.SerializableAttribute()]
@@ -1096,6 +1102,27 @@ namespace AuthorizeNet.APICore {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class solutionType {
+        public string id;
+        public string name;
+    }
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class returnedItemType {
+        public string id;
+        public System.DateTime dateUTC;
+        public System.DateTime dateLocal;
+        public string code;
+        public string description;
+    }
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class batchStatisticType {
         
         /// <remarks/>
@@ -1246,6 +1273,8 @@ namespace AuthorizeNet.APICore {
         public string paymentMethod;
         
         /// <remarks/>
+        public string marketType;
+        public string product;
         [System.Xml.Serialization.XmlArrayItemAttribute("statistic", IsNullable=false)]
         public batchStatisticType[] statistics;
     }
@@ -1301,10 +1330,10 @@ namespace AuthorizeNet.APICore {
         public int responseReasonCode;
         
         /// <remarks/>
-        public string responseReasonDescription;
+        public subscriptionPaymentType subscription;
         
         /// <remarks/>
-        public subscriptionPaymentType subscription;
+        public string responseReasonDescription;
         
         /// <remarks/>
         public string authCode;
@@ -1392,6 +1421,13 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string customerIP;
+        public string marketType;
+        public string product;
+        public string mobileDeviceId;
+        public subscriptionPaymentType subscription1;
+        [System.Xml.Serialization.XmlArrayItemAttribute("returnedItem", IsNullable=false)]
+        public returnedItemType[] returnedItems;
+        public solutionType solution;
     }
     
     /// <remarks/>
