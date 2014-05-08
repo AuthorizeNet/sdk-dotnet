@@ -678,5 +678,6 @@ namespace AuthorizeNet {
         public EcheckType echeckType;
         public bool echeckTypeSpecified;
         public string bankName;
+        public string checkNumber;
     }
 }

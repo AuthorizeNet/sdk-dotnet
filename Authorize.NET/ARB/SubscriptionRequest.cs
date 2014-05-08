@@ -184,6 +184,9 @@ namespace AuthorizeNet {
         public int CardExpirationMonth { get; set; }
         public string CardCode { get; set; }
 
+        // eCheck
+        public BankAccount eCheckBankAccount { get; set; }
+
         public Address BillingAddress { get; set; }
         public Address ShippingAddress { get; set; }
 
@@ -199,16 +202,25 @@ namespace AuthorizeNet {
             var sub = new ARBSubscriptionType();
             sub.name = this.SubscriptionName;
 
+            bool isCard = true;
             StringBuilder sbError = new StringBuilder("");
             bool bError = false;
             if (String.IsNullOrEmpty(this.CardNumber) || (this.CardNumber.Trim().Length == 0))
             {
-                sbError.Append("Need a credit card number to set up this subscription");
-                bError = true;
+                if ((null == this.eCheckBankAccount) || String.IsNullOrEmpty(this.eCheckBankAccount.accountNumber) ||
+                    (this.eCheckBankAccount.accountNumber.Trim().Length == 0))
+                {
+                    sbError.Append("Need a credit card number or a bank account number to set up this subscription");
+                    bError = true;
+                }
+                else
+                {
+                    isCard = false;
+                }
             }
 
-            DateTime dt;
-            if (!CommonFunctions.ParseDateTime(this.CardExpirationYear, this.CardExpirationMonth, 1, out dt))
+            DateTime dt = new DateTime();
+            if ( isCard && !CommonFunctions.ParseDateTime(this.CardExpirationYear, this.CardExpirationMonth, 1, out dt))
             {
                 sbError.Append("Need a valid CardExpirationMonth and CardExpirationYear to set up this subscription");
                 bError = true;
@@ -219,12 +231,31 @@ namespace AuthorizeNet {
                 throw new InvalidOperationException(sbError.ToString());
             }
 
-            var creditCard = new creditCardType();
-            creditCard.cardNumber = this.CardNumber;
-            creditCard.expirationDate = dt.ToString("yyyy-MM");  // required format for API is YYYY-MM
-            sub.payment = new paymentType();
-            sub.payment.Item = creditCard;
-            
+            if (isCard)
+            {
+                var creditCard = new creditCardType();
+                creditCard.cardNumber = this.CardNumber;
+                creditCard.expirationDate = dt.ToString("yyyy-MM"); // required format for API is YYYY-MM
+                sub.payment = new paymentType();
+                sub.payment.Item = creditCard;
+            }
+            else
+            {
+                var eCheck = new bankAccountType()
+                    {
+                        accountTypeSpecified = eCheckBankAccount.accountTypeSpecified,
+                        accountType = (bankAccountTypeEnum)Enum.Parse(typeof(bankAccountTypeEnum), eCheckBankAccount.accountType.ToString(), true),
+                        routingNumber = eCheckBankAccount.routingNumber,
+                        accountNumber = eCheckBankAccount.accountNumber,
+                        nameOnAccount = eCheckBankAccount.nameOnAccount,
+                        echeckTypeSpecified = eCheckBankAccount.echeckTypeSpecified,
+                        echeckType = (echeckTypeEnum)Enum.Parse(typeof(echeckTypeEnum), eCheckBankAccount.echeckType.ToString(), true),
+                        bankName = eCheckBankAccount.bankName,
+                        checkNumber = eCheckBankAccount.checkNumber
+                    };
+                sub.payment = new paymentType {Item = eCheck};
+            }
+
             if(this.BillingAddress!=null)
                 sub.billTo = this.BillingAddress.ToAPINameAddressType();
             if (this.ShippingAddress != null)
@@ -282,7 +313,7 @@ namespace AuthorizeNet {
             var sub = new ARBSubscriptionType();
             sub.name = this.SubscriptionName;
 
-            if (!String.IsNullOrEmpty(this.CardNumber))
+            if (!String.IsNullOrEmpty(this.CardNumber) && (this.CardNumber.Trim().Length > 0))
             {
                 DateTime dt;
                 if (!CommonFunctions.ParseDateTime(this.CardExpirationYear, this.CardExpirationMonth, 1, out dt))
@@ -295,6 +326,24 @@ namespace AuthorizeNet {
                 creditCard.expirationDate = dt.ToString("yyyy-MM");//string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
                 sub.payment = new paymentType();
                 sub.payment.Item = creditCard;
+            }
+
+            if ((this.eCheckBankAccount != null) && !String.IsNullOrEmpty(this.eCheckBankAccount.accountNumber) &&
+                 (this.eCheckBankAccount.accountNumber.Trim().Length >0))
+            {
+                var eCheck = new bankAccountType()
+                {
+                    accountTypeSpecified = eCheckBankAccount.accountTypeSpecified,
+                    accountType = (bankAccountTypeEnum)Enum.Parse(typeof(bankAccountTypeEnum), eCheckBankAccount.accountType.ToString(), true),
+                    routingNumber = eCheckBankAccount.routingNumber,
+                    accountNumber = eCheckBankAccount.accountNumber,
+                    nameOnAccount = eCheckBankAccount.nameOnAccount,
+                    echeckTypeSpecified = eCheckBankAccount.echeckTypeSpecified,
+                    echeckType = (echeckTypeEnum)Enum.Parse(typeof(echeckTypeEnum), eCheckBankAccount.echeckType.ToString(), true),
+                    bankName = eCheckBankAccount.bankName,
+                    checkNumber = eCheckBankAccount.checkNumber
+                };
+                sub.payment = new paymentType { Item = eCheck };
             }
 
             if (this.BillingAddress != null)

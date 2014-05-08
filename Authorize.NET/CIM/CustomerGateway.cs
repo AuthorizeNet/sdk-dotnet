@@ -162,6 +162,83 @@ namespace AuthorizeNet {
         }
 
         /// <summary>
+        /// Adds a eCheck bank account profile to the user and returns the profile ID
+        /// </summary>
+        /// <returns></returns>
+        public string AddECheckBankAccount(string profileID, BankAccountType bankAccountType, string bankRoutingNumber, string bankAccountNumber, string personNameOnAccount)
+        {
+            return AddECheckBankAccount(profileID,
+                                        new BankAccount()
+                                            {
+                                                accountTypeSpecified = true,
+                                                accountType = bankAccountType,
+                                                routingNumber = bankRoutingNumber,
+                                                accountNumber = bankAccountNumber,
+                                                nameOnAccount = personNameOnAccount
+                                            }, null);
+        }
+
+        /// <summary>
+        /// Adds a bank account profile to the user and returns the profile ID
+        /// </summary>
+        /// <returns></returns>
+        public string AddECheckBankAccount(string profileID, BankAccountType bankAccountType, string bankRoutingNumber,
+                                           string bankAccountNumber,
+                                           string personNameOnAccount, string bankName, EcheckType eCheckType,
+                                           Address billToAddress)
+        {
+            return AddECheckBankAccount(profileID,
+                                        new BankAccount()
+                                            {
+                                                accountTypeSpecified = true,
+                                                accountType = bankAccountType,
+                                                routingNumber = bankRoutingNumber,
+                                                accountNumber = bankAccountNumber,
+                                                nameOnAccount = personNameOnAccount,
+                                                bankName = bankName,
+                                                echeckTypeSpecified = true,
+                                                echeckType = eCheckType
+                                            }, billToAddress);
+        }
+
+        /// <summary>
+        /// Adds a bank account profile to the user and returns the profile ID
+        /// </summary>
+        /// <returns></returns>
+        public string AddECheckBankAccount(string profileID, BankAccount bankAccount, Address billToAddress)
+        {
+            var req = new createCustomerPaymentProfileRequest();
+
+            req.customerProfileId = profileID;
+            req.paymentProfile = new customerPaymentProfileType();
+            req.paymentProfile.payment = new paymentType();
+
+            var bankAcct = new bankAccountType()
+                {
+                    accountTypeSpecified = bankAccount.accountTypeSpecified,
+                    accountType = (bankAccountTypeEnum)Enum.Parse(typeof(bankAccountTypeEnum), bankAccount.accountType.ToString(), true),
+                    routingNumber = bankAccount.routingNumber,
+                    accountNumber = bankAccount.accountNumber,
+                    nameOnAccount = bankAccount.nameOnAccount,
+                    bankName = bankAccount.bankName,
+                    echeckTypeSpecified = bankAccount.echeckTypeSpecified,
+                    echeckType = (echeckTypeEnum)Enum.Parse(typeof(echeckTypeEnum), bankAccount.echeckType.ToString(), true)
+                };
+ 
+            req.paymentProfile.payment.Item = bankAcct;
+
+            if (billToAddress != null)
+                req.paymentProfile.billTo = billToAddress.ToAPIType();
+
+            req.validationModeSpecified = true;
+            req.validationMode = this._mode;
+
+            var response = (createCustomerPaymentProfileResponse) _gateway.Send(req);
+
+            return response.customerPaymentProfileId;
+        }
+
+        /// <summary>
         /// Adds a Shipping Address to the customer profile
         /// </summary>
         public string AddShippingAddress(string profileID, string first, string last, string street, string city, string state, string zip, string country, string phone) {

@@ -12,6 +12,7 @@ namespace AuthorizeNet {
         int CardExpirationMonth { get; set; }
         int CardExpirationYear { get; set; }
         string CardNumber { get; set; }
+        BankAccount eCheckBankAccount { get; set; }
         string CustomerEmail { get; set; }
         string CustomerID { get; set; }
         AuthorizeNet.SubscriptionRequest SetTrialPeriod(short trialBillingCycles, decimal trialAmount);
