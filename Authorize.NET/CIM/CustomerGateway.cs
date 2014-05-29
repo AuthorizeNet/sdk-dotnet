@@ -37,11 +37,12 @@ namespace AuthorizeNet {
         /// <param name="transactionKey">The transaction key.</param>
         public CustomerGateway(string apiLogin, string transactionKey) : this(apiLogin, transactionKey, ServiceMode.Test) { }
 
-        public Customer CreateCustomer(string email, string description) {
+        public Customer CreateCustomer(string email, string description, string merchantCustomerId = null) {
             //use the XSD class to create the profile
             var newCustomer = new customerProfileType();
             newCustomer.description = description;
             newCustomer.email = email;
+            newCustomer.merchantCustomerId = merchantCustomerId;
 
             var req = new createCustomerProfileRequest();
             
@@ -54,7 +55,8 @@ namespace AuthorizeNet {
             return new Customer {
                 Email = email,
                 Description = description,
-                ProfileID = response.customerProfileId
+                ProfileID = response.customerProfileId,
+                ID = merchantCustomerId
             };
         }
         /// <summary>
