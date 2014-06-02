@@ -38,25 +38,34 @@ namespace AuthorizeNet {
         public CustomerGateway(string apiLogin, string transactionKey) : this(apiLogin, transactionKey, ServiceMode.Test) { }
 
         public Customer CreateCustomer(string email, string description) {
+            return CreateCustomer(email, description, "");
+        }
+
+        public Customer CreateCustomer(string email, string description, string merchantCustomerId)
+        {
             //use the XSD class to create the profile
             var newCustomer = new customerProfileType();
             newCustomer.description = description;
             newCustomer.email = email;
+            newCustomer.merchantCustomerId = merchantCustomerId;
 
             var req = new createCustomerProfileRequest();
-            
+
             req.profile = newCustomer;
 
             //serialize and send
             var response = (createCustomerProfileResponse)_gateway.Send(req);
 
             //set the profile ID
-            return new Customer {
+            return new Customer
+            {
                 Email = email,
                 Description = description,
-                ProfileID = response.customerProfileId
+                ProfileID = response.customerProfileId,
+                ID = merchantCustomerId != "" ? merchantCustomerId : "MerchantCustomerID"
             };
         }
+
         /// <summary>
         /// Retrieve an existing customer profile along with all the associated customer payment profiles and customer shipping addresses. 
         /// </summary>

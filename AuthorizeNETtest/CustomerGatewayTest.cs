@@ -57,6 +57,50 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
+        /// CreateCustomer - success
+        /// </summary>
+        [TestMethod()]
+        public void CreateCustomerTest_CustomerID()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerProfileId>27092230</customerProfileId><customerPaymentProfileIdList /><customerShippingAddressIdList /><validationDirectResponseList /></createCustomerProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            string email = "suzhu@visa.com";
+            string description = "CreateCustomerTest Success";
+            string customerID = "Cust ID 1234";
+
+            Customer expected = new Customer()
+            {
+                ID = customerID,
+                Email = email,
+                Description = description
+            };
+            Customer actual = null;
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                actual = target.CreateCustomer(email, description, customerID);
+            }
+            catch (Exception e)
+            {
+                string s = e.Message;
+            }
+
+            Assert.AreEqual(expected.Email, actual.Email);
+            Assert.AreEqual(expected.Description, actual.Description);
+            Assert.AreEqual(expected.ID, actual.ID);
+            Assert.IsFalse(string.IsNullOrEmpty(actual.ProfileID));
+            Assert.IsTrue(actual.ProfileID.Trim().Length > 0);
+        }
+
+        /// <summary>
         /// UpdateCustomer - successful
         /// </summary>
         [TestMethod()]
