@@ -6,6 +6,17 @@ using System.Text;
 
 namespace AuthorizeNet
 {
+
+    /// <summary>
+    /// NullableBooleanEnum
+    /// </summary>
+    public enum NullableBooleanEnum
+    {
+        False = 0,
+        True = 1,
+        Null = 2
+    }
+
     public class CommonFunctions
     {
         public static bool ParseDateTime(int year, int month, int day, out DateTime dt)

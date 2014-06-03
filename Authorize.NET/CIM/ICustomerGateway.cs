@@ -3,6 +3,11 @@ namespace AuthorizeNet {
     public interface ICustomerGateway {
         string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode, AuthorizeNet.Address billToAddress);
         string AddCreditCard(string profileID, string cardNumber, int expirationMonth, int expirationYear, string cardCode);
+
+        string AddECheckBankAccount(string profileID, BankAccountType bankAccountType, string bankRoutingNumber, string bankAccountNumber, string personNameOnAccount);
+        string AddECheckBankAccount(string profileID, BankAccountType bankAccountType, string bankRoutingNumber, string bankAccountNumber, string personNameOnAccount, string bankName, EcheckType eCheckType, Address billToAddress);
+        string AddECheckBankAccount(string profileID, BankAccount bankAccount, Address billToAddress);
+
         string AddShippingAddress(string profileID, AuthorizeNet.Address address);
         string AddShippingAddress(string profileID, string first, string last, string street, string city, string state, string zip, string country, string phone);
         

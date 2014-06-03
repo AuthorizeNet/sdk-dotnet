@@ -18,9 +18,7 @@ namespace AuthorizeNet {
 
 
         public Customer() {
-            //default it to something
-            this.ID = Guid.NewGuid().ToString();
-
+            this.ID = "MerchantCustomerID"; 
             this.ShippingAddresses = new List<Address>();
             this.PaymentProfiles = new List<PaymentProfile>();
         }

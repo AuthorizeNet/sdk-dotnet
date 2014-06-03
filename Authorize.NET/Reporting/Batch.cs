@@ -111,7 +111,9 @@ namespace AuthorizeNet {
                         ID = item.batchId,
                         PaymentMethod = item.paymentMethod,
                         SettledOn = item.settlementTimeUTC,
-                        State = item.settlementState
+                        State = item.settlementState,
+                        MarketType = item.marketType,
+                        Product = item.product
                     });
                 }
             }
@@ -137,7 +139,9 @@ namespace AuthorizeNet {
                         ID = item.batchId,
                         PaymentMethod = item.paymentMethod,
                         SettledOn = item.settlementTimeUTC,
-                        State = item.settlementState
+                        State = item.settlementState,
+                        MarketType = item.marketType,
+                        Product = item.product
                     });
                 }
             }
@@ -169,5 +173,15 @@ namespace AuthorizeNet {
         /// </summary>
         /// <value>The payment method.</value>
         public string PaymentMethod { get; set; }
+        /// <summary>
+        /// Gets or Sets the MarketType
+        /// </summary>
+        /// <value>MarketType</value>
+        public string MarketType;
+        /// <summary>
+        /// Gets or Sets the Product
+        /// </summary>
+        /// <value>Product</value>
+        public string Product;
     }
 }

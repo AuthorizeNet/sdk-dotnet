@@ -38,25 +38,34 @@ namespace AuthorizeNet {
         public CustomerGateway(string apiLogin, string transactionKey) : this(apiLogin, transactionKey, ServiceMode.Test) { }
 
         public Customer CreateCustomer(string email, string description) {
+            return CreateCustomer(email, description, "");
+        }
+
+        public Customer CreateCustomer(string email, string description, string merchantCustomerId)
+        {
             //use the XSD class to create the profile
             var newCustomer = new customerProfileType();
             newCustomer.description = description;
             newCustomer.email = email;
+            newCustomer.merchantCustomerId = merchantCustomerId;
 
             var req = new createCustomerProfileRequest();
-            
+
             req.profile = newCustomer;
 
             //serialize and send
             var response = (createCustomerProfileResponse)_gateway.Send(req);
 
             //set the profile ID
-            return new Customer {
+            return new Customer
+            {
                 Email = email,
                 Description = description,
-                ProfileID = response.customerProfileId
+                ProfileID = response.customerProfileId,
+                ID = merchantCustomerId != "" ? merchantCustomerId : "MerchantCustomerID"
             };
         }
+
         /// <summary>
         /// Retrieve an existing customer profile along with all the associated customer payment profiles and customer shipping addresses. 
         /// </summary>
@@ -158,6 +167,83 @@ namespace AuthorizeNet {
 
             var response = (createCustomerPaymentProfileResponse)_gateway.Send(req);
             
+            return response.customerPaymentProfileId;
+        }
+
+        /// <summary>
+        /// Adds a eCheck bank account profile to the user and returns the profile ID
+        /// </summary>
+        /// <returns></returns>
+        public string AddECheckBankAccount(string profileID, BankAccountType bankAccountType, string bankRoutingNumber, string bankAccountNumber, string personNameOnAccount)
+        {
+            return AddECheckBankAccount(profileID,
+                                        new BankAccount()
+                                            {
+                                                accountTypeSpecified = true,
+                                                accountType = bankAccountType,
+                                                routingNumber = bankRoutingNumber,
+                                                accountNumber = bankAccountNumber,
+                                                nameOnAccount = personNameOnAccount
+                                            }, null);
+        }
+
+        /// <summary>
+        /// Adds a bank account profile to the user and returns the profile ID
+        /// </summary>
+        /// <returns></returns>
+        public string AddECheckBankAccount(string profileID, BankAccountType bankAccountType, string bankRoutingNumber,
+                                           string bankAccountNumber,
+                                           string personNameOnAccount, string bankName, EcheckType eCheckType,
+                                           Address billToAddress)
+        {
+            return AddECheckBankAccount(profileID,
+                                        new BankAccount()
+                                            {
+                                                accountTypeSpecified = true,
+                                                accountType = bankAccountType,
+                                                routingNumber = bankRoutingNumber,
+                                                accountNumber = bankAccountNumber,
+                                                nameOnAccount = personNameOnAccount,
+                                                bankName = bankName,
+                                                echeckTypeSpecified = true,
+                                                echeckType = eCheckType
+                                            }, billToAddress);
+        }
+
+        /// <summary>
+        /// Adds a bank account profile to the user and returns the profile ID
+        /// </summary>
+        /// <returns></returns>
+        public string AddECheckBankAccount(string profileID, BankAccount bankAccount, Address billToAddress)
+        {
+            var req = new createCustomerPaymentProfileRequest();
+
+            req.customerProfileId = profileID;
+            req.paymentProfile = new customerPaymentProfileType();
+            req.paymentProfile.payment = new paymentType();
+
+            var bankAcct = new bankAccountType()
+                {
+                    accountTypeSpecified = bankAccount.accountTypeSpecified,
+                    accountType = (bankAccountTypeEnum)Enum.Parse(typeof(bankAccountTypeEnum), bankAccount.accountType.ToString(), true),
+                    routingNumber = bankAccount.routingNumber,
+                    accountNumber = bankAccount.accountNumber,
+                    nameOnAccount = bankAccount.nameOnAccount,
+                    bankName = bankAccount.bankName,
+                    echeckTypeSpecified = bankAccount.echeckTypeSpecified,
+                    echeckType = (echeckTypeEnum)Enum.Parse(typeof(echeckTypeEnum), bankAccount.echeckType.ToString(), true)
+                };
+ 
+            req.paymentProfile.payment.Item = bankAcct;
+
+            if (billToAddress != null)
+                req.paymentProfile.billTo = billToAddress.ToAPIType();
+
+            req.validationModeSpecified = true;
+            req.validationMode = this._mode;
+
+            var response = (createCustomerPaymentProfileResponse) _gateway.Send(req);
+
             return response.customerPaymentProfileId;
         }
 
@@ -295,6 +381,7 @@ namespace AuthorizeNet {
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
+            req.extraOptions = order.ExtraOptions;
 
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
             
@@ -402,7 +489,8 @@ namespace AuthorizeNet {
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
-            
+            req.extraOptions = order.ExtraOptions;
+
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
 
             return new GatewayResponse(response.directResponse.Split(','));

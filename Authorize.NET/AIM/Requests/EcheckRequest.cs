@@ -36,6 +36,8 @@ namespace AuthorizeNet {
             BankAccountType acctType, string bankName, string acctName, string bankCheckNumber) {
 
             Queue(ApiFields.Method, "ECHECK");
+            this.EcheckType = type;
+            this.BankName = bankName;
             this.BankABACode = bankABACode;
             this.BankAccountName = acctName;
             this.BankAccountNumber = bankAccountNumber;

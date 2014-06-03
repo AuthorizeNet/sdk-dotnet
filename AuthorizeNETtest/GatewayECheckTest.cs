@@ -42,6 +42,99 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
+        /// AuthCap Transaction CheckTypePPD Saving - Approved
+        /// </summary>
+        [TestMethod()]
+        public void SendTest_AuthCap_PPD_Saving_Approved()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "1|1|1|This transaction has been approved.||P|2207739411||AuthCap transaction approved testing|15.18|ECHECK|auth_capture||||||||||||||||||||||||||D05070D0B41BC42B614A666B05631712|||||||||||||XXXX3456|Bank Account||||||||||||||||";
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+
+            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+
+            IGatewayRequest request = new EcheckRequest(EcheckType.PPD, (decimal)15.18, "125000024", "123456", BankAccountType.Savings, "Bank of Seattle", "Sue Zhu", "1234");
+            string description = "AuthCap transaction approved testing";
+
+            IGatewayResponse actual = target.Send(request, description);
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+        }
+
+        /// <summary>
+        /// AuthCap Transaction CheckTypePPD BusinessChecking - denied
+        /// </summary>
+        [TestMethod()]
+        public void SendTest_AuthCap_PPD_BusinessChecking_Denied()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "3|1|244|This eCheck.Net type is not allowed for this Bank Account Type.||P|0||AuthCap transaction approved testing|15.18|ECHECK|auth_capture||||||||||||||||||||||||||CEB5EEB8C910EFD2D8B660A7F0A2A9CD|||||||||||||XXXX3456|Bank Account||||||||||||||||";
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+
+            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+
+            IGatewayRequest request = new EcheckRequest(EcheckType.PPD, (decimal)15.18, "125000024", "123456", BankAccountType.BusinessChecking, "Bank of Seattle", "Sue Zhu", "1234");
+            string description = "AuthCap transaction approved testing";
+
+            IGatewayResponse actual = target.Send(request, description);
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.IsTrue(long.Parse(actual.TransactionID) == 0);
+        }
+
+        /// <summary>
+        /// AuthCap Transaction CheckTypeCCD BusinessChecking - Approved
+        /// </summary>
+        [TestMethod()]
+        public void SendTest_AuthCap_CCD_BusinessChecking_Approved()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string responseString = "1|1|1|This transaction has been approved.||P|2211133545||AuthCap transaction approved testing|15.17|ECHECK|auth_capture||||||||||||||||||||||||||0D5993C7EC85C7C2C67046EF108D5870|||||||||||||XXXX3456|Bank Account||||||||||||||||";
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+
+            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+
+            IGatewayRequest request = new EcheckRequest(EcheckType.CCD, (decimal)15.17, "125000024", "123456", BankAccountType.BusinessChecking, "Bank of Seattle", "Sue Zhu", "1234");
+            string description = "AuthCap transaction approved testing";
+
+            IGatewayResponse actual = target.Send(request, description);
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+        }
+
+        /// <summary>
         /// Auth Transaction - Approved
         /// </summary>
         [TestMethod()]
