@@ -14,7 +14,7 @@ namespace AuthorizeNet {
     /// </summary>
     public class HttpXmlUtility {
 
-        string _serviceUrl = "https://apitest.authorize.net/xml/v1/request.api";
+        string _serviceUrl = TEST_URL;
         string _apiLogin = "";
         string _transactionKey = "";
 
@@ -26,7 +26,7 @@ namespace AuthorizeNet {
         /// <param name="transactionKey">The transaction key.</param>
         public HttpXmlUtility(ServiceMode mode, string apiLogin, string transactionKey) {
             if (mode == ServiceMode.Live)
-                _serviceUrl = "https://api.authorize.net/xml/v1/request.api";
+                _serviceUrl = URL;
             _apiLogin = apiLogin;
             _transactionKey = transactionKey;
         }
