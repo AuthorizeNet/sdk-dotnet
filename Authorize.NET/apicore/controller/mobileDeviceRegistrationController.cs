@@ -23,7 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.mobileDeviceType(request.mobileDevice);
+            RequestFactoryWithSpecified.mobileDeviceRegistrationRequest(request);
         }
     }
 #pragma warning restore 1591

@@ -19,6 +19,12 @@
 		
 		    //validate not-required fields		
 	    }
+
+        protected override void BeforeExecute()
+        {
+            var request = GetApiRequest();
+            RequestFactoryWithSpecified.createCustomerProfileRequest(request);
+        }
     }
 #pragma warning restore 1591
 }

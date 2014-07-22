@@ -23,7 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.transactionRequestType(request.transactionRequest);
+            RequestFactoryWithSpecified.createTransactionRequest(request);
         }
     }
 #pragma warning restore 1591

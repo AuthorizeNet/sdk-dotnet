@@ -23,7 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.ARBSubscriptionType(request.subscription);
+            RequestFactoryWithSpecified.ARBCreateSubscriptionRequest(request);
         }
     }
 #pragma warning restore 1591

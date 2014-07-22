@@ -299,46 +299,46 @@ namespace authorizenet.apicore.contract.v1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class subscriptionDetail : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class SubscriptionDetail : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public int Id;
+        public int id;
         
         /// <remarks/>
-        public string Name;
+        public string name;
         
         /// <remarks/>
-        public ARBSubscriptionStatusEnum Status;
+        public ARBSubscriptionStatusEnum status;
         
         /// <remarks/>
-        public System.DateTime CreateTimeStampUTC;
+        public System.DateTime createTimeStampUTC;
         
         /// <remarks/>
-        public string FirstName;
+        public string firstName;
         
         /// <remarks/>
-        public string LastName;
+        public string lastName;
         
         /// <remarks/>
-        public int TotalOccurrences;
+        public int totalOccurrences;
         
         /// <remarks/>
-        public int PastOccurrences;
+        public int pastOccurrences;
         
         /// <remarks/>
-        public paymentMethodEnum PaymentMethod;
+        public paymentMethodEnum paymentMethod;
         
         /// <remarks/>
-        public string AccountNumber;
+        public string accountNumber;
         
         /// <remarks/>
-        public string Invoice;
+        public string invoice;
         
         /// <remarks/>
-        public decimal Amount;
+        public decimal amount;
         
         /// <remarks/>
-        public int CurrencyId;
+        public int currencyId;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -394,7 +394,7 @@ namespace authorizenet.apicore.contract.v1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class paging : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Paging : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
         public int limit;
@@ -443,31 +443,31 @@ namespace authorizenet.apicore.contract.v1 {
     public enum ARBGetSubscriptionListOrderFieldEnum {
         
         /// <remarks/>
-        Id,
+        id,
         
         /// <remarks/>
-        Name,
+        name,
         
         /// <remarks/>
-        Status,
+        status,
         
         /// <remarks/>
-        CreateTimeStampUTC,
+        createTimeStampUTC,
         
         /// <remarks/>
-        LastName,
+        lastName,
         
         /// <remarks/>
-        FirstName,
+        firstName,
         
         /// <remarks/>
-        AccountNumber,
+        accountNumber,
         
         /// <remarks/>
-        Amount,
+        amount,
         
         /// <remarks/>
-        PastOccurrences,
+        pastOccurrences,
     }
     
     /// <remarks/>
@@ -3943,13 +3943,13 @@ namespace authorizenet.apicore.contract.v1 {
     public partial class ARBGetSubscriptionListRequest : ANetApiRequest {
         
         /// <remarks/>
-        public ARBGetSubscriptionListSearchTypeEnum SearchType;
+        public ARBGetSubscriptionListSearchTypeEnum searchType;
         
         /// <remarks/>
-        public ARBGetSubscriptionListSorting Sorting;
+        public ARBGetSubscriptionListSorting sorting;
         
         /// <remarks/>
-        public paging Paging;
+        public Paging paging;
     }
     
     /// <remarks/>
@@ -3959,16 +3959,16 @@ namespace authorizenet.apicore.contract.v1 {
     public enum ARBGetSubscriptionListSearchTypeEnum {
         
         /// <remarks/>
-        CardExpiringThisMonth,
+        cardExpiringThisMonth,
         
         /// <remarks/>
-        SubscriptionActive,
+        subscriptionActive,
         
         /// <remarks/>
-        SubscriptionExpiringThisMonth,
+        subscriptionExpiringThisMonth,
         
         /// <remarks/>
-        SubscriptionInactive,
+        subscriptionInactive,
     }
     
     /// <remarks/>
@@ -3981,11 +3981,15 @@ namespace authorizenet.apicore.contract.v1 {
     public partial class ARBGetSubscriptionListResponse : ANetApiResponse {
         
         /// <remarks/>
-        public int TotalNumInResultSet;
+        public int totalNumInResultSet;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("SubscriptionDetail")]
-        public subscriptionDetail[] SubscriptionDetails;
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool totalNumInResultSetSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionDetail")]
+        public SubscriptionDetail[] subscriptionDetails;
     }
     
     /// <remarks/>

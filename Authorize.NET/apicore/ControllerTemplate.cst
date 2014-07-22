@@ -23,7 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.APICONTROLLERNAMEType(request.APICONTROLLERNAME);
+            RequestFactoryWithSpecified.APICONTROLLERNAMEType(request);
         }
     }
 #pragma warning restore 1591
