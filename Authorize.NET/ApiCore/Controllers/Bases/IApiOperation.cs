@@ -11,8 +11,7 @@ namespace AuthorizeNet.ApiCore.Controllers.Bases
         where TQ : AuthorizeNet.ApiCore.Contracts.V1.ANetApiRequest 
         where TS : AuthorizeNet.ApiCore.Contracts.V1.ANetApiResponse
 	{
-        void Execute();
-        void Execute(Environment environment);
+        void Execute(Environment environment = null);
 		List<string> GetResults ();
         AuthorizeNet.ApiCore.Contracts.V1.messageTypeEnum GetResultCode();
     }

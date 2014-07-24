@@ -77,11 +77,7 @@ namespace AuthorizeNet.ApiCore.Controllers.Bases
 		    _errorResponse = errorResponse;
 	    }
 
-	    public TS ExecuteWithApiResponse() {
-            return ExecuteWithApiResponse(RunEnvironment);
-	    }
-
-        public TS ExecuteWithApiResponse(AuthorizeNet.Environment environment)
+        public TS ExecuteWithApiResponse(AuthorizeNet.Environment environment = null)
         {
             Execute(environment);
             return GetApiResponse();
@@ -89,22 +85,11 @@ namespace AuthorizeNet.ApiCore.Controllers.Bases
 
         const String NullEnvironmentErrorMessage = "Environment not set. Set environment using setter or use overloaded method to pass appropriate environment";
 
-        public void Execute()
-        {
-            if (null == RunEnvironment)
-		    {
-                throw new ArgumentException(NullEnvironmentErrorMessage);
-		    } 
-		    else
-		    {
-			    Execute( RunEnvironment);
-		    }
-        }
-
-        public void Execute(AuthorizeNet.Environment environment)
+        public void Execute(AuthorizeNet.Environment environment = null)
         {
 		    Logger.info(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", GetApiRequest()));
 
+            if (null == environment) { environment = ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment; }
             if (null == environment) throw new ArgumentException(NullEnvironmentErrorMessage);
 
 		    BeforeExecute();
@@ -215,9 +200,9 @@ namespace AuthorizeNet.ApiCore.Controllers.Bases
 
             if (null == request.merchantAuthentication) 
             {
-                if (null != MerchantAuthentication)
+                if (null != ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication)
                 {
-                    request.merchantAuthentication = MerchantAuthentication;
+                    request.merchantAuthentication = ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication;
                 }
                 else
                 {

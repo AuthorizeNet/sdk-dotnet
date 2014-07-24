@@ -1,4 +1,4 @@
-namespace AuthorizeNet.ApiCore.Controllerss.Test
+namespace AuthorizeNet.ApiCore.Controllers.Test
 {
     using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,14 +35,14 @@ namespace AuthorizeNet.ApiCore.Controllerss.Test
 	    [TestMethod]
 	    public void TestGetSubscriptionList() {
 
-            //var subscriptionId = "2096852";
-
+            //var subscriptionId = "2096852"; //"46";
+            
 		    var subscriptionId = CreateSubscription( CnpMerchantAuthenticationType);
 		    var newStatus = GetSubscription( CnpMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.active, newStatus);
 
 		    LogHelper.info(Logger, "Getting Subscription List for SubscriptionId: %s", subscriptionId);
-
+            
 		    var listRequest = SetupSubscriptionListRequest(CnpMerchantAuthenticationType);
             var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest, TestEnvironment);
 
@@ -64,7 +64,7 @@ namespace AuthorizeNet.ApiCore.Controllerss.Test
 			        found = true;
 			    }
 		    }
-
+            
 		    CancelSubscription(CnpMerchantAuthenticationType, subscriptionId);
 		    Assert.IsTrue(found);
             

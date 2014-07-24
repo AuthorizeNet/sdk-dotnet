@@ -5,13 +5,18 @@ namespace AuthorizeNet.Util
     using System.Text;
     using System.Xml;
     using System.Xml.Serialization;
-    using  AuthorizeNet.ApiCore.Contracts.V1;
+    using AuthorizeNet.ApiCore.Contracts.V1;
     using AuthorizeNet.ApiCore.Controllers.Bases;
 
 #pragma warning disable 1591
     public static class HttpUtility {
 
 	    private static readonly Log Logger = LogFactory.getLog(typeof(HttpUtility));
+        private static bool ProxySet = false;
+
+        static bool UseProxy = AuthorizeNet.Environment.getBooleanProperty(Constants.HTTPS_USE_PROXY);
+        static String ProxyHost = AuthorizeNet.Environment.GetProperty(Constants.HTTPS_PROXY_HOST);
+        static int ProxyPort = AuthorizeNet.Environment.getIntProperty(Constants.HTTPS_PROXY_PORT);
 
         private static Uri GetPostUrl(AuthorizeNet.Environment env) 
 	    {
@@ -38,6 +43,7 @@ namespace AuthorizeNet.Util
             webRequest.Method = "POST";
             webRequest.ContentType = "text/xml";
             webRequest.KeepAlive = true;
+            webRequest.Proxy = SetProxyIfRequested(webRequest.Proxy);
 
             var requestType = typeof (TQ);
 
@@ -84,6 +90,30 @@ namespace AuthorizeNet.Util
 
 	        return response;
 	    }
+
+        public static WebProxy SetProxyIfRequested(IWebProxy proxy)
+        {
+            var newProxy = proxy as WebProxy;
+            if (UseProxy)
+            {
+                var proxyUri = new Uri(string.Format("{0}://{1}:{2}", Constants.PROXY_PROTOCOL, ProxyHost, ProxyPort));
+                if (!ProxySet)
+                {
+                    Logger.info(string.Format("Setting up proxy to URL: '{0}'", proxyUri));
+                    ProxySet = true;
+                }
+                if (null == proxy)
+                {
+                    newProxy = new WebProxy(proxyUri);
+                }
+                if (null != newProxy)
+                {
+                    newProxy.UseDefaultCredentials = true;
+                }
+            }
+
+            return newProxy;
+        }
     }
 
 

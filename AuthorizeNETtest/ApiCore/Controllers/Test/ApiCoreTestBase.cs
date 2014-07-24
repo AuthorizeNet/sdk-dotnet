@@ -1,4 +1,4 @@
-namespace AuthorizeNet.ApiCore.Controllerss.Test
+namespace AuthorizeNet.ApiCore.Controllers.Test
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +21,7 @@ namespace AuthorizeNet.ApiCore.Controllerss.Test
 	
 	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
         //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
+
         static Merchant _cnpMerchant;
 	    static Merchant _cpMerchant ;
 	    static readonly String CnpApiLoginIdKey ;
