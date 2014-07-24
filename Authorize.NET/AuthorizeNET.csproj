@@ -60,10 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="*.cs" />
-    <Compile Include="apicore\contract\v1\*.cs" />
-    <Compile Include="apicore\controller\*.cs" />
-    <Compile Include="apicore\controller\bases\*.cs" />
-    <Compile Include="util\*.cs" />
+    <Compile Include="ApiCore\Contracts\V1\*.cs" />
+    <Compile Include="ApiCore\Controllers\*.cs" />
+    <Compile Include="ApiCore\Controllers\Bases\*.cs" />
+    <Compile Include="Util\*.cs" />
     <Compile Include="AIM\Requests\PriorAuthCaptureRequest.cs" />
     <Compile Include="AIM\Requests\EcheckRequest.cs" />
     <Compile Include="AIM\Requests\IGatewayRequest.cs" />
@@ -114,7 +114,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="apicore\ControllerTemplate.cst" />
+    <None Include="ApiCore\ControllerTemplate.cst" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

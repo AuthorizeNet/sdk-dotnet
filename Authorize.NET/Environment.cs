@@ -1,4 +1,4 @@
-namespace authorizenet 
+namespace AuthorizeNet 
 {
     using System;
     using System.Configuration;
@@ -118,7 +118,7 @@ namespace authorizenet
 	    public static int getIntProperty( String propertyName) 
 	    {
 	        var stringValue = GetProperty(propertyName);
-		    var value = (authorizenet.util.StringUtils.parseInt(stringValue));
+            var value = (AuthorizeNet.Util.StringUtils.parseInt(stringValue));
 		
 		    return value;
 	    }

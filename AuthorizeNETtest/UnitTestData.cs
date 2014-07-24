@@ -1,9 +1,9 @@
-namespace authorizenet.test
+namespace AuthorizeNet.Test
 {
     using System;
     using System.Configuration;
     using System.Linq;
-    using authorizenet.util;
+    using AuthorizeNet.Util;
 
     public abstract class UnitTestData {
 	    protected static string ApiLoginId ;
@@ -35,7 +35,7 @@ namespace authorizenet.test
 		    }
 		    else
 		    {
-			    authorizenet.util.LogHelper.info( Logger,
+			    AuthorizeNet.Util.LogHelper.info( Logger,
 					    "PropertyValues: ApiLoginId:'%s', TransactionKey:'%s', CPApiLoginId:'%s', CPTransactionKey:'%s', MD5Key:'%s' ", 
 					    ApiLoginId, TransactionKey, CpApiLoginId, CpTransactionKey, MerchantMd5Key);
 		    }
@@ -43,8 +43,8 @@ namespace authorizenet.test
 	
 	    public static string GetPropertyFromNames(string pFirstName, string pSecondName)
 	    {
-		    var value = authorizenet.Environment.GetProperty(pFirstName) ?? 
-                            authorizenet.Environment.GetProperty(pSecondName);
+		    var value = AuthorizeNet.Environment.GetProperty(pFirstName) ?? 
+                            AuthorizeNet.Environment.GetProperty(pSecondName);
 
 	        return value;
 	    }

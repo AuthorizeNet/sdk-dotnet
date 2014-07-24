@@ -1,4 +1,4 @@
-namespace authorizenet
+namespace AuthorizeNet.BAD
 {
 #pragma warning disable 1591
 
