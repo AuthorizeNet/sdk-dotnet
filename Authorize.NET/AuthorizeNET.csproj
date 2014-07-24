@@ -69,7 +69,6 @@
     <Compile Include="AIM\Requests\IGatewayRequest.cs" />
     <Compile Include="AIM\Requests\UnlinkedCredit.cs" />
     <Compile Include="AIM\Responses\ResponseBase.cs" />
-    <Compile Include="ARB\ARBSchema.cs" />
     <Compile Include="ARB\ISubscriptionGateway.cs" />
     <Compile Include="ARB\ISubscriptionRequest.cs" />
     <Compile Include="ARB\SubscriptionGateway.cs" />
