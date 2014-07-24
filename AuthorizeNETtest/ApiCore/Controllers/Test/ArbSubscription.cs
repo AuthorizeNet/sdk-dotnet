@@ -167,7 +167,11 @@ namespace AuthorizeNet.ApiCore.Controllers.Test
                 refId = RefId,
                 subscription = ArbSubscriptionOne,
             };
-            var createResponse = ExecuteTestRequestWithSuccess<ARBCreateSubscriptionRequest, ARBCreateSubscriptionResponse, ARBCreateSubscriptionController>(createRequest);
+            //create 
+            var createController = new ARBCreateSubscriptionController(createRequest);
+            //separate execute and getResponse calls
+            createController.Execute();
+            var createResponse = createController.GetApiResponse();
             Assert.IsNotNull(createResponse.subscriptionId);
             LogHelper.info(Logger, "Created Subscription: {0}", createResponse.subscriptionId);
             var subscriptionId = createResponse.subscriptionId;
@@ -178,7 +182,9 @@ namespace AuthorizeNet.ApiCore.Controllers.Test
 		            refId = RefId,
 		            subscriptionId = subscriptionId
 		        };
-	        var getResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionStatusRequest, ARBGetSubscriptionStatusResponse, ARBGetSubscriptionStatusController>(getRequest);
+            var getController = new ARBGetSubscriptionStatusController(getRequest);
+            //execute and getResponse calls together
+            var getResponse = getController.ExecuteWithApiResponse();
 		    Assert.IsNotNull(getResponse.status);
 		    Logger.info(String.Format("Subscription Status: {0}", getResponse.status));
 
@@ -198,9 +204,25 @@ namespace AuthorizeNet.ApiCore.Controllers.Test
                             offset = 1,
 	                    },
 	            };
-            var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest);
+            var listController = new ARBGetSubscriptionListController(listRequest);
+            var listResponse = listController.ExecuteWithApiResponse();
             LogHelper.info(Logger, "Subscription Count: {0}", listResponse.totalNumInResultSet);
             Assert.IsTrue(0 < listResponse.totalNumInResultSet);
+
+            //cancel subscription
+            var cancelRequest = new ARBCancelSubscriptionRequest
+            {
+                merchantAuthentication = CnpMerchantAuthenticationType,
+                refId = RefId,
+                subscriptionId = subscriptionId
+            };
+            //explicitly setting up the merchant id and environment 
+            var cancelController = new ARBCancelSubscriptionController(cancelRequest);
+            var cancelResponse = cancelController.ExecuteWithApiResponse(TestEnvironment);
+            Assert.IsNotNull(cancelResponse.messages);
+            Logger.info(String.Format("Subscription Cancelled: {0}", subscriptionId));
+
+            //validation of list
             var subscriptionsArray = listResponse.subscriptionDetails;
             foreach (var aSubscription in subscriptionsArray)
             {
@@ -209,15 +231,6 @@ namespace AuthorizeNet.ApiCore.Controllers.Test
                         aSubscription.id, aSubscription.status, aSubscription.paymentMethod, aSubscription.amount, aSubscription.accountNumber);
             }
 
-            //cancel subscription
-            var cancelRequest = new ARBCancelSubscriptionRequest
-            {
-                refId = RefId,
-                subscriptionId = subscriptionId
-            };
-            var cancelResponse = ExecuteTestRequestWithSuccess<ARBCancelSubscriptionRequest, ARBCancelSubscriptionResponse, ARBCancelSubscriptionController>(cancelRequest);
-            Assert.IsNotNull(cancelResponse.messages);
-            Logger.info(String.Format("Subscription Cancelled: {0}", subscriptionId));
         }
     }
 }
