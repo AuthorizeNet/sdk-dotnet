@@ -118,7 +118,7 @@ namespace AuthorizeNet
 	    public static int getIntProperty( String propertyName) 
 	    {
 	        var stringValue = GetProperty(propertyName);
-            var value = (AuthorizeNet.Util.StringUtils.parseInt(stringValue));
+            var value = (AuthorizeNet.Util.StringUtils.ParseInt(stringValue));
 		
 		    return value;
 	    }

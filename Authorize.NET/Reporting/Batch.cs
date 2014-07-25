@@ -103,7 +103,8 @@ namespace AuthorizeNet {
             var result = new List<Batch>();
             if (null != batch && null != batch.batch)
             {
-                foreach (var item in batch.batch)
+                //foreach (
+                var item = batch.batch;
                 {
                     result.Add(new Batch
                     {
