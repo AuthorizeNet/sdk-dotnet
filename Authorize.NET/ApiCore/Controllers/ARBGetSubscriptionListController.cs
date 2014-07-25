@@ -15,7 +15,6 @@
 		
 		    //validate required fields		
 		    if ( 0 == request.searchType) throw new ArgumentException( "SearchType cannot be null");
-		    if ( null == request.paging) throw new ArgumentException("Paging cannot be null");
 		
 		    //validate not-required fields		
 	    }
