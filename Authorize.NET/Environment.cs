@@ -37,8 +37,8 @@ namespace AuthorizeNet
      *  transactions, submit a $0.00 value instead, if the processor accepts it.
      */
     public class Environment {
-	    public static readonly Environment SANDBOX = new Environment("https://test.authorize.net","https://apitest.authorize.net","https://test.authorize.net");
-	    public static readonly Environment SANDBOX_TESTMODE = new Environment("https://test.authorize.net","https://apitest.authorize.net","https://test.authorize.net");
+        public static readonly Environment SANDBOX = new Environment("https://sandbox.authorize.net", "https://apitest.authorize.net", "https://sandbox.authorize.net");
+        public static readonly Environment SANDBOX_TESTMODE = new Environment("https://sandbox.authorize.net", "https://apitest.authorize.net", "https://sandbox.authorize.net");
 	    public static readonly Environment PRODUCTION = new Environment("https://secure.authorize.net","https://api.authorize.net","https://cardpresent.authorize.net");
 	    public static readonly Environment PRODUCTION_TESTMODE = new Environment("https://secure.authorize.net","https://api.authorize.net","https://cardpresent.authorize.net");
 	    public static readonly Environment LOCAL_VM = new Environment("http://WW725RAMITTAL1","http://WW725RAMITTAL1/xml/v1/request.api","http://WW725RAMITTAL1/xml/v1/request.api");
