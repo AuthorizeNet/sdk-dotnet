@@ -5,8 +5,8 @@ namespace AuthorizeNet.Util
     using System.Text;
     using System.Xml;
     using System.Xml.Serialization;
-    using AuthorizeNet.ApiCore.Contracts.V1;
-    using AuthorizeNet.ApiCore.Controllers.Bases;
+    using AuthorizeNet.Api.Contracts.V1;
+    using AuthorizeNet.Api.Controllers.Bases;
 
 #pragma warning disable 1591
     public static class HttpUtility {

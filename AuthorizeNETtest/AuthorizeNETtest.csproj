@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="*.cs" />
-    <Compile Include="ApiCore\Controllers\Test\*.cs" />
+    <Compile Include="Api\Controllers\Test\*.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
