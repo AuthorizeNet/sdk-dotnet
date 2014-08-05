@@ -41,10 +41,9 @@ namespace AuthorizeNet
         public static readonly Environment SANDBOX_TESTMODE = new Environment("https://sandbox.authorize.net", "https://apitest.authorize.net", "https://sandbox.authorize.net");
 	    public static readonly Environment PRODUCTION = new Environment("https://secure.authorize.net","https://api.authorize.net","https://cardpresent.authorize.net");
 	    public static readonly Environment PRODUCTION_TESTMODE = new Environment("https://secure.authorize.net","https://api.authorize.net","https://cardpresent.authorize.net");
-	    public static readonly Environment LOCAL_VM = new Environment("http://WW725RAMITTAL1","http://WW725RAMITTAL1/xml/v1/request.api","http://WW725RAMITTAL1/xml/v1/request.api");
-	    public static readonly Environment HOSTED_VM = new Environment("http://WW758AKALGI02.qa.intra","http://WW758AKALGI02.qa.intra/xml/v1/request.api","http://WW758AKALGI02.qa.intra/xml/v1/request.api");
-        public static readonly Environment CUSTOM = new Environment("https://qagrecp1d.vpos.qa.intra", "https://qagrecp1d.vposdownload.qa.intra", "https://qagrecp1d.vpos.qa.intra/xml/v1/request.api");
-        //http://ww725ramittal1.qa.intra/xml/v1/request.api	
+	    public static readonly Environment LOCAL_VM = new Environment(null, null, null);
+	    public static readonly Environment HOSTED_VM = new Environment(null, null, null);
+        public static readonly Environment CUSTOM = new Environment(null, null, null);
 
 	    private String _baseUrl;
 	    private String _xmlBaseUrl;
