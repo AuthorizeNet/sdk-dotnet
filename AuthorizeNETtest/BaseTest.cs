@@ -28,6 +28,11 @@ namespace AuthorizeNETtest
         /// </summary>
         protected string CheckLoginPassword()
         {
+            ApiLogin = AuthorizeNet.Test.UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_API_LOGINID, AuthorizeNet.Util.Constants.PROP_API_LOGINID);
+            TransactionKey = AuthorizeNet.Test.UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_TRANSACTION_KEY, AuthorizeNet.Util.Constants.PROP_TRANSACTION_KEY);
+            ApiLoginCP = AuthorizeNet.Test.UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_CP_API_LOGINID, AuthorizeNet.Util.Constants.PROP_CP_API_LOGINID);
+            TransactionKeyCP = AuthorizeNet.Test.UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_CP_TRANSACTION_KEY, AuthorizeNet.Util.Constants.PROP_CP_TRANSACTION_KEY);
+
             string sRet = "";
             if ((string.IsNullOrEmpty(ApiLogin)) || (ApiLogin.Trim().Length == 0)
                 || (string.IsNullOrEmpty(TransactionKey)) || (TransactionKey.Trim().Length == 0)
