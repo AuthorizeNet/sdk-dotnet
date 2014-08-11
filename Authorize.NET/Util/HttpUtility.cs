@@ -21,7 +21,7 @@ namespace AuthorizeNet.Util
         private static Uri GetPostUrl(AuthorizeNet.Environment env) 
 	    {
 		    var postUrl = new Uri(env.getXmlBaseUrl() + "/xml/v1/request.api");
-            Logger.info(string.Format("Creating PostRequest Url: '{0}'", postUrl));
+            Logger.debug(string.Format("Creating PostRequest Url: '{0}'", postUrl));
 
 		    return postUrl;
 	    }
@@ -35,7 +35,7 @@ namespace AuthorizeNet.Util
             {
                 throw new ArgumentNullException("request");
             }
-            Logger.info(string.Format("MerchantInfo->LoginId/TransactionKey: '{0}':'{1}'->{2}", 
+            Logger.debug(string.Format("MerchantInfo->LoginId/TransactionKey: '{0}':'{1}'->{2}", 
                 request.merchantAuthentication.name, request.merchantAuthentication.ItemElementName, request.merchantAuthentication.Item));
 		    
 	        var postUrl = GetPostUrl(env);
@@ -56,13 +56,13 @@ namespace AuthorizeNet.Util
 	        // Get the response
 	        using (var webResponse = webRequest.GetResponse())
 	        {
-	            Logger.info(string.Format("Received Response: '{0}'", webResponse));
+	            Logger.debug(string.Format("Received Response: '{0}'", webResponse));
 
 	            var responseType = typeof (TS);
 	            var deSerializer = new XmlSerializer(responseType);
 	            using (var stream = webResponse.GetResponseStream())
 	            {
-	                Logger.info(string.Format("Deserializing Response from Stream: '{0}'", stream));
+	                Logger.debug(string.Format("Deserializing Response from Stream: '{0}'", stream));
 
 	                if (null != stream)
 	                {

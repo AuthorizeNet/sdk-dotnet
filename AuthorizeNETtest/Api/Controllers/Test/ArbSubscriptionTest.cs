@@ -1,14 +1,15 @@
 namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers;
     using AuthorizeNet.Api.Controllers.Bases;
     using AuthorizeNet.Util;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ArbSubscription : ApiCoreTestBase {
+    public class ArbSubscriptionTest : ApiCoreTestBase {
 
 	    [ClassInitialize]
         public new static void SetUpBeforeClass(TestContext context)
@@ -41,7 +42,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    var newStatus = GetSubscription( CnpMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.active, newStatus);
 
-		    LogHelper.info(Logger, "Getting Subscription List for SubscriptionId: %s", subscriptionId);
+		    LogHelper.info(Logger, "Getting Subscription List for SubscriptionId: {0}", subscriptionId);
             
 		    var listRequest = SetupSubscriptionListRequest(CnpMerchantAuthenticationType);
             var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest, TestEnvironment);
@@ -152,7 +153,6 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    return createResponse.subscriptionId;
 	    }
 
-
         [TestMethod]
         public void SampleCodeGetSubscriptionList()
         {
@@ -232,5 +232,46 @@ namespace AuthorizeNet.Api.Controllers.Test
             }
 
         }
+
+        [TestMethod]
+	    public void MockArbGetSubscriptionListTest()
+	    {
+		    //define all mocked objects as final
+            var mockController = GetMockController<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse>();
+            var mockRequest = new ARBGetSubscriptionListRequest
+                {
+                    refId = RefId,
+                    searchType = ARBGetSubscriptionListSearchTypeEnum.subscriptionActive,
+                    paging = new Paging {limit = 100, offset = 1},
+                    sorting = new ARBGetSubscriptionListSorting
+		                {
+		                    orderBy = ARBGetSubscriptionListOrderFieldEnum.id,
+		                    orderDescending = false
+		                },
+                };
+
+            var subscriptionDetail = new List<SubscriptionDetail> {new SubscriptionDetail()};
+            var mockResponse = new ARBGetSubscriptionListResponse
+                {
+                    subscriptionDetails = subscriptionDetail.ToArray(),
+                    totalNumInResultSet = subscriptionDetail.Count,
+                };
+
+		    var errorResponse = new ANetApiResponse();
+		    var results = new List<String>();
+            const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+
+            SetMockControllerExpectations(mockController.MockObject,
+                mockRequest, mockResponse, errorResponse, results, messageTypeOk);
+		    //setMockControllerExpectations(mockController, mockResponse, null, null, null);
+            mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
+            //mockController.MockObject.Execute();
+            // or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
+            var controllerResponse = mockController.MockObject.GetApiResponse();
+            Assert.IsNotNull(controllerResponse);
+
+		    Assert.IsNotNull(controllerResponse.subscriptionDetails);
+		    LogHelper.info(Logger, "ARBGetSubscriptionList: Count:{0}, Details:{1}", controllerResponse.totalNumInResultSet, controllerResponse.subscriptionDetails);
+	    }
     }
 }

@@ -7,6 +7,7 @@ namespace AuthorizeNet.Api.Controllers.Test
     using AuthorizeNet.Test;
     using AuthorizeNet.Util;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NMock;
 
     // ReSharper disable FieldCanBeMadeReadOnly.Local
     // ReSharper disable NotAccessedField.Local
@@ -19,8 +20,8 @@ namespace AuthorizeNet.Api.Controllers.Test
 	
 	    protected static IDictionary<String, String> ErrorMessages ;
 	
-	    //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
-        protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
+	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
 
         static Merchant _cnpMerchant;
 	    static Merchant _cpMerchant ;
@@ -64,16 +65,17 @@ namespace AuthorizeNet.Api.Controllers.Test
         protected paymentScheduleType PaymentScheduleTypeOne;
         protected paymentType PaymentOne;
         protected payPalType PayPalOne;
-	
-	    private readonly Random _random = new Random();
+
+        protected MockFactory MockContext = null;
+        private readonly Random _random = new Random();
 	    static ApiCoreTestBase() {
 		    //getPropertyFromNames get the value from properties file or environment
-		    CnpApiLoginIdKey = UnitTestData.GetPropertyFromNames(Constants.ENV_API_LOGINID, Constants.PROP_API_LOGINID);
-		    CnpTransactionKey = UnitTestData.GetPropertyFromNames(Constants.ENV_TRANSACTION_KEY, Constants.PROP_TRANSACTION_KEY);
+            CnpApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_API_LOGINID, AuthorizeNet.Util.Constants.PROP_API_LOGINID);
+		    CnpTransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_TRANSACTION_KEY, AuthorizeNet.Util.Constants.PROP_TRANSACTION_KEY);
 		    _cnpMd5HashKey = null;
-		    CpApiLoginIdKey = UnitTestData.GetPropertyFromNames(Constants.ENV_CP_API_LOGINID, Constants.PROP_CP_API_LOGINID);
-		    CpTransactionKey = UnitTestData.GetPropertyFromNames(Constants.ENV_CP_TRANSACTION_KEY, Constants.PROP_CP_TRANSACTION_KEY);
-		    _cpMd5HashKey = UnitTestData.GetPropertyFromNames(Constants.ENV_MD5_HASHKEY, Constants.PROP_MD5_HASHKEY);
+		    CpApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_CP_API_LOGINID, AuthorizeNet.Util.Constants.PROP_CP_API_LOGINID);
+		    CpTransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_CP_TRANSACTION_KEY, AuthorizeNet.Util.Constants.PROP_CP_TRANSACTION_KEY);
+		    _cpMd5HashKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_MD5_HASHKEY, AuthorizeNet.Util.Constants.PROP_MD5_HASHKEY);
 
 		    if ((null == CnpApiLoginIdKey) ||
 			    (null == CnpTransactionKey) ||
@@ -120,6 +122,8 @@ namespace AuthorizeNet.Api.Controllers.Test
         [TestInitialize]
         public void SetUp()
         {
+            MockContext = new MockFactory();
+
             //initialize counter
             Counter = _random.Next(1, (int) (Math.Pow(2, 24)));
             _counterStr = GetRandomString("");
@@ -329,6 +333,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 	    [TestCleanup]
 	    public void TearDown() {
+            MockContext.VerifyAllExpectationsHaveBeenMet();
 	    }
 
         string GetRandomString(string title) {
@@ -540,6 +545,132 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    return errorMessage;
 		
 	    }
+
+        protected void SetMockControllerExpectations<TQ, TS> (
+			IApiOperation<TQ, TS> mockController,
+			TQ mockRequest,
+			TS mockResponse,
+			ANetApiResponse errorResponse, 
+			List<String> results,
+			messageTypeEnum messageType) where TQ : ANetApiRequest where TS : ANetApiResponse
+        {
+		    var mockEnvironment = AuthorizeNet.Environment.CUSTOM;
+
+            //using (MockContext.Unordered())
+            {
+                //Expect.On(mockController).Any.Method(i => i.Execute(mockEnvironment));
+                Expect.On(mockController).Any.Method(i => i.Execute(mockEnvironment)).With(mockEnvironment);
+                Expect.On(mockController).Between(0, 10).Method(i => i.GetApiResponse()).WillReturn(mockResponse);
+                //Expect.On(mockController).Between(0, 10).Method(i => i.ExecuteWithApiResponse(mockEnvironment)).WillReturn(mockResponse);
+                Expect.On(mockController).Between(0, 10).Method(i => i.ExecuteWithApiResponse(mockEnvironment)).With(mockEnvironment).WillReturn(mockResponse);
+                Expect.On(mockController).Between(0, 10).Method(i => i.GetResults()).WillReturn(results);
+			    Expect.On(mockController).Between(0,10).Method( i => i.GetResultCode()).WillReturn(messageType);
+			    Expect.On(mockController).Between(0,10).Method( i => i.GetErrorResponse()).WillReturn(errorResponse);
+		    }
+		
+		    if (null != mockRequest && null != mockResponse)
+		    {
+		        mockResponse.refId = mockRequest.refId;
+		    }
+		    LogHelper.info(Logger, "Request: {0}", mockRequest);
+		    ShowProperties(mockRequest);
+		    LogHelper.info(Logger, "Response: {0}", mockResponse);
+		    ShowProperties(mockResponse);
+	    }
+
+	    protected Mock<IApiOperation<TQ,TS>> GetMockController<TQ, TS>()  where TQ : ANetApiRequest where TS : ANetApiResponse
+	    {
+            return MockContext.CreateMock<IApiOperation<TQ, TS>>();
+	    }
+
+	    public static void ShowProperties(Object bean) {  
+		    if ( null == bean)
+		    {
+			    return;
+		    }
+
+ //           public static object GetPropValue(object src, string propName)
+ //{
+ //    return src.GetType().GetProperty(propName).GetValue(src, null);
+ //}
+		    try
+		    {
+		        var fieldInfos = bean.GetType().GetFields();//BindingFlags.GetProperty);
+		        foreach (var pd in fieldInfos)
+		        {
+		            var name = pd.Name;
+		            var type = pd.FieldType;
+ 
+		            if (!("class".Equals(name)))
+		            {
+		                try
+		                {
+                            var value = pd.GetValue(name);
+                            LogHelper.info(Logger, "Field Type: '{0}', Name:'{1}', Value:'{3}'", type, name, value);
+                            //			            ProcessCollections(type, name, value);
+                            //process compositions of custom classes
+                            if (null != value && 0 <= type.ToString().IndexOf("AuthorizeNet.", System.StringComparison.Ordinal))
+                            {
+                                ShowProperties(value);
+                            }
+		                } catch (Exception e) {
+                            //LogHelper.info(Logger, "Exception during getting Field value: Type: '{0}', Name:'{1}', Message: {2}, StackTrace: {3}", type, name, e.Message, e.StackTrace);
+		                }
+		            }
+		        }
+                var properties = bean.GetType().GetProperties();
+                foreach (var pd in properties)
+                {
+                    var name = pd.Name;
+                    var type = pd.GetType();
+
+                    if (!("class".Equals(name)))
+                    {
+                        try
+                        {
+                            var value = pd.GetRawConstantValue();
+                            LogHelper.info(Logger, "Property Type: '{0}', Name:'{1}', Value:'{3}'", type, name, value);
+                            //			            ProcessCollections(type, name, value);
+                            //process compositions of custom classes
+                            if (null != value && 0 <= type.ToString().IndexOf("AuthorizeNet.", System.StringComparison.Ordinal))
+                            {
+                                ShowProperties(value);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogHelper.info(Logger, "Exception during getting Property value: Type: '{0}', Name:'{1}', Message: {2}, StackTrace: {3}", type, name, e.Message, e.StackTrace);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+			    LogHelper.info(Logger, "Exception during navigating properties: Message: {0}, StackTrace: {1}", e.Message, e.StackTrace);
+		    }  
+	    } 
+	
+
+        /*public static void ProcessCollections( Type type, String name, Object value)
+	    {
+             if ( null != type) { 
+    		    if ( Collection.class.isAssignableFrom(type)) {
+    			    logger.info(String.format("Iterating on Collection: '{0}'", name));  
+		            for( Object aValue : (Collection<?>) value)
+		            {
+		        	    showProperties(aValue);
+		            }        	
+    		    }
+    		    if ( Map.class.isAssignableFrom(type)) {
+    			    logger.info(String.format("Iterating on Map: '{0}'", name));  
+		            for( Object aValue : ((Map<?, ?>) value).values())
+		            {
+		        	    showProperties(aValue);
+		            }        	
+    		    }
+             }
+	    }*/
+
     }
 #pragma warning restore 649
 #pragma warning restore 169
