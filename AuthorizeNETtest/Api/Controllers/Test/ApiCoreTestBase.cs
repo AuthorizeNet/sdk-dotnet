@@ -94,6 +94,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 	    [ClassInitialize]
         public static void SetUpBeforeClass(TestContext context)
         {
+            ErrorMessages.Clear();
 		    ErrorMessages.Add("E00003", "");
 		    ErrorMessages.Add("E00027", "");
 		    ErrorMessages.Add("E00040", "");
@@ -103,13 +104,6 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    ErrorMessages.Add("E00093", "PaymentProfile cannot be sent with billing data.");		
 		    ErrorMessages.Add("E00095", "ShippingProfileId is not provided within Customer Profile.");
 
-            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-            delegate(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-                                    System.Security.Cryptography.X509Certificates.X509Chain chain,
-                                    System.Net.Security.SslPolicyErrors sslPolicyErrors)
-            {
-                return true; // **** Always accept
-            };
 	    }
 
 	    [ClassCleanup]
