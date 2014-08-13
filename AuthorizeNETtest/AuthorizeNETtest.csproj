@@ -79,6 +79,7 @@
     <Shadow Include="Test References\AuthorizeNet.accessor" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Api\ControllerTemplateTest.cst" />
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>

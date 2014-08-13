@@ -1,6 +1,7 @@
 ﻿namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers;
@@ -8,7 +9,7 @@
     using AuthorizeNet.Util;
 
     [TestClass]
-    public class CreateTransactionTest : ApiCoreTestBase
+    public class createTransactionTest : ApiCoreTestBase
     {
 
         [ClassInitialize]
@@ -36,9 +37,9 @@
         }
 
         [TestMethod]
-        public void SampleCodeCreateTransaction()
+        public void SampleCodecreateTransaction()
         {
-            LogHelper.info(Logger, "Sample CreateTransaction");
+            LogHelper.info(Logger, "Sample createTransaction");
 
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CnpMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
@@ -86,5 +87,40 @@
                 ValidateSuccess<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
             }
         }
+
+        [TestMethod]
+	    public void MockcreateTransactionTest()
+	    {
+		    //define all mocked objects as final
+            var mockController = GetMockController<createTransactionRequest, createTransactionResponse>();
+            var mockRequest = new createTransactionRequest
+                {
+                    merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
+                };
+            var messages = new messagesType();
+            var transactionResponse = new transactionResponse();
+
+
+            var mockResponse = new createTransactionResponse
+                {
+                    messages = messages,
+                    transactionResponse = transactionResponse,
+                };
+
+		    var errorResponse = new ANetApiResponse();
+		    var results = new List<String>();
+            const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+
+            SetMockControllerExpectations<createTransactionRequest, createTransactionResponse, createTransactionController>(
+                mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
+            mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
+            //mockController.MockObject.Execute();
+            // or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
+            var controllerResponse = mockController.MockObject.GetApiResponse();
+            Assert.IsNotNull(controllerResponse);
+
+		    Assert.IsNotNull(controllerResponse.transactionResponse);
+		    LogHelper.info(Logger, "createTransaction: Details:{0}", controllerResponse.transactionResponse);
+	    }
     }
 }

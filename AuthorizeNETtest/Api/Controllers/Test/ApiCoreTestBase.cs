@@ -1,7 +1,9 @@
 namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers.Bases;
     using AuthorizeNet.Test;
@@ -540,13 +542,16 @@ namespace AuthorizeNet.Api.Controllers.Test
 		
 	    }
 
-        protected void SetMockControllerExpectations<TQ, TS> (
+        protected void SetMockControllerExpectations<TQ, TS, TT> (
 			IApiOperation<TQ, TS> mockController,
 			TQ mockRequest,
 			TS mockResponse,
 			ANetApiResponse errorResponse, 
 			List<String> results,
-			messageTypeEnum messageType) where TQ : ANetApiRequest where TS : ANetApiResponse
+            messageTypeEnum messageType)
+            where TQ : ANetApiRequest
+            where TS : ANetApiResponse
+            where TT : IApiOperation<TQ, TS>
         {
 		    var mockEnvironment = AuthorizeNet.Environment.CUSTOM;
 
@@ -554,18 +559,21 @@ namespace AuthorizeNet.Api.Controllers.Test
             {
                 //Expect.On(mockController).Any.Method(i => i.Execute(mockEnvironment));
                 Expect.On(mockController).Any.Method(i => i.Execute(mockEnvironment)).With(mockEnvironment);
-                Expect.On(mockController).Between(0, 10).Method(i => i.GetApiResponse()).WillReturn(mockResponse);
+                Expect.On(mockController).Any.Method(i => i.GetApiResponse()).WillReturn(mockResponse);
                 //Expect.On(mockController).Between(0, 10).Method(i => i.ExecuteWithApiResponse(mockEnvironment)).WillReturn(mockResponse);
-                Expect.On(mockController).Between(0, 10).Method(i => i.ExecuteWithApiResponse(mockEnvironment)).With(mockEnvironment).WillReturn(mockResponse);
-                Expect.On(mockController).Between(0, 10).Method(i => i.GetResults()).WillReturn(results);
-			    Expect.On(mockController).Between(0,10).Method( i => i.GetResultCode()).WillReturn(messageType);
-			    Expect.On(mockController).Between(0,10).Method( i => i.GetErrorResponse()).WillReturn(errorResponse);
-		    }
-		
-		    if (null != mockRequest && null != mockResponse)
-		    {
-		        mockResponse.refId = mockRequest.refId;
-		    }
+                Expect.On(mockController).Any.Method(i => i.ExecuteWithApiResponse(mockEnvironment)).With(mockEnvironment).WillReturn(mockResponse);
+                Expect.On(mockController).Any.Method(i => i.GetResults()).WillReturn(results);
+                Expect.On(mockController).Any.Method(i => i.GetResultCode()).WillReturn(messageType);
+                Expect.On(mockController).Any.Method(i => i.GetErrorResponse()).WillReturn(errorResponse);
+            }
+
+            if (null != mockRequest && null != mockResponse)
+            {
+                mockResponse.refId = mockRequest.refId;
+            }
+            var realController = Activator.CreateInstance(typeof(TT), mockRequest);
+            Assert.IsNotNull(realController);
+
 		    LogHelper.info(Logger, "Request: {0}", mockRequest);
 		    ShowProperties(mockRequest);
 		    LogHelper.info(Logger, "Response: {0}", mockResponse);
@@ -578,92 +586,70 @@ namespace AuthorizeNet.Api.Controllers.Test
 	    }
 
 	    public static void ShowProperties(Object bean) {  
-		    if ( null == bean)
-		    {
-			    return;
-		    }
+		    if ( null == bean) { return; }
 
- //           public static object GetPropValue(object src, string propName)
- //{
- //    return src.GetType().GetProperty(propName).GetValue(src, null);
- //}
 		    try
 		    {
-		        var fieldInfos = bean.GetType().GetFields();//BindingFlags.GetProperty);
-		        foreach (var pd in fieldInfos)
+                var fieldInfos = bean.GetType().GetFields();//BindingFlags.GetProperty);
+                foreach (var pd in fieldInfos)
 		        {
 		            var name = pd.Name;
 		            var type = pd.FieldType;
  
-		            if (!("class".Equals(name)))
+		            if (!("class".Equals(name)) &&
+                        !(bean.ToString().Equals(name)))
 		            {
 		                try
 		                {
-                            var value = pd.GetValue(name);
-                            LogHelper.info(Logger, "Field Type: '{0}', Name:'{1}', Value:'{3}'", type, name, value);
-                            //			            ProcessCollections(type, name, value);
+                            var value = pd.GetValue(bean);
+                            //var value = bean.GetType().GetField(name).GetValue(bean);
+                            LogHelper.info(Logger, "Field Type: '{0}', Name:'{1}', Value:'{2}'", type, name, value);
+                            ProcessCollections(type, name, value);
                             //process compositions of custom classes
-                            if (null != value && 0 <= type.ToString().IndexOf("AuthorizeNet.", System.StringComparison.Ordinal))
+                            //if (null != value && 0 <= type.ToString().IndexOf("AuthorizeNet.", System.StringComparison.Ordinal))
+
+		                    var whiteListAssembly = (type.Assembly.FullName.IndexOf("AuthorizeNET", System.StringComparison.Ordinal) >= 0 );
+
+                            if (null != value && 
+                                whiteListAssembly &&
+                                !(value is Enum) && 
+                                !value.GetType().IsPrimitive &&
+                                !(value is string))
                             {
                                 ShowProperties(value);
                             }
+
+                            if (bean is INotifyPropertyChanged)
+                            {
+                                var changed = false;
+                                (bean as INotifyPropertyChanged).PropertyChanged += (s, e) => { if (e.PropertyName == name) changed = true; };                                      
+                            }
 		                } catch (Exception e) {
-                            //LogHelper.info(Logger, "Exception during getting Field value: Type: '{0}', Name:'{1}', Message: {2}, StackTrace: {3}", type, name, e.Message, e.StackTrace);
+                            LogHelper.info(Logger, "Exception during getting Field value: Type: '{0}', Name:'{1}', Message: {2}, StackTrace: {3}", type, name, e.Message, e.StackTrace);
 		                }
 		            }
 		        }
-                var properties = bean.GetType().GetProperties();
-                foreach (var pd in properties)
-                {
-                    var name = pd.Name;
-                    var type = pd.GetType();
-
-                    if (!("class".Equals(name)))
-                    {
-                        try
-                        {
-                            var value = pd.GetRawConstantValue();
-                            LogHelper.info(Logger, "Property Type: '{0}', Name:'{1}', Value:'{3}'", type, name, value);
-                            //			            ProcessCollections(type, name, value);
-                            //process compositions of custom classes
-                            if (null != value && 0 <= type.ToString().IndexOf("AuthorizeNet.", System.StringComparison.Ordinal))
-                            {
-                                ShowProperties(value);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            LogHelper.info(Logger, "Exception during getting Property value: Type: '{0}', Name:'{1}', Message: {2}, StackTrace: {3}", type, name, e.Message, e.StackTrace);
-                        }
-                    }
-                }
             }
             catch (Exception e)
             {
 			    LogHelper.info(Logger, "Exception during navigating properties: Message: {0}, StackTrace: {1}", e.Message, e.StackTrace);
 		    }  
-	    } 
-	
+	    }
 
-        /*public static void ProcessCollections( Type type, String name, Object value)
-	    {
+        public static void ProcessCollections( Type type, String name, Object value)
+        {
              if ( null != type) { 
-    		    if ( Collection.class.isAssignableFrom(type)) {
-    			    logger.info(String.format("Iterating on Collection: '{0}'", name));  
-		            for( Object aValue : (Collection<?>) value)
-		            {
-		        	    showProperties(aValue);
-		            }        	
-    		    }
-    		    if ( Map.class.isAssignableFrom(type)) {
-    			    logger.info(String.format("Iterating on Map: '{0}'", name));  
-		            for( Object aValue : ((Map<?, ?>) value).values())
-		            {
-		        	    showProperties(aValue);
-		            }        	
-    		    }
+                if (value is System.Collections.IEnumerable && 
+                    !(value is string)) 
+                 {
+                    LogHelper.info(Logger, "Iterating on Collection: '{0}'", name);  
+                    foreach ( var aValue in (value as IEnumerable))
+                    {
+                        ShowProperties(aValue);
+                    }        	
+                }
              }
-	    }*/
+        }
 
     }
 #pragma warning restore 649
