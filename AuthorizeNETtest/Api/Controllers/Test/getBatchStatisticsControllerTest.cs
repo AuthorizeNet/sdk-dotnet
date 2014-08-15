@@ -9,7 +9,7 @@ namespace AuthorizeNet.Api.Controllers.Test
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class APICONTROLLERNAMETest : ApiCoreTestBase 
+    public class getBatchStatisticsTest : ApiCoreTestBase 
 	{
 
 	    [ClassInitialize]
@@ -37,26 +37,30 @@ namespace AuthorizeNet.Api.Controllers.Test
 	    }
 
         [TestMethod]
-	    public void MockAPICONTROLLERNAMETest()
+	    public void MockgetBatchStatisticsTest()
 	    {
 		    //define all mocked objects as final
-            var mockController = GetMockController<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse>();
-            var mockRequest = new APICONTROLLERNAMERequest
+            var mockController = GetMockController<getBatchStatisticsRequest, getBatchStatisticsResponse>();
+            var mockRequest = new getBatchStatisticsRequest
                 {
-                    merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
+                    merchantAuthentication = new merchantAuthenticationType {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
                 };
-            var mockResponse = new APICONTROLLERNAMEResponse
+            var batchDetaisType = new batchDetailsType
+                {
+                    batchId = "1234",
+                };
+            var mockResponse = new getBatchStatisticsResponse
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
+                    batch = batchDetaisType,
                 };
 
 		    var errorResponse = new ANetApiResponse();
 		    var results = new List<String>();
             const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
 
-            SetMockControllerExpectations<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse, APICONTROLLERNAMEController>(
+            SetMockControllerExpectations<getBatchStatisticsRequest, getBatchStatisticsResponse, getBatchStatisticsController>(
                 mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
             mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
             //mockController.MockObject.Execute();
@@ -64,8 +68,8 @@ namespace AuthorizeNet.Api.Controllers.Test
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "APICONTROLLERNAME: Details:{0}", controllerResponse.Yyyyy);
+		    Assert.IsNotNull(controllerResponse.batch);
+            LogHelper.info(Logger, "getBatchStatistics: Details:{0}", controllerResponse.batch);
 	    }
     }
 }

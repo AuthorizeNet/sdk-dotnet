@@ -9,7 +9,7 @@
     using AuthorizeNet.Util;
 
     [TestClass]
-    public class createTransactionTest : ApiCoreTestBase
+    public class CreateTransactionTest : ApiCoreTestBase
     {
 
         [ClassInitialize]

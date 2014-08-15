@@ -9,7 +9,7 @@ namespace AuthorizeNet.Api.Controllers.Test
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class APICONTROLLERNAMETest : ApiCoreTestBase 
+    public class ARBGetSubscriptionStatusTest : ApiCoreTestBase 
 	{
 
 	    [ClassInitialize]
@@ -37,26 +37,26 @@ namespace AuthorizeNet.Api.Controllers.Test
 	    }
 
         [TestMethod]
-	    public void MockAPICONTROLLERNAMETest()
+	    public void MockARBGetSubscriptionStatusTest()
 	    {
 		    //define all mocked objects as final
-            var mockController = GetMockController<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse>();
-            var mockRequest = new APICONTROLLERNAMERequest
+            var mockController = GetMockController<ARBGetSubscriptionStatusRequest, ARBGetSubscriptionStatusResponse>();
+            var mockRequest = new ARBGetSubscriptionStatusRequest
                 {
-                    merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
+                    merchantAuthentication = new merchantAuthenticationType {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
                 };
-            var mockResponse = new APICONTROLLERNAMEResponse
+            var mockResponse = new ARBGetSubscriptionStatusResponse
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
+                    status = ARBSubscriptionStatusEnum.active,
                 };
 
 		    var errorResponse = new ANetApiResponse();
 		    var results = new List<String>();
             const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
 
-            SetMockControllerExpectations<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse, APICONTROLLERNAMEController>(
+            SetMockControllerExpectations<ARBGetSubscriptionStatusRequest, ARBGetSubscriptionStatusResponse, ARBGetSubscriptionStatusController>(
                 mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
             mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
             //mockController.MockObject.Execute();
@@ -64,8 +64,8 @@ namespace AuthorizeNet.Api.Controllers.Test
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "APICONTROLLERNAME: Details:{0}", controllerResponse.Yyyyy);
+		    Assert.IsNotNull(controllerResponse.status);
+            LogHelper.info(Logger, "ARBGetSubscriptionStatus: Details:{0}", controllerResponse.status);
 	    }
     }
 }
