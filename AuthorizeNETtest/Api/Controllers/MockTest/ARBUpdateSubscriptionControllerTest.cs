@@ -9,7 +9,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class APICONTROLLERNAMETest : ApiCoreTestBase 
+    public class ARBUpdateSubscriptionTest : ApiCoreTestBase 
 	{
 
 	    [ClassInitialize]
@@ -37,35 +37,31 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 	    }
 
         [TestMethod]
-	    public void MockAPICONTROLLERNAMETest()
+	    public void MockARBUpdateSubscriptionTest()
 	    {
 		    //define all mocked objects as final
-            var mockController = GetMockController<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse>();
-            var mockRequest = new APICONTROLLERNAMERequest
+            var mockController = GetMockController<ARBUpdateSubscriptionRequest, ARBUpdateSubscriptionResponse>();
+            var mockRequest = new ARBUpdateSubscriptionRequest
                 {
-                    merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
+                    merchantAuthentication = new merchantAuthenticationType {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
                 };
-            var mockResponse = new APICONTROLLERNAMEResponse
+            var mockResponse = new ARBUpdateSubscriptionResponse
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
                 };
 
 		    var errorResponse = new ANetApiResponse();
 		    var results = new List<String>();
             const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
 
-            SetMockControllerExpectations<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse, APICONTROLLERNAMEController>(
+            SetMockControllerExpectations<ARBUpdateSubscriptionRequest, ARBUpdateSubscriptionResponse, ARBUpdateSubscriptionController>(
                 mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
             mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
             //mockController.MockObject.Execute();
             // or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
-
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "APICONTROLLERNAME: Details:{0}", controllerResponse.Yyyyy);
 	    }
     }
 }

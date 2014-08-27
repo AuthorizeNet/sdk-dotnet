@@ -5,7 +5,7 @@ SET CYGWIN=NODOSFILEWARNING
 SET CDIR=%CD%
 SET SRCDIR=.
 SET GENFOLDER=Authorize.NET\Api\Contracts\V1
-SET CONTROLLERFOLDER=AuthorizeNETTest\Api\Controllers\Test
+SET CONTROLLERFOLDER=AuthorizeNETTest\Api\Controllers\MockTest
 
 IF NOT EXIST "%SRCDIR%" (
     @ECHO Unable to find "%SRCDIR%"
@@ -33,15 +33,15 @@ sort -u %TEMP%\Sources2.log      > %TEMP%\Sources3.log
 @ECHO Fixing Controllers
 perl -pi -w -e 's/ControllerTest *$/Controller/g;' %TEMP%\Controllers.log 
 
-@ECHO Removing ExistingControllers From Request/Response List
-@ECHO From File
-FOR /F %%X IN (%TEMP%\Controllers.log) DO (
-    @ECHO Processing "%%X"
-    perl -pi -w -e 's/%%X//g;' %TEMP%\Sources3.log  
-)
+@REM @ECHO Removing ExistingControllers From Request/Response List
+@REM @ECHO From File
+@REM FOR /F %%X IN (%TEMP%\Controllers.log) DO (
+@REM     @ECHO Processing "%%X"
+@REM     perl -pi -w -e 's/%%X//g;' %TEMP%\Sources3.log  
+@REM )
 @ECHO From BlackList
 FOR %%X IN ( authenticateTest isAlive logout ANetApi XXDoNotUseDummy) DO (
-    @ECHO Processing "%%X"
+    @ECHO Processing BlackList "%%X"
     perl -pi -w -e 's/%%X//g;' %TEMP%\Sources3.log      
 )
 

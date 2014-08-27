@@ -18,12 +18,11 @@ namespace AuthorizeNet.Api.Controllers.Test
     [TestClass]
     public abstract class ApiCoreTestBase {
 
-	    protected static Log Logger = LogFactory.getLog(typeof(ApiCoreTestBase));
+	    protected static readonly Log Logger = LogFactory.getLog(typeof(ApiCoreTestBase));
 	
-	    protected static IDictionary<String, String> ErrorMessages ;
+	    protected static readonly IDictionary<String, String> ErrorMessages ;
 	
 	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
-        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
 
         static Merchant _cnpMerchant;
 	    static Merchant _cpMerchant ;
@@ -79,18 +78,29 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    CpTransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_CP_TRANSACTION_KEY, AuthorizeNet.Util.Constants.PROP_CP_TRANSACTION_KEY);
 		    _cpMd5HashKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_MD5_HASHKEY, AuthorizeNet.Util.Constants.PROP_MD5_HASHKEY);
 
-		    if ((null == CnpApiLoginIdKey) ||
-			    (null == CnpTransactionKey) ||
-			    (null == CpApiLoginIdKey) ||
-			    (null == CpTransactionKey))
+            //require only one cnp or cp merchant keys
+            if ((null != CnpApiLoginIdKey && null != CnpTransactionKey) ||
+                (null != CpApiLoginIdKey && null != CpTransactionKey))
+            {
+                Logger.debug("At least one of CardPresent or CardNotPresent merchant keys are present.");
+            }
+            else
 		    {
-			    throw new ArgumentException("LoginId and/or TransactionKey have not been set.");
+			    throw new ArgumentException(
+                    "LoginId and/or TransactionKey have not been set. " + 
+                    "At least one of CardPresent or CardNotPresent merchant keys are required.");
 		    }
 
-		    _cnpMerchant = Merchant.CreateMerchant( TestEnvironment, CnpApiLoginIdKey, CnpTransactionKey);
-		    _cpMerchant = Merchant.CreateMerchant( TestEnvironment, CpApiLoginIdKey, CpTransactionKey);
+	        if (null != CnpApiLoginIdKey && null != CnpTransactionKey)
+	        {
+	            _cnpMerchant = Merchant.CreateMerchant(TestEnvironment, CnpApiLoginIdKey, CnpTransactionKey);
+	        }
+	        if (null != CpApiLoginIdKey && null != CpTransactionKey)
+	        {
+	            _cpMerchant = Merchant.CreateMerchant(TestEnvironment, CpApiLoginIdKey, CpTransactionKey);
+	        }
 
-		    ErrorMessages = new Dictionary<string, string>();
+	        ErrorMessages = new Dictionary<string, string>();
 	    }
 
 	    [ClassInitialize]
@@ -105,7 +115,6 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    ErrorMessages.Add("E00092", "ShippingProfileId cannot be sent with ShipTo data.");		
 		    ErrorMessages.Add("E00093", "PaymentProfile cannot be sent with billing data.");		
 		    ErrorMessages.Add("E00095", "ShippingProfileId is not provided within Customer Profile.");
-
 	    }
 
 	    [ClassCleanup]
@@ -608,7 +617,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                             //process compositions of custom classes
                             //if (null != value && 0 <= type.ToString().IndexOf("AuthorizeNet.", System.StringComparison.Ordinal))
 
-		                    var whiteListAssembly = (type.Assembly.FullName.IndexOf("AuthorizeNET", System.StringComparison.Ordinal) >= 0 );
+		                    var whiteListAssembly = (type.Assembly.FullName.IndexOf("AuthorizeNET", StringComparison.Ordinal) >= 0 );
 
                             if (null != value && 
                                 whiteListAssembly &&
@@ -639,7 +648,7 @@ namespace AuthorizeNet.Api.Controllers.Test
         public static void ProcessCollections( Type type, String name, Object value)
         {
              if ( null != type) { 
-                if (value is System.Collections.IEnumerable && 
+                if (value is IEnumerable && 
                     !(value is string)) 
                  {
                     LogHelper.info(Logger, "Iterating on Collection: '{0}'", name);  
