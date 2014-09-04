@@ -3,9 +3,8 @@ language:
 
 install:
     - sudo apt-get install mono-devel mono-gmcs nunit-console
-	
+
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
     - xbuild ./AuthorizeNETtest/AuthorizeNETtest.csproj
     - nunit-console ./AuthorizeNETtest/bin/USELOCAL/AuthorizeNETtest.dll -exclude Integration,NotWorkingOnMono
-	
