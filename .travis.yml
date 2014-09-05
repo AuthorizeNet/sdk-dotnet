@@ -6,6 +6,6 @@ install:
 
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
-    - xbuild ./AuthorizeNETtest/AuthorizeNETtest.csproj
+#    - xbuild ./AuthorizeNETtest/AuthorizeNETtest.csproj
 #    Currently commenting out the tests run untill we migrate to nunit
 #    - nunit-console ./AuthorizeNETtest/bin/USELOCAL/AuthorizeNETtest.dll -exclude Integration,NotWorkingOnMono
