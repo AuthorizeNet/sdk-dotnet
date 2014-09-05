@@ -5,9 +5,9 @@
 SET CYGWIN=NODOSFILEWARNING
 
 SET CDIR=%CD%
-SET SRCDIR=.
-SET GENFOLDER=api\contract\v1
-SET CONTROLLERFOLDER=api\controller
+SET SRCDIR=Authorize.NET
+SET GENFOLDER=Api\Contracts\v1
+SET CONTROLLERFOLDER=Api\Controllers
 
 IF NOT EXIST "%SRCDIR%" (
 	@ECHO Unable to find "%SRCDIR%"
@@ -21,8 +21,8 @@ popd
 DIR /s %SRCDIR%\%CONTROLLERFOLDER%\*Controller.cs > %TEMP%\Controllers0.log
 
 @ECHO Cleaning up paths in Sources and Controllers
-cut -c26- %TEMP%\Sources0.log      | cut -d: -f1 | sort -u  > %TEMP%\Sources1.log
-cut -c40- %TEMP%\Controllers0.log  | sort -u | grep -i "\.cs" | cut -d. -f1 | sort -u > %TEMP%\Controllers.log
+cut -f2- -d: %TEMP%\Sources0.log   | cut -c26- | cut -d: -f1    | sort -u  > %TEMP%\Sources1.log
+cut -c40- %TEMP%\Controllers0.log  | sort -u   | grep -i "\.cs" | cut -d. -f1 | sort -u > %TEMP%\Controllers.log
 
 @ECHO Getting Unique Request/Responses
 grep -i -e "request *$" -e "response *$" %TEMP%\Sources1.log > %TEMP%\Sources2.log
@@ -53,11 +53,11 @@ sort -u %TEMP%\Sources3.log   > %TEMP%\Sources.log
 FOR /F %%x IN (%TEMP%\Sources.log ) DO (
 	IF EXIST "%SRCDIR%\%CONTROLLERFOLDER%\%%xController.cs" (
 		@ECHO "%SRCDIR%\%CONTROLLERFOLDER%\%%xController.cs" exists, Creating New 
-		COPY api\ControllerTemplate.cst            "%SRCDIR%\%CONTROLLERFOLDER%\%%xController.new"
+		COPY %SRCDIR%\Api\ControllerTemplate.cst   "%SRCDIR%\%CONTROLLERFOLDER%\%%xController.new"
 		perl -pi -w -e 's/APICONTROLLERNAME/%%x/g;' %SRCDIR%\%CONTROLLERFOLDER%\%%xController.new
 	) ELSE (
 		@ECHO Generating Code for "%SRCDIR%\%CONTROLLERFOLDER%\%%xController.cs"
-		COPY api\ControllerTemplate.cst            "%SRCDIR%\%CONTROLLERFOLDER%\%%xController.cs"
+		COPY %SRCDIR%\Api\ControllerTemplate.cst   "%SRCDIR%\%CONTROLLERFOLDER%\%%xController.cs"
 		perl -pi -w -e 's/APICONTROLLERNAME/%%x/g;' %SRCDIR%\%CONTROLLERFOLDER%\%%xController.cs
 	)
 )
