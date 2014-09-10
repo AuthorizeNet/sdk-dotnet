@@ -10,4 +10,3 @@ script:
 #    tests migrated to nunit
 #    - nunit-console ./AuthorizeNETtest/bin/debug/AuthorizeNETtest.dll -exclude Integration,NotWorkingOnMono
     - nunit-console -exclude Integration,NotWorkingOnMono
-	
