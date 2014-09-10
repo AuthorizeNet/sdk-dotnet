@@ -8,21 +8,22 @@ namespace AuthorizeNet.Api.Controllers.Test
     using AuthorizeNet.Api.Controllers.Bases;
     using AuthorizeNet.Test;
     using AuthorizeNet.Util;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using NMock;
 
     // ReSharper disable FieldCanBeMadeReadOnly.Local
     // ReSharper disable NotAccessedField.Local
 #pragma warning disable 169
 #pragma warning disable 649
-    [TestClass]
+    [TestFixture]
     public abstract class ApiCoreTestBase {
 
 	    protected static readonly Log Logger = LogFactory.getLog(typeof(ApiCoreTestBase));
 	
 	    protected static readonly IDictionary<String, String> ErrorMessages ;
 	
-	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+	    //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+        protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
 
         static Merchant _cnpMerchant;
 	    static Merchant _cpMerchant ;
@@ -99,12 +100,16 @@ namespace AuthorizeNet.Api.Controllers.Test
 	        {
 	            _cpMerchant = Merchant.CreateMerchant(TestEnvironment, CpApiLoginIdKey, CpTransactionKey);
 	        }
+            if (null == _cnpMerchant && null == _cpMerchant)
+            {
+                Assert.Fail("None of the cardPresent or cardNotPresent merchant logins have been set");
+            }
 
 	        ErrorMessages = new Dictionary<string, string>();
 	    }
 
-	    [ClassInitialize]
-        public static void SetUpBeforeClass(TestContext context)
+	    [TestFixtureSetUp]
+        public static void SetUpBeforeClass()//TestContext context)
         {
             ErrorMessages.Clear();
 		    ErrorMessages.Add("E00003", "");
@@ -115,16 +120,26 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    ErrorMessages.Add("E00092", "ShippingProfileId cannot be sent with ShipTo data.");		
 		    ErrorMessages.Add("E00093", "PaymentProfile cannot be sent with billing data.");		
 		    ErrorMessages.Add("E00095", "ShippingProfileId is not provided within Customer Profile.");
-	    }
+//XXXXXXXXXXXXXXXXXXXXXXXXXXX
+//REMOVE ME
+            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+            delegate(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+                                    System.Security.Cryptography.X509Certificates.X509Chain chain,
+                                    System.Net.Security.SslPolicyErrors sslPolicyErrors)
+            {
+                return true; // **** Always accept
+            };
+//XXXXXXXXXXXXXXXXXXXXXXXXXXX
+        }
 
-	    [ClassCleanup]
+	    [TestFixtureTearDown]
         public static void TearDownAfterClass()
         {
 	    }
 
         public static String DateFormat = "yyyy-MM-dd'T'HH:mm:ss";
 
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
             MockContext = new MockFactory();
@@ -336,7 +351,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 	        RefId = _counterStr;
 	    }
 
-	    [TestCleanup]
+	    [TearDown]
 	    public void TearDown() {
             MockContext.VerifyAllExpectationsHaveBeenMet();
 	    }

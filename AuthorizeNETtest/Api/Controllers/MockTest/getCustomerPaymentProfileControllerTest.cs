@@ -6,37 +6,37 @@ namespace AuthorizeNet.Api.Controllers.MockTest
     using AuthorizeNet.Api.Controllers;
     using AuthorizeNet.Api.Controllers.Test;
     using AuthorizeNet.Util;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class getCustomerPaymentProfileTest : ApiCoreTestBase 
 	{
 
-	    [ClassInitialize]
-        public new static void SetUpBeforeClass(TestContext context)
+	    [TestFixtureSetUp]
+        public new static void SetUpBeforeClass()
         {
-		    ApiCoreTestBase.SetUpBeforeClass(context);
+		    ApiCoreTestBase.SetUpBeforeClass();
 	    }
 
-	    [ClassCleanup]
+	    [TestFixtureTearDown]
         public new static void TearDownAfterClass()
         {
 		    ApiCoreTestBase.TearDownAfterClass();
 	    }
 
-	    [TestInitialize]
+	    [SetUp]
 	    public new void SetUp() 
 		{
 		    base.SetUp();
 	    }
 
-	    [TestCleanup]
+	    [TearDown]
 	    public new void TearDown() 
 		{
 		    base.TearDown();
 	    }
 
-        [TestMethod]
+        [Test]
 	    public void MockgetCustomerPaymentProfileTest()
 	    {
 		    //define all mocked objects as final

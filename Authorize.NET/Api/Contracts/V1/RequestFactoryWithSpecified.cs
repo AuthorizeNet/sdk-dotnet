@@ -531,6 +531,8 @@
 
         public static void ARBGetSubscriptionListRequest(ARBGetSubscriptionListRequest request) { }
 
+        public static void createFingerPrintRequest(createFingerPrintRequest request) { }
+
         public static void EnumCollection(XXDoNotUseDummyRequest enumCollectionRequest)
         {
             if (null != enumCollectionRequest)

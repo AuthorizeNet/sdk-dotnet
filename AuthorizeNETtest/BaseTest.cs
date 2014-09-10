@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System.Configuration;
 using System.Net;
 
@@ -7,7 +7,7 @@ namespace AuthorizeNETtest
     /// <summary>
     /// Summary description for UnitTest1
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class BaseTest
     {
         protected static WebRequestCreateLocal LocalRequestObject = new WebRequestCreateLocal();

@@ -1,5 +1,5 @@
 ﻿using AuthorizeNet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Configuration;
 
@@ -8,13 +8,13 @@ namespace AuthorizeNETtest
     /// <summary>
     ///This is a test class for CardPresentGatewayTest and is intended to contain all CardPresent Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture()]
     public class CardPresentGatewayTest : BaseTest
     {
         /// <summary>
         /// Auth Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Auth_Approved()
         {
             //check login / password
@@ -45,7 +45,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Capture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Capture_Approved()
         {
             //check login / password
@@ -82,7 +82,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// PriorAuthCap Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_PriorAuthCap_Approved()
         {
             //check login / password
@@ -120,7 +120,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// PriorAuthCap Transaction LessAmount - Failed
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_PriorAuthCap_LessAmount_Failed()
         {
             //check login / password

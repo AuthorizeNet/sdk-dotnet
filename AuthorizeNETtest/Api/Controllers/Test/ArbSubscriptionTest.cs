@@ -6,34 +6,34 @@ namespace AuthorizeNet.Api.Controllers.Test
     using AuthorizeNet.Api.Controllers;
     using AuthorizeNet.Api.Controllers.Bases;
     using AuthorizeNet.Util;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class ArbSubscriptionTest : ApiCoreTestBase {
 
-	    [ClassInitialize]
-        public new static void SetUpBeforeClass(TestContext context)
+	    [TestFixtureSetUp]
+        public new static void SetUpBeforeClass()
         {
-		    ApiCoreTestBase.SetUpBeforeClass(context);
+		    ApiCoreTestBase.SetUpBeforeClass();
 	    }
 
-	    [ClassCleanup]
+	    [TestFixtureTearDown]
         public new static void TearDownAfterClass()
         {
 		    ApiCoreTestBase.TearDownAfterClass();
 	    }
 
-	    [TestInitialize]
+	    [SetUp]
 	    public new void SetUp() {
 		    base.SetUp();
 	    }
 
-	    [TestCleanup]
+	    [TearDown]
 	    public new void TearDown() {
 		    base.TearDown();
 	    }
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void TestGetSubscriptionList()
         {
 
@@ -76,7 +76,7 @@ namespace AuthorizeNet.Api.Controllers.Test
             
 	    }
 
-	    [TestMethod, Ignore]
+	    [Test, Ignore]
 	    public void TestSubscription() {
 		    //cache the result
 		    var subscriptionId = CreateSubscription(CnpMerchantAuthenticationType);

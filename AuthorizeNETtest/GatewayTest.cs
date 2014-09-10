@@ -1,5 +1,5 @@
 ﻿using AuthorizeNet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Configuration;
 
 namespace AuthorizeNETtest
@@ -7,13 +7,13 @@ namespace AuthorizeNETtest
     /// <summary>
     /// This is a test class for GatewayTest and is intended to contain all GatewayTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture()]
     public class GatewayTest : BaseTest
     {
         /// <summary>
         /// AuthCap Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_AuthCap_Approved()
         {
             //check login / password
@@ -44,7 +44,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthCap Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_AuthCap_Approved_CustomerIP()
         {
             //check login / password
@@ -77,7 +77,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Capture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Capture_Approved()
         {
             //check login / password
@@ -115,7 +115,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// PriorAuthCapture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_PriorAuthCapture_Approved()
         {
             //check login / password
@@ -155,7 +155,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Credit Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Credit_Approved()
         {
             //check login / password
@@ -188,7 +188,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UnlinkedCredit Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_UnlinkedCredit_Approved()
         {
             //check login / password
@@ -220,7 +220,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UnlinkedCredit Transaction - InvalidExpirationDate
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_UnlinkedCredit_InvalidExpirationDate()
         {
             //check login / password

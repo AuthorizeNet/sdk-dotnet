@@ -1,6 +1,6 @@
 ﻿using AuthorizeNet;
 using AuthorizeNet.APICore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Configuration;
 
@@ -9,13 +9,13 @@ namespace AuthorizeNETtest
     /// <summary>
     /// This is a test class for SubscriptionGatewayTest and is intended to contain all Subscription Unit Tests
     /// </summary>
-    [TestClass()]
+    [TestFixture]
     public class SubscriptionGatewayTest : BaseTest
     {
         /// <summary>
         /// CreateSubscription - success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void CreateSubscriptionTest()
         {
             //check login / password
@@ -63,7 +63,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// CreateSubscription eCheck- success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void CreateSubscriptionTest_eCheck()
         {
             //check login / password
@@ -118,7 +118,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UpdateSubscription - success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void UpdateSubscriptionTest()
         {
             //check login / password
@@ -155,7 +155,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UpdateSubscription SingleDigitMonth - success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void UpdateSubscriptionTest_SingleDigitMonth()
         {
             //check login / password
@@ -196,7 +196,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UpdateSubscription Occurence Amount Changes - success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void UpdateSubscriptionTest_Occurence_Amount()
         {
             //check login / password
@@ -234,7 +234,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UpdateSubscription Occurence Amount Changes - success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void UpdateSubscriptionTest_Description_Invoice()
         {
             //check login / password

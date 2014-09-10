@@ -1,6 +1,6 @@
 ﻿using AuthorizeNet;
 using AuthorizeNet.APICore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Configuration;
 using System.IO;
@@ -11,13 +11,13 @@ namespace AuthorizeNETtest
     /// <summary>
     /// This is a test class for CustomerGatewayTest and is intended to contain all CustomerGateway Unit Tests
     /// </summary>
-    [TestClass()]
+    [TestFixture()]
     public class CustomerGatewayTest : BaseTest
     {
         /// <summary>
         /// CreateCustomer - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void CreateCustomerTest()
         {
             //check login / password
@@ -59,7 +59,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// CreateCustomer - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void CreateCustomerTest_CustomerID()
         {
             //check login / password
@@ -103,7 +103,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UpdateCustomer - successful
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void UpdateCustomerTest()
         {
             //check login / password
@@ -141,7 +141,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AddCreditCard - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void AddCreditCardTest()
         {
             //check login / password
@@ -178,7 +178,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AddCreditCard set validationMode - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void AddCreditCardTest_ValidationMode()
         {
             //check login / password
@@ -215,7 +215,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AddECheckBankAccount required data only to success- success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void AddECheckBankAccountTest_Required()
         {
             //check login / password
@@ -249,7 +249,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AddECheckBankAccount all data success- success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void AddECheckBankAccountTest()
         {
             //check login / password
@@ -283,7 +283,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// GetCustomer - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void GetCustomerTest()
         {
             //check login / password
@@ -339,7 +339,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// GetCustomer eCheck Bank Account - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void GetCustomerTest_eCheck()
         {
             //check login / password
@@ -405,7 +405,7 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile - success
         /// Minimum parameters to ensure a successful response
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void UpdatePaymentProfileMinTest()
         {
             //check login / password
@@ -445,7 +445,7 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile - success
         /// no mask and with billing
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void UpdatePaymentProfileTest_NotMask()
         {
             //check login / password
@@ -496,7 +496,7 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile - success
         /// with mask
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void UpdatePaymentProfileTest_Mask()
         {
             //check login / password
@@ -547,7 +547,7 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile eCheck - success
         /// with mask
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void UpdatePaymentProfileTest_eCheckMask()
         {
             //check login / password
@@ -603,7 +603,7 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile eCheck - success
         /// with mask
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void UpdatePaymentProfileTest_eCheck()
         {
             //check login / password
@@ -646,7 +646,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthorizeAndCapture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void AuthorizeAndCaptureTest()
         {
             //check login / password
@@ -694,7 +694,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthorizeAndCapture Transaction with Invoice, Description and PONumber - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void AuthorizeAndCaptureTest_InvoiceDescriptionPONumber()
         {
             //check login / password
@@ -746,7 +746,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthorizeAndCapture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void AuthorizeAndCaptureTest_ExtraOptions()
         {
             //check login / password
@@ -795,7 +795,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Capture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Capture_Approved()
         {
             //check login / password
@@ -847,7 +847,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// PriorAuthCapture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_PriorAuthCapture_Approved()
         {
             //check login / password
@@ -937,7 +937,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// PriorAuthCapture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_AuthOnly_ExtraOptions()
         {
             //check login / password
