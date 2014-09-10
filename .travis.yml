@@ -8,4 +8,4 @@ script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
     - xbuild ./AuthorizeNETtest/AuthorizeNETtest.csproj
 #    tests migrated to nunit
-    - nunit-console ./AuthorizeNETtest/bin/USELOCAL/AuthorizeNETtest.dll -exclude Integration,NotWorkingOnMono
+    - nunit-console ./AuthorizeNETtest/bin/debug/AuthorizeNETtest.dll -exclude Integration,NotWorkingOnMono
