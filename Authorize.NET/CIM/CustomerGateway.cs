@@ -568,6 +568,7 @@ namespace AuthorizeNet {
         /// Captures the specified transaction.
         /// </summary>
         /// <param name="transId">The transaction id to mark to capture (settle).</param>
+        /// <param name="amount">The amount.</param>
         /// <returns></returns>
         public IGatewayResponse PriorAuthCapture(string transId, Decimal amount)
         {
@@ -763,7 +764,7 @@ namespace AuthorizeNet {
         }
 
         /// <summary>
-        /// Overload method ommitting shippingAddressID & ValidationMode enum so will use the value passed into the constructor.
+        /// Overload method ommitting shippingAddressID &amp; ValidationMode enum so will use the value passed into the constructor.
         /// </summary>
         /// <param name="profileID">The profile ID.</param>
         /// <param name="paymentProfileID">The payment profile ID.</param>
