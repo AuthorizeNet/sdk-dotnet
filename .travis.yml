@@ -9,4 +9,4 @@ script:
     - xbuild ./AuthorizeNETtest/AuthorizeNETtest.csproj
 #    tests migrated to nunit
 #    - nunit-console ./AuthorizeNETtest/bin/debug/AuthorizeNETtest.dll -exclude Integration,NotWorkingOnMono
-    - nunit-console ./AuthorizeNETtest/AuthorizeNETtest.csproj /run:AuthorizeNet.Api.Controllers.MockTest -exclude Integration,NotWorkingOnMono
+    - nunit-console ./AuthorizeNETtest/AuthorizeNETtest.csproj /run=AuthorizeNet.Api.Controllers.MockTest -exclude Integration,NotWorkingOnMono
