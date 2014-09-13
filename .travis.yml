@@ -7,6 +7,6 @@ install:
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
     - xbuild ./AuthorizeNETtest/AuthorizeNETtest.csproj
-#    tests migrated to nunit
-#    - nunit-console ./AuthorizeNETtest/bin/debug/AuthorizeNETtest.dll -exclude Integration,NotWorkingOnMono
+#   make mono happy by copying the config file with project name
+    - cp AuthorizeNETtest/App.config AuthorizeNETtest/AuthorizeNETtest.config
     - nunit-console ./AuthorizeNETtest/AuthorizeNETtest.csproj -run=AuthorizeNet.Api.Controllers.MockTest -exclude Integration,NotWorkingOnMono
