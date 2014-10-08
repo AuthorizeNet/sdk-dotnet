@@ -568,6 +568,7 @@ namespace AuthorizeNet {
         /// Captures the specified transaction.
         /// </summary>
         /// <param name="transId">The transaction id to mark to capture (settle).</param>
+        /// <param name="amount">The amount.</param>
         /// <returns></returns>
         public IGatewayResponse PriorAuthCapture(string transId, Decimal amount)
         {
@@ -583,7 +584,20 @@ namespace AuthorizeNet {
         /// <param name="approvalCode">The approval code.</param>
         /// <param name="amount">The amount.</param>
         /// <returns></returns>
+        [Obsolete("This method has been deprecated, instead use the overloaded method without the appoval code")]
         public IGatewayResponse Refund(string profileID, string paymentProfileId, string transactionId, string approvalCode, decimal amount) {
+            return Refund(profileID, paymentProfileId, transactionId, amount);
+        }
+
+        /// <summary>
+        /// Refunds a transaction for the specified amount
+        /// </summary>
+        /// <param name="profileID">The profile ID.</param>
+        /// <param name="paymentProfileId">The payment profile id.</param>
+        /// <param name="transactionId">The transaction id.</param>
+        /// <param name="amount">The amount.</param>
+        /// <returns></returns>
+        public IGatewayResponse Refund(string profileID, string paymentProfileId, string transactionId, decimal amount) {
             var req = new createCustomerProfileTransactionRequest();
 
             var trans = new profileTransRefundType();
@@ -606,7 +620,19 @@ namespace AuthorizeNet {
         /// <param name="transactionId">The transaction id.</param>
         /// <param name="approvalCode">The approval code.</param>
         /// <returns></returns>
+        [Obsolete("This method has been deprecated, instead use the overloaded method without the appoval code")]
         public IGatewayResponse Void(string profileID, string paymentProfileId, string transactionId, string approvalCode) {
+            return Void(profileID, paymentProfileId, transactionId);
+        }
+
+        /// <summary>
+        /// Voids a previously authorized transaction
+        /// </summary>
+        /// <param name="profileID">The profile ID.</param>
+        /// <param name="paymentProfileId">The payment profile id.</param>
+        /// <param name="transactionId">The transaction id.</param>
+        /// <returns></returns>
+        public IGatewayResponse Void(string profileID, string paymentProfileId, string transactionId) {
             var req = new createCustomerProfileTransactionRequest();
 
             var trans = new profileTransVoidType();
@@ -763,7 +789,7 @@ namespace AuthorizeNet {
         }
 
         /// <summary>
-        /// Overload method ommitting shippingAddressID & ValidationMode enum so will use the value passed into the constructor.
+        /// Overload method ommitting shippingAddressID &amp; ValidationMode enum so will use the value passed into the constructor.
         /// </summary>
         /// <param name="profileID">The profile ID.</param>
         /// <param name="paymentProfileID">The payment profile ID.</param>
