@@ -25,7 +25,7 @@ namespace AuthorizeNet.Util
 		    }
 		    catch (Exception e)
 		    {
-                LogHelper.error(Logger, "Error:'{0}' when serializing object:'{1}' to xml:'{2}'", e.Message, requestType);
+                LogHelper.error(Logger, "Error:'{0}' when serializing object:'{1}' to xml", e.Message, requestType);
 		        throw;
 		    }
 		
