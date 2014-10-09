@@ -51,12 +51,13 @@ COPY %CNTLOG%.log  %CNTLOG%9.log >NUL
 @ECHO From File
 FOR /F %%X IN (%CNTLOG%.log) DO (
 	@ECHO Processing "%%X"
-	perl -pi -w -e 's/%%X *$//g;' %SRCLOG%3.log  	
+	perl -pi -w -e 's/^\b%%X\b *$//g;' %SRCLOG%3.log
 )
+
 @ECHO From BlackList
 FOR %%X IN (ANetApi Error Ids XXDoNotUseDummy) DO (
 	@ECHO Processing BlackList "%%X"
-	perl -pi -w -e 's/%%X *$//g;' %SRCLOG%3.log  	
+	perl -pi -w -e 's/^\b%%X\b *$//g;' %SRCLOG%3.log
 )
 
 @ECHO Creating Final List of Request/Response to generate code
@@ -73,7 +74,6 @@ FOR /F %%x IN (%SRCLOG%.log ) DO (
 		perl -pi -w -e 's/APICONTROLLERNAME/%%x/g;' %SRCDIR%\%CONTROLLERFOLDER%\%%xController.cs
 	)
 )
-DEL %SRCDIR%\%CONTROLLERFOLDER%\*.bak 1>NUL 2>&1
 @REM Identify Obsolete Controllers
 @ECHO From Request/ResponseList
 FOR /F %%X IN (%SRCLOG%4.log) DO (
@@ -82,6 +82,7 @@ FOR /F %%X IN (%SRCLOG%4.log) DO (
 )
 @ECHO Following are Obsolete Controllers
 sort -u %CNTLOG%9.log
+DEL /s *.bak 1>NUL 2>&1
 
 ENDLOCAL
  	
