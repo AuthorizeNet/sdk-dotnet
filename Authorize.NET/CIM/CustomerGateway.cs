@@ -512,6 +512,29 @@ namespace AuthorizeNet {
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
             return new GatewayResponse(response.directResponse.Split(','));
         }
+        
+        /// <summary>
+        /// Refunds a non-CIM transaction for the specified amount
+        /// </summary>
+        /// <param name="transactionId">The transaction ID.</param>
+        /// <param name="creditCardNumberMasked">4 X's followed by the last 4 digits of the card number: XXXX1234</param>
+        /// <param name="amount">The amount to be refunded.</param>
+        /// <returns></returns>
+        public IGatewayResponse Refund(string transactionId, string creditCardNumberMasked, decimal amount)
+        {
+            var req = new createCustomerProfileTransactionRequest();
+
+            var trans = new profileTransRefundType();
+            trans.amount = amount;
+            trans.transId = transactionId;
+            trans.creditCardNumberMasked = creditCardNumberMasked;
+
+            req.transaction = new profileTransactionType();
+            req.transaction.Item = trans;
+
+            var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
+            return new GatewayResponse(response.directResponse.Split(','));
+        }
         /// <summary>
         /// Voids a previously authorized transaction
         /// </summary>
