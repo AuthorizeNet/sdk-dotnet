@@ -15,6 +15,7 @@ namespace AuthorizeNet {
         IGatewayResponse Authorize(AuthorizeNet.Order order);
         IGatewayResponse Capture(string profileID, string paymentProfileId, string cardCode, decimal amount, string approvalCode);
         IGatewayResponse Refund(string profileID, string paymentProfileId, string approvalCode,string transactionId, decimal amount);
+        IGatewayResponse Refund(string transactionId, string creditCardNumberMasked, decimal amount);
         IGatewayResponse Void(string profileID, string paymentProfileId, string approvalCode, string transactionId);
 
 
