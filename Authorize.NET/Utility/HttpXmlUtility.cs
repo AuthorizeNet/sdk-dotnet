@@ -99,7 +99,22 @@ namespace AuthorizeNet {
             if (response.GetType() == typeof(createCustomerProfileTransactionResponse)) {
                 //there's a directResponse we need to find...
                 var thingy = (createCustomerProfileTransactionResponse)response;
-                thingy.directResponse = _xmlDoc.ChildNodes[1].ChildNodes[1].InnerText;
+                thingy.directResponse = null;
+                for (var i = 0; i <= 1; i++)
+                {
+                    if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
+                    {
+                        for (var j = 0; j <= 1; j++)
+                        {
+                            if (null != _xmlDoc.ChildNodes[i].ChildNodes[j])
+                            {
+                                thingy.directResponse = _xmlDoc.ChildNodes[i].ChildNodes[j].InnerText;
+                            }
+                            if (null != thingy.directResponse) { break; }
+                        }
+                    }
+                    if (null != thingy.directResponse) { break; }
+                }
                 response = thingy;
             } else {
 

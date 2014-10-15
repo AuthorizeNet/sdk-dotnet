@@ -982,5 +982,16 @@ namespace AuthorizeNETtest
             Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
             Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
         }
+
+        [Test]
+        public void TestCheckForErrorscreateCustomerProfileTransactionResponse()
+        {
+            const string profileId = "24231938";
+            const string paymentProfileId = "22219473";
+            var gateway = new CustomerGateway(ApiLogin, TransactionKey);
+            var order = new Order(profileId, paymentProfileId, "") {Amount = (decimal) 25.10};
+            var response = gateway.AuthorizeAndCapture(order);
+            Assert.IsNotNull(response);
+        }
     }
 }
