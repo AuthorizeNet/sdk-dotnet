@@ -2,7 +2,7 @@
 namespace AuthorizeNet {
     public interface IGatewayRequest {
         IGatewayRequest AddCardCode(string cardCode);
-        IGatewayRequest AddCustomer(string ID, string first, string last, string address, string state, string zip);
+        IGatewayRequest AddCustomer(string ID, string email, string first, string last, string address, string state, string zip);
         IGatewayRequest AddDuty(decimal amount, string name, string description);
         IGatewayRequest AddDuty(decimal amount);
         IGatewayRequest AddFraudCheck();
@@ -13,7 +13,7 @@ namespace AuthorizeNet {
         IGatewayRequest AddLineItem(string itemID, string name, string description, int quantity, decimal price, bool taxable);
         IGatewayRequest AddMerchantValue(string key, string value);
         string Address { get; set; }
-        IGatewayRequest AddShipping(string ID, string first, string last, string address, string state, string zip);
+        IGatewayRequest AddShipping(string ID, string email, string first, string last, string address, string state, string zip);
         IGatewayRequest AddTax(decimal amount, string name, string description);
         IGatewayRequest AddTax(decimal amount);
         string AllowPartialAuth { get; set; }
