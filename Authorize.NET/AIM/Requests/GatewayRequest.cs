@@ -227,10 +227,11 @@ namespace AuthorizeNet {
         /// <summary>
         /// Adds a Customer record to the current request
         /// </summary>
-        public IGatewayRequest AddCustomer(string ID, string email, string first, string last, string address, string state, string zip) {
+        public IGatewayRequest AddCustomer(string ID, string email, string first, string last, string address, string city, string state, string zip) {
             Queue(ApiFields.FirstName, first);
             Queue(ApiFields.LastName, last);
             Queue(ApiFields.Address, address);
+            Queue(ApiFields.City, city);
             Queue(ApiFields.State, state);
             Queue(ApiFields.Zip, zip);
             Queue(ApiFields.CustomerID, ID);
@@ -316,10 +317,11 @@ namespace AuthorizeNet {
         /// <summary>
         /// Adds a Shipping Record to the current request
         /// </summary>
-        public IGatewayRequest AddShipping(string ID, string email, string first, string last, string address, string state, string zip) {
+        public IGatewayRequest AddShipping(string ID, string email,string first, string last, string address, string city, string state, string zip) {
             Queue(ApiFields.ShipFirstName, first);
             Queue(ApiFields.ShipLastName, last);
             Queue(ApiFields.ShipAddress, address);
+            Queue(ApiFields.ShipCity, city);
             Queue(ApiFields.ShipState, state);
             Queue(ApiFields.ShipZip, zip);
             Queue(ApiFields.CustomerID, ID);
