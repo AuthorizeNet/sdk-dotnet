@@ -533,7 +533,15 @@
 
         public static void createFingerPrintRequest(createFingerPrintRequest request) { }
 
-        public static void EnumCollection(XXDoNotUseDummyRequest enumCollectionRequest)
+        public static void authenticateTestType(authenticateTestRequest request) { }
+
+        public static void isAliveType(isAliveRequest request) { }
+
+        public static void isAliveType(ANetApiRequest request) { }
+
+        public static void logoutType(logoutRequest request) { }
+
+        public static void EnumCollection(EnumCollection enumCollectionRequest)
         {
             if (null != enumCollectionRequest)
             {

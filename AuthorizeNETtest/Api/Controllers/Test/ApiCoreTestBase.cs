@@ -22,17 +22,13 @@ namespace AuthorizeNet.Api.Controllers.Test
 	
 	    protected static readonly IDictionary<String, String> ErrorMessages ;
 	
-	    //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
-        protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
+	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
 
-        static Merchant _cnpMerchant;
-	    static Merchant _cpMerchant ;
-	    static readonly String CnpApiLoginIdKey ;
-	    static readonly String CnpTransactionKey ;
-	    static String _cnpMd5HashKey ;
-	    static readonly String CpApiLoginIdKey ;
-	    static readonly String CpTransactionKey ;
-	    static String _cpMd5HashKey ;
+	    static Merchant _merchant ;
+	    static readonly String ApiLoginIdKey ;
+	    static readonly String TransactionKey ;
+	    static String _md5HashKey ;
 	
 	    DateTime _pastDate;
 	    DateTime _nowDate;
@@ -42,14 +38,13 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 	    protected string RefId ;
 	    protected int Counter;
-	    String _counterStr ;
+        protected String CounterStr;
 
-	    protected merchantAuthenticationType CnpMerchantAuthenticationType ;
-        protected merchantAuthenticationType CpMerchantAuthenticationType;
+        protected merchantAuthenticationType CustomMerchantAuthenticationType;
 
         protected ARBSubscriptionType ArbSubscriptionOne;
 
-        protected ARBSubscriptionType ArbSubscriptionTwo;
+        //protected ARBSubscriptionType ArbSubscriptionTwo;
         protected bankAccountType BankAccountOne;
         protected creditCardTrackType TrackDataOne;
         protected creditCardType CreditCardOne;
@@ -71,38 +66,36 @@ namespace AuthorizeNet.Api.Controllers.Test
         protected MockFactory MockContext = null;
         private readonly Random _random = new Random();
 	    static ApiCoreTestBase() {
+
+            //now we support Tls only, and .net defaults to TLS
+            //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
+
+            var config = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
+            Logger.error(String.Format("Configuration file used: {0}, Exists:{1}", config.FilePath, config.HasFile));
+
 		    //getPropertyFromNames get the value from properties file or environment
-            CnpApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_API_LOGINID, AuthorizeNet.Util.Constants.PROP_API_LOGINID);
-		    CnpTransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_TRANSACTION_KEY, AuthorizeNet.Util.Constants.PROP_TRANSACTION_KEY);
-		    _cnpMd5HashKey = null;
-		    CpApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_CP_API_LOGINID, AuthorizeNet.Util.Constants.PROP_CP_API_LOGINID);
-		    CpTransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_CP_TRANSACTION_KEY, AuthorizeNet.Util.Constants.PROP_CP_TRANSACTION_KEY);
-		    _cpMd5HashKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.ENV_MD5_HASHKEY, AuthorizeNet.Util.Constants.PROP_MD5_HASHKEY);
+		    ApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvApiLoginid, AuthorizeNet.Util.Constants.PropApiLoginid);
+		    TransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvTransactionKey, AuthorizeNet.Util.Constants.PropTransactionKey);
+		    _md5HashKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvMd5Hashkey, AuthorizeNet.Util.Constants.PropMd5Hashkey);
 
             //require only one cnp or cp merchant keys
-            if ((null != CnpApiLoginIdKey && null != CnpTransactionKey) ||
-                (null != CpApiLoginIdKey && null != CpTransactionKey))
+            if (null != ApiLoginIdKey && null != TransactionKey)
             {
-                Logger.debug("At least one of CardPresent or CardNotPresent merchant keys are present.");
+                Logger.debug("Merchant Login and transaction keys are present.");
             }
             else
 		    {
 			    throw new ArgumentException(
-                    "LoginId and/or TransactionKey have not been set. " + 
-                    "At least one of CardPresent or CardNotPresent merchant keys are required.");
+                    "LoginId and/or TransactionKey have not been set. Merchant keys are required.");
 		    }
 
-	        if (null != CnpApiLoginIdKey && null != CnpTransactionKey)
+	        if (null != ApiLoginIdKey && null != TransactionKey)
 	        {
-	            _cnpMerchant = Merchant.CreateMerchant(TestEnvironment, CnpApiLoginIdKey, CnpTransactionKey);
+	            _merchant = Merchant.CreateMerchant(TestEnvironment, ApiLoginIdKey, TransactionKey);
 	        }
-	        if (null != CpApiLoginIdKey && null != CpTransactionKey)
-	        {
-	            _cpMerchant = Merchant.CreateMerchant(TestEnvironment, CpApiLoginIdKey, CpTransactionKey);
-	        }
-            if (null == _cnpMerchant && null == _cpMerchant)
+            if (null == _merchant)
             {
-                Assert.Fail("None of the cardPresent or cardNotPresent merchant logins have been set");
+                Assert.Fail("Merchant logins have been set");
             }
 
 	        ErrorMessages = new Dictionary<string, string>();
@@ -120,16 +113,6 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    ErrorMessages.Add("E00092", "ShippingProfileId cannot be sent with ShipTo data.");		
 		    ErrorMessages.Add("E00093", "PaymentProfile cannot be sent with billing data.");		
 		    ErrorMessages.Add("E00095", "ShippingProfileId is not provided within Customer Profile.");
-//XXXXXXXXXXXXXXXXXXXXXXXXXXX
-//REMOVE ME
-            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-            delegate(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-                                    System.Security.Cryptography.X509Certificates.X509Chain chain,
-                                    System.Net.Security.SslPolicyErrors sslPolicyErrors)
-            {
-                return true; // **** Always accept
-            };
-//XXXXXXXXXXXXXXXXXXXXXXXXXXX
         }
 
 	    [TestFixtureTearDown]
@@ -146,7 +129,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
             //initialize counter
             Counter = _random.Next(1, (int) (Math.Pow(2, 24)));
-            _counterStr = GetRandomString("");
+            CounterStr = GetRandomString("");
 
             _now = DateTime.UtcNow;
             _nowString = _now.ToString(DateFormat);
@@ -155,18 +138,11 @@ namespace AuthorizeNet.Api.Controllers.Test
             _nowDate = _now;
             _futureDate = _now.AddMonths(1);
 
-            CnpMerchantAuthenticationType = new merchantAuthenticationType
+            CustomMerchantAuthenticationType = new merchantAuthenticationType
                 {
-                    name = CnpApiLoginIdKey,
+                    name = ApiLoginIdKey,
                     ItemElementName = ItemChoiceType.transactionKey,
-                    Item = CnpTransactionKey,
-                };
-
-            CpMerchantAuthenticationType = new merchantAuthenticationType
-                {
-                    name = CpApiLoginIdKey,
-                    ItemElementName = ItemChoiceType.transactionKey,
-                    Item = CpTransactionKey,
+                    Item = TransactionKey,
                 };
 
             //		merchantAuthenticationType.setSessionToken(GetRandomString("SessionToken"));
@@ -182,7 +158,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 {
                     merchantCustomerId = GetRandomString("Customer"),
                     description = GetRandomString("CustomerDescription"),
-                    email = _counterStr + ".customerProfileType@test.anet.net",
+                    email = CounterStr + ".customerProfileType@test.anet.net",
                 };
 
             //make sure these elements are initialized by calling get as it uses lazy initialization
@@ -204,7 +180,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                     nameOnAccount = GetRandomString("A/CName"),
                     echeckType = echeckTypeEnum.WEB,
                     bankName = GetRandomString("Bank"),
-                    checkNumber = _counterStr,
+                    checkNumber = CounterStr,
                 };
 
             TrackDataOne = new creditCardTrackType
@@ -272,7 +248,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 {
                     type = customerTypeEnum.individual,
                     id = GetRandomString("Id"),
-                    email = _counterStr + ".customerOne@test.anet.net",
+                    email = CounterStr + ".customerOne@test.anet.net",
                     phoneNumber = FormatToPhone(Counter),
                     faxNumber = FormatToPhone(Counter + 1),
                     driversLicense = DriversLicenseOne,
@@ -348,7 +324,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                     type = CustomerOne.type,
                 };
 		
-	        RefId = _counterStr;
+	        RefId = CounterStr;
 	    }
 
 	    [TearDown]

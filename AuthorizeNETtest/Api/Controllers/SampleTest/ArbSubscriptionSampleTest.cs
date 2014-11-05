@@ -38,7 +38,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
         {
             LogHelper.info(Logger, "Sample GetSubscriptionList");
 
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CnpMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //create a subscription
@@ -92,7 +92,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
             //cancel subscription
             var cancelRequest = new ARBCancelSubscriptionRequest
             {
-                merchantAuthentication = CnpMerchantAuthenticationType,
+                merchantAuthentication = CustomMerchantAuthenticationType,
                 refId = RefId,
                 subscriptionId = subscriptionId
             };

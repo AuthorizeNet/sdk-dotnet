@@ -23,7 +23,7 @@ grep -i "public enum" AnetApiSchema.generated.cs | cut -c17- | cut -f1 -d" " > %
 FOR /f %%x IN ( %TEMP%\enum.lst) DO (
     @ECHO Processing %%x;
     COPY %TEMPLATE% %TEMP%\%%x.cs 1>NUL
-	perl -pi -w -e 's/ENUMNAME/%%x/g;' %TEMP%\%%x.cs 2>NUL
+    perl -pi -w -e 's/ENUMNAME/%%x/g;' %TEMP%\%%x.cs 2>NUL
     TYPE %TEMP%\%%x.cs >> "%OUTFILE%"
 )
 @ECHO         } >> "%OUTFILE%"

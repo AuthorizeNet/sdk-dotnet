@@ -25,7 +25,7 @@ namespace AuthorizeNETtest
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new CardPresentAuthorizationRequest((decimal)30.11, "4111111111111111", "02", "16");
             string description = "CP Auth transaction approved testing";
@@ -62,7 +62,7 @@ namespace AuthorizeNETtest
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new CardPresentCaptureOnly(authCode, "4111111111111111", "0224", amount);
             string description = "CP Capture transaction approved testing";
@@ -100,7 +100,7 @@ namespace AuthorizeNETtest
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new CardPresentPriorAuthCapture(transID, amount);
             string description = "CP PriorAuthCap transaction approved testing";
@@ -138,7 +138,7 @@ namespace AuthorizeNETtest
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
-            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new CardPresentPriorAuthCapture(transID, amount);
             string description = "CP PriorAuthCap transaction approved testing";
@@ -160,7 +160,7 @@ namespace AuthorizeNETtest
             string responseString = "1.0|1|1|This transaction has been approved.|N8IV1Z|Y||2207395117|4BA6F435F8046E347710457856F3BAD1||||||||||||XXXX1111|Visa";
             LocalRequestObject.ResponseString = responseString;
 
-            CardPresentGateway target = new CardPresentGateway(ApiLoginCP, TransactionKeyCP, true);
+            CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new CardPresentAuthorizationRequest(amount, "4111111111111111", "02", "16");
             string description = "CP Auth transaction approved testing";
