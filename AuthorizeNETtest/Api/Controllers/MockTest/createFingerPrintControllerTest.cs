@@ -2,6 +2,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers;
     using AuthorizeNet.Api.Controllers.Test;
@@ -9,7 +10,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
     using NUnit.Framework;
 
     [TestFixture]
-    public class APICONTROLLERNAMETest : ApiCoreTestBase 
+    public class createFingerPrintTest : ApiCoreTestBase 
 	{
 
 	    [TestFixtureSetUp]
@@ -37,26 +38,40 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 	    }
 
         [Test]
-	    public void MockAPICONTROLLERNAMETest()
+	    public void MockcreateFingerPrintTest()
 	    {
-		    //define all mocked objects as final
-            var mockController = GetMockController<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse>();
-            var mockRequest = new APICONTROLLERNAMERequest
+            var fingerPrintSupportInformation = new fingerPrintSupportInformationType
+            {
+                amount = Counter,
+                currencyCode = "INR",
+                sequence = CounterStr,
+                timestamp = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture),
+            };
+            //define all mocked objects as final
+            var mockController = GetMockController<createFingerPrintRequest, createFingerPrintResponse>();
+            var mockRequest = new createFingerPrintRequest
                 {
                     merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
+                    supportInformation = fingerPrintSupportInformation,
                 };
-            var mockResponse = new APICONTROLLERNAMEResponse
+            var mockResponse = new createFingerPrintResponse
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
+                    supportInformation = fingerPrintSupportInformation,
+                    fingerPrint = new fingerPrintType
+                        {
+                            sequence = fingerPrintSupportInformation.sequence,
+                            timestamp = fingerPrintSupportInformation.timestamp,
+                            hashValue = CounterStr,
+                        },
                 };
 
 		    var errorResponse = new ANetApiResponse();
 		    var results = new List<String>();
             const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
 
-            SetMockControllerExpectations<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse, APICONTROLLERNAMEController>(
+            SetMockControllerExpectations<createFingerPrintRequest, createFingerPrintResponse, createFingerPrintController>(
                 mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
             mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
             //mockController.MockObject.Execute();
@@ -64,8 +79,8 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "APICONTROLLERNAME: Details:{0}", controllerResponse.Yyyyy);
+		    Assert.IsNotNull(controllerResponse.fingerPrint);
+            LogHelper.info(Logger, "createFingerPrint: Details:{0}", controllerResponse.fingerPrint);
 	    }
     }
 }

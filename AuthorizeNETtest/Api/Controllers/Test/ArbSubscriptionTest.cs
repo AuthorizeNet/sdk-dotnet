@@ -39,13 +39,13 @@ namespace AuthorizeNet.Api.Controllers.Test
 
             //var subscriptionId = "2096852"; //"46";
             
-		    var subscriptionId = CreateSubscription( CnpMerchantAuthenticationType);
-		    var newStatus = GetSubscription( CnpMerchantAuthenticationType, subscriptionId);
+		    var subscriptionId = CreateSubscription( CustomMerchantAuthenticationType);
+		    var newStatus = GetSubscription( CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.active, newStatus);
 
 		    LogHelper.info(Logger, "Getting Subscription List for SubscriptionId: {0}", subscriptionId);
             
-		    var listRequest = SetupSubscriptionListRequest(CnpMerchantAuthenticationType);
+		    var listRequest = SetupSubscriptionListRequest(CustomMerchantAuthenticationType);
             var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest, TestEnvironment);
 
 		    LogHelper.info( Logger, "Subscription Count: {0}", listResponse.totalNumInResultSet);		
@@ -67,21 +67,21 @@ namespace AuthorizeNet.Api.Controllers.Test
 			    }
 		    }
             
-		    CancelSubscription(CnpMerchantAuthenticationType, subscriptionId);
+		    CancelSubscription(CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.IsTrue(found);
             
 		    //validate the status of subscription to make sure it is in-activated
-		    var cancelStatus = GetSubscription(CnpMerchantAuthenticationType, subscriptionId);
+		    var cancelStatus = GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.canceled, cancelStatus);
             
 	    }
 
-	    [Test, Ignore]
+	    [Test]
 	    public void TestSubscription() {
 		    //cache the result
-		    var subscriptionId = CreateSubscription(CnpMerchantAuthenticationType);
-		    GetSubscription(CnpMerchantAuthenticationType, subscriptionId);
-		    CancelSubscription(CnpMerchantAuthenticationType, subscriptionId);
+		    var subscriptionId = CreateSubscription(CustomMerchantAuthenticationType);
+		    GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
+		    CancelSubscription(CustomMerchantAuthenticationType, subscriptionId);
 	    }
 
 	    private ARBGetSubscriptionListRequest SetupSubscriptionListRequest(merchantAuthenticationType merchantAuthentication) {

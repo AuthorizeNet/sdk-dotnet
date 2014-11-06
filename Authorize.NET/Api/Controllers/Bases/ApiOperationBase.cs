@@ -48,8 +48,8 @@ namespace AuthorizeNet.Api.Controllers.Bases
 		    SetApiRequest(apiRequest);
 		
 		    Logger.debug(string.Format("Creating instance for request:'{0}' and response:'{1}'", _requestClass, _responseClass));
-            Logger.debug(string.Format("Request:'{0}'", apiRequest));
-            Logger.debug(string.Format("Request:'{0}'", XmlUtility.GetXml(apiRequest)));
+            //Logger.debug(string.Format("Request:'{0}'", apiRequest));
+            //Logger.debug(string.Format("Request(Ctor):'{0}'", XmlUtility.GetXml(apiRequest)));
 		    Validate();
 	    }
 	
@@ -87,12 +87,12 @@ namespace AuthorizeNet.Api.Controllers.Bases
 
         public void Execute(AuthorizeNet.Environment environment = null)
         {
-            Logger.debug(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", GetApiRequest()));
+            BeforeExecute();
+
+            Logger.debug(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", XmlUtility.GetXml(GetApiRequest())));
 
             if (null == environment) { environment = ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment; }
             if (null == environment) throw new ArgumentException(NullEnvironmentErrorMessage);
-
-		    BeforeExecute();
 
             var httpApiResponse = HttpUtility.PostData<TQ, TS>(environment, GetApiRequest());
 

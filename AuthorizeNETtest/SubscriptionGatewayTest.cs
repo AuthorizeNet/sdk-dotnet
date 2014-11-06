@@ -18,31 +18,30 @@ namespace AuthorizeNETtest
         [Test]
         public void CreateSubscriptionTest()
         {
+            var random = new Random();
+            var counter = random.Next(1, (int)(Math.Pow(2, 24)));
+            const int maxSubscriptionAmount = 1000; //214747;
+            var amount = new decimal(counter > maxSubscriptionAmount ? (counter % maxSubscriptionAmount) : counter);
+            var email = string.Format("user.{0}@authorize.net", counter);
+
             //check login / password
-            string sError = CheckLoginPassword();
+            var sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBCreateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><subscriptionId>2010573</subscriptionId></ARBCreateSubscriptionResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
+            var target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
-            ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Subscrition Test", (decimal) 1.31,
-                                                                                  12);
+            var billToAddress = new Address { First = "SomeOneCool", Last = "MoreCoolPerson" };
+            ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly(email, "ARB Subscrition Test", amount, 1);
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 3;
             subscription.CardExpirationYear = 16;
-
-            Address billToAddress = new Address();
-            billToAddress.First = "Sue";
-            billToAddress.Last = "Zhu";
             subscription.BillingAddress = billToAddress;
 
             ISubscriptionRequest actual = null;
 
-            // if choose "USELOCAL", the test should pass with no exception
-            // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
                 actual = target.CreateSubscription(subscription);
@@ -50,14 +49,16 @@ namespace AuthorizeNETtest
             catch (Exception e)
             {
                 string s = e.Message;
+                Assert.Fail("Exception in processing");
             }
 
+            Assert.NotNull(actual);
             Assert.AreEqual(subscription.Amount, actual.Amount);
             Assert.AreEqual(subscription.CardNumber, actual.CardNumber);
             Assert.AreEqual(subscription.SubscriptionName, actual.SubscriptionName);
 
-            Assert.IsTrue(actual.SubscriptionID.Trim().Length > 0);
-            Assert.IsTrue(long.Parse(actual.SubscriptionID) == 2010573);
+            Assert.IsTrue(0 < actual.SubscriptionID.Trim().Length);
+            Assert.IsTrue(0 < Int64.Parse(actual.SubscriptionID));
         }
 
         /// <summary>

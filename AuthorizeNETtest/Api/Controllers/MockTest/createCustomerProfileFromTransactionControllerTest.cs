@@ -9,7 +9,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
     using NUnit.Framework;
 
     [TestFixture]
-    public class createCustomerProfileTransactionTest : ApiCoreTestBase 
+    public class createCustomerProfileFromTransactionTest : ApiCoreTestBase 
 	{
 
 	    [TestFixtureSetUp]
@@ -37,34 +37,29 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 	    }
 
         [Test]
-	    public void MockcreateCustomerProfileTransactionTest()
+	    public void MockcreateCustomerProfileFromTransactionTest()
 	    {
 		    //define all mocked objects as final
-            var mockController = GetMockController<createCustomerProfileTransactionRequest, createCustomerProfileTransactionResponse>();
-            var mockRequest = new createCustomerProfileTransactionRequest
+            var mockController = GetMockController<createCustomerProfileFromTransactionRequest, createCustomerProfileResponse>();
+            var mockRequest = new createCustomerProfileFromTransactionRequest
                 {
-                    merchantAuthentication = new merchantAuthenticationType {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
-                    transaction = new profileTransactionType
-                        {
-                            Item = new profileTransAuthCaptureType(),
-                        },
+                    merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
+                    transId = CounterStr,
                 };
-            var transactionResponse = new transactionResponse()
-                {
-                    accountNumber = "1234",
-                };
-            var mockResponse = new createCustomerProfileTransactionResponse
+            var mockResponse = new createCustomerProfileResponse
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    transactionResponse = transactionResponse,
+                    customerProfileId = CounterStr,
+                    customerPaymentProfileIdList = new [] {CounterStr},
+                    customerShippingAddressIdList = new [] {CounterStr},
                 };
 
 		    var errorResponse = new ANetApiResponse();
 		    var results = new List<String>();
             const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
 
-            SetMockControllerExpectations<createCustomerProfileTransactionRequest, createCustomerProfileTransactionResponse, createCustomerProfileTransactionController>(
+            SetMockControllerExpectations<createCustomerProfileFromTransactionRequest, createCustomerProfileResponse, createCustomerProfileFromTransactionController>(
                 mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
             mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
             //mockController.MockObject.Execute();
@@ -72,8 +67,8 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-            Assert.IsNotNull(controllerResponse.transactionResponse);
-            LogHelper.info(Logger, "createCustomerProfileTransaction: Details:{0}", controllerResponse.transactionResponse);
+		    Assert.IsNotNull(controllerResponse.customerProfileId);
+            LogHelper.info(Logger, "createCustomerProfileFromTransaction: Details:{0}", controllerResponse.customerProfileId);
 	    }
     }
 }

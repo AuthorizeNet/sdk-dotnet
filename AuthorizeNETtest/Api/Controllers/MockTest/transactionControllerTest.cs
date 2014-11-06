@@ -1,15 +1,15 @@
 namespace AuthorizeNet.Api.Controllers.MockTest
 {
-    using System;
-    using System.Collections.Generic;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers;
+    //using System;
+    //using System.Collections.Generic;
+    //using AuthorizeNet.Api.Contracts.V1;
+    //using AuthorizeNet.Api.Controllers;
     using AuthorizeNet.Api.Controllers.Test;
-    using AuthorizeNet.Util;
+    //using AuthorizeNet.Util;
     using NUnit.Framework;
 
     [TestFixture]
-    public class APICONTROLLERNAMETest : ApiCoreTestBase 
+    public class transactionTest : ApiCoreTestBase 
 	{
 
 	    [TestFixtureSetUp]
@@ -37,15 +37,17 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 	    }
 
         [Test]
-	    public void MockAPICONTROLLERNAMETest()
+	    public void MocktransactionTest()
 	    {
+            //object transactionRequest does not exist
+            /*
 		    //define all mocked objects as final
-            var mockController = GetMockController<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse>();
-            var mockRequest = new APICONTROLLERNAMERequest
+            var mockController = GetMockController<transactionRequest, transactionResponse>();
+            var mockRequest = new transactionRequest
                 {
                     merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
                 };
-            var mockResponse = new APICONTROLLERNAMEResponse
+            var mockResponse = new transactionResponse
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
@@ -56,7 +58,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 		    var results = new List<String>();
             const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
 
-            SetMockControllerExpectations<APICONTROLLERNAMERequest, APICONTROLLERNAMEResponse, APICONTROLLERNAMEController>(
+            SetMockControllerExpectations<transactionRequest, transactionResponse, transactionController>(
                 mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
             mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
             //mockController.MockObject.Execute();
@@ -65,7 +67,8 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             Assert.IsNotNull(controllerResponse);
 
 		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "APICONTROLLERNAME: Details:{0}", controllerResponse.Yyyyy);
+		    LogHelper.info(Logger, "transaction: Details:{0}", controllerResponse.Yyyyy);
+            */
 	    }
     }
 }
