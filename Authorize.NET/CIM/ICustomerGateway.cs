@@ -19,9 +19,16 @@ namespace AuthorizeNet {
         IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount);
         IGatewayResponse Authorize(AuthorizeNet.Order order);
         IGatewayResponse Capture(string profileID, string paymentProfileId, string cardCode, decimal amount, string approvalCode);
+
+        [Obsolete("This method has been deprecated, instead use the overloaded method without the appoval code")]
         IGatewayResponse Refund(string profileID, string paymentProfileId, string approvalCode,string transactionId, decimal amount);
+
+        [Obsolete("This method has been deprecated, instead use the overloaded method without the appoval code")]
         IGatewayResponse Void(string profileID, string paymentProfileId, string approvalCode, string transactionId);
 
+
+        IGatewayResponse Refund(string profileID, string paymentProfileId, string transactionId, decimal amount);
+        IGatewayResponse Void(string profileID, string paymentProfileId, string transactionId);
 
         AuthorizeNet.Customer CreateCustomer(string email, string description);
         bool DeleteCustomer(string profileID);
