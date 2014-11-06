@@ -1,4 +1,20 @@
 @ECHO OFF
+
+CALL "%~dp0\validateCygwinBinaries.cmd"
+IF "1"=="%ERRORLEVEL%" (
+    @ECHO Invalid or incomplete Cygwin installation. Install cygwin and its components viz.
+    @ECHO grep sed perl cut touch wget sort
+    EXIT /b 1
+)
+SET CYGWIN_EXE=%CYGWIN_HOME%\bin
+
+where xsd.exe > NUL 2>&1
+IF "1"=="%ERRORLEVEL%" (
+    @ECHO Unable to find xsd.exe in the path. Locate it and add it directory to the path
+    @ECHO Usually it is found under Microsoft SDK viz. "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\"
+    EXIT /b 1
+)
+
 SETLOCAL
 @ECHO Starting %DATE%-%TIME%
 
@@ -7,18 +23,18 @@ SET LOCALWSDL=%TEMP%\AnetApiSchema.wsdl
 SET selection=N
 CHOICE /C YN  /T 10 /D N /M "Fetch and update Schema/WSDL file from remote server?"
 IF "%ERRORLEVEL%"=="1" (
-	@ECHO Fetching Schema/WSDL files 
-	SET %ERRORLEVEL%=	
-	CALL "%~dp0\getXsdWsdl.cmd" %LOCALXSD% %LOCALWSDL%
-	SET ERRORCODE=%ERRORLEVEL%
-	@ECHO GetXsdWsdl Call Exit Code:%ERRORCODE%
-	IF NOT "%ERRORLEVEL%"=="0" (
-	   @ECHO Error fetching source files
-	   @ECHO ##### ***** $$$$$ CHECK FOR ERROR $$$$$ ***** #####
-	   REM EXIT /b 1
-	)
+    @ECHO Fetching Schema/WSDL files 
+    SET %ERRORLEVEL%=    
+    CALL "%~dp0\getXsdWsdl.cmd" %LOCALXSD% %LOCALWSDL%
+    SET ERRORCODE=%ERRORLEVEL%
+    @ECHO GetXsdWsdl Call Exit Code:%ERRORCODE%
+    IF NOT "%ERRORLEVEL%"=="0" (
+       @ECHO Error fetching source files
+       @ECHO ##### ***** $$$$$ CHECK FOR ERROR $$$$$ ***** #####
+       REM EXIT /b 1
+    )
 ) ELSE (
-	@ECHO Schema/WSDL files have not been updated!
+    @ECHO Schema/WSDL files have not been updated!
 )
 
 SET XSDSRCDIR=Authorize.NET\Api\Contracts\V1
@@ -29,20 +45,20 @@ SET WSDLSRCDIR=wsdl
 SET WSDLPACKAGE=ANetApiFE.ANetApiWS
 
 IF NOT EXIST "%LOCALXSD%" (
-	@ECHO Unable to find "%LOCALXSD%"
-	EXIT /b 1
+    @ECHO Unable to find "%LOCALXSD%"
+    EXIT /b 1
 )
 IF NOT EXIST "%LOCALWSDL%" (
-	@ECHO Unable to find "%LOCALWSDL%"
-	@REM EXIT /b 1
+    @ECHO Unable to find "%LOCALWSDL%"
+    @REM EXIT /b 1
 )
 @ECHO Validating target folder "%XSDSRCDIR%"
 IF NOT EXIST %XSDSRCDIR% (
-		MD "%XSDSRCDIR%"
+    MD "%XSDSRCDIR%"
 )
 @ECHO Validating target folder "%WSDLSRCDIR%"
 IF NOT EXIST %WSDLSRCDIR% (
-		MD "%WSDLSRCDIR%"
+    MD "%WSDLSRCDIR%"
 )
 
 @ECHO Generating sources from Schema: %XSD% in folder "%XSDSRCDIR%"
