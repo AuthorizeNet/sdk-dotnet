@@ -1,49 +1,51 @@
 namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers;
     using AuthorizeNet.Api.Controllers.Bases;
     using AuthorizeNet.Util;
+    using NUnit.Framework;
 
-    [TestClass]
-    public class ArbSubscription : ApiCoreTestBase {
+    [TestFixture]
+    public class ArbSubscriptionTest : ApiCoreTestBase {
 
-	    [ClassInitialize]
-        public new static void SetUpBeforeClass(TestContext context)
+	    [TestFixtureSetUp]
+        public new static void SetUpBeforeClass()
         {
-		    ApiCoreTestBase.SetUpBeforeClass(context);
+		    ApiCoreTestBase.SetUpBeforeClass();
 	    }
 
-	    [ClassCleanup]
+	    [TestFixtureTearDown]
         public new static void TearDownAfterClass()
         {
 		    ApiCoreTestBase.TearDownAfterClass();
 	    }
 
-	    [TestInitialize]
+	    [SetUp]
 	    public new void SetUp() {
 		    base.SetUp();
 	    }
 
-	    [TestCleanup]
+	    [TearDown]
 	    public new void TearDown() {
 		    base.TearDown();
 	    }
 
-	    [TestMethod]
-	    public void TestGetSubscriptionList() {
+        [Test, Ignore]
+        public void TestGetSubscriptionList()
+        {
 
             //var subscriptionId = "2096852"; //"46";
             
-		    var subscriptionId = CreateSubscription( CnpMerchantAuthenticationType);
-		    var newStatus = GetSubscription( CnpMerchantAuthenticationType, subscriptionId);
+		    var subscriptionId = CreateSubscription( CustomMerchantAuthenticationType);
+		    var newStatus = GetSubscription( CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.active, newStatus);
 
-		    LogHelper.info(Logger, "Getting Subscription List for SubscriptionId: %s", subscriptionId);
+		    LogHelper.info(Logger, "Getting Subscription List for SubscriptionId: {0}", subscriptionId);
             
-		    var listRequest = SetupSubscriptionListRequest(CnpMerchantAuthenticationType);
+		    var listRequest = SetupSubscriptionListRequest(CustomMerchantAuthenticationType);
             var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest, TestEnvironment);
 
 		    LogHelper.info( Logger, "Subscription Count: {0}", listResponse.totalNumInResultSet);		
@@ -65,21 +67,21 @@ namespace AuthorizeNet.Api.Controllers.Test
 			    }
 		    }
             
-		    CancelSubscription(CnpMerchantAuthenticationType, subscriptionId);
+		    CancelSubscription(CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.IsTrue(found);
             
 		    //validate the status of subscription to make sure it is in-activated
-		    var cancelStatus = GetSubscription(CnpMerchantAuthenticationType, subscriptionId);
+		    var cancelStatus = GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.canceled, cancelStatus);
             
 	    }
 
-	    [TestMethod]
+	    [Test]
 	    public void TestSubscription() {
 		    //cache the result
-		    var subscriptionId = CreateSubscription(CnpMerchantAuthenticationType);
-		    GetSubscription(CnpMerchantAuthenticationType, subscriptionId);
-		    CancelSubscription(CnpMerchantAuthenticationType, subscriptionId);
+		    var subscriptionId = CreateSubscription(CustomMerchantAuthenticationType);
+		    GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
+		    CancelSubscription(CustomMerchantAuthenticationType, subscriptionId);
 	    }
 
 	    private ARBGetSubscriptionListRequest SetupSubscriptionListRequest(merchantAuthenticationType merchantAuthentication) {
@@ -151,86 +153,5 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 		    return createResponse.subscriptionId;
 	    }
-
-
-        [TestMethod]
-        public void SampleCodeGetSubscriptionList()
-        {
-            LogHelper.info(Logger, "Sample GetSubscriptionList");
-
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CnpMerchantAuthenticationType;
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
-
-            //create a subscription
-            var createRequest = new ARBCreateSubscriptionRequest
-            {
-                refId = RefId,
-                subscription = ArbSubscriptionOne,
-            };
-            //create 
-            var createController = new ARBCreateSubscriptionController(createRequest);
-            //separate execute and getResponse calls
-            createController.Execute();
-            var createResponse = createController.GetApiResponse();
-            Assert.IsNotNull(createResponse.subscriptionId);
-            LogHelper.info(Logger, "Created Subscription: {0}", createResponse.subscriptionId);
-            var subscriptionId = createResponse.subscriptionId;
-
-            //get a subscription
-		    var getRequest = new ARBGetSubscriptionStatusRequest
-		        {
-		            refId = RefId,
-		            subscriptionId = subscriptionId
-		        };
-            var getController = new ARBGetSubscriptionStatusController(getRequest);
-            //execute and getResponse calls together
-            var getResponse = getController.ExecuteWithApiResponse();
-		    Assert.IsNotNull(getResponse.status);
-		    Logger.info(String.Format("Subscription Status: {0}", getResponse.status));
-
-            //get subscription list
-	        var listRequest = new ARBGetSubscriptionListRequest
-	            {
-	                refId = RefId,
-	                searchType = ARBGetSubscriptionListSearchTypeEnum.subscriptionActive,
-		            sorting = new ARBGetSubscriptionListSorting
-		                {
-		                    orderDescending = true,
-		                    orderBy = ARBGetSubscriptionListOrderFieldEnum.createTimeStampUTC,
-		                },
-		            paging = new Paging
-	                    {
-	                        limit = 500, 
-                            offset = 1,
-	                    },
-	            };
-            var listController = new ARBGetSubscriptionListController(listRequest);
-            var listResponse = listController.ExecuteWithApiResponse();
-            LogHelper.info(Logger, "Subscription Count: {0}", listResponse.totalNumInResultSet);
-            Assert.IsTrue(0 < listResponse.totalNumInResultSet);
-
-            //cancel subscription
-            var cancelRequest = new ARBCancelSubscriptionRequest
-            {
-                merchantAuthentication = CnpMerchantAuthenticationType,
-                refId = RefId,
-                subscriptionId = subscriptionId
-            };
-            //explicitly setting up the merchant id and environment 
-            var cancelController = new ARBCancelSubscriptionController(cancelRequest);
-            var cancelResponse = cancelController.ExecuteWithApiResponse(TestEnvironment);
-            Assert.IsNotNull(cancelResponse.messages);
-            Logger.info(String.Format("Subscription Cancelled: {0}", subscriptionId));
-
-            //validation of list
-            var subscriptionsArray = listResponse.subscriptionDetails;
-            foreach (var aSubscription in subscriptionsArray)
-            {
-                Assert.IsTrue(0 < aSubscription.id);
-                LogHelper.info(Logger, "Subscription Id: {0}, Status:{1}, PaymentMethod: {2}, Amount: {3}, Account:{4}",
-                        aSubscription.id, aSubscription.status, aSubscription.paymentMethod, aSubscription.amount, aSubscription.accountNumber);
-            }
-
-        }
     }
 }
