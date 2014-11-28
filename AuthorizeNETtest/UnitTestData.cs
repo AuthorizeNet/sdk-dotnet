@@ -36,7 +36,7 @@ namespace AuthorizeNet.Test
 		    else
 		    {
 			    AuthorizeNet.Util.LogHelper.info( Logger,
-					    "PropertyValues: ApiLoginId:'%s', TransactionKey:'%s', CPApiLoginId:'%s', CPTransactionKey:'%s', MD5Key:'%s' ", 
+					    "PropertyValues: ApiLoginId:'{0}', TransactionKey:'{1}', CPApiLoginId:'{2}', CPTransactionKey:'{3}', MD5Key:'{4}' ", 
 					    ApiLoginId, TransactionKey, CpApiLoginId, CpTransactionKey, MerchantMd5Key);
 		    }
 	    }

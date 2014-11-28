@@ -28,7 +28,7 @@ namespace AuthorizeNETtest
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Subscrition Test", (decimal) 1.31,
+                                                                                  "ARB Subscription Test", (decimal) 1.31,
                                                                                   12);
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 3;
@@ -76,7 +76,7 @@ namespace AuthorizeNETtest
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Subscrition Test eCheck", (decimal)1.31,
+                                                                                  "ARB Subscription Test eCheck", (decimal)1.31,
                                                                                   12);
             subscription.eCheckBankAccount = new BankAccount()
                 {
@@ -132,7 +132,7 @@ namespace AuthorizeNETtest
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Update Subscrition Test",
+                                                                                  "ARB Update Subscription Test",
                                                                                   (decimal) 1.32, 12);
             subscription.SubscriptionID = "2010573";
 
@@ -169,7 +169,7 @@ namespace AuthorizeNETtest
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Update Subscrition Test",
+                                                                                  "ARB Update Subscription Test",
                                                                                   (decimal) 1.32, 12);
             subscription.SubscriptionID = "2010573";
 
@@ -210,7 +210,7 @@ namespace AuthorizeNETtest
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Update Subscrition Test",
+                                                                                  "ARB Update Subscription Test",
                                                                                   (decimal) 1.33, 12);
             subscription.SubscriptionID = "2010573";
             subscription.BillingCycles = 15;
@@ -247,7 +247,7 @@ namespace AuthorizeNETtest
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Update Subscrition Test Description and Invoice",
+                                                                                  "ARB Update Subscription Test Description and Invoice",
                                                                                   (decimal)1.34, 12);
             subscription.SubscriptionID = "2010573";
             subscription.Invoice = "INV12345";
