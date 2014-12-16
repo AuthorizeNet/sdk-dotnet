@@ -1,6 +1,7 @@
 namespace AuthorizeNet.Util
 {
     using System;
+    using System.IO;
     using System.Net;
     using System.Text;
     using System.Xml;
@@ -48,25 +49,52 @@ namespace AuthorizeNet.Util
             var requestType = typeof (TQ);
 
             var serializer = new XmlSerializer(requestType);
-
-	        using (var writer = new XmlTextWriter(webRequest.GetRequestStream(), Encoding.UTF8))
+            using (var writer = new XmlTextWriter(webRequest.GetRequestStream(), Encoding.UTF8))
 	        {
 	            serializer.Serialize(writer, request);
 	        }
-	        // Get the response
-	        using (var webResponse = webRequest.GetResponse())
+
+            // Get the response
+            String stringResponse = null;
+            Logger.debug(string.Format("Retreiving Response from Url: '{0}'", postUrl));
+            using (var webResponse = webRequest.GetResponse())
             {
-	            Logger.debug(string.Format("Received Response: '{0}'", webResponse));
+                Logger.debug(string.Format("Received Response: '{0}'", webResponse));
 
-	            var responseType = typeof (TS);
-	            var deSerializer = new XmlSerializer(responseType);
-	            using (var stream = webResponse.GetResponseStream())
-	            {
-	                Logger.debug(string.Format("Deserializing Response from Stream: '{0}'", stream));
+                using (var streamData = webResponse.GetResponseStream())
+                {
+                    if (null != streamData)
+                    {
+                        using (var reader = new StreamReader(streamData))
+                        {
+                            stringResponse = reader.ReadToEnd();
+                        }
+                        Logger.debug(string.Format("Response from Stream: '{0}'", stringResponse));
+                    }
+                }
+            }
+            if (null != stringResponse)
+            {
+                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(stringResponse)))
+                {
+                    var responseType = typeof (TS);
+                    var deSerializer = new XmlSerializer(responseType);
 
-	                if (null != stream)
-	                {
-	                    var deSerializedObject = deSerializer.Deserialize(stream);
+                    //if (null != stringResponse)
+                    {
+                        Object deSerializedObject;
+
+                        try
+                        {
+                            deSerializedObject = deSerializer.Deserialize(stream);
+                        }
+                        catch (Exception)
+                        {
+                            stream.Seek(0, SeekOrigin.Begin);
+                            var errorDeserializer = new XmlSerializer(typeof (ANetApiResponse));
+                            deSerializedObject = errorDeserializer.Deserialize(stream);
+                        }
+
                         //if error response
                         if (deSerializedObject is ErrorResponse)
                         {
@@ -81,14 +109,14 @@ namespace AuthorizeNet.Util
                             }
                             else if (deSerializedObject is ANetApiResponse) //generic response
                             {
-	                            response = deSerializedObject as ANetApiResponse;
-	                        }
+                                response = deSerializedObject as ANetApiResponse;
+                            }
                         }
                     }
-	            }
-	        }
+                }
+            }
 
-	        return response;
+            return response;
 	    }
 
         public static IWebProxy SetProxyIfRequested(IWebProxy proxy)

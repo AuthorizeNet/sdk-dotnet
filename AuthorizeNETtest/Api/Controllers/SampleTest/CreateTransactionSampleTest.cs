@@ -36,8 +36,8 @@
             base.TearDown();
         }
 
-        [Test, Ignore]
-        public void SampleCodecreateTransaction()
+        [Test]
+        public void SampleCodeCreateTransaction()
         {
             LogHelper.info(Logger, "Sample createTransaction");
 
@@ -45,7 +45,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //create a transaction
-            var transactionRequestType = new transactionRequestType()
+            var transactionRequestType = new transactionRequestType
                 {
                     transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
                     //amount = SetValidTransactionAmount(Counter),
@@ -88,8 +88,8 @@
             }
         }
 
-        [Test]//, Ignore]
-        public void CreateTransactionWithCreditCard()
+        [Test]
+        public void SampleCodeCreateTransactionWithCreditCard()
         {
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
@@ -120,8 +120,8 @@
             Assert.False( string.IsNullOrEmpty(response.transactionResponse.transId));
         }
 
-        [Test]//, Ignore]
-        public void CreateTransactionWithApplePay()
+        [Test]
+        public void SampleCodeCreateTransactionWithApplePay()
         {
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
@@ -157,8 +157,8 @@
         }
 
 
-        [Test]//, Ignore]
-        public void CreateTransactionWithPayPal()
+        [Test]
+        public void SampleCodeCreateTransactionWithPayPal()
         {
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
