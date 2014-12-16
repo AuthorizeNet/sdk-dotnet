@@ -56,8 +56,12 @@ namespace AuthorizeNet {
     /// The gateway which runs the credit card transaction
     /// </summary>
     public class CardPresentGateway:Gateway, ICardPresentGateway {
+        
+        //debug
+        string _serviceUrl = "https://test.authorize.net/gateway/transact.dll";
+        //string _serviceUrl = "https://secureplu.labwebapp.com/gateway/transact.dll";
+        //tbd - what is the card present host for color environments?
 
-        string _serviceUrl = "https://cardpresent.authorize.net/gateway/transact.dll";
         DeviceType _deviceType = DeviceType.PersonalComputerBasedTerminal;
         string _marketType = "2";
 
@@ -69,8 +73,12 @@ namespace AuthorizeNet {
         /// <param name="isTest">if set to <c>true</c> [is test].</param>
         public CardPresentGateway(string apiLogin, string transactionKey, bool isTest)
             : base(apiLogin, transactionKey, isTest) {
-            if (isTest) {
-                _serviceUrl = "https://test.authorize.net/gateway/transact.dll";
+            if (isTest) 
+            {
+                //debug
+                //string serviceUrl = "https://test.authorize.net/gateway/transact.dll";
+                //tbd - what is the cardpresent host for color environments?
+                string _serviceUrl = "https://test.authorize.net/xml/v1/request.api";
             }
         }
 

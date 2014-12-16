@@ -71,13 +71,16 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
+            //create random amount so that re-runs don't fail with duplicate transaction fault.
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
+
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBCreateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><subscriptionId>2074569</subscriptionId></ARBCreateSubscriptionResponse>";
             LocalRequestObject.ResponseString = responseString;
 
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Subscrition Test eCheck", (decimal)1.31,
+                                                                                  "ARB Subscrition Test eCheck", amount,
                                                                                   12);
             subscription.eCheckBankAccount = new BankAccount()
                 {
@@ -105,7 +108,7 @@ namespace AuthorizeNETtest
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Assert.Fail(e.Message);
             }
 
             Assert.AreEqual(subscription.Amount, actual.Amount);
@@ -113,7 +116,9 @@ namespace AuthorizeNETtest
             Assert.AreEqual(subscription.SubscriptionName, actual.SubscriptionName);
 
             Assert.IsTrue(actual.SubscriptionID.Trim().Length > 0);
-            Assert.IsTrue(long.Parse(actual.SubscriptionID) == 2074569);
+
+            //Debug - testing against fixed ID is not valid.
+            //Assert.IsTrue(long.Parse(actual.SubscriptionID) == 2074569);
         }
 
         /// <summary>
@@ -126,28 +131,58 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
+
             string responseString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
             LocalRequestObject.ResponseString = responseString;
 
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
-            ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Update Subscrition Test",
-                                                                                  (decimal) 1.32, 12);
-            subscription.SubscriptionID = "2010573";
+            ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com", "ARB Update Subscrition Test", amount, 12);
+            
+            subscription.eCheckBankAccount = new BankAccount()
+            {
+                accountTypeSpecified = true,
+                accountType = BankAccountType.Checking,
+                routingNumber = "125000024",
+                accountNumber = "123456",
+                nameOnAccount = "Sue Zhu",
+                echeckTypeSpecified = true,
+                echeckType = EcheckType.WEB
+            };
+
+            Address billToAddress = new Address();
+            billToAddress.First = "Sue";
+            billToAddress.Last = "Zhu";
+            subscription.BillingAddress = billToAddress;
+            
+            ISubscriptionRequest actualSubscription = null;
+
+            try
+            {
+                  actualSubscription = target.CreateSubscription(subscription);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            subscription.SubscriptionID = actualSubscription.SubscriptionID;
 
             bool actual = false;
 
-            // if choose "USELOCAL", the test should pass with no exception
-            // Otherwise, the test might fail for error, i.e. duplicated request.
+            subscription.CustomerEmail = "suzhu2@visa.com";
+            subscription.Description = subscription.Description + " Updated!";
+            subscription.BillingCycles = subscription.BillingCycles++;
+
             try
             {
                 actual = target.UpdateSubscription(subscription);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Assert.Fail(e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -162,6 +197,7 @@ namespace AuthorizeNETtest
             //check login / password
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
 
             string responseString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
@@ -171,12 +207,35 @@ namespace AuthorizeNETtest
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
                                                                                   "ARB Update Subscrition Test",
-                                                                                  (decimal) 1.32, 12);
-            subscription.SubscriptionID = "2010573";
+                                                                                  amount, 12);
+
+            subscription.CardNumber = "4111111111111111";
+            subscription.CardExpirationMonth = 10;
+            subscription.CardExpirationYear = 17;
+            
+
+            Address billToAddress = new Address();
+            billToAddress.First = "Sue";
+            billToAddress.Last = "Zhu";
+            subscription.BillingAddress = billToAddress;
+
+            ISubscriptionRequest actualSubscription = null;
+
+            try
+            {
+                actualSubscription = target.CreateSubscription(subscription);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            subscription.SubscriptionID = actualSubscription.SubscriptionID;
+
 
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 4;
-            subscription.CardExpirationYear = 16;
+            subscription.CardExpirationYear = 17;
 
             bool actual = false;
 
@@ -188,7 +247,7 @@ namespace AuthorizeNETtest
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Assert.Fail(e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -203,6 +262,7 @@ namespace AuthorizeNETtest
             //check login / password
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
 
             string responseString =
                 "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
@@ -212,21 +272,43 @@ namespace AuthorizeNETtest
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
                                                                                   "ARB Update Subscrition Test",
-                                                                                  (decimal) 1.33, 12);
-            subscription.SubscriptionID = "2010573";
+                                                                                  amount, 12);
+
+            subscription.CardNumber = "4111111111111111";
+            subscription.CardExpirationMonth = 10;
+            subscription.CardExpirationYear = 17;
+
+
+            Address billToAddress = new Address();
+            billToAddress.First = "Sue";
+            billToAddress.Last = "Zhu";
+            subscription.BillingAddress = billToAddress;
+
+            ISubscriptionRequest actualSubscription = null;
+
+            try
+            {
+                actualSubscription = target.CreateSubscription(subscription);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            subscription.SubscriptionID = actualSubscription.SubscriptionID;
+            
             subscription.BillingCycles = 15;
+            subscription.Amount = subscription.Amount++;
 
             bool actual = false;
 
-            // if choose "USELOCAL", the test should pass with no exception
-            // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
                 actual = target.UpdateSubscription(subscription);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Assert.Fail(e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -241,6 +323,7 @@ namespace AuthorizeNETtest
             //check login / password
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
 
             string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBUpdateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></ARBUpdateSubscriptionResponse>";
             LocalRequestObject.ResponseString = responseString;
@@ -248,9 +331,30 @@ namespace AuthorizeNETtest
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("suzhu@visa.com",
-                                                                                  "ARB Update Subscrition Test Description and Invoice",
-                                                                                  (decimal)1.34, 12);
-            subscription.SubscriptionID = "2010573";
+                                                                                  "ARB Update Description and Invoice",
+                                                                                  amount, 12);
+            subscription.CardNumber = "4111111111111111";
+            subscription.CardExpirationMonth = 10;
+            subscription.CardExpirationYear = 17;
+
+
+            Address billToAddress = new Address();
+            billToAddress.First = "Sue";
+            billToAddress.Last = "Zhu";
+            subscription.BillingAddress = billToAddress;
+
+            ISubscriptionRequest actualSubscription = null;
+
+            try
+            {
+                actualSubscription = target.CreateSubscription(subscription);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+            subscription.SubscriptionID = actualSubscription.SubscriptionID;
             subscription.Invoice = "INV12345";
             subscription.Description = "update Description and Invoice";
 

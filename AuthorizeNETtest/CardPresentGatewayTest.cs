@@ -21,13 +21,15 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string responseString = "1.0|1|1|This transaction has been approved.|N8IV1Z|Y||2207395117|4BA6F435F8046E347710457856F3BAD1||||||||||||XXXX1111|Visa";
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
+
+            string responseString = string.Format("1.0|1|1|This transaction has been approved.|N8IV1Z|Y||2207395117|4BA6F435F8046E347710457856F3BAD1|{0}|||||||||||XXXX1111|Visa", amount);
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new CardPresentResponse(responseString.Split('|'));
 
             CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new CardPresentAuthorizationRequest((decimal)30.11, "4111111111111111", "02", "16");
+            IGatewayRequest request = new CardPresentAuthorizationRequest(amount, "4111111111111111", "02", "16");
             string description = "CP Auth transaction approved testing";
 
             IGatewayResponse actual = target.Send(request, description);

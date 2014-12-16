@@ -11,7 +11,6 @@
     [TestFixture]
     public class CreateTransactionSampleTest : ApiCoreTestBase
     {
-
         [TestFixtureSetUp]
         public new static void SetUpBeforeClass()
         {
@@ -127,6 +126,8 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
+            //debug - Add different amount
+
             //set up data based on transaction
             var transactionAmount = SetValidTransactionAmount(Counter);
             var opaqueData = new opaqueDataType
@@ -137,12 +138,22 @@
                 };
             //standard api call to retrieve response
             var paymentType = new paymentType { Item = opaqueData };
+
+            extendedAmountType transTax = new extendedAmountType();
+            transTax.amount = (decimal)12.50;
+            transTax.name = "Tax Name";
+            transTax.description = "Tax Item";
+
             var transactionRequest = new transactionRequestType
             {
                 transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
                 payment = paymentType,
                 amount = transactionAmount,
+                tax = transTax,
             };
+
+
+
             var request = new createTransactionRequest { transactionRequest = transactionRequest };
             var controller = new createTransactionController(request);
             controller.Execute();
@@ -162,11 +173,14 @@
         {
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+
+            //debug
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; //TestEnvironment;
+            //ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PLUM; //TestEnvironment;
 
             //set up data based on transaction
             var transactionAmount = new decimal(80.93);
-            var payPalData = new payPalType {paypalLc = "IT", paypalPayflowcolor = "FFFF00"};
+            var payPalData = new payPalType {paypalLc = "IT", paypalPayflowcolor = "FFFF00", cancelUrl = PayPalOne.cancelUrl, successUrl= PayPalOne.successUrl};
 
             //standard api call to retrieve response
             var paymentType = new paymentType { Item = payPalData };
@@ -190,6 +204,94 @@
             Assert.False(string.IsNullOrEmpty(response.transactionResponse.transHash));
             Assert.NotNull(response.transactionResponse.secureAcceptance);
             Assert.False(string.IsNullOrEmpty(response.transactionResponse.secureAcceptance.SecureAcceptanceUrl));
+        }
+
+        [Test]
+        public void CreateCustomerProfileFromTransaction()
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            string customerIndx = rnd.Next(99999).ToString();
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            //set up data based on transaction
+            var transactionAmount = SetValidTransactionAmount(Counter);
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
+
+            //Create and submit transaction with customer info to create profile from.
+            var paymentType = new paymentType { Item = creditCard };
+            var transactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),
+                payment = paymentType,
+                amount = transactionAmount,
+                customer = new customerDataType
+                {
+                    email = string.Format("Customer{0}@visa.com", customerIndx),
+                    taxId = string.Format("{0}{1}{2}", rnd.Next(999).ToString("000"), rnd.Next(99).ToString("00"), rnd.Next(9999).ToString("0000"))
+                },
+                billTo = new customerAddressType
+                {
+                    firstName = "New",
+                    lastName = string.Format("Customer{0}", customerIndx),
+                    address = "1234 Sample St NE",
+                    city = "Bellevue",
+                    state = "WA",
+                    zip = "98001"
+
+                }
+
+            };
+            var request = new createTransactionRequest { transactionRequest = transactionRequest };
+            var controller = new createTransactionController(request);
+            controller.Execute();
+            var response = controller.GetApiResponse();
+
+            //Verify that transaction was accepted and save the transaction ID
+            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
+            string txnID = response.transactionResponse.transId;
+
+
+            //Build and submit request to create Customer Profile based on the accepted transaction
+            createCustomerProfileFromTransactionRequest profileFromTransReq = new createCustomerProfileFromTransactionRequest();
+            profileFromTransReq.transId = txnID;
+
+            createCustomerProfileFromTransactionController profileFromTrxnController = new createCustomerProfileFromTransactionController(profileFromTransReq);
+            profileFromTrxnController.Execute();
+            createCustomerProfileResponse createProfResp = profileFromTrxnController.GetApiResponse();
+            Assert.AreEqual(messageTypeEnum.Ok, createProfResp.messages.resultCode);
+
+            //Get customer profile and verify that profile data matches the data submitted with the transaction
+            getCustomerProfileRequest profileReq = new getCustomerProfileRequest
+            {
+                customerProfileId = createProfResp.customerProfileId
+            };
+
+            getCustomerProfileController getCustContr = new getCustomerProfileController(profileReq);
+            getCustContr.Execute();
+            var getCustResp = getCustContr.GetApiResponse();
+
+            //Validate customer profile
+            Assert.AreEqual(createProfResp.customerProfileId, getCustResp.profile.customerProfileId);
+            Assert.AreEqual(transactionRequest.customer.email, getCustResp.profile.email);
+
+            string maskedTaxID = "XXXX" + transactionRequest.customer.taxId.Substring(transactionRequest.customer.taxId.Length -4);
+            Assert.AreEqual(maskedTaxID, getCustResp.profile.paymentProfiles[0].taxId);
+            Assert.AreEqual(createProfResp.customerPaymentProfileIdList[0], getCustResp.profile.paymentProfiles[0].customerPaymentProfileId);//payment profile ID
+
+            string originalCardNumber = ((creditCardSimpleType)transactionRequest.payment.Item).cardNumber.ToString();
+            string maskedCardNumber = string.Format("XXXX{0}",originalCardNumber.Substring(originalCardNumber.Length - 4));
+            Assert.AreEqual(maskedCardNumber, ((creditCardMaskedType)getCustResp.profile.paymentProfiles[0].payment.Item).cardNumber);//payment card number
+            Assert.AreEqual(transactionRequest.billTo.firstName, getCustResp.profile.paymentProfiles[0].billTo.firstName);//billto first name
+            Assert.AreEqual(transactionRequest.billTo.lastName, getCustResp.profile.paymentProfiles[0].billTo.lastName);//billto last name
+            Assert.AreEqual(transactionRequest.billTo.address, getCustResp.profile.paymentProfiles[0].billTo.address);//billto address
+            Assert.AreEqual(transactionRequest.billTo.city, getCustResp.profile.paymentProfiles[0].billTo.city);//billto address//billto city
+            Assert.AreEqual(transactionRequest.billTo.state, getCustResp.profile.paymentProfiles[0].billTo.state);//billto address//billto state
+            Assert.AreEqual(transactionRequest.billTo.zip, getCustResp.profile.paymentProfiles[0].billTo.zip);//billto address//billto zip
+           
+
+
         }
     }
 }

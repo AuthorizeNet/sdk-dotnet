@@ -25,18 +25,24 @@ namespace AuthorizeNETtest
             LocalRequestObject.ResponseString = responseString;
 
             ReportingGateway target = new ReportingGateway(ApiLogin, TransactionKey);
-            string batchId = "3260033";
-            var actual = target.GetBatchStatistics(batchId);
 
+            //Get list of available batches
+            List<Batch> settledBatches = target.GetSettledBatchList(true);
+
+
+
+            string batchId = settledBatches[0].ID;
+            var actual = target.GetBatchStatistics(batchId);
+            
             Assert.AreEqual(1, actual.Count);
             Assert.AreEqual(batchId, actual[0].ID);
-            Assert.AreEqual("creditCard", actual[0].PaymentMethod);
-            Assert.AreEqual("settledSuccessfully", actual[0].State);
-            Assert.AreEqual(1, actual[0].Charges.Count);
-            Assert.AreEqual((decimal)6.98, actual[0].Charges[0].Amount);
-            Assert.AreEqual("Visa", actual[0].Charges[0].CardType);
-            Assert.AreEqual(actual[0].MarketType, "eCommerce");
-            Assert.AreEqual(actual[0].Product, "Card Not Present");
+            Assert.AreEqual(settledBatches[0].PaymentMethod, actual[0].PaymentMethod);
+            Assert.AreEqual(settledBatches[0].State, actual[0].State);
+            Assert.AreEqual(settledBatches[0].Charges.Count, actual[0].Charges.Count);
+            Assert.AreEqual(settledBatches[0].Charges[0].Amount, actual[0].Charges[0].Amount);
+            Assert.AreEqual(settledBatches[0].Charges[0].CardType, actual[0].Charges[0].CardType);
+            Assert.AreEqual(actual[0].MarketType, settledBatches[0].MarketType);
+            Assert.AreEqual(actual[0].Product, settledBatches[0].Product);
         }
 
         /// <summary>
@@ -85,23 +91,18 @@ namespace AuthorizeNETtest
             }
             catch (Exception e)
             {
-                sErr = e.Message;
+                Assert.Fail(e.Message);
             }
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.Count, 9);
-            Assert.AreEqual(actual[0].ID, "3319724");
-            Assert.AreEqual(actual[0].MarketType, "eCommerce");
-            Assert.AreEqual(actual[0].Product, "Card Not Present");
 
-            Assert.AreEqual(actual[1].ID, "3321516");
-            Assert.AreEqual(actual[2].ID, "3323130");
-            Assert.AreEqual(actual[3].ID, "3332321");
-            Assert.AreEqual(actual[4].ID, "3338386");
-            Assert.AreEqual(actual[5].ID, "3351463");
-            Assert.AreEqual(actual[6].ID, "3357414");
-            Assert.AreEqual(actual[7].ID, "3378742");
-            Assert.AreEqual(actual[8].ID, "3392423");
+            foreach (Batch batch in actual)
+            {
+                List<Batch> singleBatch = target.GetBatchStatistics(batch.ID);
+                Assert.AreEqual(batch.MarketType, singleBatch[0].MarketType);
+                Assert.AreEqual(batch.PaymentMethod, singleBatch[0].PaymentMethod);
+                Assert.AreEqual(batch.Product, singleBatch[0].Product);
+            }
         }
 
         /// <summary>
@@ -188,7 +189,10 @@ namespace AuthorizeNETtest
             LocalRequestObject.ResponseString = responseString;
 
             ReportingGateway target = new ReportingGateway(ApiLogin, TransactionKey);
-            string transId = "2209067941";
+
+            List<Transaction> availableTrans = target.GetTransactionList();
+
+            string transId = availableTrans[0].TransactionID;
             Transaction actual = null;
             string sErr = "";
 
@@ -204,17 +208,16 @@ namespace AuthorizeNETtest
             }
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(actual.AuthorizationAmount, (decimal)3.99);
-            Assert.AreEqual(actual.BatchSettlementState, "settledSuccessfully");
-            Assert.AreEqual(actual.CardType, "Visa");
-            Assert.AreEqual(actual.ResponseReason, "Approval");
-            Assert.AreEqual(actual.SettleAmount, (decimal)3.99);
-            Assert.AreEqual(actual.Status, "settledSuccessfully");
-            Assert.AreEqual(actual.TransactionType, "authCaptureTransaction");
+            Assert.AreEqual(actual.AuthorizationAmount, availableTrans[0].AuthorizationAmount);
+            Assert.AreEqual(actual.BatchSettlementState, availableTrans[0].BatchSettlementState);
+            Assert.AreEqual(actual.CardType, availableTrans[0].CardType);
+            Assert.AreEqual(actual.ResponseReason, availableTrans[0].ResponseReason);
+            Assert.AreEqual(actual.SettleAmount, availableTrans[0].SettleAmount);
+            Assert.AreEqual(actual.Status, availableTrans[0].Status);
+            Assert.AreEqual(actual.TransactionType, availableTrans[0].TransactionType);
             Assert.AreEqual(actual.TransactionID, transId);
-            Assert.AreEqual(actual.MarketType, "eCommerce");
-            Assert.AreEqual(actual.Product, "Card Not Present");
-            Assert.IsNull(actual.eCheckBankAccount);
+            Assert.AreEqual(actual.MarketType, availableTrans[0].MarketType);
+            Assert.AreEqual(actual.Product, availableTrans[0].Product);
         }
 
         /// <summary>

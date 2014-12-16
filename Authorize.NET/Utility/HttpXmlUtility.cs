@@ -12,7 +12,7 @@ namespace AuthorizeNet {
     /// </summary>
     public class HttpXmlUtility {
 
-        string _serviceUrl = TEST_URL;
+        string _serviceUrl = AuthorizeNet.Environment.PLUM.getXmlBaseUrl() + "/xml/v1/request.api";
         string _apiLogin = "";
         string _transactionKey = "";
 
@@ -29,8 +29,11 @@ namespace AuthorizeNet {
             _transactionKey = transactionKey;
         }
 
-        public const string TEST_URL = "https://apitest.authorize.net/xml/v1/request.api";
-        public const string URL = "https://api.authorize.net/xml/v1/request.api";
+        //debug
+        //public const string TEST_URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
+        //public const string URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
+        //public string TEST_URL = AuthorizeNet.Environment.PLUM.getXmlBaseUrl() + "/xml/v1/request.api";
+        public string URL = AuthorizeNet.Environment.PLUM.getXmlBaseUrl() + "/xml/v1/request.api"; 
 
         /// <summary>
         /// Adds authentication information to the request.
@@ -66,6 +69,17 @@ namespace AuthorizeNet {
             writer.Close();
 
 
+            //debug
+            String XmlString = null;
+            XmlSerializer xs = new XmlSerializer(apiRequest.GetType());
+            MemoryStream memS = new MemoryStream();
+            XmlTextWriter xTW = new XmlTextWriter(memS, Encoding.UTF8);
+            xs.Serialize(xTW, apiRequest);
+            memS = (MemoryStream)xTW.BaseStream;
+            UTF8Encoding encoding = new UTF8Encoding();
+            XmlString = encoding.GetString(memS.ToArray());
+
+
             // Get the response
             WebResponse webResponse = webRequest.GetResponse();
 
@@ -95,25 +109,27 @@ namespace AuthorizeNet {
         void CheckForErrors(ANetApiResponse response) {
 
             if (response.GetType() == typeof(createCustomerProfileTransactionResponse)) {
-                //there's a directResponse we need to find...
-                var thingy = (createCustomerProfileTransactionResponse)response;
-                thingy.directResponse = null;
-                for (var i = 0; i <= 1; i++)
-                {
-                    if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
-                    {
-                        for (var j = 0; j <= 1; j++)
-                        {
-                            if (null != _xmlDoc.ChildNodes[i].ChildNodes[j])
-                            {
-                                thingy.directResponse = _xmlDoc.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (null != thingy.directResponse) { break; }
-                        }
-                    }
-                    if (null != thingy.directResponse) { break; }
-                }
-                response = thingy;
+
+                //Debug  --  delete this code after all tests are working.
+                ////there's a directResponse we need to find...
+                //var thingy = (createCustomerProfileTransactionResponse)response;
+                //thingy.directResponse = null;
+                //for (var i = 0; i <= 1; i++)
+                //{
+                //    if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
+                //    {
+                //        for (var j = 0; j <= 1; j++)
+                //        {
+                //            if (null != _xmlDoc.ChildNodes[i].ChildNodes[j])
+                //            {
+                //                thingy.directResponse = _xmlDoc.ChildNodes[i].ChildNodes[j].InnerText;
+                //            }
+                //            if (null != thingy.directResponse) { break; }
+                //        }
+                //    }
+                //    if (null != thingy.directResponse) { break; }
+                //}
+                //response = thingy;
             } else {
 
                 if (response.messages.message.Length > 0) {

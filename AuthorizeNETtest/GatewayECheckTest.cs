@@ -243,18 +243,24 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string transID = "2207700297";
-
-            string responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|5.14|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX1111|Visa||||||||||||||||";
-            LocalRequestObject.ResponseString = responseString;
-            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
-
             Gateway target = new Gateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new EcheckCreditRequest(transID, (decimal)5.14, "3456");
-            string description = "Credit transaction approved testing";
+            decimal transAmt = (decimal)((double)rnd.Next(9999) / 100);
+
+            IGatewayRequest request = new EcheckRequest(EcheckType.PPD, transAmt, "125000024", "123456", BankAccountType.Checking, "Bank of Seattle", "Sue Zhu", "1234");
+            string description = "AuthCap transaction approved testing";
 
             IGatewayResponse actual = target.Send(request, description);
+
+            string transID = actual.TransactionID;
+
+            string responseString = string.Format("1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|{0}|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX1111|Visa||||||||||||||||", transAmt);
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+            request = new EcheckCreditRequest(transID, transAmt, "123456", "125000024");
+            description = "Credit transaction approved testing";
+
+            actual = target.Send(request, description);
 
             Assert.AreEqual(expected.Amount, actual.Amount);
             Assert.AreEqual(expected.Approved, actual.Approved);

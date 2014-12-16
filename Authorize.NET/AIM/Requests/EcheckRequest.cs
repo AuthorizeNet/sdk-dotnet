@@ -178,13 +178,14 @@ namespace AuthorizeNet {
         /// <param name="amount"></param>
         /// <param name="transactionId">The transaction id.</param>
         /// <param name="bankAccountNumber">The customer’s valid bank account number</param>
-        public EcheckCreditRequest(string transactionId, decimal amount, string bankAccountNumber)
+        public EcheckCreditRequest(string transactionId, decimal amount, string bankAccountNumber, string bankABACode)
         {
             this.SetApiAction(RequestAction.Credit);
             this.Queue(ApiFields.Method, "ECHECK");
             this.Queue(ApiFields.Amount, amount.ToString());
             this.Queue(ApiFields.TransactionID, transactionId);
             this.BankAccountNumber = bankAccountNumber;
+            this.BankABACode = bankABACode;
         }
     }
 

@@ -58,6 +58,10 @@ namespace AuthorizeNet.Util
             {
 	            Logger.debug(string.Format("Received Response: '{0}'", webResponse));
 
+                //System.IO.StreamReader sr = new System.IO.StreamReader(webResponse.GetResponseStream());
+                //string rawResponse = sr.ReadToEnd();
+                //sr.Close();
+
 	            var responseType = typeof (TS);
 	            var deSerializer = new XmlSerializer(responseType);
 	            using (var stream = webResponse.GetResponseStream())

@@ -64,6 +64,8 @@ namespace AuthorizeNet {
             myWriter.Write(postData);
             myWriter.Close();
 
+
+
             // returned values are returned as a stream, then read into a string
             var response = (HttpWebResponse)webRequest.GetResponse();
             using (StreamReader responseStream = new StreamReader(response.GetResponseStream())) {

@@ -22,8 +22,9 @@ namespace AuthorizeNet.Api.Controllers.Test
 	
 	    protected static readonly IDictionary<String, String> ErrorMessages ;
 	
-	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+	    //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
         //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
+        protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.PLUM;
 
 	    static Merchant _merchant ;
 	    static readonly String ApiLoginIdKey ;
@@ -77,6 +78,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    ApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvApiLoginid, AuthorizeNet.Util.Constants.PropApiLoginid);
 		    TransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvTransactionKey, AuthorizeNet.Util.Constants.PropTransactionKey);
 		    _md5HashKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvMd5Hashkey, AuthorizeNet.Util.Constants.PropMd5Hashkey);
+
 
             //require only one cnp or cp merchant keys
             if (null != ApiLoginIdKey && null != TransactionKey)

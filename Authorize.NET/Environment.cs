@@ -3,6 +3,7 @@ namespace AuthorizeNet
     using System;
     using System.Configuration;
     using System.Linq;
+    using System.Collections.Generic;
 
     /**
      *	Determines which environment to post transactions against.
@@ -36,14 +37,19 @@ namespace AuthorizeNet
      *  to void the transaction, the impact will be minimal. For VISA verification
      *  transactions, submit a $0.00 value instead, if the processor accepts it.
      */
-    public class Environment {
+
+    public class Environment
+    {
+
         public static readonly Environment SANDBOX = new Environment("https://test.authorize.net", "https://apitest.authorize.net", "https://test.authorize.net");
         public static readonly Environment SANDBOX_TESTMODE = new Environment("https://test.authorize.net", "https://apitest.authorize.net", "https://test.authorize.net");
-	    public static readonly Environment PRODUCTION = new Environment("https://secure.authorize.net","https://api.authorize.net","https://cardpresent.authorize.net");
-	    public static readonly Environment PRODUCTION_TESTMODE = new Environment("https://secure.authorize.net","https://api.authorize.net","https://cardpresent.authorize.net");
-	    public static readonly Environment LOCAL_VM = new Environment(null, null, null);
-	    public static readonly Environment HOSTED_VM = new Environment(null, null, null);
+        public static readonly Environment PRODUCTION = new Environment("https://secure.authorize.net", "https://api.authorize.net", "https://cardpresent.authorize.net");
+        public static readonly Environment PRODUCTION_TESTMODE = new Environment("https://secure.authorize.net", "https://api.authorize.net", "https://cardpresent.authorize.net");
+        public static readonly Environment LOCAL_VM = new Environment(null, null, null);
+        public static readonly Environment HOSTED_VM = new Environment(null, null, null);
         public static readonly Environment CUSTOM = new Environment(null, null, null);
+        public static readonly Environment PLUM = new Environment("https://SECUREPLU.LABWEBAPP.COM", "https://downloadvposplu.labwebapp.com", "https://SECUREPLU.LABWEBAPP.COM");
+
 
 	    private String _baseUrl;
 	    private String _xmlBaseUrl;

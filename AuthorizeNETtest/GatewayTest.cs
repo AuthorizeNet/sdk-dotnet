@@ -20,13 +20,16 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string responseString = "1|1|1|This transaction has been approved.|7339F5|Y|2207176015||testing|20.10|CC|auth_capture||||||||||||||||||||||||||7639D026F54F4DF70EA3F7DE5A350929||2|||||||||||XXXX1111|Visa||||||||||||||||";
+            //set random amount so repeat runs don't fail with duplicate transaction
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
+
+            string responseString = string.Format("1|1|1|This transaction has been approved.|7339F5|Y|2207176015||testing|{0}|CC|auth_capture||||||||||||||||||||||||||7639D026F54F4DF70EA3F7DE5A350929||2|||||||||||XXXX0015|Visa||||||||||||||||", amount);
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
 
             Gateway target = new Gateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
+            IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", amount, "AuthCap transaction approved testing", true);
             string description = "AuthCap transaction approved testing";
             IGatewayResponse actual = target.Send(request, description);
             
@@ -162,18 +165,31 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string transID = "2207700297";
-
-            string responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|6.14|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX1111|Visa||||||||||||||||";
-            LocalRequestObject.ResponseString = responseString;
-            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+            //set random amount so repeat runs don't fail with duplicate transaction
+            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
 
             Gateway target = new Gateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new CreditRequest(transID, (decimal)6.14, "1111");
-            string description = "Credit transaction approved testing";
-
+            IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", amount, "AuthCap transaction approved testing", true);
+            string description = "AuthCap transaction approved testing";
             IGatewayResponse actual = target.Send(request, description);
+
+            IGatewayRequest captureTest = new CaptureRequest(actual.AuthorizationCode, "5424000000000015", "0224", amount);
+            IGatewayResponse capRes = target.Send(captureTest, "debug");
+
+            Assert.IsTrue(actual.Approved == true, "Create Transaction to credit failed.");
+
+
+            string transID = actual.TransactionID;
+
+            string responseString = string.Format("1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|{0}|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX1111|Visa||||||||||||||||", amount);
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+
+            request = new CreditRequest(transID, amount, "1111", "0224");
+            description = "Credit transaction approved testing";
+
+            actual = target.Send(request, description);
 
             Assert.AreEqual(expected.Amount, actual.Amount);
             Assert.AreEqual(expected.Approved, actual.Approved);
