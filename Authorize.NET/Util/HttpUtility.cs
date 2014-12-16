@@ -47,7 +47,6 @@ namespace AuthorizeNet.Util
             webRequest.Proxy = SetProxyIfRequested(webRequest.Proxy);
 
             var requestType = typeof (TQ);
-
             var serializer = new XmlSerializer(requestType);
             using (var writer = new XmlTextWriter(webRequest.GetRequestStream(), Encoding.UTF8))
 	        {
@@ -55,62 +54,60 @@ namespace AuthorizeNet.Util
 	        }
 
             // Get the response
-            String stringResponse = null;
+            String responseAsString = null;
             Logger.debug(string.Format("Retreiving Response from Url: '{0}'", postUrl));
             using (var webResponse = webRequest.GetResponse())
             {
                 Logger.debug(string.Format("Received Response: '{0}'", webResponse));
 
-                using (var streamData = webResponse.GetResponseStream())
+                using (var responseStream = webResponse.GetResponseStream())
                 {
-                    if (null != streamData)
+                    if (null != responseStream)
                     {
-                        using (var reader = new StreamReader(streamData))
+                        using (var reader = new StreamReader(responseStream))
                         {
-                            stringResponse = reader.ReadToEnd();
+                            responseAsString = reader.ReadToEnd();
                         }
-                        Logger.debug(string.Format("Response from Stream: '{0}'", stringResponse));
+                        Logger.debug(string.Format("Response from Stream: '{0}'", responseAsString));
                     }
                 }
             }
-            if (null != stringResponse)
+            if (null != responseAsString)
             {
-                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(stringResponse)))
+                using (var memoryStreamForResponseAsString = new MemoryStream(Encoding.UTF8.GetBytes(responseAsString)))
                 {
                     var responseType = typeof (TS);
                     var deSerializer = new XmlSerializer(responseType);
 
-                    //if (null != stringResponse)
+                    Object deSerializedObject;
+                    try
                     {
-                        Object deSerializedObject;
+                        // try deserializing to the expected response type
+                        deSerializedObject = deSerializer.Deserialize(memoryStreamForResponseAsString);
+                    }
+                    catch (Exception) 
+                    {
+                        // probably a bad response, try if this is an error response
+                        memoryStreamForResponseAsString.Seek(0, SeekOrigin.Begin); //start from beginning of stream
+                        var genericDeserializer = new XmlSerializer(typeof (ANetApiResponse));
+                        deSerializedObject = genericDeserializer.Deserialize(memoryStreamForResponseAsString);
+                    }
 
-                        try
+                    //if error response
+                    if (deSerializedObject is ErrorResponse)
+                    {
+                        response = deSerializedObject as ErrorResponse;
+                    }
+                    else
+                    {
+                        //actual response of type expected
+                        if (deSerializedObject is TS)
                         {
-                            deSerializedObject = deSerializer.Deserialize(stream);
+                            response = deSerializedObject as TS;
                         }
-                        catch (Exception)
+                        else if (deSerializedObject is ANetApiResponse) //generic response
                         {
-                            stream.Seek(0, SeekOrigin.Begin);
-                            var errorDeserializer = new XmlSerializer(typeof (ANetApiResponse));
-                            deSerializedObject = errorDeserializer.Deserialize(stream);
-                        }
-
-                        //if error response
-                        if (deSerializedObject is ErrorResponse)
-                        {
-                            response = deSerializedObject as ErrorResponse;
-                        }
-                        else
-                        {
-                            //actual response of type expected
-                            if (deSerializedObject is TS)
-                            {
-                                response = deSerializedObject as TS;
-                            }
-                            else if (deSerializedObject is ANetApiResponse) //generic response
-                            {
-                                response = deSerializedObject as ANetApiResponse;
-                            }
+                            response = deSerializedObject as ANetApiResponse;
                         }
                     }
                 }
@@ -135,7 +132,7 @@ namespace AuthorizeNet.Util
                 {
                     newProxy = new WebProxy(proxyUri);
                 }
-                if (null != newProxy)
+                //if (null != newProxy)
                 {
                     newProxy.UseDefaultCredentials = true;
                     newProxy.BypassProxyOnLocal = true;
