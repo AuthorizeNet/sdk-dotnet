@@ -1,0 +1,8 @@
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\bin\CoffeeShopWebApp.dll
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\bin\CoffeeShopWebApp.pdb
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\bin\AuthorizeNet.dll
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\bin\AuthorizeNet.pdb
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\bin\AuthorizeNet.xml
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\obj\Debug\CoffeeShopWebApp.csprojResolveAssemblyReference.cache
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\obj\Debug\CoffeeShopWebApp.dll
+C:\dthurmanGitBranch\sdk-dotnet\CoffeeShopWebApp\obj\Debug\CoffeeShopWebApp.pdb

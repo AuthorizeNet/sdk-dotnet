@@ -77,7 +77,6 @@
     <Compile Include="Api\Controllers\Test\*.cs" />
     <Compile Include="Api\Controllers\MockTest\*.cs" />
     <Compile Include="Api\Controllers\SampleTest\ArbSubscriptionSampleTest.cs" />
-    <Compile Include="Api\Controllers\SampleTest\CreateProfileSampleTest.cs" />
     <Compile Include="Api\Controllers\SampleTest\CreateTransactionSampleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

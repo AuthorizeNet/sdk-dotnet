@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\bin\Debug\AuthorizeNETtest.dll" total="20" errors="0" failures="8" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2014-12-15" time="09:11:33">
+  <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.5485" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.6.3\bin" machine-name="WW730VSMBU021" user="dthurman" user-domain="VISA" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\bin\Debug\AuthorizeNETtest.dll" executed="True" result="Failure" success="False" time="18.123" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="AuthorizeNet" executed="True" result="Success" success="True" time="5.710" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Api" executed="True" result="Success" success="True" time="5.710" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="Controllers" executed="True" result="Success" success="True" time="5.709" asserts="0">
+                <results>
+                  <test-suite type="Namespace" name="SampleTest" executed="True" result="Success" success="True" time="5.709" asserts="0">
+                    <results>
+                      <test-suite type="TestFixture" name="CreateTransactionSampleTest" executed="True" result="Success" success="True" time="5.705" asserts="0">
+                        <results>
+                          <test-case name="AuthorizeNet.Api.Controllers.SampleTest.CreateTransactionSampleTest.CreateTransactionWithCreditCard" executed="True" result="Success" success="True" time="5.358" asserts="5" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="Namespace" name="AuthorizeNETtest" executed="True" result="Failure" success="False" time="12.363" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="CustomerGatewayTest" executed="True" result="Success" success="True" time="6.498" asserts="0">
+            <results>
+              <test-case name="AuthorizeNETtest.CustomerGatewayTest.AuthorizeAndCaptureTest" executed="True" result="Success" success="True" time="1.190" asserts="9" />
+              <test-case name="AuthorizeNETtest.CustomerGatewayTest.AuthorizeAndCaptureTest_ExtraOptions" executed="True" result="Success" success="True" time="0.818" asserts="9" />
+              <test-case name="AuthorizeNETtest.CustomerGatewayTest.AuthorizeAndCaptureTest_InvoiceDescriptionPONumber" executed="True" result="Success" success="True" time="1.141" asserts="10" />
+              <test-case name="AuthorizeNETtest.CustomerGatewayTest.SendTest_AuthOnly_ExtraOptions" executed="True" result="Success" success="True" time="0.713" asserts="9" />
+              <test-case name="AuthorizeNETtest.CustomerGatewayTest.SendTest_Capture_Approved" executed="True" result="Success" success="True" time="0.909" asserts="11" />
+              <test-case name="AuthorizeNETtest.CustomerGatewayTest.SendTest_PriorAuthCapture_Approved" executed="True" result="Success" success="True" time="0.866" asserts="12" />
+              <test-case name="AuthorizeNETtest.CustomerGatewayTest.TestCheckForErrorscreateCustomerProfileTransactionResponse" executed="True" result="Success" success="True" time="0.826" asserts="2" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="ReportingGatewayTest" executed="True" result="Failure" success="False" time="5.859" asserts="0">
+            <results>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetBatchStatisticsTest" executed="True" result="Success" success="True" time="0.654" asserts="10" />
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetBatchStatisticsTest_NoRecord" executed="True" result="Success" success="True" time="0.048" asserts="2" />
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetSettledBatchListTest" executed="True" result="Success" success="True" time="1.028" asserts="68" />
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetSettledBatchListTest_NoRecord" executed="True" result="Success" success="True" time="0.055" asserts="3" />
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest" executed="True" result="Failure" success="False" time="2.096" asserts="3">
+                <failure>
+                  <message><![CDATA[  Expected: 10.12m
+  But was:  0m
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 211
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_AccessDenied" executed="True" result="Failure" success="False" time="0.298" asserts="3">
+                <failure>
+                  <message><![CDATA[  Expected string length 62 but was 114. Strings differ at index 30.
+  Expected: "Error processing request: E00040 - The record cannot be found."
+  But was:  "Error processing request: E00011 - Access denied. You do not ..."
+  -----------------------------------------^
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_AccessDenied() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 171
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_WithReturnedItems" executed="True" result="Failure" success="False" time="0.265" asserts="2">
+                <failure>
+                  <message><![CDATA[  Expected: not null
+  But was:  null
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_WithReturnedItems() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 304
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_WithSolutionID" executed="True" result="Failure" success="False" time="0.270" asserts="2">
+                <failure>
+                  <message><![CDATA[  Expected: not null
+  But was:  null
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_WithSolutionID() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 359
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_WithSubscription" executed="True" result="Failure" success="False" time="0.088" asserts="2">
+                <failure>
+                  <message><![CDATA[  Expected: not null
+  But was:  null
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionDetailsTest_WithSubscription() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 256
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionListTest" executed="True" result="Failure" success="False" time="0.082" asserts="3">
+                <failure>
+                  <message><![CDATA[  Expected: 0
+  But was:  4
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionListTest() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 412
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionListTest_DateRange" executed="True" result="Failure" success="False" time="0.041" asserts="3">
+                <failure>
+                  <message><![CDATA[  Expected: 0
+  But was:  2
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetTransactionListTest_DateRange() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 469
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="AuthorizeNETtest.ReportingGatewayTest.Reporting_GetUnsettledTransactionListTest" executed="True" result="Failure" success="False" time="0.400" asserts="3">
+                <failure>
+                  <message><![CDATA[  Expected: 321
+  But was:  5
+]]></message>
+                  <stack-trace><![CDATA[at AuthorizeNETtest.ReportingGatewayTest.Reporting_GetUnsettledTransactionListTest() in C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\ReportingGatewayTest.cs:line 505
+]]></stack-trace>
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

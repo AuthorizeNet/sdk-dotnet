@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="true">
+  <TopNode>[0-1039]AuthorizeNet.Api.Controllers.MockTest.sendCustomerTransactionReceiptTest</TopNode>
+  <SelectedNode>[0-1164]C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\bin\Debug\AuthorizeNETtest.dll</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1164]C:\dthurmanGitBranch\sdk-dotnet\AuthorizeNETtest\bin\Debug\AuthorizeNETtest.dll" Expanded="true" />
+    <Node UniqueName="[0-1165]AuthorizeNet" Expanded="true" />
+    <Node UniqueName="[0-1166]AuthorizeNet.Api" Expanded="true" />
+    <Node UniqueName="[0-1167]AuthorizeNet.Api.Controllers" Expanded="true" />
+    <Node UniqueName="[0-1168]AuthorizeNet.Api.Controllers.MockTest" Expanded="true" />
+    <Node UniqueName="[0-1170]AuthorizeNet.Api.Controllers.SampleTest" Expanded="true" />
+    <Node UniqueName="[0-1022]AuthorizeNet.Api.Controllers.SampleTest.CreateTransactionSampleTest" Expanded="true" />
+    <Node UniqueName="[0-1024]AuthorizeNet.Api.Controllers.SampleTest.CreateTransactionSampleTest.CreateTransactionWithCreditCard" Checked="true" />
+    <Node UniqueName="[0-1171]AuthorizeNet.Api.Controllers.Test" Expanded="true" />
+    <Node UniqueName="[0-1169]AuthorizeNETtest" Expanded="true" />
+    <Node UniqueName="[0-1011]AuthorizeNETtest.CardPresentGatewayTest" Expanded="true" />
+  </Nodes>
+</VisualState>

@@ -58,9 +58,8 @@ namespace AuthorizeNet {
     public class CardPresentGateway:Gateway, ICardPresentGateway {
         
         //debug
-        string _serviceUrl = "https://test.authorize.net/gateway/transact.dll";
-        //string _serviceUrl = "https://secureplu.labwebapp.com/gateway/transact.dll";
-        //tbd - what is the card present host for color environments?
+        //string _serviceUrl = Environment.SANDBOX.getCardPresentUrl();
+        string _serviceUrl = Environment.PLUM.getCardPresentUrl();
 
         DeviceType _deviceType = DeviceType.PersonalComputerBasedTerminal;
         string _marketType = "2";
@@ -76,9 +75,8 @@ namespace AuthorizeNet {
             if (isTest) 
             {
                 //debug
-                //string serviceUrl = "https://test.authorize.net/gateway/transact.dll";
-                //tbd - what is the cardpresent host for color environments?
-                string _serviceUrl = "https://test.authorize.net/xml/v1/request.api";
+                //string _serviceUrl = Environment.SANDBOX.getCardPresentUrl();
+                string _serviceUrl = Environment.PLUM.getCardPresentUrl();
             }
         }
 

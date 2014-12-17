@@ -108,29 +108,7 @@ namespace AuthorizeNet {
         }
         void CheckForErrors(ANetApiResponse response) {
 
-            if (response.GetType() == typeof(createCustomerProfileTransactionResponse)) {
-
-                //Debug  --  delete this code after all tests are working.
-                ////there's a directResponse we need to find...
-                //var thingy = (createCustomerProfileTransactionResponse)response;
-                //thingy.directResponse = null;
-                //for (var i = 0; i <= 1; i++)
-                //{
-                //    if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
-                //    {
-                //        for (var j = 0; j <= 1; j++)
-                //        {
-                //            if (null != _xmlDoc.ChildNodes[i].ChildNodes[j])
-                //            {
-                //                thingy.directResponse = _xmlDoc.ChildNodes[i].ChildNodes[j].InnerText;
-                //            }
-                //            if (null != thingy.directResponse) { break; }
-                //        }
-                //    }
-                //    if (null != thingy.directResponse) { break; }
-                //}
-                //response = thingy;
-            } else {
+            if (response.GetType() != typeof(createCustomerProfileTransactionResponse)) {
 
                 if (response.messages.message.Length > 0) {
 
