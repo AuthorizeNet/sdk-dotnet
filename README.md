@@ -1,5 +1,8 @@
 # Authorize.Net .Net SDK
 
+[![Build Status](https://travis-ci.org/AuthorizeNet/sdk-dotnet.png?branch=future)]
+(https://travis-ci.org/AuthorizeNet/sdk-dotnet)
+
 `PM> Install-Package AuthorizeNet`
 
 
@@ -71,7 +74,7 @@ Place the following code in the default action of a simple MVC application to di
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("john@doe.com",
-                                                                                  "ARB Subscrition Test 5", (decimal)5.50,
+                                                                                  "ARB Subscription Test 5", (decimal)5.50,
                                                                                   12);
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 1;

@@ -612,6 +612,7 @@ namespace AuthorizeNet {
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
             return new GatewayResponse(response.directResponse.Split(','));
         }
+
         /// <summary>
         /// Voids a previously authorized transaction
         /// </summary>

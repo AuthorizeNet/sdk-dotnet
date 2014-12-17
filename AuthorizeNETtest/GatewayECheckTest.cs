@@ -1,5 +1,5 @@
 ﻿using AuthorizeNet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Configuration;
 
 namespace AuthorizeNETtest
@@ -7,13 +7,13 @@ namespace AuthorizeNETtest
     /// <summary>
     /// This is a test class for GatewayECheckTest and is intended to contain all ECheck Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture()]
     public class GatewayECheckTest : BaseTest
     {
         /// <summary>
         /// AuthCap Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_AuthCap_Approved()
         {
             //check login / password
@@ -44,7 +44,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthCap Transaction CheckTypePPD Saving - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_AuthCap_PPD_Saving_Approved()
         {
             //check login / password
@@ -75,7 +75,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthCap Transaction CheckTypePPD BusinessChecking - denied
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_AuthCap_PPD_BusinessChecking_Denied()
         {
             //check login / password
@@ -106,7 +106,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthCap Transaction CheckTypeCCD BusinessChecking - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_AuthCap_CCD_BusinessChecking_Approved()
         {
             //check login / password
@@ -137,7 +137,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Auth Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Auth_Approved()
         {
             //check login / password
@@ -168,7 +168,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Capture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Capture_Approved()
         {
             //check login / password
@@ -199,7 +199,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// PriorAuthCapture Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_PriorAuthCapture_Approved()
         {
             //check login / password
@@ -236,7 +236,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Credit Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Credit_Approved()
         {
             //check login / password
@@ -269,7 +269,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// UnlinkedCredit Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_UnlinkedCredit_Approved()
         {
             //check login / password
@@ -301,7 +301,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// Void Transaction - Approved
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void SendTest_Void_Approved()
         {
             //check login / password

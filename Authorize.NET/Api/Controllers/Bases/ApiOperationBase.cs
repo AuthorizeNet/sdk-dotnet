@@ -47,9 +47,9 @@ namespace AuthorizeNet.Api.Controllers.Bases
 	        _responseClass = typeof(TS);// GetResponseType();
 		    SetApiRequest(apiRequest);
 		
-		    Logger.info(string.Format("Creating instance for request:'{0}' and response:'{1}'", _requestClass, _responseClass));
-		    Logger.info(string.Format("Request:'{0}'", apiRequest));
-            Logger.info(string.Format("Request:'{0}'", XmlUtility.GetXml(apiRequest)));
+		    Logger.debug(string.Format("Creating instance for request:'{0}' and response:'{1}'", _requestClass, _responseClass));
+            //Logger.debug(string.Format("Request:'{0}'", apiRequest));
+            //Logger.debug(string.Format("Request(Ctor):'{0}'", XmlUtility.GetXml(apiRequest)));
 		    Validate();
 	    }
 	
@@ -87,37 +87,37 @@ namespace AuthorizeNet.Api.Controllers.Bases
 
         public void Execute(AuthorizeNet.Environment environment = null)
         {
-		    Logger.info(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", GetApiRequest()));
+            BeforeExecute();
+
+            Logger.debug(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", XmlUtility.GetXml(GetApiRequest())));
 
             if (null == environment) { environment = ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment; }
             if (null == environment) throw new ArgumentException(NullEnvironmentErrorMessage);
-
-		    BeforeExecute();
 
             var httpApiResponse = HttpUtility.PostData<TQ, TS>(environment, GetApiRequest());
 
             if (null != httpApiResponse)
 		    {
-                Logger.info(string.Format(CultureInfo.InvariantCulture, "Received Response:'{0}' for request:'{1}'", httpApiResponse, GetApiRequest()));
+                Logger.debug(string.Format(CultureInfo.InvariantCulture, "Received Response:'{0}' for request:'{1}'", httpApiResponse, GetApiRequest()));
                 if (httpApiResponse.GetType() == _responseClass)
 			    {
                     var response = (TS) httpApiResponse;
 				    SetApiResponse( response);
-				    Logger.info(string.Format(CultureInfo.InvariantCulture, "Setting response: '{0}'", response));
+                    Logger.debug(string.Format(CultureInfo.InvariantCulture, "Setting response: '{0}'", response));
                 }
                 else if (httpApiResponse.GetType() == typeof(AuthorizeNet.Api.Controllers.Bases.ErrorResponse))
                 {
                     SetErrorResponse(httpApiResponse);
-                    Logger.info(string.Format(CultureInfo.InvariantCulture, "Received ErrorResponse:'{0}'", httpApiResponse));
+                    Logger.debug(string.Format(CultureInfo.InvariantCulture, "Received ErrorResponse:'{0}'", httpApiResponse));
 			    } else {
                     SetErrorResponse(httpApiResponse);
                     Logger.error(string.Format(CultureInfo.InvariantCulture, "Invalid response:'{0}'", httpApiResponse));
 			    }
-                Logger.info(string.Format("Response obtained: {0}", GetApiResponse()));
+                Logger.debug(string.Format("Response obtained: {0}", GetApiResponse()));
 			    SetResultStatus();
 			
 		    } else {
-			    Logger.info(string.Format(CultureInfo.InvariantCulture, "Got a 'null' Response for request:'{0}'\n", GetApiRequest()));
+                Logger.debug(string.Format(CultureInfo.InvariantCulture, "Got a 'null' Response for request:'{0}'\n", GetApiRequest()));
 		    }
 		    AfterExecute();
 	    }

@@ -1,35 +1,34 @@
 namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers.Bases;
     using AuthorizeNet.Test;
     using AuthorizeNet.Util;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
+    using NMock;
 
     // ReSharper disable FieldCanBeMadeReadOnly.Local
     // ReSharper disable NotAccessedField.Local
 #pragma warning disable 169
 #pragma warning disable 649
-    [TestClass]
+    [TestFixture]
     public abstract class ApiCoreTestBase {
 
-	    protected static Log Logger = LogFactory.getLog(typeof(ApiCoreTestBase));
+	    protected static readonly Log Logger = LogFactory.getLog(typeof(ApiCoreTestBase));
 	
-	    protected static IDictionary<String, String> ErrorMessages ;
+	    protected static readonly IDictionary<String, String> ErrorMessages ;
 	
-	    //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
-        protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
+	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
 
-        static Merchant _cnpMerchant;
-	    static Merchant _cpMerchant ;
-	    static readonly String CnpApiLoginIdKey ;
-	    static readonly String CnpTransactionKey ;
-	    static String _cnpMd5HashKey ;
-	    static readonly String CpApiLoginIdKey ;
-	    static readonly String CpTransactionKey ;
-	    static String _cpMd5HashKey ;
+	    static Merchant _merchant ;
+	    static readonly String ApiLoginIdKey ;
+	    static readonly String TransactionKey ;
+	    static String _md5HashKey ;
 	
 	    DateTime _pastDate;
 	    DateTime _nowDate;
@@ -39,14 +38,13 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 	    protected string RefId ;
 	    protected int Counter;
-	    String _counterStr ;
+        protected String CounterStr;
 
-	    protected merchantAuthenticationType CnpMerchantAuthenticationType ;
-        protected merchantAuthenticationType CpMerchantAuthenticationType;
+        protected merchantAuthenticationType CustomMerchantAuthenticationType;
 
         protected ARBSubscriptionType ArbSubscriptionOne;
 
-        protected ARBSubscriptionType ArbSubscriptionTwo;
+        //protected ARBSubscriptionType ArbSubscriptionTwo;
         protected bankAccountType BankAccountOne;
         protected creditCardTrackType TrackDataOne;
         protected creditCardType CreditCardOne;
@@ -64,34 +62,49 @@ namespace AuthorizeNet.Api.Controllers.Test
         protected paymentScheduleType PaymentScheduleTypeOne;
         protected paymentType PaymentOne;
         protected payPalType PayPalOne;
-	
-	    private readonly Random _random = new Random();
-	    static ApiCoreTestBase() {
-		    //getPropertyFromNames get the value from properties file or environment
-		    CnpApiLoginIdKey = UnitTestData.GetPropertyFromNames(Constants.ENV_API_LOGINID, Constants.PROP_API_LOGINID);
-		    CnpTransactionKey = UnitTestData.GetPropertyFromNames(Constants.ENV_TRANSACTION_KEY, Constants.PROP_TRANSACTION_KEY);
-		    _cnpMd5HashKey = null;
-		    CpApiLoginIdKey = UnitTestData.GetPropertyFromNames(Constants.ENV_CP_API_LOGINID, Constants.PROP_CP_API_LOGINID);
-		    CpTransactionKey = UnitTestData.GetPropertyFromNames(Constants.ENV_CP_TRANSACTION_KEY, Constants.PROP_CP_TRANSACTION_KEY);
-		    _cpMd5HashKey = UnitTestData.GetPropertyFromNames(Constants.ENV_MD5_HASHKEY, Constants.PROP_MD5_HASHKEY);
 
-		    if ((null == CnpApiLoginIdKey) ||
-			    (null == CnpTransactionKey) ||
-			    (null == CpApiLoginIdKey) ||
-			    (null == CpTransactionKey))
+        protected MockFactory MockContext = null;
+        private readonly Random _random = new Random();
+	    static ApiCoreTestBase() {
+
+            //now we support Tls only, and .net defaults to TLS
+            //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
+
+            var config = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
+            Logger.error(String.Format("Configuration file used: {0}, Exists:{1}", config.FilePath, config.HasFile));
+
+		    //getPropertyFromNames get the value from properties file or environment
+		    ApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvApiLoginid, AuthorizeNet.Util.Constants.PropApiLoginid);
+		    TransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvTransactionKey, AuthorizeNet.Util.Constants.PropTransactionKey);
+		    _md5HashKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvMd5Hashkey, AuthorizeNet.Util.Constants.PropMd5Hashkey);
+
+            //require only one cnp or cp merchant keys
+            if (null != ApiLoginIdKey && null != TransactionKey)
+            {
+                Logger.debug("Merchant Login and transaction keys are present.");
+            }
+            else
 		    {
-			    throw new ArgumentException("LoginId and/or TransactionKey have not been set.");
+			    throw new ArgumentException(
+                    "LoginId and/or TransactionKey have not been set. Merchant keys are required.");
 		    }
 
-		    _cnpMerchant = Merchant.CreateMerchant( TestEnvironment, CnpApiLoginIdKey, CnpTransactionKey);
-		    _cpMerchant = Merchant.CreateMerchant( TestEnvironment, CpApiLoginIdKey, CpTransactionKey);
+	        if (null != ApiLoginIdKey && null != TransactionKey)
+	        {
+	            _merchant = Merchant.CreateMerchant(TestEnvironment, ApiLoginIdKey, TransactionKey);
+	        }
+            if (null == _merchant)
+            {
+                Assert.Fail("Merchant logins have been set");
+            }
 
-		    ErrorMessages = new Dictionary<string, string>();
+	        ErrorMessages = new Dictionary<string, string>();
 	    }
 
-	    [ClassInitialize]
-        public static void SetUpBeforeClass(TestContext context)
+	    [TestFixtureSetUp]
+        public static void SetUpBeforeClass()//TestContext context)
         {
+            ErrorMessages.Clear();
 		    ErrorMessages.Add("E00003", "");
 		    ErrorMessages.Add("E00027", "");
 		    ErrorMessages.Add("E00040", "");
@@ -100,29 +113,23 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    ErrorMessages.Add("E00092", "ShippingProfileId cannot be sent with ShipTo data.");		
 		    ErrorMessages.Add("E00093", "PaymentProfile cannot be sent with billing data.");		
 		    ErrorMessages.Add("E00095", "ShippingProfileId is not provided within Customer Profile.");
+        }
 
-            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-            delegate(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-                                    System.Security.Cryptography.X509Certificates.X509Chain chain,
-                                    System.Net.Security.SslPolicyErrors sslPolicyErrors)
-            {
-                return true; // **** Always accept
-            };
-	    }
-
-	    [ClassCleanup]
+	    [TestFixtureTearDown]
         public static void TearDownAfterClass()
         {
 	    }
 
         public static String DateFormat = "yyyy-MM-dd'T'HH:mm:ss";
 
-        [TestInitialize]
+        [SetUp]
         public void SetUp()
         {
+            MockContext = new MockFactory();
+
             //initialize counter
             Counter = _random.Next(1, (int) (Math.Pow(2, 24)));
-            _counterStr = GetRandomString("");
+            CounterStr = GetRandomString("");
 
             _now = DateTime.UtcNow;
             _nowString = _now.ToString(DateFormat);
@@ -131,18 +138,11 @@ namespace AuthorizeNet.Api.Controllers.Test
             _nowDate = _now;
             _futureDate = _now.AddMonths(1);
 
-            CnpMerchantAuthenticationType = new merchantAuthenticationType
+            CustomMerchantAuthenticationType = new merchantAuthenticationType
                 {
-                    name = CnpApiLoginIdKey,
+                    name = ApiLoginIdKey,
                     ItemElementName = ItemChoiceType.transactionKey,
-                    Item = CnpTransactionKey,
-                };
-
-            CpMerchantAuthenticationType = new merchantAuthenticationType
-                {
-                    name = CpApiLoginIdKey,
-                    ItemElementName = ItemChoiceType.transactionKey,
-                    Item = CpTransactionKey,
+                    Item = TransactionKey,
                 };
 
             //		merchantAuthenticationType.setSessionToken(GetRandomString("SessionToken"));
@@ -158,7 +158,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 {
                     merchantCustomerId = GetRandomString("Customer"),
                     description = GetRandomString("CustomerDescription"),
-                    email = _counterStr + ".customerProfileType@test.anet.net",
+                    email = CounterStr + ".customerProfileType@test.anet.net",
                 };
 
             //make sure these elements are initialized by calling get as it uses lazy initialization
@@ -180,7 +180,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                     nameOnAccount = GetRandomString("A/CName"),
                     echeckType = echeckTypeEnum.WEB,
                     bankName = GetRandomString("Bank"),
-                    checkNumber = _counterStr,
+                    checkNumber = CounterStr,
                 };
 
             TrackDataOne = new creditCardTrackType
@@ -248,7 +248,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 {
                     type = customerTypeEnum.individual,
                     id = GetRandomString("Id"),
-                    email = _counterStr + ".customerOne@test.anet.net",
+                    email = CounterStr + ".customerOne@test.anet.net",
                     phoneNumber = FormatToPhone(Counter),
                     faxNumber = FormatToPhone(Counter + 1),
                     driversLicense = DriversLicenseOne,
@@ -324,11 +324,12 @@ namespace AuthorizeNet.Api.Controllers.Test
                     type = CustomerOne.type,
                 };
 		
-	        RefId = _counterStr;
+	        RefId = CounterStr;
 	    }
 
-	    [TestCleanup]
+	    [TearDown]
 	    public void TearDown() {
+            MockContext.VerifyAllExpectationsHaveBeenMet();
 	    }
 
         string GetRandomString(string title) {
@@ -540,6 +541,116 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    return errorMessage;
 		
 	    }
+
+        protected void SetMockControllerExpectations<TQ, TS, TT> (
+			IApiOperation<TQ, TS> mockController,
+			TQ mockRequest,
+			TS mockResponse,
+			ANetApiResponse errorResponse, 
+			List<String> results,
+            messageTypeEnum messageType)
+            where TQ : ANetApiRequest
+            where TS : ANetApiResponse
+            where TT : IApiOperation<TQ, TS>
+        {
+		    var mockEnvironment = AuthorizeNet.Environment.CUSTOM;
+
+            //using (MockContext.Unordered())
+            {
+                //Expect.On(mockController).Any.Method(i => i.Execute(mockEnvironment));
+                Expect.On(mockController).Any.Method(i => i.Execute(mockEnvironment)).With(mockEnvironment);
+                Expect.On(mockController).Any.Method(i => i.GetApiResponse()).WillReturn(mockResponse);
+                //Expect.On(mockController).Between(0, 10).Method(i => i.ExecuteWithApiResponse(mockEnvironment)).WillReturn(mockResponse);
+                Expect.On(mockController).Any.Method(i => i.ExecuteWithApiResponse(mockEnvironment)).With(mockEnvironment).WillReturn(mockResponse);
+                Expect.On(mockController).Any.Method(i => i.GetResults()).WillReturn(results);
+                Expect.On(mockController).Any.Method(i => i.GetResultCode()).WillReturn(messageType);
+                Expect.On(mockController).Any.Method(i => i.GetErrorResponse()).WillReturn(errorResponse);
+            }
+
+            if (null != mockRequest && null != mockResponse)
+            {
+                mockResponse.refId = mockRequest.refId;
+            }
+            var realController = Activator.CreateInstance(typeof(TT), mockRequest);
+            Assert.IsNotNull(realController);
+
+		    LogHelper.info(Logger, "Request: {0}", mockRequest);
+		    ShowProperties(mockRequest);
+		    LogHelper.info(Logger, "Response: {0}", mockResponse);
+		    ShowProperties(mockResponse);
+	    }
+
+	    protected Mock<IApiOperation<TQ,TS>> GetMockController<TQ, TS>()  where TQ : ANetApiRequest where TS : ANetApiResponse
+	    {
+            return MockContext.CreateMock<IApiOperation<TQ, TS>>();
+	    }
+
+	    public static void ShowProperties(Object bean) {  
+		    if ( null == bean) { return; }
+
+		    try
+		    {
+                var fieldInfos = bean.GetType().GetFields();//BindingFlags.GetProperty);
+                foreach (var pd in fieldInfos)
+		        {
+		            var name = pd.Name;
+		            var type = pd.FieldType;
+ 
+		            if (!("class".Equals(name)) &&
+                        !(bean.ToString().Equals(name)))
+		            {
+		                try
+		                {
+                            var value = pd.GetValue(bean);
+                            //var value = bean.GetType().GetField(name).GetValue(bean);
+                            LogHelper.info(Logger, "Field Type: '{0}', Name:'{1}', Value:'{2}'", type, name, value);
+                            ProcessCollections(type, name, value);
+                            //process compositions of custom classes
+                            //if (null != value && 0 <= type.ToString().IndexOf("AuthorizeNet.", System.StringComparison.Ordinal))
+
+		                    var whiteListAssembly = (type.Assembly.FullName.IndexOf("AuthorizeNET", StringComparison.Ordinal) >= 0 );
+
+                            if (null != value && 
+                                whiteListAssembly &&
+                                !(value is Enum) && 
+                                !value.GetType().IsPrimitive &&
+                                !(value is string))
+                            {
+                                ShowProperties(value);
+                            }
+
+                            if (bean is INotifyPropertyChanged)
+                            {
+                                var changed = false;
+                                (bean as INotifyPropertyChanged).PropertyChanged += (s, e) => { if (e.PropertyName == name) changed = true; };                                      
+                            }
+		                } catch (Exception e) {
+                            LogHelper.info(Logger, "Exception during getting Field value: Type: '{0}', Name:'{1}', Message: {2}, StackTrace: {3}", type, name, e.Message, e.StackTrace);
+		                }
+		            }
+		        }
+            }
+            catch (Exception e)
+            {
+			    LogHelper.info(Logger, "Exception during navigating properties: Message: {0}, StackTrace: {1}", e.Message, e.StackTrace);
+		    }  
+	    }
+
+        public static void ProcessCollections( Type type, String name, Object value)
+        {
+             if ( null != type) { 
+                if (value is IEnumerable && 
+                    !(value is string)) 
+                 {
+                    LogHelper.info(Logger, "Iterating on Collection: '{0}'", name);  
+                    foreach ( var aValue in (value as IEnumerable))
+                    {
+                        ShowProperties(aValue);
+                    }        	
+                }
+             }
+        }
+
     }
 #pragma warning restore 649
 #pragma warning restore 169
