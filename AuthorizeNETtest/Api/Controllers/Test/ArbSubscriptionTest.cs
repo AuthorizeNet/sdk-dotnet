@@ -1,10 +1,8 @@
 namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
-    using System.Collections.Generic;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers;
-    using AuthorizeNet.Api.Controllers.Bases;
     using AuthorizeNet.Util;
     using NUnit.Framework;
 
@@ -33,7 +31,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    base.TearDown();
 	    }
 
-        [Test, Ignore]
+        [Test]
         public void TestGetSubscriptionList()
         {
 

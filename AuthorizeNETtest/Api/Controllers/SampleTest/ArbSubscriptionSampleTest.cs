@@ -33,7 +33,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
 		    base.TearDown();
 	    }
 
-        [Test, Ignore]
+        [Test]
         public void SampleCodeGetSubscriptionList()
         {
             LogHelper.info(Logger, "Sample GetSubscriptionList");
