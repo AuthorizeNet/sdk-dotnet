@@ -12,16 +12,16 @@ namespace AuthorizeNet.Util
     public static class HttpUtility {
 
 	    private static readonly Log Logger = LogFactory.getLog(typeof(HttpUtility));
-        private static bool ProxySet = false;
+        private static bool _proxySet;// = false;
 
-        static bool UseProxy = AuthorizeNet.Environment.getBooleanProperty(Constants.HTTPS_USE_PROXY);
-        static String ProxyHost = AuthorizeNet.Environment.GetProperty(Constants.HTTPS_PROXY_HOST);
-        static int ProxyPort = AuthorizeNet.Environment.getIntProperty(Constants.HTTPS_PROXY_PORT);
+        static readonly bool UseProxy = AuthorizeNet.Environment.getBooleanProperty(Constants.HttpsUseProxy);
+        static readonly String ProxyHost = AuthorizeNet.Environment.GetProperty(Constants.HttpsProxyHost);
+        static readonly int ProxyPort = AuthorizeNet.Environment.getIntProperty(Constants.HttpsProxyPort);
 
         private static Uri GetPostUrl(AuthorizeNet.Environment env) 
 	    {
 		    var postUrl = new Uri(env.getXmlBaseUrl() + "/xml/v1/request.api");
-            Logger.info(string.Format("Creating PostRequest Url: '{0}'", postUrl));
+            Logger.debug(string.Format("Creating PostRequest Url: '{0}'", postUrl));
 
 		    return postUrl;
 	    }
@@ -35,7 +35,7 @@ namespace AuthorizeNet.Util
             {
                 throw new ArgumentNullException("request");
             }
-            Logger.info(string.Format("MerchantInfo->LoginId/TransactionKey: '{0}':'{1}'->{2}", 
+            Logger.debug(string.Format("MerchantInfo->LoginId/TransactionKey: '{0}':'{1}'->{2}", 
                 request.merchantAuthentication.name, request.merchantAuthentication.ItemElementName, request.merchantAuthentication.Item));
 		    
 	        var postUrl = GetPostUrl(env);
@@ -55,14 +55,14 @@ namespace AuthorizeNet.Util
 	        }
 	        // Get the response
 	        using (var webResponse = webRequest.GetResponse())
-	        {
-	            Logger.info(string.Format("Received Response: '{0}'", webResponse));
+            {
+	            Logger.debug(string.Format("Received Response: '{0}'", webResponse));
 
 	            var responseType = typeof (TS);
 	            var deSerializer = new XmlSerializer(responseType);
 	            using (var stream = webResponse.GetResponseStream())
 	            {
-	                Logger.info(string.Format("Deserializing Response from Stream: '{0}'", stream));
+	                Logger.debug(string.Format("Deserializing Response from Stream: '{0}'", stream));
 
 	                if (null != stream)
 	                {
@@ -91,28 +91,29 @@ namespace AuthorizeNet.Util
 	        return response;
 	    }
 
-        public static WebProxy SetProxyIfRequested(IWebProxy proxy)
+        public static IWebProxy SetProxyIfRequested(IWebProxy proxy)
         {
             var newProxy = proxy as WebProxy;
+
             if (UseProxy)
             {
-                var proxyUri = new Uri(string.Format("{0}://{1}:{2}", Constants.PROXY_PROTOCOL, ProxyHost, ProxyPort));
-                if (!ProxySet)
+                var proxyUri = new Uri(string.Format("{0}://{1}:{2}", Constants.ProxyProtocol, ProxyHost, ProxyPort));
+                if (!_proxySet)
                 {
                     Logger.info(string.Format("Setting up proxy to URL: '{0}'", proxyUri));
-                    ProxySet = true;
+                    _proxySet = true;
                 }
-                if (null == proxy)
+                if (null == proxy || null == newProxy)
                 {
                     newProxy = new WebProxy(proxyUri);
                 }
                 if (null != newProxy)
                 {
                     newProxy.UseDefaultCredentials = true;
+                    newProxy.BypassProxyOnLocal = true;
                 }
             }
-
-            return newProxy;
+            return (newProxy ?? proxy);
         }
     }
 

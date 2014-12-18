@@ -1,5 +1,5 @@
 ﻿using AuthorizeNet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -8,13 +8,13 @@ namespace AuthorizeNETtest
     /// <summary>
     /// This is a test class for ReportingGatewayTest and is intended to contain all ReportingGatewayTest Unit Tests
     /// </summary>
-    [TestClass()]
+    [TestFixture]
     public class ReportingGatewayTest : BaseTest
     {
         /// <summary>
         /// GetBatchStatistics - success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetBatchStatisticsTest()
         {
             //check login / password
@@ -42,7 +42,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// GetBatchStatistics - NoRecord
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetBatchStatisticsTest_NoRecord()
         {
             //check login / password
@@ -62,7 +62,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// GetBatchStatistics - Success
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetSettledBatchListTest()
         {
             //check login / password
@@ -107,7 +107,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// GetBatchStatistics - No Record
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetSettledBatchListTest_NoRecord()
         {
             //check login / password
@@ -141,7 +141,7 @@ namespace AuthorizeNETtest
         /// GetTransactionDetails - Access Denied
         /// The default setup for the sandbox testing account will get an AccessDenied error.  
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetTransactionDetailsTest_AccessDenied()
         {
             //check login / password
@@ -177,7 +177,7 @@ namespace AuthorizeNETtest
         /// by logging to https://sandbox.authorize.net/.  
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetTransactionDetailsTest()
         {
             //check login / password
@@ -224,7 +224,7 @@ namespace AuthorizeNETtest
         /// by logging to https://sandbox.authorize.net/.  
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetTransactionDetailsTest_WithSubscription()
         {
             //check login / password
@@ -272,7 +272,7 @@ namespace AuthorizeNETtest
         /// by logging to https://sandbox.authorize.net/.  
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetTransactionDetailsTest_WithReturnedItems()
         {
             //check login / password
@@ -327,7 +327,7 @@ namespace AuthorizeNETtest
         /// by logging to https://sandbox.authorize.net/.  
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetTransactionDetailsTest_WithSolutionID()
         {
             //check login / password
@@ -379,7 +379,7 @@ namespace AuthorizeNETtest
         /// by logging to https://sandbox.authorize.net/.  
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetTransactionListTest()
         {
             //check login / password
@@ -431,7 +431,7 @@ namespace AuthorizeNETtest
         /// by logging to https://sandbox.authorize.net/.  
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetTransactionListTest_DateRange()
         {
             //check login / password
@@ -475,7 +475,7 @@ namespace AuthorizeNETtest
         /// by logging to https://sandbox.authorize.net/.  
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void Reporting_GetUnsettledTransactionListTest()
         {
             //check login / password

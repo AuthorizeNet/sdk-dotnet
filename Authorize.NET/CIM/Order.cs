@@ -66,7 +66,7 @@ namespace AuthorizeNet {
 
         /// <summary>
         /// For the Information in name/value pair format that does not exist within CIM.  
-        /// Example: x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options
+        /// Example: x_customer_ip=100.0.0.1&amp;x_cust_id=Testing Extra Options
         /// </summary>
         public string ExtraOptions { get; set; }
 

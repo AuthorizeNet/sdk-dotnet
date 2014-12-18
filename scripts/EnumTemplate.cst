@@ -1,0 +1,9 @@
+
+            foreach (var anEnum in Enum.GetValues(typeof(ENUMNAME)))
+            {
+                var aValue = anEnum.ToString();
+                ENUMNAME enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
+		
