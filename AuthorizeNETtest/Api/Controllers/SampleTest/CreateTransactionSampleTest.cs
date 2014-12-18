@@ -166,7 +166,13 @@
 
             //set up data based on transaction
             var transactionAmount = new decimal(80.93);
-            var payPalData = new payPalType {paypalLc = "IT", paypalPayflowcolor = "FFFF00"};
+            var payPalData = new payPalType 
+            {
+                paypalLc = "IT",
+                paypalPayflowcolor = "FFFF00",
+                successUrl = PayPalOne.successUrl,
+                cancelUrl = PayPalOne.cancelUrl,
+            };
 
             //standard api call to retrieve response
             var paymentType = new paymentType { Item = payPalData };
