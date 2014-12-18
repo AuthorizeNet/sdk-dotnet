@@ -29,11 +29,8 @@ namespace AuthorizeNet {
             _transactionKey = transactionKey;
         }
 
-        //debug
-        //public const string TEST_URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
-        //public const string URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
-        //public string TEST_URL = AuthorizeNet.Environment.PLUM.getXmlBaseUrl() + "/xml/v1/request.api";
-        public string URL = AuthorizeNet.Environment.PLUM.getXmlBaseUrl() + "/xml/v1/request.api"; 
+        public const string TEST_URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
+        public const string URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
 
         /// <summary>
         /// Adds authentication information to the request.

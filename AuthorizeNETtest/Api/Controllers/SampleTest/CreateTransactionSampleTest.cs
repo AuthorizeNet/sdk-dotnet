@@ -172,9 +172,7 @@
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
 
-            //debug
-            //ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; //TestEnvironment;
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PLUM; //TestEnvironment;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; //TestEnvironment;
 
             //set up data based on transaction
             var transactionAmount = new decimal(80.93);
@@ -287,100 +285,6 @@
             Assert.AreEqual(transactionRequest.billTo.city, getCustResp.profile.paymentProfiles[0].billTo.city);//billto address//billto city
             Assert.AreEqual(transactionRequest.billTo.state, getCustResp.profile.paymentProfiles[0].billTo.state);//billto address//billto state
             Assert.AreEqual(transactionRequest.billTo.zip, getCustResp.profile.paymentProfiles[0].billTo.zip);//billto address//billto zip
-        }
-
-        [Test]
-        public void CreateTransactionWithSplitTender()
-        {
-            Random rnd = new Random(DateTime.Now.Millisecond);
-            string customerIndx = rnd.Next(99999).ToString();
-
-            //debug
-            Gateway target = new Gateway(CustomMerchantAuthenticationType.name, CustomMerchantAuthenticationType.Item.ToString());
-
-            //set random amount so repeat runs don't fail with duplicate transaction
-            decimal amount = (decimal)((double)rnd.Next(9999) / 100);
-
-            IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", amount, "AuthCap transaction approved testing", true);
-            request.AllowPartialAuth = "true";
-
-            string description = "AuthCap transaction approved testing";
-            IGatewayResponse actual = target.Send(request, description);
-
-
-            IGatewayRequest captureTest = new CaptureRequest(actual.AuthorizationCode, "5424000000000015", "0224", amount);
-            IGatewayResponse capRes = target.Send(captureTest, "debug");
-
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
-
-            //set up data based on transaction
-            var transactionAmount = (decimal)rnd.Next(9999) / 100;
-            if (transactionAmount < 10)
-            {
-                transactionAmount += 10;
-            }
-
-            //debug
-            transactionAmount = 13.99m;
-
-            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
-            var giftCard = new creditCardType { cardNumber = "4012888888881", expirationDate = "0620" };
-           
-
-            //Create and submit transaction with customer info to create profile from.
-            var paymentType = new paymentType { Item = giftCard };
-
-            var transactionRequest = new transactionRequestType
-            {
-                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
-                payment = paymentType,
-                amount = transactionAmount,
-                
-                customer = new customerDataType
-                {
-                    email = string.Format("Customer{0}@visa.com", customerIndx),
-                    taxId = string.Format("{0}{1}{2}", rnd.Next(999).ToString("000"), rnd.Next(99).ToString("00"), rnd.Next(9999).ToString("0000"))
-                },
-                billTo = new customerAddressType
-                {
-                    firstName = "New",
-                    lastName = string.Format("Customer{0}", customerIndx),
-                    address = "1234 Sample St NE",
-                    city = "Bellevue",
-                    state = "WA",
-                    zip = "98001"
-
-                }
-
-            };
-            
-            
-            var request2 = new createTransactionRequest { transactionRequest = transactionRequest };
-            var controller = new createTransactionController(request2);
-            //controller.Execute();
-            //var response = controller.GetApiResponse();
-
-
-            //Create partial auth via WebRequest
-            
-
-            string splitTxnId = "117619";
-            decimal remainingBallance = 3.99m;
-
-            var ContinueTransRequest = new transactionRequestType
-            {
-                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
-                payment = new paymentType { Item = creditCard },
-                amount = 8.77m,
-                //customer = transactionRequest.customer,
-                //billTo = transactionRequest.billTo,
-                splitTenderId = splitTxnId
-            };
-            request2 = new createTransactionRequest { transactionRequest = ContinueTransRequest };
-            controller = new createTransactionController(request2);
-            controller.Execute();
-            var response = controller.GetApiResponse();
         }
     }
 }

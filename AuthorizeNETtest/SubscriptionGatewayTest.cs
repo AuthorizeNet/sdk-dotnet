@@ -116,9 +116,6 @@ namespace AuthorizeNETtest
             Assert.AreEqual(subscription.SubscriptionName, actual.SubscriptionName);
 
             Assert.IsTrue(actual.SubscriptionID.Trim().Length > 0);
-
-            //Debug - testing against fixed ID is not valid.
-            //Assert.IsTrue(long.Parse(actual.SubscriptionID) == 2074569);
         }
 
         /// <summary>

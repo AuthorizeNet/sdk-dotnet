@@ -40,6 +40,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 	    public void MockARBCreateSubscriptionTest()
 	    {
 		    //define all mocked objects as final
+            const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
             var mockController = GetMockController<ARBCreateSubscriptionRequest, ARBCreateSubscriptionResponse>();
             var mockRequest = new ARBCreateSubscriptionRequest
                 {
@@ -51,11 +52,13 @@ namespace AuthorizeNet.Api.Controllers.MockTest
                     refId = "1234",
                     sessionToken = "sessiontoken",
                     subscriptionId = "1234",
+                    messages = new messagesType{ resultCode = messageTypeOk, message = new messagesTypeMessage[]{new messagesTypeMessage{ code="I00001", text="Successful"}}},
+
                 };
 
 		    var errorResponse = new ANetApiResponse();
 		    var results = new List<String>();
-            const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+
 
             SetMockControllerExpectations<ARBCreateSubscriptionRequest, ARBCreateSubscriptionResponse, ARBCreateSubscriptionController>(
                 mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
@@ -66,6 +69,9 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             Assert.IsNotNull(controllerResponse);
 
             Assert.IsNotNull(controllerResponse.subscriptionId);
+            Assert.AreEqual(controllerResponse.messages.resultCode, mockResponse.messages.resultCode);
+            Assert.AreEqual(((ANetApiResponse)(controllerResponse)).messages.message[0].code, mockResponse.messages.message[0].code);
+            Assert.AreEqual(((ANetApiResponse)(controllerResponse)).messages.message[0].text, mockResponse.messages.message[0].text);
             LogHelper.info(Logger, "ARBCreateSubscription: Details:{0}", controllerResponse.subscriptionId);
 	    }
     }
