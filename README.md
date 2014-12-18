@@ -32,7 +32,7 @@ For reporting tests, go to https://sandbox.authorize.net/ under Account tab->Tra
 
 ### Advanced Merchant Integration (AIM)
 
-````cls
+````
             Gateway target = new Gateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
