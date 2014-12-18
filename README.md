@@ -9,7 +9,7 @@
 
 ## Prerequisites
 
-Requires .NET 3.5 or later and Microsoft&reg; Visual Studio 2008 or 2010
+Requires .NET 3.5 or later and Microsoft&reg; Visual Studio 2008 or 2010; Nunit 2.6.3;
 
 
 ## Installation
