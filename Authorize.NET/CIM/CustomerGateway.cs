@@ -612,6 +612,7 @@ namespace AuthorizeNet {
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
             return new GatewayResponse(response.directResponse.Split(','));
         }
+
         /// <summary>
         /// Voids a previously authorized transaction
         /// </summary>
@@ -754,6 +755,9 @@ namespace AuthorizeNet {
             
             req.customerProfileId = profileID;
             req.paymentProfile = profile.ToAPI();
+
+            if (profile.BillingAddress != null)
+                req.paymentProfile.billTo = profile.BillingAddress.ToAPIType();
 
             var response = (updateCustomerPaymentProfileResponse)_gateway.Send(req);
             

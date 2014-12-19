@@ -17,15 +17,16 @@ namespace AuthorizeNet.Util
 		    try
 		    {
                 var serializer = new XmlSerializer(requestType);
-                using (var writer = new StringWriter())
+                using (var writer = new Utf8StringWriter())
                 {
+
                     serializer.Serialize(writer, entity);
                     xmlString = writer.ToString();
                 }
 		    }
 		    catch (Exception e)
 		    {
-                LogHelper.error(Logger, "Error:'{0}' when serializing object:'{1}' to xml:'{2}'", e.Message, requestType);
+                LogHelper.error(Logger, "Error:'{0}' when serializing object:'{1}' to xml", e.Message, requestType);
 		        throw;
 		    }
 		
@@ -62,6 +63,11 @@ namespace AuthorizeNet.Util
 
             return entity;
 	    }
+    }
+
+    public sealed class Utf8StringWriter : StringWriter
+    {
+        public override System.Text.Encoding Encoding { get { return System.Text.Encoding.UTF8; } }
     }
 #pragma warning disable 1591
 }

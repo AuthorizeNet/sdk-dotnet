@@ -1,5 +1,5 @@
 ﻿using AuthorizeNet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Globalization;
 
@@ -8,13 +8,13 @@ namespace AuthorizeNETtest
     /// <summary>
     /// This is a test class for CommonFunctionsTest and is intended to contain all CommonFunctions Unit Tests
     /// </summary>
-    [TestClass()]
+    [TestFixture()]
     public class CommonFunctionsTest
     {
         /// <summary>
         /// ParseDateTime - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void ParseDateTimeTest()
         {
             int year = 16; 
@@ -32,7 +32,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// ParseDateTime FR Culture - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void ParseDateTimeTest_FRCulture()
         {
             int year = 16;
@@ -51,7 +51,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// ParseDateTime year 99 - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void ParseDateTimeTest_99()
         {
             int year = 1999;
@@ -70,7 +70,7 @@ namespace AuthorizeNETtest
         /// <summary>
         /// ParseDateTime year 00 - success
         /// </summary>
-        [TestMethod()]
+        [Test()]
         public void ParseDateTimeTest_00()
         {
             int year = 2000;
