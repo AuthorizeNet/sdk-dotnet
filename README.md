@@ -32,7 +32,7 @@ For reporting tests, go to https://sandbox.authorize.net/ under Account tab->Tra
 
 ### Advanced Merchant Integration (AIM)
 
-````
+````csharp
             Gateway target = new Gateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
@@ -56,7 +56,7 @@ SIM provides a customizable, secure hosted payment form to make integration easy
 
 Place the following code in the default action of a simple MVC application to display a SIM payment button.
 
-````
+````csharp
  public ActionResult Index()
         {
 
@@ -70,7 +70,7 @@ Place the following code in the default action of a simple MVC application to di
 ````  
 
 ### Automated Recurring Billing (ARB)
-````
+````csharp
             SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
 
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("john@doe.com",
