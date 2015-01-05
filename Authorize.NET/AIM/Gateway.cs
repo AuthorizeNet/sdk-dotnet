@@ -20,10 +20,10 @@ namespace AuthorizeNet {
 
     public class Gateway : AuthorizeNet.IGateway {
 
-        //public const string TEST_URL = "https://test.authorize.net/gateway/transact.dll";
-        //public const string LIVE_URL = "https://secure.authorize.net/gateway/transact.dll";
-        public const string TEST_URL = "https://SECUREPLU.LABWEBAPP.COM/gateway/transact.dll";
-        public const string LIVE_URL = "https://SECUREPLU.LABWEBAPP.COM/gateway/transact.dll";
+        public const string TEST_URL = "https://test.authorize.net/gateway/transact.dll";
+        public const string LIVE_URL = "https://secure.authorize.net/gateway/transact.dll";
+        //public const string TEST_URL = "https://SECUREPLU.LABWEBAPP.COM/gateway/transact.dll";
+        //public const string LIVE_URL = "https://SECUREPLU.LABWEBAPP.COM/gateway/transact.dll";
 
 		
 		public string ApiLogin { get; set;}

@@ -12,7 +12,7 @@ namespace AuthorizeNet {
     /// </summary>
     public class HttpXmlUtility {
 
-        string _serviceUrl = AuthorizeNet.Environment.PLUM.getXmlBaseUrl() + "/xml/v1/request.api";
+        string _serviceUrl = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
         string _apiLogin = "";
         string _transactionKey = "";
 
@@ -29,8 +29,8 @@ namespace AuthorizeNet {
             _transactionKey = transactionKey;
         }
 
-        public const string TEST_URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
-        public const string URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
+        public string TEST_URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
+        public string URL = AuthorizeNet.Environment.SANDBOX.getXmlBaseUrl() + "/xml/v1/request.api";
 
         /// <summary>
         /// Adds authentication information to the request.
