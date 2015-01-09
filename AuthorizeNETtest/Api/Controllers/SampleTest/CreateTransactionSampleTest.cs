@@ -88,6 +88,111 @@
             }
         }
 
+        /// <summary>
+        /// This sample demonstrates charging a profile using the CreateTransaction API method
+        /// See API example here http://developer.authorize.net/api/reference/#payment-transactions-charge-a-customer-profile
+        /// </summary>
+        [Test]
+        public void SampleCodeCreateTransactionUsingProfile()
+        {
+            LogHelper.info(Logger, "Sample createTransaction using Profile");
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            // Use CIM to create the profile we're going to charge
+            var customerProfileId = "0";
+            var paymentProfileId = "0";
+            Assert.IsTrue(createProfile(out customerProfileId, out paymentProfileId));
+
+            //create a transaction
+            customerProfilePaymentType profileToCharge = new customerProfilePaymentType();
+            profileToCharge.customerProfileId = customerProfileId;
+            profileToCharge.paymentProfile = new paymentProfile { paymentProfileId = paymentProfileId};
+
+            var transactionRequestType = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
+                //amount = SetValidTransactionAmount(Counter),
+                amount = 10,
+                profile = profileToCharge
+            };
+            var createRequest = new createTransactionRequest
+            {
+                refId = RefId,
+                transactionRequest = transactionRequestType,
+            };
+            //create 
+            var createController = new createTransactionController(createRequest);
+            createController.Execute();
+            var createResponse = createController.GetApiResponse();
+            Assert.IsNotNull(createResponse.transactionResponse);
+            LogHelper.info(Logger, "Response: {0}", createResponse);
+            DisplayResponse(createResponse, "Create Transaction Response");
+            LogHelper.info(Logger, "Created Transaction: {0}", createResponse.transactionResponse);
+            Assert.IsNotNull(createResponse.transactionResponse.transId);
+            long transId;
+            Assert.IsTrue(Int64.TryParse(createResponse.transactionResponse.transId, out transId));
+            if (0 == transId)
+            {
+                ValidateFailure<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
+                Assert.IsNotNull(createResponse.transactionResponse.errors);
+                foreach (var error in createResponse.transactionResponse.errors)
+                {
+                    LogHelper.info(Logger, "Error-> Code:{0}, Text:{1}", error.errorCode, error.errorText);
+                }
+            }
+            else
+            {
+                Assert.AreNotEqual(0, transId);
+                ValidateSuccess<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
+            }
+        }
+
+        private Boolean createProfile(out String customerProfileId, out String paymentProfileId)
+        {
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
+            var paymentType = new paymentType {Item = creditCard};
+
+            var paymentProfile = new customerPaymentProfileType{ payment = paymentType };
+
+            var createRequest = new createCustomerProfileRequest
+            {
+                profile = new customerProfileType{
+                                    merchantCustomerId = "TSTCSTER78",
+                                    paymentProfiles = new customerPaymentProfileType[]{ paymentProfile }
+                                    }   
+            };
+
+            //create 
+            var createController = new createCustomerProfileController(createRequest);
+            var createResponse = createController.ExecuteWithApiResponse();
+
+            //validate
+
+            if (messageTypeEnum.Ok != createResponse.messages.resultCode)
+            {
+                customerProfileId = "0";
+                paymentProfileId = "0";
+                return false;
+            }
+            else
+            {
+                Assert.NotNull(createResponse.customerProfileId);
+                Assert.NotNull(createResponse.customerPaymentProfileIdList);
+                Assert.AreNotEqual(0, createResponse.customerPaymentProfileIdList.Length);
+
+                customerProfileId = createResponse.customerProfileId;
+                paymentProfileId = createResponse.customerPaymentProfileIdList[0];
+
+                return true;
+            }
+        }
+
         [Test]
         public void SampleCodeCreateTransactionWithCreditCard()
         {
