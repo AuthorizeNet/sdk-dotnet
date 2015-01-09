@@ -119,6 +119,38 @@
             Assert.False( string.IsNullOrEmpty(response.transactionResponse.transId));
         }
 
+        [Test]
+        public void CreateTransactionWithECheck()
+        {
+            //Common code to set for all requests
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            //set up data based on transaction
+            var transactionAmount = SetValidTransactionAmount(Counter);
+            var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" }; 
+
+            //standard api call to retrieve response
+            var paymentType = new paymentType { Item = echeck };
+            var transactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),
+                payment = paymentType,
+                amount = transactionAmount,
+            };
+            var request = new createTransactionRequest { transactionRequest = transactionRequest };
+            var controller = new createTransactionController(request);
+            controller.Execute();
+            var response = controller.GetApiResponse();
+
+            //validate
+            Assert.NotNull(response);
+            Assert.NotNull(response.messages);
+            Assert.NotNull(response.transactionResponse);
+            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
+            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
+        }
+
         [Test]//, Ignore]
         public void CreateTransactionWithApplePay()
         {
@@ -296,68 +328,69 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
-            //Search for settled transaction to credit
-            getSettledBatchListRequest getBatchList = new getSettledBatchListRequest() { firstSettlementDate = DateTime.Now.AddDays(-7), lastSettlementDate = DateTime.Now };
+            
+            // Find a settled credit card transaction and set txnToCredit to its transaction ID
+            string txnToCredit = "Not Set";
 
-            getSettledBatchListController batchListCont = new getSettledBatchListController(getBatchList);
-            batchListCont.Execute();
-            getSettledBatchListResponse settledBatchResp = batchListCont.GetApiResponse();
-
-            Assert.IsNotNull(settledBatchResp);
-            if (settledBatchResp.batchList == null || settledBatchResp.batchList.Length == 0)
+            if (txnToCredit == "Not Set")
             {
-                Assert.Fail("There are no settled transactions to Credit.  Please submit a transaction and verify that it has settled");
+                Assert.Fail("This test requires that you set txnToCredit to the transaction ID of a settled credit card transaction");
             }
 
-            string settledBatchId = string.Empty;
-            string settledTxnId = string.Empty;
+
+            //get details of the specified transaction
             decimal txnAmount = 0m;
             string txnCardNo = string.Empty;
-            string txnExp = string.Empty;
 
-            //Find first settled txn in settled batches.
-            foreach(batchDetailsType batchInst in settledBatchResp.batchList)
+            var gtdReq = new getTransactionDetailsRequest { transId = txnToCredit };
+            var gtdCont = new getTransactionDetailsController(gtdReq);
+            gtdCont.Execute();
+            var gtdResp = gtdCont.GetApiResponse();
+
+            //Test the transaction before continuing
+            Assert.IsNotNull(gtdResp.transaction);
+            Assert.AreEqual(gtdResp.messages.resultCode, messageTypeEnum.Ok);
+            Assert.AreEqual(gtdResp.transaction.transactionStatus, "settledSuccessfully");
+
+            txnAmount = gtdResp.transaction.settleAmount;
+            txnCardNo = ((AuthorizeNet.Api.Contracts.V1.creditCardMaskedType)(gtdResp.transaction.payment.Item)).cardNumber;
+
+
+
+            //Create payment type that matches transaction to credit
+            var creditCard = new creditCardType { cardNumber = txnCardNo.TrimStart(new char[]{'X'}), expirationDate = "XXXX"};
+            var paymentType = new paymentType { Item = creditCard };
+
+
+            //Create credit request
+            transactionRequestType txnType = new transactionRequestType
             {
-                if (batchInst.settlementState == "settledSuccessfully")
-                {
-                    getTransactionListRequest gtlReq = new getTransactionListRequest { batchId = batchInst.batchId };
-                    getTransactionListController gtlCont = new getTransactionListController(gtlReq);
-                    gtlCont.Execute();
-                    getTransactionListResponse gtlResp = gtlCont.GetApiResponse();
+                amount = txnAmount,
+                refTransId = txnToCredit,
+                transactionType = transactionTypeEnum.refundTransaction.ToString(),
+                payment = paymentType,
+            };
 
-                    Assert.IsNotNull(gtlResp.transactions);
-                    settledBatchId = batchInst.batchId;
+            createTransactionRequest creditReq = new createTransactionRequest { transactionRequest = txnType };
+            createTransactionController creditCont = new createTransactionController(creditReq);
+            creditCont.Execute();
+            createTransactionResponse creditResp = creditCont.GetApiResponse();
 
-                    foreach (var txnInst in gtlResp.transactions)
-                    {
-                        if (txnInst.transactionStatus == "settledSuccessfully")
-                        {
-                            settledTxnId = gtlResp.transactions[0].transId;
-                            txnAmount = gtlResp.transactions[0].settleAmount;
+            Assert.IsNotNull(creditResp);
+            Assert.AreEqual(creditResp.messages.resultCode, messageTypeEnum.Ok);
+         }
 
-                            getTransactionDetailsRequest gtdReq = new getTransactionDetailsRequest { transId = settledTxnId };
-                            getTransactionDetailsController gtdCont = new getTransactionDetailsController(gtdReq);
-                            gtdCont.Execute();
-                            getTransactionDetailsResponse gtdResp = gtdCont.GetApiResponse();
-                            Assert.IsNotNull(gtdResp);
-                        }
-                    }
+        [Test]
+        public void CreateUnlinkedCredit()
+        {
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
-                    break;
-                }
-            }
-
-            if (settledTxnId == string.Empty)
-            {
-                Assert.Fail("There are no settled transactions to Credit.  Please submit a transaction and verify that it has settled");
-            }
-
-
-            
-            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
-
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            decimal txnAmount = (decimal)rnd.Next(9999) / 100;
 
             //Create and submit transaction with customer info to create profile from.
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
             var paymentType = new paymentType { Item = creditCard };
 
             //Create credit request
@@ -365,9 +398,8 @@
             {
                 //debug
                 amount = txnAmount,
-                refTransId = settledTxnId,
                 transactionType = transactionTypeEnum.refundTransaction.ToString(),
-                //payment = paymentType,
+                payment = paymentType,
             };
 
 
@@ -376,12 +408,79 @@
             creditCont.Execute();
             createTransactionResponse creditResp = creditCont.GetApiResponse();
 
-            Assert.IsNotNull(creditResp);
-            
-                 
+            Assert.AreEqual(creditResp.messages.resultCode, messageTypeEnum.Ok);
+        }
 
-            //Execute and validate
+        [Test]
+        public void CreateTransactionPriorAuthCapture()
+        {
+            //Common code to set for all requests
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
+            //set up data based on transaction
+            var transactionAmount = SetValidTransactionAmount(Counter);
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
+
+            //standard api call to retrieve response
+            var paymentType = new paymentType { Item = creditCard };
+            var transactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),
+                payment = paymentType,
+                amount = transactionAmount,
+            };
+            var request = new createTransactionRequest { transactionRequest = transactionRequest };
+            var controller = new createTransactionController(request);
+            controller.Execute();
+            var response = controller.GetApiResponse();
+
+            //validate
+            Assert.NotNull(response);
+            Assert.NotNull(response.messages);
+            Assert.NotNull(response.transactionResponse);
+            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
+            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
+
+            //Get transaction details
+            var getDetailsReq = new getTransactionDetailsRequest
+            {
+                transId = response.transactionResponse.transId
+            };
+            var getDetailsCont = new getTransactionDetailsController(getDetailsReq);
+            getDetailsCont.Execute();
+            var getDetailsResp = getDetailsCont.GetApiResponse();
+
+
+            //Build and execute the capture request.
+            var capCC = new creditCardType
+            {
+                cardNumber = ((creditCardMaskedType)(getDetailsResp.transaction.payment.Item)).cardNumber.TrimStart(new char[]{'X'}),
+                expirationDate = "XXXX",
+            };
+
+            var capPayment = new paymentType { Item = capCC };
+
+            var capTransactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.priorAuthCaptureTransaction.ToString(),
+                refTransId = getDetailsResp.transaction.transId,
+                authCode = getDetailsResp.transaction.authCode,
+                //amount = getDetailsResp.transaction.authAmount,
+                //payment = capPayment
+
+            };
+
+            request = new createTransactionRequest { transactionRequest = capTransactionRequest };
+            controller = new createTransactionController(request);
+            controller.Execute();
+            var capResponse = controller.GetApiResponse();
+
+            Assert.NotNull(response);
+            Assert.NotNull(response.messages);
+            Assert.NotNull(response.transactionResponse);
+            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
+            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
         }
     }
 }
