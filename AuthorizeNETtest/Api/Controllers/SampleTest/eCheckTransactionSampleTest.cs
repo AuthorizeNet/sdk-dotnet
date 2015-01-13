@@ -268,5 +268,94 @@
             Assert.IsNotNull(creditResp);
             Assert.AreEqual(creditResp.messages.resultCode, messageTypeEnum.Ok);
         }
+
+        [Test]
+        public void CreateTransactionWithECheckCapturePriorAuth()
+        {
+            //Common code to set for all requests
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            Random rnd = new Random(DateTime.Now.Millisecond);
+
+            //Build and submit an Auth only transaction that can later be captured.
+            //set up data based on transaction
+            var transactionAmount = (decimal)rnd.Next(9999) / 100;
+            var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
+
+            //standard api call to retrieve response
+            var paymentType = new paymentType { Item = echeck };
+            var transactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),
+                payment = paymentType,
+                amount = transactionAmount,
+            };
+            var request = new createTransactionRequest { transactionRequest = transactionRequest };
+            var controller = new createTransactionController(request);
+            controller.Execute();
+            var response = controller.GetApiResponse();
+
+            //validate
+            Assert.NotNull(response);
+            Assert.NotNull(response.messages);
+            Assert.NotNull(response.transactionResponse);
+            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
+            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
+
+            //Get transaction details
+            var getDetailsReq = new getTransactionDetailsRequest
+            {
+                transId = response.transactionResponse.transId
+            };
+            var getDetailsCont = new getTransactionDetailsController(getDetailsReq);
+            getDetailsCont.Execute();
+            var getDetailsResp = getDetailsCont.GetApiResponse();
+
+
+            //Build and execute the capture request.
+            var capECheck = new bankAccountType
+            {
+                accountNumber = ((AuthorizeNet.Api.Contracts.V1.bankAccountMaskedType)(getDetailsResp.transaction.payment.Item)).accountNumber.TrimStart(new char[] { 'X' }),
+                routingNumber = "XXXX",
+                nameOnAccount = ((AuthorizeNet.Api.Contracts.V1.bankAccountMaskedType)(getDetailsResp.transaction.payment.Item)).nameOnAccount,
+                bankName = ((AuthorizeNet.Api.Contracts.V1.bankAccountMaskedType)(getDetailsResp.transaction.payment.Item)).bankName,
+                echeckType = ((AuthorizeNet.Api.Contracts.V1.bankAccountMaskedType)(getDetailsResp.transaction.payment.Item)).echeckType,
+            };
+
+            var capPayment = new paymentType { Item = capECheck };
+
+
+
+            var capTransactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.priorAuthCaptureTransaction.ToString(),
+                refTransId = getDetailsResp.transaction.transId,
+                //authCode = getDetailsResp.transaction.authCode,
+
+            };
+
+            request = new createTransactionRequest { transactionRequest = capTransactionRequest };
+            controller = new createTransactionController(request);
+            controller.Execute();
+            var capResponse = controller.GetApiResponse();
+
+
+            //debug: why is this transaction declined
+            getDetailsReq = new getTransactionDetailsRequest
+            {
+                transId = capResponse.transactionResponse.transId,
+            };
+            getDetailsCont = new getTransactionDetailsController(getDetailsReq);
+            getDetailsCont.Execute();
+            getDetailsResp = getDetailsCont.GetApiResponse();
+
+            Assert.NotNull(response);
+            Assert.NotNull(response.messages);
+            Assert.NotNull(response.transactionResponse);
+            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
+            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
+
+        }
     }
 }
