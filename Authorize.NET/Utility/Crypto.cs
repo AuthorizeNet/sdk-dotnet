@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace AuthorizeNet {
     public class Crypto {
@@ -18,7 +19,7 @@ namespace AuthorizeNet {
         /// <returns>string</returns>
         public static string GenerateFingerprint(string transactionKey, string login, decimal amount, string sequence, string timeStamp) {
             var result = "";
-            var keyString = string.Format("{0}^{1}^{2}^{3}^", login, sequence, timeStamp.ToString(), amount.ToString());
+            var keyString = string.Format("{0}^{1}^{2}^{3}^", login, sequence, timeStamp.ToString(), amount.ToString(CultureInfo.InvariantCulture));
             result = EncryptHMAC(transactionKey, keyString);
             return result;
         }
@@ -34,7 +35,7 @@ namespace AuthorizeNet {
         /// <returns>string</returns>
         public static bool IsMatch(string key, string apiLogin, string transactionID,decimal amount, string expected) {
 
-            var unencrypted = string.Format("{0}{1}{2}{3}", key, apiLogin, transactionID, amount.ToString());
+            var unencrypted = string.Format("{0}{1}{2}{3}", key, apiLogin, transactionID, amount.ToString(CultureInfo.InvariantCulture));
 
             var md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
             var hashed = Regex.Replace(BitConverter.ToString(md5.ComputeHash(ASCIIEncoding.Default.GetBytes(unencrypted))), "-", "");

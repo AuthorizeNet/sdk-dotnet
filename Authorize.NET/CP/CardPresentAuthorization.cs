@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace AuthorizeNet {
     public class CardPresentAuthorizeAndCaptureRequest : CardPresentAuthorizationRequest {
@@ -48,7 +49,7 @@ namespace AuthorizeNet {
             if (!String.IsNullOrEmpty(track2)) {
                 this.Queue("x_track2", track2);
             }
-            this.Queue(ApiFields.Amount, amount.ToString());
+            this.Queue(ApiFields.Amount, amount.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace AuthorizeNet {
             this.SetApiAction(RequestAction.Authorize);
             this.Queue(ApiFields.CreditCardNumber, cardNumber);
             this.Queue(ApiFields.CreditCardExpiration, string.Format("{0}{1}",expirationMonth,expirationYear));
-            this.Queue(ApiFields.Amount, amount.ToString());
+            this.Queue(ApiFields.Amount, amount.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

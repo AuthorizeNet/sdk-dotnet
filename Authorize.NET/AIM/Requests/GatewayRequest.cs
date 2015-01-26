@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Collections.Specialized;
+using System.Globalization;
 
 namespace AuthorizeNet {
 
@@ -263,14 +264,14 @@ namespace AuthorizeNet {
         /// Adds a detailed tax value to the request
         /// </summary>
         public IGatewayRequest AddFreight(decimal amount, string name, string description) {
-            this.Freight = string.Format("{0}<|>{1}<|>{2}", name, description, amount.ToString());
+            this.Freight = string.Format("{0}<|>{1}<|>{2}", name, description, amount.ToString(CultureInfo.InvariantCulture));
             return this;
         }
         /// <summary>
         /// Adds a tax value to the request
         /// </summary>
         public IGatewayRequest AddFreight(decimal amount) {
-            this.Freight = amount.ToString();
+            this.Freight = amount.ToString(CultureInfo.InvariantCulture);
             return this;
         }
 
@@ -280,14 +281,14 @@ namespace AuthorizeNet {
         /// Adds a detailed tax value to the request
         /// </summary>
         public IGatewayRequest AddDuty(decimal amount, string name, string description) {
-            this.Duty = string.Format("{0}<|>{1}<|>{2}", name, description, amount.ToString());
+            this.Duty = string.Format("{0}<|>{1}<|>{2}", name, description, amount.ToString(CultureInfo.InvariantCulture));
             return this;
         }
         /// <summary>
         /// Adds a tax value to the request
         /// </summary>
         public IGatewayRequest AddDuty(decimal amount) {
-            this.Duty = amount.ToString();
+            this.Duty = amount.ToString(CultureInfo.InvariantCulture);
             return this;
         }
 
@@ -295,14 +296,14 @@ namespace AuthorizeNet {
         /// Adds a detailed tax value to the request
         /// </summary>
         public IGatewayRequest AddTax(decimal amount, string name, string description) {
-            this.Tax = string.Format("{0}<|>{1}<|>{2}", name, description, amount.ToString());
+            this.Tax = string.Format("{0}<|>{1}<|>{2}", name, description, amount.ToString(CultureInfo.InvariantCulture));
             return this;
         }
         /// <summary>
         /// Adds a tax value to the request
         /// </summary>
         public IGatewayRequest AddTax(decimal amount) {
-            this.Tax = amount.ToString();
+            this.Tax = amount.ToString(CultureInfo.InvariantCulture);
             return this;
         }
         /// <summary>
@@ -346,7 +347,7 @@ namespace AuthorizeNet {
                 itemID,
                 name,
                 description,
-                quantity.ToString(), price.ToString(), taxable.ToString());
+                quantity.ToString(CultureInfo.InvariantCulture), price.ToString(CultureInfo.InvariantCulture), taxable.ToString(CultureInfo.InvariantCulture));
             Post.Add(sFld, lineFormat);
             return this;
         }
