@@ -75,7 +75,7 @@ namespace AuthorizeNet {
         }
         public string ResponseCode {
             get {
-                return ParseResponse(0);
+                return ParseResponse(2);
             }
         }
         public string CardNumber {
