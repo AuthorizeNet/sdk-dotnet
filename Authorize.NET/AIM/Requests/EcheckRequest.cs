@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace AuthorizeNet {
     public class EcheckRequest:GatewayRequest {
@@ -43,7 +44,7 @@ namespace AuthorizeNet {
             this.BankAccountNumber = bankAccountNumber;
             this.BankAccountType = acctType;
             this.BankCheckNumber = bankCheckNumber;
-            this.Amount = amount.ToString();
+            this.Amount = amount.ToString(CultureInfo.InvariantCulture);
 
         }
 
@@ -165,7 +166,7 @@ namespace AuthorizeNet {
         {
             this.SetApiAction(RequestAction.PriorAuthCapture);
             this.Queue(ApiFields.Method, "ECHECK");
-            this.Queue(ApiFields.Amount, amount.ToString());
+            this.Queue(ApiFields.Amount, amount.ToString(CultureInfo.InvariantCulture));
             this.Queue(ApiFields.TransactionID, transactionId);
         }
     }
@@ -182,7 +183,7 @@ namespace AuthorizeNet {
         {
             this.SetApiAction(RequestAction.Credit);
             this.Queue(ApiFields.Method, "ECHECK");
-            this.Queue(ApiFields.Amount, amount.ToString());
+            this.Queue(ApiFields.Amount, amount.ToString(CultureInfo.InvariantCulture));
             this.Queue(ApiFields.TransactionID, transactionId);
             this.BankAccountNumber = bankAccountNumber;
         }
