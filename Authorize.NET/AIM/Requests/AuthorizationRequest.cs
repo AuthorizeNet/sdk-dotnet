@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
+using System.Globalization;
 
 namespace AuthorizeNet {
     
@@ -54,7 +55,7 @@ namespace AuthorizeNet {
         protected virtual void SetQueue(string cardNumber, string expirationMonthAndYear, decimal amount, string description) {
             this.Queue(ApiFields.CreditCardNumber, cardNumber);
             this.Queue(ApiFields.CreditCardExpiration, expirationMonthAndYear);
-            this.Queue(ApiFields.Amount, amount.ToString());
+            this.Queue(ApiFields.Amount, amount.ToString(CultureInfo.InvariantCulture));
             this.Queue(ApiFields.Description, description);
         }
 
