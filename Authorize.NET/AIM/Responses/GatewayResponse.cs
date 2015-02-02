@@ -75,6 +75,13 @@ namespace AuthorizeNet {
         }
         public string ResponseCode {
             get {
+                return ParseResponse(0);
+            }
+        }
+        public string ReasonResponseCode
+        {
+            get
+            {
                 return ParseResponse(2);
             }
         }
