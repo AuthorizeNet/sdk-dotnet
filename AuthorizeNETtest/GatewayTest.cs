@@ -186,6 +186,39 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
+        /// Credit Transaction - Approved
+        /// </summary>
+        [Test()]
+        public void SendTest_FailedCredit_ReasonResponseCode()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string transID = "1";
+
+            string responseString = "3|1|54|The referenced transaction does not meet the criteria for issuing a credit.|||0||Fail to Credit invalid transaction|6.14|CC|credit||||||||||||||||||||||||||E5FBFF01C6A66AA75C1EE966943CAEAC|||||||||||||XXXX1111|Visa||||||||||||||||";
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+
+            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+
+            IGatewayRequest request = new CreditRequest(transID, (decimal)6.14, "1111");
+            string description = "Fail to Credit invalid transaction";
+
+            IGatewayResponse actual = target.Send(request, description);
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+            Assert.AreEqual(((GatewayResponse)expected).ReasonResponseCode, ((GatewayResponse)expected).ReasonResponseCode);
+
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.AreEqual(expected.TransactionID, actual.TransactionID);
+        }
+
+        /// <summary>
         /// UnlinkedCredit Transaction - Approved
         /// </summary>
         [Test()]
