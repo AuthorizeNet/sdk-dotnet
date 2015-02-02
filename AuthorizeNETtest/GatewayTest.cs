@@ -197,7 +197,7 @@ namespace AuthorizeNETtest
 
             string transID = "1";
 
-            string responseString = "3|1|54|The referenced transaction does not meet the criteria for issuing a credit.|||0||Fail to Credit invalid transaction|6.14|CC|credit||||||||||||suzhu@visa.com||||||||||||||E5FBFF01C6A66AA75C1EE966943CAEAC|||||||||||||XXXX1111|Visa||||||||||||||||";
+            string responseString = "3|1|54|The referenced transaction does not meet the criteria for issuing a credit.|||0||Fail to Credit invalid transaction|6.14|CC|credit||||||||||||||||||||||||||E5FBFF01C6A66AA75C1EE966943CAEAC|||||||||||||XXXX1111|Visa||||||||||||||||";
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
 
