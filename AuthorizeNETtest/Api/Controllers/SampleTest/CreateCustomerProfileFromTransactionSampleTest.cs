@@ -1,5 +1,6 @@
 ﻿namespace AuthorizeNet.Api.Controllers.SampleTest
 {
+    using System;
     using System.Globalization;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers;
@@ -109,6 +110,87 @@
             Assert.AreNotEqual(0, transactionId);
 
             return transactionId;
+        }
+
+        [Test]
+        public void CreateTransactionFromProfile()
+        {
+            //Common code to set for all requests
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            Random rnd = new Random(DateTime.Now.Millisecond);
+
+            string profileRandom = rnd.Next(9999).ToString();
+
+            //Create profile to use in transaction creation
+            var profileShipTo = new customerAddressType
+            {
+                address = profileRandom + " First St NE",
+                city = "Bellevue",
+                state = "WA",
+                zip = "98007",
+                company = "Sample Co " + profileRandom,
+                country = "USA",
+                firstName = "Sample" + profileRandom,
+                lastName = "Name" + profileRandom,
+                phoneNumber = "425 123 4567",
+            };
+
+            var paymentProfile = new customerPaymentProfileType
+            {
+                billTo = profileShipTo,
+                customerType = customerTypeEnum.individual,
+                payment = new paymentType { Item = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" } },
+            };
+
+            var createProfileReq = new createCustomerProfileRequest
+            {
+                profile = new customerProfileType
+                {
+                    description = "SampleProfile " + profileRandom,
+                    email = "SampleEmail" + profileRandom + "@Visa.com",
+                    shipToList = new customerAddressType[] { profileShipTo },
+                    paymentProfiles = new customerPaymentProfileType[] { paymentProfile }
+                }
+            };
+
+            var createProfileCont = new createCustomerProfileController(createProfileReq);
+            createProfileCont.Execute();
+            var createProfileResp = createProfileCont.GetApiResponse();
+
+            //Verify creation of profile
+            Assert.AreEqual(createProfileResp.messages.resultCode, messageTypeEnum.Ok);
+            Assert.IsNotNull(createProfileResp.customerProfileId);
+            Assert.IsNotNull(createProfileResp.customerPaymentProfileIdList);
+            Assert.IsNotNull(createProfileResp.customerShippingAddressIdList);
+
+            //Get profile using getCustomerProfileRequest
+            var getCustReq = new getCustomerProfileRequest { customerProfileId = createProfileResp.customerProfileId };
+            var getCustCont = new getCustomerProfileController(getCustReq);
+            getCustCont.Execute();
+            var getCustResp = getCustCont.GetApiResponse();
+
+
+            //Create Transaction
+            //Create instance of customer payment profile using the profile IDs from the profile we loaded above.
+            var custPaymentProfile = new AuthorizeNet.Api.Contracts.V1.customerProfilePaymentType { customerProfileId = getCustResp.profile.customerProfileId, paymentProfile = new paymentProfile { paymentProfileId = getCustResp.profile.paymentProfiles[0].customerPaymentProfileId } };
+
+            var testTxn = new transactionRequestType
+            {
+                profile = custPaymentProfile,
+                amount = (decimal)rnd.Next(9999) / 100,
+                transactionType = transactionTypeEnum.authCaptureTransaction.ToString()
+            };
+
+            var txnControler = new createTransactionController(new createTransactionRequest { transactionRequest = testTxn });
+            txnControler.Execute();
+            var txnControlerResp = txnControler.GetApiResponse();
+
+            //verify transaction succeeded.
+            Assert.IsNotNull(txnControlerResp.transactionResponse.messages[0].description);
+            Assert.AreEqual(txnControlerResp.transactionResponse.messages[0].description, "This transaction has been approved.");
+
         }
     }
 }
