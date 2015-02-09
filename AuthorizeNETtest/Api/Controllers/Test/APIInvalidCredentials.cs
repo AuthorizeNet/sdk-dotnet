@@ -56,7 +56,7 @@
             getCustomerProfileResponse getCPResp = getCPCont.GetApiResponse();
 
             Assert.AreEqual(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].code, "E00007");
-            Assert.AreEqual(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].text, "User authentication failed due to invalid authentication values.");
+            ValidateErrorCode(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages, "E00007");
         }
 
         [Test]
@@ -79,7 +79,7 @@
             getCustomerProfileResponse getCPResp = getCPCont.GetApiResponse();
 
             Assert.AreEqual(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].code, "E00007");
-            //Assert.AreEqual(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].text, "");
+            ValidateErrorCode(getCPResp.messages, "E00007");
         }
     }
 }

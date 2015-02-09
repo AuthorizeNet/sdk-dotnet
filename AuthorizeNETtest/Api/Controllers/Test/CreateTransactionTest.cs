@@ -127,7 +127,6 @@
                 transactionRequest = transactionRequestType,
             };
 
-            const string errorMessage = "The element 'transactionRequest' in namespace 'AnetApi/xml/v1/schema/AnetApiSchema.xsd' has invalid child element 'amount' in namespace 'AnetApi/xml/v1/schema/AnetApiSchema.xsd'. List of possible elements expected: 'transactionType' in namespace 'AnetApi/xml/v1/schema/AnetApiSchema.xsd'.";
             //create 
             var createController = new createTransactionController(createRequest);
             createController.Execute();
@@ -140,7 +139,7 @@
             Assert.AreEqual(messageTypeEnum.Error, errorResponse.messages.resultCode);
             Assert.AreEqual(1, errorResponse.messages.message.Length);
             Assert.AreEqual("E00003", errorResponse.messages.message[0].code);
-            Assert.AreEqual(errorMessage, errorResponse.messages.message[0].text);
+            ValidateErrorCode(errorResponse.messages, "E00003");
         }
     }
 }

@@ -5,6 +5,7 @@ namespace AuthorizeNet.Api.Controllers.Test
     using AuthorizeNet.Api.Controllers;
     using AuthorizeNet.Util;
     using NUnit.Framework;
+    using System.Linq;
 
     [TestFixture]
     public class ArbSubscriptionTest : ApiCoreTestBase {
@@ -34,50 +35,60 @@ namespace AuthorizeNet.Api.Controllers.Test
         [Test]
         public void TestGetSubscriptionList()
         {
+            string referenceTxnId = string.Empty;
 
-            //var subscriptionId = "2096852"; //"46";
+            try
+            {
+                referenceTxnId = GetValidTxnId(CustomMerchantAuthenticationType);
+            }
+            catch (NullReferenceException)
+            {
+                Assert.Fail("This test requires a completed transaction to create a subscription from.  Add a transaction, then try this test again.");
+            }
             
-		    var subscriptionId = CreateSubscription( CustomMerchantAuthenticationType);
+		    var subscriptionId = CreateSubscription( CustomMerchantAuthenticationType, referenceTxnId);
 		    var newStatus = GetSubscription( CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.active, newStatus);
 
 		    LogHelper.info(Logger, "Getting Subscription List for SubscriptionId: {0}", subscriptionId);
             
-		    var listRequest = SetupSubscriptionListRequest(CustomMerchantAuthenticationType);
-            var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest, TestEnvironment);
-
-		    LogHelper.info( Logger, "Subscription Count: {0}", listResponse.totalNumInResultSet);		
-		    Assert.IsTrue( 0 < listResponse.totalNumInResultSet);
-		    var subscriptionsArray = listResponse.subscriptionDetails;
-		    Assert.IsNotNull( subscriptionsArray);
-
 	        int subsId;
 	        var found = false;
             Int32.TryParse(subscriptionId, out subsId);
-		
-		    foreach ( var aSubscription in subscriptionsArray) {
-			    Assert.IsTrue( 0 < aSubscription.id);
-			    LogHelper.info( Logger, "Subscription Id: {0}, Status:{1}, PaymentMethod: {2}, Amount: {3}, Account:{4}", 
-					    aSubscription.id, aSubscription.status, aSubscription.paymentMethod, aSubscription.amount, aSubscription.accountNumber);
-			    if ( subsId == aSubscription.id)
-			    {
-			        found = true;
-			    }
-		    }
-            
+
+            //setup retry loop to allow for delays in replication
+            for (int counter = 0; counter < 5; counter++)
+            {
+                var listRequest = SetupSubscriptionListRequest(CustomMerchantAuthenticationType);
+                var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest, TestEnvironment);
+
+                SubscriptionDetail aSubscription = listResponse.subscriptionDetails.FirstOrDefault(a => a.id == subsId);
+
+                if (aSubscription == null)
+                {
+                    System.Threading.Thread.Sleep(10000);
+                }
+                else
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            Assert.IsTrue(found);
 		    CancelSubscription(CustomMerchantAuthenticationType, subscriptionId);
-		    Assert.IsTrue(found);
             
-		    //validate the status of subscription to make sure it is in-activated
+		    //validate the status of subscription to make sure it is canceled
 		    var cancelStatus = GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.canceled, cancelStatus);
-            
 	    }
 
 	    [Test]
 	    public void TestSubscription() {
 		    //cache the result
-		    var subscriptionId = CreateSubscription(CustomMerchantAuthenticationType);
+            string txnId = GetValidTxnId(CustomMerchantAuthenticationType);
+
+		    var subscriptionId = CreateSubscription(CustomMerchantAuthenticationType, txnId);
 		    GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
 		    CancelSubscription(CustomMerchantAuthenticationType, subscriptionId);
 	    }
@@ -133,8 +144,8 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    Logger.info(String.Format("Subscription Status: {0}", getResponse.status));
 		    return getResponse.status;
 	    }
-        
-	    private string CreateSubscription( merchantAuthenticationType merchantAuthentication) {
+
+	    private string CreateSubscription( merchantAuthenticationType merchantAuthentication, string RefId) {
 		    //create a new subscription
             //RequestFactoryWithSpecified.paymentType(ArbSubscriptionOne.payment);
             //RequestFactoryWithSpecified.paymentScheduleType(ArbSubscriptionOne.paymentSchedule);
@@ -144,12 +155,22 @@ namespace AuthorizeNet.Api.Controllers.Test
 		            merchantAuthentication = merchantAuthentication,
 		            refId = RefId,
 		            subscription = ArbSubscriptionOne,
+                      
 		        };
+
 	        var createResponse = ExecuteTestRequestWithSuccess<ARBCreateSubscriptionRequest, ARBCreateSubscriptionResponse, ARBCreateSubscriptionController>(createRequest, TestEnvironment);
 		    Assert.IsNotNull(createResponse.subscriptionId);
 		    LogHelper.info( Logger, "Created Subscription: {0}", createResponse.subscriptionId);
 
 		    return createResponse.subscriptionId;
 	    }
+
+        private string GetValidTxnId(merchantAuthenticationType merchantAuthentication)
+        {
+            var getUnsettledTxnReq = new getUnsettledTransactionListRequest { merchantAuthentication = merchantAuthentication };
+            var getUnsettledTxnResp = ExecuteTestRequestWithSuccess<getUnsettledTransactionListRequest, getUnsettledTransactionListResponse, getUnsettledTransactionListController>(getUnsettledTxnReq, TestEnvironment);
+
+            return getUnsettledTxnResp.transactions[getUnsettledTxnResp.transactions.Length -1].transId;
+        }
     }
 }

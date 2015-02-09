@@ -58,7 +58,7 @@ namespace AuthorizeNETtest
             Assert.AreEqual(subscription.SubscriptionName, actual.SubscriptionName);
 
             Assert.IsTrue(0 < actual.SubscriptionID.Trim().Length);
-            Assert.IsTrue(0 < Int64.Parse(actual.SubscriptionID));
+            Assert.IsTrue(0 < long.Parse(actual.SubscriptionID));
         }
 
         /// <summary>

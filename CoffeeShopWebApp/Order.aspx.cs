@@ -32,7 +32,7 @@ namespace CoffeeShopWebApp {
             
             //set the amount - you can also set this from the page itself
             //you have to have a field named "x_amount"
-            apiRequest.Queue(ApiFields.Amount, order.Price.ToString(CultureInfo.InvariantCulture));
+            apiRequest.Queue(ApiFields.Amount, order.Price.ToString());
 
             //send to Auth.NET
             var response = gate.Send(apiRequest);

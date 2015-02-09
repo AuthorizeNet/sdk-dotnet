@@ -49,7 +49,7 @@
                 {
                     transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
                     //amount = SetValidTransactionAmount(Counter),
-                    amount = 10000000000000000000,
+                    amount = 10.99m,
                     payment = PaymentOne,
                     order =  OrderType,
                     customer =  CustomerDataOne,
@@ -70,8 +70,8 @@
             DisplayResponse(createResponse, "Create Transaction Response");
             LogHelper.info(Logger, "Created Transaction: {0}", createResponse.transactionResponse);
             Assert.IsNotNull(createResponse.transactionResponse.transId);
-            int transId;
-            Assert.IsTrue( Int32.TryParse(createResponse.transactionResponse.transId, out transId));
+            Int64 transId;
+            Assert.IsTrue( Int64.TryParse(createResponse.transactionResponse.transId, out transId));
             if (0 == transId)
             {
                 ValidateFailure<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
@@ -155,6 +155,9 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            string custIndx = rnd.Next(99999).ToString();
+
             var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
             var paymentType = new paymentType {Item = creditCard};
 
@@ -163,7 +166,7 @@
             var createRequest = new createCustomerProfileRequest
             {
                 profile = new customerProfileType{
-                                    merchantCustomerId = "TSTCSTER78",
+                                    merchantCustomerId = "TSTCSTER"+custIndx,
                                     paymentProfiles = new customerPaymentProfileType[]{ paymentProfile }
                                     }   
             };
@@ -218,11 +221,7 @@
             var response = controller.GetApiResponse();
 
             //validate
-            Assert.NotNull(response);
-            Assert.NotNull(response.messages);
-            Assert.NotNull(response.transactionResponse);
-            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
-            Assert.False( string.IsNullOrEmpty(response.transactionResponse.transId));
+            Assert.AreEqual(response.transactionResponse.messages[0].code, "1");
         }
 
         [Test]
@@ -254,11 +253,7 @@
             var response = controller.GetApiResponse();
 
             //validate
-            Assert.NotNull(response);
-            Assert.NotNull(response.messages);
-            Assert.NotNull(response.transactionResponse);
-            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
-            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
+            Assert.AreEqual(response.transactionResponse.messages[0].code, "1");
         }
 
 
@@ -293,14 +288,7 @@
             var response = controller.GetApiResponse();
 
             //validate
-            Assert.NotNull(response);
-            Assert.NotNull(response.messages);
-            Assert.NotNull(response.transactionResponse);
-            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
-            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
-            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transHash));
-            Assert.NotNull(response.transactionResponse.secureAcceptance);
-            Assert.False(string.IsNullOrEmpty(response.transactionResponse.secureAcceptance.SecureAcceptanceUrl));
+            Assert.AreEqual(response.transactionResponse.messages[0].code, "1");
         }
 
         [Test]
@@ -333,19 +321,14 @@
             var gtdResp = gtdCont.GetApiResponse();
 
             //Test the transaction before continuing
-            Assert.IsNotNull(gtdResp.transaction);
             Assert.AreEqual(gtdResp.messages.resultCode, messageTypeEnum.Ok);
-            Assert.AreEqual(gtdResp.transaction.transactionStatus, "settledSuccessfully");
 
             txnAmount = gtdResp.transaction.settleAmount;
             txnCardNo = ((AuthorizeNet.Api.Contracts.V1.creditCardMaskedType)(gtdResp.transaction.payment.Item)).cardNumber;
 
-
-
             //Create payment type that matches transaction to credit
             var creditCard = new creditCardType { cardNumber = txnCardNo.TrimStart(new char[] { 'X' }), expirationDate = "XXXX" };
             var paymentType = new paymentType { Item = creditCard };
-
 
             //Create credit request
             transactionRequestType txnType = new transactionRequestType
@@ -361,8 +344,8 @@
             creditCont.Execute();
             createTransactionResponse creditResp = creditCont.GetApiResponse();
 
-            Assert.IsNotNull(creditResp);
-            Assert.AreEqual(creditResp.messages.resultCode, messageTypeEnum.Ok);
+            //validate
+            Assert.AreEqual(creditResp.transactionResponse.messages[0].code, "1");
         }
 
         [Test]
@@ -393,7 +376,8 @@
             creditCont.Execute();
             createTransactionResponse creditResp = creditCont.GetApiResponse();
 
-            Assert.AreEqual(creditResp.messages.resultCode, messageTypeEnum.Ok);
+            //validate
+            Assert.AreEqual(creditResp.transactionResponse.messages[0].code, "1");
         }
 
         [Test]
@@ -420,12 +404,6 @@
             controller.Execute();
             var response = controller.GetApiResponse();
 
-            //validate
-            Assert.NotNull(response);
-            Assert.NotNull(response.messages);
-            Assert.NotNull(response.transactionResponse);
-            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
-            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
 
             //Get transaction details
             var getDetailsReq = new getTransactionDetailsRequest
@@ -461,11 +439,8 @@
             controller.Execute();
             var capResponse = controller.GetApiResponse();
 
-            Assert.NotNull(response);
-            Assert.NotNull(response.messages);
-            Assert.NotNull(response.transactionResponse);
-            Assert.AreEqual(messageTypeEnum.Ok, response.messages.resultCode);
-            Assert.False(string.IsNullOrEmpty(response.transactionResponse.transId));
+            //validate
+            Assert.AreEqual(capResponse.transactionResponse.messages[0].code, "1");
         }
     }
 }

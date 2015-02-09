@@ -159,12 +159,6 @@
             createProfileCont.Execute();
             var createProfileResp = createProfileCont.GetApiResponse();
 
-            //Verify creation of profile
-            Assert.AreEqual(createProfileResp.messages.resultCode, messageTypeEnum.Ok);
-            Assert.IsNotNull(createProfileResp.customerProfileId);
-            Assert.IsNotNull(createProfileResp.customerPaymentProfileIdList);
-            Assert.IsNotNull(createProfileResp.customerShippingAddressIdList);
-
             //Get profile using getCustomerProfileRequest
             var getCustReq = new getCustomerProfileRequest { customerProfileId = createProfileResp.customerProfileId };
             var getCustCont = new getCustomerProfileController(getCustReq);
@@ -188,8 +182,7 @@
             var txnControlerResp = txnControler.GetApiResponse();
 
             //verify transaction succeeded.
-            Assert.IsNotNull(txnControlerResp.transactionResponse.messages[0].description);
-            Assert.AreEqual(txnControlerResp.transactionResponse.messages[0].description, "This transaction has been approved.");
+            Assert.AreEqual(txnControlerResp.transactionResponse.messages[0].code, "1");
 
         }
     }
