@@ -97,7 +97,8 @@ namespace AuthorizeNet {
             if (response.GetType() == typeof(createCustomerProfileTransactionResponse)) {
                 //there's a directResponse we need to find...
                 var thingy = (createCustomerProfileTransactionResponse)response;
-                thingy.directResponse = null;
+                // Why is this being set to null.  Completely blanks out the reponse from the server.
+                //thingy.directResponse = null;
                 for (var i = 0; i <= 1; i++)
                 {
                     if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
