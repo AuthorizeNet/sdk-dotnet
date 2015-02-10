@@ -76,7 +76,7 @@
             LogHelper.info(Logger, "Created Transaction: {0}", createResponse.transactionResponse);
             Assert.IsNotNull(createResponse.transactionResponse.transId);
             long transId;
-            Assert.IsTrue(Int64.TryParse(createResponse.transactionResponse.transId, out transId));
+            Assert.IsTrue(long.TryParse(createResponse.transactionResponse.transId, out transId));
             if (0 == transId)
             {
                 ValidateFailure<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
