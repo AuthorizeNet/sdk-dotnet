@@ -44,7 +44,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter);
+            var transactionAmount = SetValidTransactionAmount(Counter)/100;
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //standard api call to retrieve response
@@ -53,7 +53,7 @@
             {
                 transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
                 payment = paymentType,
-                amount = (decimal)transactionAmount/100,
+                amount = (decimal)transactionAmount,
             };
             var request = new createTransactionRequest { transactionRequest = transactionRequest };
             var controller = new createTransactionController(request);
@@ -61,7 +61,7 @@
             var response = controller.GetApiResponse();
 
             //validate
-            Assert.AreEqual(response.transactionResponse.messages[0].code, "1");
+            Assert.AreEqual("1", response.transactionResponse.messages[0].code);
         }
 
         [Test]
@@ -72,7 +72,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter);
+            decimal transactionAmount = SetValidTransactionAmount(Counter)/100;
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //standard api call to retrieve response
@@ -81,7 +81,7 @@
             {
                 transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),
                 payment = paymentType,
-                amount = (decimal)transactionAmount/100,
+                amount = transactionAmount,
             };
             var request = new createTransactionRequest { transactionRequest = transactionRequest };
             var controller = new createTransactionController(request);
@@ -89,7 +89,7 @@
             var response = controller.GetApiResponse();
 
             //validate
-            Assert.AreEqual(response.transactionResponse.messages[0].code, "1");
+            Assert.AreEqual("1", response.transactionResponse.messages[0].code);
         }
 
 
@@ -105,7 +105,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter);
+            var transactionAmount = SetValidTransactionAmount(Counter)/100;
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //Create and submit transaction with customer info to create profile from.
@@ -114,7 +114,7 @@
             {
                 transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),
                 payment = paymentType,
-                amount = (decimal)transactionAmount/100,
+                amount = (decimal)transactionAmount,
                 customer = new customerDataType
                 {
                     email = string.Format("Customer{0}@visa.com", customerIndx),
@@ -175,10 +175,11 @@
             var getCustResp = getCustContr.GetApiResponse();
 
             //validate
-            Assert.AreEqual(response.transactionResponse.messages[0].code, "1");
+            Assert.AreEqual("1", response.transactionResponse.messages[0].code);
         }
 
         [Test]
+        [Ignore("Requires user to specify settled transaction")]
         public void CreateCreditRequestForSettledECheckTransaction()
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
@@ -229,7 +230,7 @@
             createTransactionResponse creditResp = creditCont.GetApiResponse();
 
             //validate
-            Assert.AreEqual(creditResp.transactionResponse.messages[0].code, "1");
+            Assert.AreEqual("1", creditResp.transactionResponse.messages[0].code);
         }
 
         [Test]
@@ -243,7 +244,7 @@
 
             //Build and submit an Auth only transaction that can later be captured.
             //set up data based on transaction
-            var transactionAmount = (decimal)rnd.Next(9999) / 100;
+            var transactionAmount = SetValidTransactionAmount(Counter)/100;
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //standard api call to retrieve response
@@ -295,7 +296,7 @@
             var capResponse = controller.GetApiResponse();
 
             //validate
-            Assert.AreEqual(capResponse.transactionResponse.messages[0].code, "1");
+            Assert.AreEqual("1", capResponse.transactionResponse.messages[0].code);
         }
     }
 }

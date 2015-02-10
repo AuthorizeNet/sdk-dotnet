@@ -21,10 +21,10 @@ namespace AuthorizeNet.Api.Controllers.Test
 	    protected static readonly Log Logger = LogFactory.getLog(typeof(ApiCoreTestBase));
 	
 	    protected static readonly IDictionary<String, String> ErrorMessages ;
-	
-	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
-        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
 
+        protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
+        
 	    static Merchant _merchant ;
 	    static readonly String ApiLoginIdKey ;
 	    static readonly String TransactionKey ;
@@ -105,7 +105,8 @@ namespace AuthorizeNet.Api.Controllers.Test
         public static void SetUpBeforeClass()//TestContext context)
         {
             ErrorMessages.Clear();
-		    ErrorMessages.Add("E00003", "");
+		    ErrorMessages.Add("E00003", "");   //The message is dynamic based on the xsd violation.
+            ErrorMessages.Add("E00007", "User authentication failed due to invalid authentication values.");
 		    ErrorMessages.Add("E00027", "");
 		    ErrorMessages.Add("E00040", "");
 		    ErrorMessages.Add("E00090", "PaymentProfile cannot be sent with payment data." );
@@ -304,7 +305,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
             ArbSubscriptionOne = new ARBSubscriptionType
                 {
-                    amount = SetValidSubscriptionAmount(Counter),
+                    amount = SetValidSubscriptionAmount(Counter)/100,
                     billTo = NameAndAddressTypeOne,
                     customer = CustomerOne,
                     name = GetRandomString("Name"),
@@ -312,7 +313,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                     payment = PaymentOne,
                     paymentSchedule = PaymentScheduleTypeOne,
                     shipTo = NameAndAddressTypeOne,
-                    trialAmount= SetValidSubscriptionAmount(0),
+                    trialAmount= SetValidSubscriptionAmount(0)/100,
                 };
 
             CustomerDataOne = new customerDataType

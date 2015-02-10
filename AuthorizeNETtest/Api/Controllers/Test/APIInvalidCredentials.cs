@@ -42,7 +42,6 @@
             LogHelper.info(Logger, "CreateProfileWithCreateTransactionRequestTest");
             merchantAuthenticationType badCredentials = new merchantAuthenticationType { name = "mbld_api_-NPA5n9k", Item = "123123", ItemElementName = ItemChoiceType.transactionKey };
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = badCredentials;
-            //ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //create request
@@ -55,7 +54,7 @@
             getCPCont.Execute();
             getCustomerProfileResponse getCPResp = getCPCont.GetApiResponse();
 
-            Assert.AreEqual(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].code, "E00007");
+            Assert.AreEqual("E00007", ((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].code);
             ValidateErrorCode(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages, "E00007");
         }
 
@@ -78,7 +77,7 @@
             getCPCont.Execute();
             getCustomerProfileResponse getCPResp = getCPCont.GetApiResponse();
 
-            Assert.AreEqual(((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].code, "E00007");
+            Assert.AreEqual("E00007", ((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCPResp)).messages.message[0].code);
             ValidateErrorCode(getCPResp.messages, "E00007");
         }
     }

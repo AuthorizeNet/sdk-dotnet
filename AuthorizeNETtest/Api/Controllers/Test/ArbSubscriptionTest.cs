@@ -35,17 +35,28 @@ namespace AuthorizeNet.Api.Controllers.Test
         [Test]
         public void TestGetSubscriptionList()
         {
-            string referenceTxnId = string.Empty;
+            //create a transaction
+            var transactionRequestType = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
+                amount = SetValidTransactionAmount(Counter),
+                payment = PaymentOne,
+                order = OrderType,
+                customer = CustomerDataOne,
+                billTo = CustomerAddressOne,
 
-            try
+            };
+            var createRequest = new createTransactionRequest
             {
-                referenceTxnId = GetValidTxnId(CustomMerchantAuthenticationType);
-            }
-            catch (NullReferenceException)
-            {
-                Assert.Fail("This test requires a completed transaction to create a subscription from.  Add a transaction, then try this test again.");
-            }
-            
+                refId = RefId,
+                transactionRequest = transactionRequestType,
+                merchantAuthentication = CustomMerchantAuthenticationType,
+            };
+
+            var createResponse = ExecuteTestRequestWithSuccess<createTransactionRequest, createTransactionResponse, createTransactionController >(createRequest, TestEnvironment);
+
+            string referenceTxnId = createResponse.transactionResponse.transId;
+
 		    var subscriptionId = CreateSubscription( CustomMerchantAuthenticationType, referenceTxnId);
 		    var newStatus = GetSubscription( CustomMerchantAuthenticationType, subscriptionId);
 		    Assert.AreEqual(ARBSubscriptionStatusEnum.active, newStatus);
@@ -62,16 +73,14 @@ namespace AuthorizeNet.Api.Controllers.Test
                 var listRequest = SetupSubscriptionListRequest(CustomMerchantAuthenticationType);
                 var listResponse = ExecuteTestRequestWithSuccess<ARBGetSubscriptionListRequest, ARBGetSubscriptionListResponse, ARBGetSubscriptionListController>(listRequest, TestEnvironment);
 
-                SubscriptionDetail aSubscription = listResponse.subscriptionDetails.FirstOrDefault(a => a.id == subsId);
-
-                if (aSubscription == null)
-                {
-                    System.Threading.Thread.Sleep(10000);
-                }
-                else
+                if (listResponse.subscriptionDetails.Any<SubscriptionDetail>(a => a.id == subsId))
                 {
                     found = true;
                     break;
+                }
+                else
+                {
+                    System.Threading.Thread.Sleep(10000);
                 }
             }
 
@@ -85,8 +94,25 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 	    [Test]
 	    public void TestSubscription() {
-		    //cache the result
-            string txnId = GetValidTxnId(CustomMerchantAuthenticationType);
+            //create a transaction
+            var transactionRequestType = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
+                amount = SetValidTransactionAmount(Counter),
+                payment = PaymentOne,
+                order = OrderType,
+                customer = CustomerDataOne,
+                billTo = CustomerAddressOne,
+            };
+            var createRequest = new createTransactionRequest
+            {
+                refId = RefId,
+                transactionRequest = transactionRequestType,
+                merchantAuthentication = CustomMerchantAuthenticationType,
+            };
+
+            var createResponse = ExecuteTestRequestWithSuccess<createTransactionRequest, createTransactionResponse, createTransactionController>(createRequest, TestEnvironment);
+            string txnId = createResponse.transactionResponse.transId;
 
 		    var subscriptionId = CreateSubscription(CustomMerchantAuthenticationType, txnId);
 		    GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
@@ -164,13 +190,5 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 		    return createResponse.subscriptionId;
 	    }
-
-        private string GetValidTxnId(merchantAuthenticationType merchantAuthentication)
-        {
-            var getUnsettledTxnReq = new getUnsettledTransactionListRequest { merchantAuthentication = merchantAuthentication };
-            var getUnsettledTxnResp = ExecuteTestRequestWithSuccess<getUnsettledTransactionListRequest, getUnsettledTransactionListResponse, getUnsettledTransactionListController>(getUnsettledTxnReq, TestEnvironment);
-
-            return getUnsettledTxnResp.transactions[getUnsettledTxnResp.transactions.Length -1].transId;
-        }
     }
 }

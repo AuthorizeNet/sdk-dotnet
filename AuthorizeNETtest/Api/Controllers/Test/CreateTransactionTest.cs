@@ -64,10 +64,12 @@
                 refId = RefId,
                 transactionRequest = transactionRequestType,
             };
-            //create 
+            //create controller, execute and get response
             var createController = new createTransactionController(createRequest);
             createController.Execute();
             var createResponse = createController.GetApiResponse();
+
+            //validate response
             Assert.IsNotNull(createResponse.transactionResponse);
             LogHelper.info(Logger, "Response: {0}", createResponse);
             DisplayResponse(createResponse, "Create Transaction Response");
@@ -127,10 +129,12 @@
                 transactionRequest = transactionRequestType,
             };
 
-            //create 
+            //create controller, execute and get response 
             var createController = new createTransactionController(createRequest);
             createController.Execute();
             var createResponse = createController.GetApiResponse();
+
+            //validate response
             Assert.IsNull(createResponse);
             var errorResponse = createController.GetErrorResponse();
             Assert.IsNotNull(errorResponse);

@@ -45,14 +45,14 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
-            //setup some transaction to use
+            //setup transaction to use
             var transactionId = GetTransactionId();
             var createRequest = new createCustomerProfileFromTransactionRequest
             {
                 refId = RefId,
                 transId = transactionId.ToString(CultureInfo.InvariantCulture),
             };
-            //create 
+            //execute and get response
             var createController = new createCustomerProfileFromTransactionController(createRequest);
             var createResponse = createController.ExecuteWithApiResponse();
 
@@ -76,12 +76,14 @@
 
         private long GetTransactionId()
         {
+            //Creates a credit card transaction and returns the transactions ID.
+
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter);
+            var transactionAmount = SetValidTransactionAmount(Counter)/100;
             var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
             var aCustomer = new customerDataType { email = string.Format( "{0}@b.bla", Counter)};
 
@@ -115,6 +117,9 @@
         [Test]
         public void CreateTransactionFromProfile()
         {
+            //Creates a customer profile and customer payment profile
+            //Then uses those profiles to create a transaction request
+
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
@@ -182,7 +187,7 @@
             var txnControlerResp = txnControler.GetApiResponse();
 
             //verify transaction succeeded.
-            Assert.AreEqual(txnControlerResp.transactionResponse.messages[0].code, "1");
+            Assert.AreEqual("1", txnControlerResp.transactionResponse.messages[0].code);
 
         }
     }

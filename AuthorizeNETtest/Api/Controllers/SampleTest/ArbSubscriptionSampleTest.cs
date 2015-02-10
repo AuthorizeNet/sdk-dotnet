@@ -47,28 +47,26 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
                 refId = RefId,
                 subscription = ArbSubscriptionOne,
             };
-            //create 
+
             var createController = new ARBCreateSubscriptionController(createRequest);
-            //separate execute and getResponse calls
             createController.Execute();
             var createResponse = createController.GetApiResponse();
             Assert.IsNotNull(createResponse.subscriptionId);
             LogHelper.info(Logger, "Created Subscription: {0}", createResponse.subscriptionId);
             var subscriptionId = createResponse.subscriptionId;
 
-            //get a subscription
+            //get subscription details
 		    var getRequest = new ARBGetSubscriptionStatusRequest
 		        {
 		            refId = RefId,
 		            subscriptionId = subscriptionId
 		        };
             var getController = new ARBGetSubscriptionStatusController(getRequest);
-            //execute and getResponse calls together
             var getResponse = getController.ExecuteWithApiResponse();
 		    Assert.IsNotNull(getResponse.status);
 		    Logger.info(String.Format("Subscription Status: {0}", getResponse.status));
 
-            //get subscription list
+            //get subscription list that contains only the subscription created above.
 	        var listRequest = new ARBGetSubscriptionListRequest
 	            {
 	                refId = RefId,
@@ -89,19 +87,6 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
             LogHelper.info(Logger, "Subscription Count: {0}", listResponse.totalNumInResultSet);
             Assert.IsTrue(0 < listResponse.totalNumInResultSet);
 
-            //cancel subscription
-            var cancelRequest = new ARBCancelSubscriptionRequest
-            {
-                merchantAuthentication = CustomMerchantAuthenticationType,
-                refId = RefId,
-                subscriptionId = subscriptionId
-            };
-            //explicitly setting up the merchant id and environment 
-            var cancelController = new ARBCancelSubscriptionController(cancelRequest);
-            var cancelResponse = cancelController.ExecuteWithApiResponse(TestEnvironment);
-            Assert.IsNotNull(cancelResponse.messages);
-            Logger.info(String.Format("Subscription Cancelled: {0}", subscriptionId));
-
             //validation of list
             var subscriptionsArray = listResponse.subscriptionDetails;
             foreach (var aSubscription in subscriptionsArray)
@@ -110,6 +95,18 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
                 LogHelper.info(Logger, "Subscription Id: {0}, Status:{1}, PaymentMethod: {2}, Amount: {3}, Account:{4}",
                         aSubscription.id, aSubscription.status, aSubscription.paymentMethod, aSubscription.amount, aSubscription.accountNumber);
             }
+
+            //cancel subscription
+            var cancelRequest = new ARBCancelSubscriptionRequest
+            {
+                merchantAuthentication = CustomMerchantAuthenticationType,
+                refId = RefId,
+                subscriptionId = subscriptionId
+            };
+            var cancelController = new ARBCancelSubscriptionController(cancelRequest);
+            var cancelResponse = cancelController.ExecuteWithApiResponse(TestEnvironment);
+            Assert.IsNotNull(cancelResponse.messages);
+            Logger.info(String.Format("Subscription Cancelled: {0}", subscriptionId));
         }
     }
 }
