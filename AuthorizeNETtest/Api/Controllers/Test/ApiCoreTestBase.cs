@@ -305,7 +305,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
             ArbSubscriptionOne = new ARBSubscriptionType
                 {
-                    amount = SetValidSubscriptionAmount(Counter)/100,
+                    amount = SetValidSubscriptionAmount(Counter),
                     billTo = NameAndAddressTypeOne,
                     customer = CustomerOne,
                     name = GetRandomString("Name"),
@@ -313,7 +313,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                     payment = PaymentOne,
                     paymentSchedule = PaymentScheduleTypeOne,
                     shipTo = NameAndAddressTypeOne,
-                    trialAmount= SetValidSubscriptionAmount(0)/100,
+                    trialAmount= SetValidSubscriptionAmount(0),
                 };
 
             CustomerDataOne = new customerDataType
@@ -351,7 +351,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
         public decimal SetValidTransactionAmount(int number)
         {
-		    return setValidAmount(number, MaxTransactionAmount);
+		    return (Decimal)setValidAmount(number, MaxTransactionAmount/100);
 	    }
 
         public decimal SetValidSubscriptionAmount(int number)

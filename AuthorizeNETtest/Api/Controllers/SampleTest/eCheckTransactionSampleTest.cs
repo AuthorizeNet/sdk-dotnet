@@ -44,7 +44,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter)/100;
+            var transactionAmount = SetValidTransactionAmount(Counter);
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //standard api call to retrieve response
@@ -72,7 +72,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            decimal transactionAmount = SetValidTransactionAmount(Counter)/100;
+            decimal transactionAmount = SetValidTransactionAmount(Counter);
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //standard api call to retrieve response
@@ -105,7 +105,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter)/100;
+            var transactionAmount = SetValidTransactionAmount(Counter);
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //Create and submit transaction with customer info to create profile from.
@@ -207,7 +207,7 @@
             gtdCont.Execute();
             var gtdResp = gtdCont.GetApiResponse();
 
-            txnAmount = (decimal)gtdResp.transaction.settleAmount/100;
+            txnAmount = gtdResp.transaction.settleAmount;
             txnCardNo = ((AuthorizeNet.Api.Contracts.V1.creditCardMaskedType)(gtdResp.transaction.payment.Item)).cardNumber;
 
             //Create payment type that matches transaction to credit
@@ -244,7 +244,7 @@
 
             //Build and submit an Auth only transaction that can later be captured.
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter)/100;
+            var transactionAmount = SetValidTransactionAmount(Counter);
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
             //standard api call to retrieve response

@@ -48,7 +48,7 @@
             var transactionRequestType = new transactionRequestType
                 {
                     transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
-                    amount = SetValidTransactionAmount(Counter)/100,
+                    amount = SetValidTransactionAmount(Counter),
                     payment = PaymentOne,
                     order =  OrderType,
                     customer =  CustomerDataOne,
@@ -207,7 +207,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data for transaction
-            var transactionAmount = SetValidTransactionAmount(Counter)/100;
+            var transactionAmount = SetValidTransactionAmount(Counter);
             var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
 
             //standard api call to retrieve response
@@ -235,7 +235,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter)/100;
+            var transactionAmount = SetValidTransactionAmount(Counter);
             var opaqueData = new opaqueDataType
                 {
                     dataDescriptor = "COMMON.APPLE.INAPP.PAYMENT",
@@ -392,7 +392,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter)/100;
+            var transactionAmount = SetValidTransactionAmount(Counter);
             var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
 
             //Build transaction request.
