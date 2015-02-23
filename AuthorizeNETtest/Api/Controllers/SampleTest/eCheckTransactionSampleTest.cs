@@ -47,7 +47,7 @@
             var transactionAmount = SetValidTransactionAmount(Counter);
             var echeck = new bankAccountType { accountNumber = "123456", accountType = bankAccountTypeEnum.checking, checkNumber = "1234", bankName = "Bank of Seattle", routingNumber = "125000024", echeckType = echeckTypeEnum.WEB, nameOnAccount = "Joe Customer" };
 
-            //standard api call to retrieve response
+            //standard api call to retrieve api response
             var paymentType = new paymentType { Item = echeck };
             var transactionRequest = new transactionRequestType
             {

@@ -351,6 +351,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
         public decimal SetValidTransactionAmount(int number)
         {
+            //updated to return a value with dollars and cents and not just whole dollars.
 		    return (Decimal)setValidAmount(number, MaxTransactionAmount/100);
 	    }
 

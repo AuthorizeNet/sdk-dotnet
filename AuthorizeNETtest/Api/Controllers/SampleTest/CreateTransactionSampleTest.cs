@@ -395,7 +395,7 @@
             var transactionAmount = SetValidTransactionAmount(Counter);
             var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
 
-            //Build transaction request.
+            //Build auth only transaction request.
             var paymentType = new paymentType { Item = creditCard };
             var transactionRequest = new transactionRequestType
             {
