@@ -42,7 +42,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 	    {
             var fingerPrintSupportInformation = new fingerPrintSupportInformationType
             {
-                amount = Counter,
+                amount = SetValidTransactionAmount(Counter) / 100,
                 currencyCode = "INR",
                 sequence = CounterStr,
                 timestamp = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture),

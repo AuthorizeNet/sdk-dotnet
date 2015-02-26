@@ -21,10 +21,10 @@ namespace AuthorizeNet.Api.Controllers.Test
 	    protected static readonly Log Logger = LogFactory.getLog(typeof(ApiCoreTestBase));
 	
 	    protected static readonly IDictionary<String, String> ErrorMessages ;
-	
-	    protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
-        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
 
+        protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
+        //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
+        
 	    static Merchant _merchant ;
 	    static readonly String ApiLoginIdKey ;
 	    static readonly String TransactionKey ;
@@ -105,7 +105,8 @@ namespace AuthorizeNet.Api.Controllers.Test
         public static void SetUpBeforeClass()//TestContext context)
         {
             ErrorMessages.Clear();
-		    ErrorMessages.Add("E00003", "");
+		    ErrorMessages.Add("E00003", "");   //The message is dynamic based on the xsd violation.
+            ErrorMessages.Add("E00007", "User authentication failed due to invalid authentication values.");
 		    ErrorMessages.Add("E00027", "");
 		    ErrorMessages.Add("E00040", "");
 		    ErrorMessages.Add("E00090", "PaymentProfile cannot be sent with payment data." );
@@ -299,7 +300,6 @@ namespace AuthorizeNet.Api.Controllers.Test
                     interval = interval,
                     startDate = _nowDate,
                     totalOccurrences = 5,
-                    trialOccurrences = 0, 
                 };
 
             ArbSubscriptionOne = new ARBSubscriptionType
@@ -312,7 +312,6 @@ namespace AuthorizeNet.Api.Controllers.Test
                     payment = PaymentOne,
                     paymentSchedule = PaymentScheduleTypeOne,
                     shipTo = NameAndAddressTypeOne,
-                    trialAmount= SetValidSubscriptionAmount(0),
                 };
 
             CustomerDataOne = new customerDataType
@@ -350,7 +349,8 @@ namespace AuthorizeNet.Api.Controllers.Test
 
         public decimal SetValidTransactionAmount(int number)
         {
-		    return setValidAmount(number, MaxTransactionAmount);
+            //updated to return a value with dollars and cents and not just whole dollars.
+		    return (Decimal)setValidAmount(number, MaxTransactionAmount/100);
 	    }
 
         public decimal SetValidSubscriptionAmount(int number)
@@ -358,8 +358,15 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    return setValidAmount(number, MaxSubscriptionAmount);
 	    }
 	
-	    private decimal setValidAmount(int number, int maxAmount) {
-            return new decimal(number > maxAmount ? (number % maxAmount) : number);
+	    private decimal setValidAmount(int number, int maxAmount)
+        {
+            //Test that result is not larger than the specified max value
+            number = (number > maxAmount) ? (number % maxAmount) : number;
+
+            Decimal dollarsAndCents = (decimal)number / 100;
+
+            //Test that result is not less than the global Min Value
+            return dollarsAndCents = (dollarsAndCents < MinAmount) ? (MinAmount + dollarsAndCents) : dollarsAndCents;
 	    }
 
 	    static ANetApiResponse _errorResponse;
@@ -370,6 +377,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
         private const int MaxSubscriptionAmount = 1000; //214747;
         private const int MaxTransactionAmount = 10000; //214747;
+        private const int MinAmount = 1;
         private const decimal TaxRate = 0.10m;
 
         protected static TS ExecuteTestRequestWithSuccess<TQ, TS, TT>(TQ request, AuthorizeNet.Environment execEnvironment = null)

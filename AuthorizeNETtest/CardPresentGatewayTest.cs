@@ -90,7 +90,7 @@ namespace AuthorizeNETtest
             Assert.IsTrue(sError == "", sError);
 
             //setup
-            decimal amount = (decimal) 30.13;
+            decimal amount = getValidAmount();
             string transID = SendAuthOnly(amount + 1, true);
             Assert.IsTrue(transID.Trim().Length > 0);
             Assert.IsTrue(long.Parse(transID) > 0);
@@ -128,7 +128,7 @@ namespace AuthorizeNETtest
             Assert.IsTrue(sError == "", sError);
 
             //setup
-            decimal amount = (decimal)30.13;
+            decimal amount = getValidAmount();
             string transID = SendAuthOnly(amount - 1, true);
             Assert.IsTrue(transID.Trim().Length > 0);
             Assert.IsTrue(long.Parse(transID) > 0);

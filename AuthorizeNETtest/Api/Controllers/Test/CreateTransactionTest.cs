@@ -64,17 +64,19 @@
                 refId = RefId,
                 transactionRequest = transactionRequestType,
             };
-            //create 
+            //create controller, execute and get response
             var createController = new createTransactionController(createRequest);
             createController.Execute();
             var createResponse = createController.GetApiResponse();
+
+            //validate response
             Assert.IsNotNull(createResponse.transactionResponse);
             LogHelper.info(Logger, "Response: {0}", createResponse);
             DisplayResponse(createResponse, "Create Transaction Response");
             LogHelper.info(Logger, "Created Transaction: {0}", createResponse.transactionResponse);
             Assert.IsNotNull(createResponse.transactionResponse.transId);
             long transId;
-            Assert.IsTrue(Int64.TryParse(createResponse.transactionResponse.transId, out transId));
+            Assert.IsTrue(long.TryParse(createResponse.transactionResponse.transId, out transId));
             if (0 == transId)
             {
                 ValidateFailure<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
@@ -127,11 +129,12 @@
                 transactionRequest = transactionRequestType,
             };
 
-            const string errorMessage = "The element 'transactionRequest' in namespace 'AnetApi/xml/v1/schema/AnetApiSchema.xsd' has invalid child element 'amount' in namespace 'AnetApi/xml/v1/schema/AnetApiSchema.xsd'. List of possible elements expected: 'transactionType' in namespace 'AnetApi/xml/v1/schema/AnetApiSchema.xsd'.";
-            //create 
+            //create controller, execute and get response 
             var createController = new createTransactionController(createRequest);
             createController.Execute();
             var createResponse = createController.GetApiResponse();
+
+            //validate response
             Assert.IsNull(createResponse);
             var errorResponse = createController.GetErrorResponse();
             Assert.IsNotNull(errorResponse);
@@ -140,7 +143,7 @@
             Assert.AreEqual(messageTypeEnum.Error, errorResponse.messages.resultCode);
             Assert.AreEqual(1, errorResponse.messages.message.Length);
             Assert.AreEqual("E00003", errorResponse.messages.message[0].code);
-            Assert.AreEqual(errorMessage, errorResponse.messages.message[0].text);
+            ValidateErrorCode(errorResponse.messages, "E00003");
         }
     }
 }
