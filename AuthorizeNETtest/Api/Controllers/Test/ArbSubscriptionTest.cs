@@ -116,7 +116,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 
                 amount = 9.99M,
-                billTo = CustomerAddressTwo,
+                billTo = new nameAndAddressType{ firstName = "first", lastName = "last", address="123 elm st ne", city = "Bellevue", state = "Wa", zip = "98007"},
 
                 payment = PaymentOne,
 

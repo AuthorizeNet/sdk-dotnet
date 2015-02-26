@@ -266,7 +266,7 @@
         {
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PLUM; //TestEnvironment;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; //TestEnvironment;
 
             //set up data for transaction
             var transactionAmount = SetValidTransactionAmount(Counter) / 100;
