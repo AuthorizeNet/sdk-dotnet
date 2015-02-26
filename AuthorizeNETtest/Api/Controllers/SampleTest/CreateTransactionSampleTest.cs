@@ -115,7 +115,7 @@
             var transactionRequestType = new transactionRequestType
             {
                 transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
-                amount = SetValidTransactionAmount(Counter)/100,
+                amount = SetValidTransactionAmount(Counter),
                 profile = profileToCharge
             };
             var createRequest = new createTransactionRequest
@@ -266,7 +266,7 @@
         {
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; //TestEnvironment;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PLUM; //TestEnvironment;
 
             //set up data for transaction
             var transactionAmount = SetValidTransactionAmount(Counter) / 100;
@@ -442,6 +442,50 @@
 
             //validate
             Assert.AreEqual("1", capResponse.transactionResponse.messages[0].code);
+        }
+
+        [Test]
+        public void TransactionRequest_HandleError()
+        {
+            LogHelper.info(Logger, "CreateProfileWithCreateTransactionRequestTest");
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            //create a transaction
+            var transactionRequestType = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
+                amount = SetValidTransactionAmount(Counter),
+                payment = new paymentType { Item = new creditCardType { cardNumber = "0111111111111111", expirationDate = "122035" } },
+                order = OrderType,
+                customer = CustomerDataOne,
+                billTo = CustomerAddressOne,
+                shipTo = CustomerAddressOne,
+            };
+            var createRequest = new createTransactionRequest
+            {
+                refId = RefId,
+                transactionRequest = transactionRequestType,
+            };
+            //create controller, execute and get response
+            var createController = new createTransactionController(createRequest);
+            createController.Execute();
+            var createResponse = createController.GetApiResponse();
+
+            //Validate error code where request is submitted properly, but request fails.
+            Assert.AreEqual("6", createResponse.transactionResponse.errors[0].errorCode);
+
+            //Validate error code where submission of request fails.
+            ((creditCardType)transactionRequestType.payment.Item).cardNumber = "01";
+            createController = new createTransactionController(createRequest);
+            createController.Execute();
+
+            if (createController.GetApiResponse() == null)
+            {
+                var errorResponse = createController.GetErrorResponse();
+                Assert.AreEqual("E00003", errorResponse.messages.message[0].code);
+            }
         }
     }
 }

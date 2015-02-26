@@ -300,7 +300,6 @@ namespace AuthorizeNet.Api.Controllers.Test
                     interval = interval,
                     startDate = _nowDate,
                     totalOccurrences = 5,
-                    trialOccurrences = 0, 
                 };
 
             ArbSubscriptionOne = new ARBSubscriptionType
@@ -313,7 +312,6 @@ namespace AuthorizeNet.Api.Controllers.Test
                     payment = PaymentOne,
                     paymentSchedule = PaymentScheduleTypeOne,
                     shipTo = NameAndAddressTypeOne,
-                    trialAmount= SetValidSubscriptionAmount(0),
                 };
 
             CustomerDataOne = new customerDataType
@@ -360,8 +358,15 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    return setValidAmount(number, MaxSubscriptionAmount);
 	    }
 	
-	    private decimal setValidAmount(int number, int maxAmount) {
-            return new decimal(number > maxAmount ? (number % maxAmount) : number);
+	    private decimal setValidAmount(int number, int maxAmount)
+        {
+            //Test that result is not larger than the specified max value
+            number = (number > maxAmount) ? (number % maxAmount) : number;
+
+            Decimal dollarsAndCents = (decimal)number / 100;
+
+            //Test that result is not less than the global Min Value
+            return dollarsAndCents = (dollarsAndCents < MinAmount) ? (MinAmount + dollarsAndCents) : dollarsAndCents;
 	    }
 
 	    static ANetApiResponse _errorResponse;
@@ -372,6 +377,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
         private const int MaxSubscriptionAmount = 1000; //214747;
         private const int MaxTransactionAmount = 10000; //214747;
+        private const int MinAmount = 1;
         private const decimal TaxRate = 0.10m;
 
         protected static TS ExecuteTestRequestWithSuccess<TQ, TS, TT>(TQ request, AuthorizeNet.Environment execEnvironment = null)

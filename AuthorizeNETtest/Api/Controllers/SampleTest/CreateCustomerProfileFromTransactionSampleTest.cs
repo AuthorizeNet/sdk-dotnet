@@ -83,7 +83,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
-            var transactionAmount = SetValidTransactionAmount(Counter)/100;
+            var transactionAmount = SetValidTransactionAmount(Counter);
             var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
             var aCustomer = new customerDataType { email = string.Format( "{0}@b.bla", Counter)};
 

@@ -3,6 +3,8 @@ namespace AuthorizeNet.Api.Controllers.Test
     using System;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers;
+    using AuthorizeNet.Api.Controllers.Bases;
+    using AuthorizeNet.Api.Controllers.Test;
     using AuthorizeNet.Util;
     using NUnit.Framework;
     using System.Linq;
@@ -94,30 +96,112 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 	    [Test]
 	    public void TestSubscription() {
-            //create a transaction
-            var transactionRequestType = new transactionRequestType
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            //create a subscription
+            var subscriptionDef = new ARBSubscriptionType
             {
-                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
-                amount = SetValidTransactionAmount(Counter),
+                paymentSchedule = new paymentScheduleType
+                {
+                    interval = new paymentScheduleTypeInterval
+                    {
+                        length = 1,
+                        unit = ARBSubscriptionUnitEnum.months,
+                    },
+                    startDate = DateTime.UtcNow,
+                    totalOccurrences = 12,
+                },
+
+
+                amount = 9.99M,
+                billTo = CustomerAddressTwo,
+
                 payment = PaymentOne,
-                order = OrderType,
-                customer = CustomerDataOne,
-                billTo = CustomerAddressOne,
-            };
-            var createRequest = new createTransactionRequest
-            {
-                refId = RefId,
-                transactionRequest = transactionRequestType,
-                merchantAuthentication = CustomMerchantAuthenticationType,
+
+                customer = CustomerOne,
+
+                order = new orderType { description = string.Format("member monthly {0}", rnd.Next(99999)) },
             };
 
-            var createResponse = ExecuteTestRequestWithSuccess<createTransactionRequest, createTransactionResponse, createTransactionController>(createRequest, TestEnvironment);
-            string txnId = createResponse.transactionResponse.transId;
+            var arbRequest = new ARBCreateSubscriptionRequest { subscription = subscriptionDef };
+            var arbController = new ARBCreateSubscriptionController(arbRequest);
+            arbController.Execute();
 
-		    var subscriptionId = CreateSubscription(CustomMerchantAuthenticationType, txnId);
-		    GetSubscription(CustomMerchantAuthenticationType, subscriptionId);
-		    CancelSubscription(CustomMerchantAuthenticationType, subscriptionId);
+            var arbCreateResponse = arbController.GetApiResponse();
+
+            Assert.AreEqual(messageTypeEnum.Ok,arbController.GetResultCode());
+
 	    }
+
+        [Test]
+        public void TestSubscription_ExpiredCC()
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+            //create a subscription
+            var subscriptionDef = new ARBSubscriptionType
+            {
+
+
+                paymentSchedule = new paymentScheduleType
+                {
+                    interval = new paymentScheduleTypeInterval
+                    {
+                        length = 7,
+                        unit = ARBSubscriptionUnitEnum.days
+                    },
+                    startDate = DateTime.UtcNow,
+                    totalOccurrences = 2,
+                },
+
+
+                amount = 9.99M,
+
+                billTo = new nameAndAddressType
+                {
+                    address = "1234 Elm St NE",
+                    city = "Bellevue",
+                    state = "WA",
+                    zip = "98007",
+                    firstName = "First",
+                    lastName = "Last"
+                },
+
+                payment = new paymentType
+                {
+                    Item = new creditCardType
+                                 {
+                                     cardCode = "655",
+                                     //cardNumber = "4007000",
+                                     cardNumber = "4111111111111111",
+                                     expirationDate = "122013",
+                                 }
+                },
+
+                customer = new customerType { email = "somecustomer@test.org", id = "5", },
+
+                order = new orderType { description = string.Format("member monthly {0}", rnd.Next(99999)) },
+            };
+
+            var arbRequest = new ARBCreateSubscriptionRequest { subscription = subscriptionDef };
+            var arbController = new ARBCreateSubscriptionController(arbRequest);
+            arbController.Execute();
+
+            var arbCreateResponse = arbController.GetApiResponse();
+
+            //If request responds with an error, walk the messages and get code and text for each message.
+            if (arbController.GetResultCode() == messageTypeEnum.Error)
+            {
+                foreach(var msg in arbCreateResponse.messages.message)
+                {
+                    Console.WriteLine("Error Num = {0}, Message = {1}", msg.code, msg.text);
+                }
+            }
+
+        }
 
 	    private ARBGetSubscriptionListRequest SetupSubscriptionListRequest(merchantAuthenticationType merchantAuthentication) {
 		
@@ -171,7 +255,8 @@ namespace AuthorizeNet.Api.Controllers.Test
 		    return getResponse.status;
 	    }
 
-	    private string CreateSubscription( merchantAuthenticationType merchantAuthentication, string RefId) {
+        private string CreateSubscription( merchantAuthenticationType merchantAuthentication, string RefId) 
+        {
 		    //create a new subscription
             //RequestFactoryWithSpecified.paymentType(ArbSubscriptionOne.payment);
             //RequestFactoryWithSpecified.paymentScheduleType(ArbSubscriptionOne.paymentSchedule);
@@ -190,5 +275,49 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 		    return createResponse.subscriptionId;
 	    }
+
+        [Test]
+        public void TestSubscription_serialization_error()
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            //create a subscription
+            var subscriptionDef = new ARBSubscriptionType
+            {
+                paymentSchedule = new paymentScheduleType
+                {
+                    interval = new paymentScheduleTypeInterval
+                    {
+                        length = 1,
+                        unit = ARBSubscriptionUnitEnum.months,
+                    },
+                    startDate = DateTime.UtcNow,
+                    totalOccurrences = 12,
+                },
+
+
+                amount = 9.99M,
+                billTo = new customerAddressType { firstName = "first", lastName = "last" },
+
+                payment = PaymentOne,
+
+                customer = CustomerOne,
+
+                order = new orderType { description = string.Format("member monthly {0}", rnd.Next(99999)) },
+            };
+
+            var arbRequest = new ARBCreateSubscriptionRequest { subscription = subscriptionDef };
+            var arbController = new ARBCreateSubscriptionController(arbRequest);
+            arbController.Execute();
+
+            if (arbController.GetResultCode() == messageTypeEnum.Error)
+            {
+                var errorResp = arbController.GetErrorResponse();
+                Console.WriteLine("{0}: {1}", errorResp.messages.message[0].code, errorResp.messages.message[0].text);
+            }
+
+        }
     }
 }
