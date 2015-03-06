@@ -57,7 +57,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             {
                 id = 1234,
                 accountNumber = "1234",
-                amount = 1234.56m,
+                amount = SetValidTransactionAmount(Counter) / 100,
             };
             var subscriptionDetails = new List<SubscriptionDetail> { subscriptionDetail };
             var mockResponse = new ARBGetSubscriptionListResponse

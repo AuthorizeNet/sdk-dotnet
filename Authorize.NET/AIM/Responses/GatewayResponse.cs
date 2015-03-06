@@ -78,6 +78,13 @@ namespace AuthorizeNet {
                 return ParseResponse(0);
             }
         }
+        public string ReasonResponseCode
+        {
+            get
+            {
+                return ParseResponse(2);
+            }
+        }
         public string CardNumber {
             get {
                 return ParseResponse(50);

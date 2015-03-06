@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace AuthorizeNet {
     /// <summary>
@@ -16,7 +17,7 @@ namespace AuthorizeNet {
         public CardPresentPriorAuthCapture(string transactionID, decimal amount) {
             this.SetApiAction(RequestAction.PriorAuthCapture);
             this.Queue("x_ref_trans_id", transactionID);
-            this.Queue(ApiFields.Amount, amount.ToString());
+            this.Queue(ApiFields.Amount, amount.ToString(CultureInfo.InvariantCulture));
         }
     }
 }
