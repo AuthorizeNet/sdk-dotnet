@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AuthorizeNet.APICore;
+using AuthorizeNet.Api.Contracts.V1;
 
 namespace AuthorizeNet {
 
@@ -68,7 +67,7 @@ namespace AuthorizeNet {
         /// For the Information in name/value pair format that does not exist within CIM.  
         /// Example: x_customer_ip=100.0.0.1&amp;x_cust_id=Testing Extra Options
         /// </summary>
-        public string ExtraOptions { get; set; }
+        public CustomerGateway.ExtraOptions ExtraOptions { get; set; }
 
 
         public void RemoveLineItem(string ID) {

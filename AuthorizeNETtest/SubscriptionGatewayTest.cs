@@ -1,5 +1,4 @@
 ﻿using AuthorizeNet;
-using AuthorizeNet.APICore;
 using NUnit.Framework;
 using System;
 using System.Configuration;

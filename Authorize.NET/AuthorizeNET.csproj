@@ -97,7 +97,6 @@
     <Compile Include="Reporting\ReportingGateway.cs" />
     <Compile Include="Reporting\Transaction.cs" />
     <Compile Include="SIM\SIMFormGenerator.cs" />
-    <Compile Include="Utility\AnetApiSchema.generated.cs" />
     <Compile Include="Utility\ApiFields.cs" />
     <Compile Include="Utility\CommonFunctions.cs" />
     <Compile Include="Utility\Crypto.cs" />
