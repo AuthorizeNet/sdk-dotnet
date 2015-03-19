@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
-using System.Net;
-using AuthorizeNet.APICore;
+using AuthorizeNet.Api.Contracts.V1;
 
 namespace AuthorizeNet {
     public class CustomerGateway : ICustomerGateway {
@@ -325,45 +321,73 @@ namespace AuthorizeNet {
         public IGatewayResponse AuthorizeAndCapture(Order order) {
             var req = new createCustomerProfileTransactionRequest();
             
-            var trans = new profileTransAuthCaptureType();
+            // profileTransAuthCaptureType is not properly handled by the XSD serializer.
+            var trans = BuildTransaction(order, new profileTransAuthOnlyType());
+            req.transaction = new profileTransactionType { Item = trans };
+            SetOptions(order, req);
 
+            var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);            
+            
+            return new GatewayResponse(response.directResponse.Split(','));
+        }
+
+        private static void SetOptions(Order order, createCustomerProfileTransactionRequest req)
+        {
+            var options = order.ExtraOptions ?? new ExtraOptions();
+            if (!options.ContainsKey("x_type"))
+            {
+                options.Add("x_type", null);
+            }
+
+            options["x_type"] = "AUTH_CAPTURE";
+            req.extraOptions = options.ToString();
+        }
+
+        private static profileTransOrderType BuildTransaction(Order order, profileTransOrderType trans)
+        {
             trans.customerProfileId = order.CustomerProfileID;
             trans.customerPaymentProfileId = order.PaymentProfileID;
             trans.amount = order.Total;
 
-            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID)) {
+            if (!String.IsNullOrEmpty(order.ShippingAddressProfileID))
+            {
                 trans.customerShippingAddressId = order.ShippingAddressProfileID;
             }
 
             if (order.SalesTaxAmount > 0)
-                trans.tax = new extendedAmountType {
+                trans.tax = new extendedAmountType
+                {
                     amount = order.SalesTaxAmount,
                     description = order.SalesTaxName,
                     name = order.SalesTaxName
                 };
 
             if (order.ShippingAmount > 0)
-                trans.shipping = new extendedAmountType {
+                trans.shipping = new extendedAmountType
+                {
                     amount = order.ShippingAmount,
                     description = order.ShippingName,
                     name = order.ShippingName
                 };
 
             //line items
-            if (order._lineItems.Count > 0) {
+            if (order._lineItems.Count > 0)
+            {
                 trans.lineItems = order._lineItems.ToArray();
             }
 
-            if (order.TaxExempt.HasValue) {
+            if (order.TaxExempt.HasValue)
+            {
                 trans.taxExempt = order.TaxExempt.Value;
                 trans.taxExemptSpecified = true;
             }
 
-            if (order.RecurringBilling.HasValue) {
+            if (order.RecurringBilling.HasValue)
+            {
                 trans.recurringBilling = order.RecurringBilling.Value;
                 trans.recurringBillingSpecified = true;
             }
-            if(!String.IsNullOrEmpty(order.CardCode))
+            if (!String.IsNullOrEmpty(order.CardCode))
                 trans.cardCode = order.CardCode;
 
             if ((!String.IsNullOrEmpty(order.InvoiceNumber)) ||
@@ -379,16 +403,16 @@ namespace AuthorizeNet {
                     trans.order.purchaseOrderNumber = order.PONumber;
             }
 
-            req.transaction = new profileTransactionType();
-            req.transaction.Item = trans;
-            req.extraOptions = order.ExtraOptions;
+            return trans;
+        }
 
-            var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
-            
-            
-            return new GatewayResponse(response.directResponse.Split(','));
-
-
+        public class ExtraOptions : Dictionary<string, string>
+        {
+            public override string ToString()
+            {
+                var pairs = this.Select(p => string.Format("{0}={1}", p.Key, p.Value));
+                return string.Join("&amp;", pairs.ToArray());
+            }
         }
 
         /// <summary>
@@ -489,13 +513,11 @@ namespace AuthorizeNet {
 
             req.transaction = new profileTransactionType();
             req.transaction.Item = trans;
-            req.extraOptions = order.ExtraOptions;
+            req.extraOptions = order.ExtraOptions.ToString();
 
             var response = (createCustomerProfileTransactionResponse)_gateway.Send(req);
 
             return new GatewayResponse(response.directResponse.Split(','));
-
-
         }
 
         /// <summary>

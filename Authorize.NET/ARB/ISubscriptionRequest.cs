@@ -1,5 +1,5 @@
 ﻿using System;
-using AuthorizeNet.APICore;
+using AuthorizeNet.Api.Contracts.V1;
 
 namespace AuthorizeNet {
     public interface ISubscriptionRequest {

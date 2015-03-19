@@ -81,7 +81,6 @@ Place the following code in the default action of a simple MVC application to di
             subscription.CardExpirationYear = 20;
 
 
-
             Address billToAddress = new Address();
             billToAddress.First = "John";
             billToAddress.Last = "Doe";
@@ -127,17 +126,18 @@ the CCV code.
 | :-------------------------- | :----------------------------------------------------------- |
 | American Express            | 370000000000002                                              |
 | Discover                    | 6011000000000012                                             |
-| Visa                        | 4007000000027                                                |
+| Visa                        | 4007000000027, 4111111111111111                              |
 | JCB                         | 3088000000000017                                             |
 | Diners Club/ Carte Blanche  | 38000000000006                                               |
-| Visa (Card Present Track 1) | %B4111111111111111^DOE/JOHN^1803101000000000020000831000000? |
 
 ## New Model
 
 We’re exploring a new model of maintaining the SDKs which allows us to be more responsive to API changes.  This model is consistent across the different SDK languages, which is great for us, however we do not want to sacrifice your productivity by losing the inherent efficiencies in the existing object model or the specific languages.  We’re introducing the new model as "supplementary" at this time and we would appreciate your feedback.  Let us know what you really think!  Here’s an example of a server side call with ApplePay data in the new model.
 
 ### Apple Pay Example
+
 ````csharp
+
         static void Main(string[] args)
         {
             merchantAuthenticationType CustomMerchantAuthenticationType = new merchantAuthenticationType
@@ -146,7 +146,7 @@ We’re exploring a new model of maintaining the SDKs which allows us to be more
                 ItemElementName = ItemChoiceType.transactionKey,
                 Item = "4Ktq966gC55GAX7S",
             };
-
+            
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 

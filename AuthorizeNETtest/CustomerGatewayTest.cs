@@ -1,10 +1,10 @@
 ﻿using AuthorizeNet;
-using AuthorizeNet.APICore;
 using NUnit.Framework;
 using System;
 using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
+using AuthorizeNet.Api.Contracts.V1;
 
 namespace AuthorizeNETtest
 {

@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using System.Net;
-using AuthorizeNet.APICore;
+using AuthorizeNet.Api.Contracts.V1;
 
 namespace AuthorizeNet {
     /// <summary>

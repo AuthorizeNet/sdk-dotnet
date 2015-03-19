@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AuthorizeNet.Api.Contracts.V1;
 
 namespace AuthorizeNet {
 
@@ -31,12 +32,12 @@ namespace AuthorizeNet {
         public IList<Address> ShippingAddresses { get; set; }
         public IList<PaymentProfile> PaymentProfiles { get; set; }
 
-        internal static AuthorizeNet.APICore.validationModeEnum ToValidationMode(ValidationMode mode) {
+        internal static validationModeEnum ToValidationMode(ValidationMode mode) {
             switch (mode) {
-                case ValidationMode.None: return AuthorizeNet.APICore.validationModeEnum.none;
-                case ValidationMode.TestMode: return AuthorizeNet.APICore.validationModeEnum.testMode;
-                case ValidationMode.LiveMode: return AuthorizeNet.APICore.validationModeEnum.liveMode;
-                default: return (AuthorizeNet.APICore.validationModeEnum)mode;
+                case ValidationMode.None: return validationModeEnum.none;
+                case ValidationMode.TestMode: return validationModeEnum.testMode;
+                case ValidationMode.LiveMode: return validationModeEnum.liveMode;
+                default: return (validationModeEnum)mode;
             }
         }
     }
