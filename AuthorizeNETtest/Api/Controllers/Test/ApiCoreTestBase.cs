@@ -300,6 +300,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                     interval = interval,
                     startDate = _nowDate,
                     totalOccurrences = 5,
+                    trialOccurrences = 0, 
                 };
 
             ArbSubscriptionOne = new ARBSubscriptionType
@@ -312,6 +313,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                     payment = PaymentOne,
                     paymentSchedule = PaymentScheduleTypeOne,
                     shipTo = NameAndAddressTypeOne,
+                    trialAmount= SetValidSubscriptionAmount(0),
                 };
 
             CustomerDataOne = new customerDataType

@@ -8,6 +8,8 @@ using System.Xml.Serialization;
 
 namespace AuthorizeNETtest
 {
+    using System.Text;
+
     /// <summary>
     /// This is a test class for CustomerGatewayTest and is intended to contain all CustomerGateway Unit Tests
     /// </summary>
@@ -994,6 +996,105 @@ namespace AuthorizeNETtest
             var order = new Order(profileId, paymentProfileId, "") {Amount = (decimal) 25.10};
             var response = gateway.AuthorizeAndCapture(order);
             Assert.IsNotNull(response);
+        }
+
+        [Test]
+        public void TestSdkUpgradeCustomerOrder()
+        {
+            var random = new Random();
+            var counter = random.Next(1, (int)(Math.Pow(2, 24)));
+            const int maxAmount = 10000;// 214747;
+            var amount = new decimal(counter > maxAmount ? (counter % maxAmount) : counter);
+            var email = string.Format("user.{0}@authorize.net", counter);
+            var description = string.Format("Description for Customer: {0}", counter);
+            var merchantCustomerId = string.Format("CustomerId: {0}", counter);
+            const string cardNumber = "4111111111111111";
+            const string  cvv = "";
+            var address = new Address
+                {
+                    First = string.Format("FName:{0}", counter),
+                    Last = string.Format("LName:{0}", counter),
+                    Company = "Visa",
+                    Street = "123 Elm Street",
+                    City = "Bellevue",
+                    State = "WA",
+                    Country = "US",
+                    Zip = "98006"
+                };
+
+            //Save the customer first
+            var gw = new CustomerGateway(ApiLogin, TransactionKey);
+
+            var customer = gw.CreateCustomer(email, description, merchantCustomerId);
+            var creditCardToken = gw.AddCreditCard(customer.ProfileID, cardNumber, DateTime.UtcNow.Month, DateTime.UtcNow.AddYears(1).Year, cvv, address);
+
+            //Create order
+            var order = new Order(customer.ProfileID, creditCardToken, "");
+            order.Amount = amount; 
+            order.CardCode = cvv; 
+            order.ExtraOptions = "x_duplicate_window=0"; 
+            
+            var result = (GatewayResponse)gw.AuthorizeAndCapture(order);
+            Assert.IsNotNull(result, "GateWay response for Order AuthCapture is null");
+
+            var buffer = new StringBuilder();
+
+            buffer.Append( "IGateWayResponse->");
+            buffer.AppendFormat( "  SplitTenderId:{0}", result.SplitTenderId);
+            buffer.AppendFormat( ", MD5Hash:{0}", result.MD5Hash);
+            buffer.AppendFormat( ", CCVResponse:{0}", result.CCVResponse);
+            buffer.AppendFormat( ", Code:{0}", result.Code);
+            buffer.AppendFormat( ", TransactionType:{0}", result.TransactionType);
+            buffer.AppendFormat( ", AuthorizationCode:{0}", result.AuthorizationCode);
+            buffer.AppendFormat( ", Method:{0}", result.Method);
+            buffer.AppendFormat( ", Amount:{0}", result.Amount);
+            buffer.AppendFormat( ", Tax:{0}", result.Tax);
+            buffer.AppendFormat( ", TransactionID:{0}", result.TransactionID);
+            buffer.AppendFormat( ", InvoiceNumber:{0}", result.InvoiceNumber);
+            buffer.AppendFormat( ", Description:{0}", result.Description);
+            buffer.AppendFormat( ", ResponseCode:{0}", result.ResponseCode);
+            buffer.AppendFormat( ", CardNumber:{0}", result.CardNumber);
+            buffer.AppendFormat( ", CardType:{0}", result.CardType);
+            buffer.AppendFormat( ", CAVResponse:{0}", result.CAVResponse);
+            buffer.AppendFormat( ", AVSResponse:{0}", result.AVSResponse);
+            buffer.AppendFormat( ", SubCode:{0}", result.SubCode);
+            buffer.AppendFormat( ", Message:{0}", result.Message);
+            buffer.AppendFormat( ", Approved:{0}", result.Approved);
+            buffer.AppendFormat( ", Declined:{0}", result.Declined);
+            buffer.AppendFormat( ", Error:{0}", result.Error);
+            buffer.AppendFormat( ", HeldForReview:{0}", result.HeldForReview);
+            buffer.AppendFormat( ", FirstName:{0}", result.FirstName);
+            buffer.AppendFormat( ", LastName:{0}", result.LastName);
+            buffer.AppendFormat( ", Email:{0}", result.Email);
+            buffer.AppendFormat( ", Company:{0}", result.Company);
+            buffer.AppendFormat( ", Address:{0}", result.Address);
+            buffer.AppendFormat( ", City:{0}", result.City);
+            buffer.AppendFormat( ", State:{0}", result.State);
+            buffer.AppendFormat( ", ZipCode:{0}", result.ZipCode);
+            buffer.AppendFormat( ", Country:{0}", result.Country);
+            buffer.AppendFormat( ", ShipFirstName:{0}", result.ShipFirstName);
+            buffer.AppendFormat( ", ShipLastName:{0}", result.ShipLastName);
+            buffer.AppendFormat( ", ShipCompany:{0}", result.ShipCompany);
+            buffer.AppendFormat( ", ShipAddress:{0}", result.ShipAddress);
+            buffer.AppendFormat( ", ShipCity:{0}", result.ShipCity);
+            buffer.AppendFormat( ", ShipState:{0}", result.ShipState);
+            buffer.AppendFormat( ", ShipZipCode:{0}", result.ShipZipCode);
+            buffer.AppendFormat( ", ShipCountry:{0}", result.ShipCountry);
+
+            Console.WriteLine(buffer);
+
+            Assert.IsNotNull(result.MD5Hash);
+            Assert.IsNotNullOrEmpty(result.TransactionType);
+            Assert.IsNotNullOrEmpty(result.AuthorizationCode);
+            Assert.IsNotNullOrEmpty(result.Method);
+            Assert.AreEqual("CC", result.Method);
+            Assert.IsNotNullOrEmpty(result.TransactionID);
+            Assert.AreEqual("1", result.ResponseCode);
+            Assert.AreEqual( "XXXX1111", result.CardNumber);
+            Assert.AreEqual( "Visa", result.CardType);
+            Assert.AreEqual("This transaction has been approved.", result.Message);
+            Assert.IsTrue(result.Approved);
+            Assert.IsFalse(result.Declined);
         }
     }
 }
