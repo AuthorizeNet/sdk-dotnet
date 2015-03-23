@@ -92,12 +92,13 @@ namespace AuthorizeNet {
             }
             return result;
         }
+
         void CheckForErrors(ANetApiResponse response) {
 
             if (response.GetType() == typeof(createCustomerProfileTransactionResponse)) {
                 //there's a directResponse we need to find...
                 var thingy = (createCustomerProfileTransactionResponse)response;
-                thingy.directResponse = null;
+                //should not initialize directresponse
                 for (var i = 0; i <= 1; i++)
                 {
                     if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
