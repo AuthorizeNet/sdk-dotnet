@@ -93,42 +93,18 @@ namespace AuthorizeNet {
             return result;
         }
         void CheckForErrors(ANetApiResponse response) {
+            if (response.messages.message.Length > 0) {
 
-            if (response.GetType() == typeof(createCustomerProfileTransactionResponse)) {
-                //there's a directResponse we need to find...
-                var thingy = (createCustomerProfileTransactionResponse)response;
-                thingy.directResponse = null;
-                for (var i = 0; i <= 1; i++)
-                {
-                    if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
-                    {
-                        for (var j = 0; j <= 1; j++)
-                        {
-                            if (null != _xmlDoc.ChildNodes[i].ChildNodes[j])
-                            {
-                                thingy.directResponse = _xmlDoc.ChildNodes[i].ChildNodes[j].InnerText;
-                            }
-                            if (null != thingy.directResponse) { break; }
-                        }
+                if (response.messages.resultCode == messageTypeEnum.Error) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < response.messages.message.Length; i++) {
+                        sb.AppendFormat("Error processing request: {0} - {1}", response.messages.message[i].code, response.messages.message[i].text);
                     }
-                    if (null != thingy.directResponse) { break; }
+                    throw new InvalidOperationException(sb.ToString());
                 }
-                response = thingy;
-            } else {
-
-                if (response.messages.message.Length > 0) {
-
-                    if (response.messages.resultCode == messageTypeEnum.Error) {
-                        StringBuilder sb = new StringBuilder();
-                        for (int i = 0; i < response.messages.message.Length; i++) {
-                            sb.AppendFormat("Error processing request: {0} - {1}", response.messages.message[i].code, response.messages.message[i].text);
-                        }
-                        throw new InvalidOperationException(sb.ToString());
-                    }
 
                 }
             }
-        }
         ANetApiResponse DecideResponse(XmlDocument xmldoc) {
             XmlSerializer serializer;
 
