@@ -65,6 +65,8 @@ namespace AuthorizeNet {
             serializer.Serialize(writer, apiRequest);
             writer.Close();
 
+            string requestString = Serialize(apiRequest);
+            Console.WriteLine(requestString);
 
             // Get the response
             WebResponse webResponse = webRequest.GetResponse();
@@ -75,7 +77,10 @@ namespace AuthorizeNet {
 
 
             var response = DecideResponse(_xmlDoc);
+            string responseString = _xmlDoc.DocumentElement.OuterXml;
+            Console.WriteLine(responseString);
             CheckForErrors(response);
+
             return response;
         }
         XmlDocument _xmlDoc;
