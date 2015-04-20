@@ -74,12 +74,16 @@
                 customerProfileId = "1234"
             };
 
-            var getCpCont = new getCustomerProfileController(getCpReq);
-            getCpCont.Execute();
-            var getCpResp = getCpCont.GetApiResponse();
-
-            Assert.AreEqual("E00007", ((AuthorizeNet.Api.Contracts.V1.ANetApiResponse)(getCpResp)).messages.message[0].code);
-            ValidateErrorCode(getCpResp.messages, "E00007");
+            try
+            {
+                var getCpCont = new getCustomerProfileController(getCpReq);
+                getCpCont.Execute();
+                Assert.Fail("You should not reach here");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An exception expected: " + e.Message);
+            }
         }
     }
 }

@@ -237,24 +237,29 @@ namespace AuthorizeNETtest
         /// Credit Transaction - Approved
         /// </summary>
         [Test()]
+        [Ignore("To run this test, find a settled ECheck transaction and configure this test below.")]
         public void SendTest_Credit_Approved()
         {
+            // Test setup.
+            const string transId = "????";               // A settled eCheck transaction id
+            const decimal creditAmount = (decimal) 1.50; // Amount to request credit for; less than the settled amount minus refund amount.
+            const string accountType = "eCheck";         // The account type used in the transaction, such as eCheck
+            const string accountLast4Digits = "????";    // The last 4 digitals of the account number used in the transaction, such as 3456
+
             //check login / password
-            string sError = CheckLoginPassword();
+            var sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string transID = "2207700297";
-
-            string responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|5.14|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX1111|Visa||||||||||||||||";
+            var responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|"+creditAmount+"|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX"+accountLast4Digits+"|"+accountType+"||||||||||||||||";
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
 
-            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+            var target = new Gateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new EcheckCreditRequest(transID, (decimal)5.14, "3456");
-            string description = "Credit transaction approved testing";
+            IGatewayRequest request = new EcheckCreditRequest(transId, creditAmount, accountLast4Digits);
+            const string description = "Credit transaction approved testing";
 
-            IGatewayResponse actual = target.Send(request, description);
+            var actual = target.Send(request, description);
 
             Assert.AreEqual(expected.Amount, actual.Amount);
             Assert.AreEqual(expected.Approved, actual.Approved);
@@ -263,7 +268,7 @@ namespace AuthorizeNETtest
             Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
 
             Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
-            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+            Assert.Greater(long.Parse(actual.TransactionID),  0);
         }
 
         /// <summary>
@@ -276,15 +281,15 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string responseString = "4|1|193|The transaction is currently under review.||P|2207750459||UnlinkedCredit transaction approved testing|15.15|ECHECK|||||||||||||||||||||||||||028371CBD0646BDA25EC4206BF2FC7A5|||||||||||||XXXX3456|Bank Account||||||||||||||||";
+            const string responseString = "4|1|193|The transaction is currently under review.||P|2207750459||UnlinkedCredit transaction approved testing|15.15|ECHECK|||||||||||||||||||||||||||028371CBD0646BDA25EC4206BF2FC7A5|||||||||||||XXXX3456|Bank Account||||||||||||||||";
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
 
-            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+            var target = new Gateway(ApiLogin, TransactionKey, true);
 
             IGatewayRequest request = new EcheckUnlinkedCreditRequest(EcheckType.WEB, (decimal)15.15, "125000024", "123456", BankAccountType.Checking, "Bank of Seattle", "Sue Zhu", "1234");
             request.DuplicateWindow = "0";
-            string description = "UnlinkedCredit transaction approved testing";
+            const string description = "UnlinkedCredit transaction approved testing";
 
             IGatewayResponse actual = target.Send(request, description);
 

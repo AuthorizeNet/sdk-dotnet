@@ -146,7 +146,7 @@ namespace AuthorizeNETtest
         /// To run this test, first revoke the "Transaction Details API" permission of your sandbox account.
         /// </summary>
         [Test]
-        [Ignore("To run this test, first revoke the \"Transaction Details API\" permission of your sandbox account.")]
+        [Ignore("To run this test, first revoke the \"Transaction Details API\" permission of your account.")]
         public void Reporting_GetTransactionDetailsTest_AccessDenied()
         {
             //check login / password
@@ -260,7 +260,7 @@ namespace AuthorizeNETtest
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
         [Test]
-        [Ignore("To run this test, first find a transaction with subscription in the sandbox, and use it to change the transId below.")]
+        [Ignore("To run this test, find a transaction with subscription, and configure the transId below.")]
         public void Reporting_GetTransactionDetailsTest_WithSubscription()
         {
             const string transId = "???"; // A transaction id with subscription
@@ -314,7 +314,7 @@ namespace AuthorizeNETtest
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
         [Test]
-        [Ignore("To run this test, first find a transaction with return items in the sandbox, and use it change the transId below.")]
+        [Ignore("To run this test, find a transaction with return items, and configure the transId below.")]
         public void Reporting_GetTransactionDetailsTest_WithReturnedItems()
         {
             const string transId = "???"; // A transaction id with returned items
@@ -373,7 +373,7 @@ namespace AuthorizeNETtest
         /// Then going to Account / Settings and clicking on the Transaction Details API link.
         /// </summary>
         [Test]
-        [Ignore("To run this test, first find a transaction with solution in the sandbox, and use it to change the transId below.")]
+        [Ignore("To run this test, find a transaction with solution, and configure the transId below.")]
         public void Reporting_GetTransactionDetailsTest_WithSolutionID()
         {
             const string transId = "???"; // A transaction id with solution.
