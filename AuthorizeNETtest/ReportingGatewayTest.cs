@@ -37,14 +37,23 @@ namespace AuthorizeNETtest
             Assert.AreEqual(1, actual.Count);
             Assert.AreEqual(settlementBatches[0].ID, actual[0].ID);
             Assert.IsNotNull(actual[0].State);
-            /* wx: what else can be checked???
-            Assert.AreEqual("creditCard", actual[0].PaymentMethod);
+            Assert.IsNotNull(actual[0].PaymentMethod);
+            Assert.IsNotNull(actual[0].MarketType);
+            Assert.IsNotNull(actual[0].SettledOn);
+            Assert.IsNotNull(actual[0].Product);
+            Assert.IsNotNull(actual[0].Charges);
+
             Assert.AreEqual(1, actual[0].Charges.Count);
-            Assert.AreEqual((decimal)6.98, actual[0].Charges[0].Amount);
-            Assert.AreEqual("Visa", actual[0].Charges[0].CardType);
-            Assert.AreEqual(actual[0].MarketType, "eCommerce");
-            Assert.AreEqual(actual[0].Product, "Card Not Present");
-            */
+            Assert.IsNotNull(actual[0].Charges[0].Amount);
+            Assert.IsNotNull(actual[0].Charges[0].CardType);
+            Assert.IsNotNull(actual[0].Charges[0].ChargeBackAmount);
+            Assert.IsNotNull(actual[0].Charges[0].ChargeBackCount);
+            Assert.IsNotNull(actual[0].Charges[0].CorrectionNoticeCount);
+            Assert.IsNotNull(actual[0].Charges[0].DeclineCount);
+            Assert.IsNotNull(actual[0].Charges[0].RefundAmount);
+            Assert.IsNotNull(actual[0].Charges[0].ReturnedItemsAmount);
+            Assert.IsNotNull(actual[0].Charges[0].ReturnedItemsCount);
+            Assert.IsNotNull(actual[0].Charges[0].VoidCount);
         }
 
         /// <summary>
@@ -228,10 +237,23 @@ namespace AuthorizeNETtest
             Assert.IsNotNull(actual);
             Assert.IsNotNull(actual.TransactionID);
 
+            Assert.IsNotNull(actual.BatchSettledOn);
+            Assert.IsNotNull(actual.BatchSettlementID);
+
             // This is a settled transaction. The status does not have to be "settledSuccessfully" though.
-            // For instance, it can be "void"
+            // For instance, it can be "void", or "refundSuccessfully" etc
             Assert.IsNotNull(actual.BatchSettlementState);
             Assert.IsNotNull(actual.Status);
+
+            Assert.IsNotNull(actual.AVSCode);
+            Assert.IsNotNull(actual.AVSResponse);
+            Assert.IsNotNull(actual.AuthorizationCode);
+            Assert.IsNotNull(actual.AuthorizationAmount);
+            Assert.IsNotNull(actual.ResponseCode);
+            Assert.IsNotNull(actual.SettleAmount);
+            Assert.IsNotNull(actual.CardNumber);
+            Assert.IsNotNull(actual.CardExpiration);
+            Assert.IsNotNull(actual.CardType);
 
             var subscription = actual.Subscription;
             if (subscription != null)
@@ -239,17 +261,6 @@ namespace AuthorizeNETtest
                 Assert.Greater(subscription.ID,  0);
                 Assert.Greater(subscription.PayNum, 0);
             }
-
-            /*- wx: Need to check any of these fields, given an unknown randomly picked-up transaction???
-            Assert.AreEqual(actual.AuthorizationAmount, (decimal)3.99);
-            Assert.AreEqual(actual.CardType, "Visa");
-            Assert.AreEqual(actual.ResponseReason, "Approval");
-            Assert.AreEqual(actual.SettleAmount, (decimal)3.99);
-            Assert.AreEqual(actual.TransactionType, "authCaptureTransaction");
-            Assert.AreEqual(actual.MarketType, "eCommerce");
-            Assert.AreEqual(actual.Product, "Card Not Present");
-            Assert.IsNull(actual.eCheckBankAccount);
-            */
         }
 
         /// <summary>
@@ -288,22 +299,20 @@ namespace AuthorizeNETtest
             }
 
             Assert.IsNotNull(actual);
+            Assert.IsNotNull(actual.TransactionID);
 
-            // wx: which of these fields are general to be checked???
-            /*
-            Assert.AreEqual(actual.AuthorizationAmount, (decimal)1.31);
-            Assert.AreEqual(actual.BatchSettlementState, "settledSuccessfully");
-            Assert.AreEqual(actual.CardType, "Visa");
-            Assert.AreEqual(actual.ResponseReason, "Approval");
-            Assert.AreEqual(actual.SettleAmount, (decimal)1.31);
-            Assert.AreEqual(actual.Status, "settledSuccessfully");
-            Assert.AreEqual(actual.TransactionType, "authCaptureTransaction");
-            Assert.AreEqual(actual.TransactionID, transId);
-            Assert.IsNotNull(actual.Subscription);
-            Assert.AreEqual(actual.Subscription.ID, 2017665); 
-            Assert.AreEqual(actual.Subscription.PayNum, 2);
-            Assert.IsNull(actual.eCheckBankAccount);
-            */
+            Assert.IsNotNull(actual.BatchSettledOn);
+            Assert.IsNotNull(actual.BatchSettlementID);
+
+            // This is a settled transaction. The status does not have to be "settledSuccessfully" though.
+            // For instance, it can be "void", or "refundSuccessfully" etc
+            Assert.IsNotNull(actual.BatchSettlementState);
+            Assert.IsNotNull(actual.Status);
+
+            var subscription = actual.Subscription;
+            Assert.IsNotNull(subscription);
+            Assert.Greater(subscription.ID,  0);
+            Assert.Greater(subscription.PayNum, 0);
         }
 
         /// <summary>
@@ -342,27 +351,22 @@ namespace AuthorizeNETtest
             }
 
             Assert.IsNotNull(actual);
-            /*
-            // wx: which of these fields are not general ones???
-            Assert.AreEqual(actual.AuthorizationAmount, (decimal)12.10);
-            Assert.AreEqual(actual.BatchSettlementState, "settledSuccessfully");
-            Assert.IsNull(actual.CardType);
-            Assert.IsNotNull(actual.eCheckBankAccount);
-            Assert.AreEqual(actual.eCheckBankAccount.echeckType, EcheckType.TEL);
+            Assert.IsNotNull(actual.TransactionID);
 
-            Assert.AreEqual(actual.ResponseReason, "Approval");
-            Assert.AreEqual(actual.SettleAmount, (decimal)12.10);
-            Assert.AreEqual(actual.Status, "settledSuccessfully");
-            Assert.AreEqual(actual.TransactionType, "authCaptureTransaction");
-            Assert.AreEqual(actual.TransactionID, transId);
+            Assert.IsNotNull(actual.BatchSettledOn);
+            Assert.IsNotNull(actual.BatchSettlementID);
+
+            // This is a settled transaction. The status does not have to be "settledSuccessfully" though.
+            // For instance, it can be "void", or "refundSuccessfully" etc
+            Assert.IsNotNull(actual.BatchSettlementState);
+            Assert.IsNotNull(actual.Status);
 
             Assert.AreEqual(actual.HasReturnedItems, NullableBooleanEnum.True);
             Assert.IsNotNull(actual.ReturnedItems);
             Assert.AreEqual(actual.ReturnedItems.Length, 1);
-            Assert.AreEqual(actual.ReturnedItems[0].id, "2148382213");
-            Assert.AreEqual(actual.ReturnedItems[0].code, "R03");
-            Assert.AreEqual(actual.ReturnedItems[0].description, "No account/unable to locate account");
-            */
+            Assert.IsNotNull(actual.ReturnedItems[0].id);
+            Assert.IsNotNull(actual.ReturnedItems[0].code);
+            Assert.IsNotNull(actual.ReturnedItems[0].description);
         }
 
         /// <summary>
@@ -400,25 +404,19 @@ namespace AuthorizeNETtest
             }
 
             Assert.IsNotNull(actual);
-            // wx: which of these fields are not general ones???
-            /*
-            Assert.AreEqual(actual.AuthorizationAmount, (decimal)1.00);
-            Assert.AreEqual(actual.BatchSettlementState, "settledSuccessfully");
-            Assert.IsNull(actual.CardType);
-            Assert.IsNotNull(actual.eCheckBankAccount);
-            Assert.AreEqual(actual.eCheckBankAccount.echeckType, EcheckType.WEB);
+            Assert.IsNotNull(actual.TransactionID);
 
-            Assert.AreEqual(actual.ResponseReason, "Approval");
-            Assert.AreEqual(actual.SettleAmount, (decimal)1.00);
-            Assert.AreEqual(actual.Status, "settledSuccessfully");
-            Assert.AreEqual(actual.TransactionType, "authCaptureTransaction");
-            Assert.AreEqual(actual.TransactionID, transId);
+            Assert.IsNotNull(actual.BatchSettledOn);
+            Assert.IsNotNull(actual.BatchSettlementID);
 
+            // This is a settled transaction. The status does not have to be "settledSuccessfully" though.
+            // For instance, it can be "void", or "refundSuccessfully" etc
+            Assert.IsNotNull(actual.BatchSettlementState);
+            Assert.IsNotNull(actual.Status);
 
             Assert.IsNotNull(actual.Solution);
-            Assert.AreEqual(actual.Solution.id, "A1000002");
-            Assert.AreEqual(actual.Solution.name, "Miva Merchant 5.5"); 
-            */
+            Assert.IsNotNull(actual.Solution.id);
+            Assert.IsNotNull(actual.Solution.name); 
         }
 
         /// <summary>
@@ -578,10 +576,7 @@ namespace AuthorizeNETtest
 
             foreach (var tx in actual)
             {
-                Assert.NotNull(tx.TransactionID);
-                // wx: For unsettled transactions, these values shall be null or not???
-                // Assert.NotNull(tx.MarketType);
-                // Assert.NotNull(tx.Product);
+                Assert.IsNotNull(tx.TransactionID);
                 Assert.IsNull(tx.MobileDeviceID);
                 if (tx.HasReturnedItems != NullableBooleanEnum.Null)
                 {
