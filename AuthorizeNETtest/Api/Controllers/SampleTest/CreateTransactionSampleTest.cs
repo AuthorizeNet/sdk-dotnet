@@ -228,10 +228,16 @@
         }
 
         [Test]
+        [Ignore("To run this test, use your ApplePay ApiLoginIdKey and TransactionKey to configure this test below.")]
         public void SampleCodeCreateTransactionWithApplePay()
         {
-            //Common code to set for all requests
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            // The test setup.
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType
+                {
+                    name = "????",  // your ApplyPay ApiLoginIdKey
+                    ItemElementName = ItemChoiceType.transactionKey,
+                    Item = "????"   // your ApplyPay TransactionKey
+                };
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
