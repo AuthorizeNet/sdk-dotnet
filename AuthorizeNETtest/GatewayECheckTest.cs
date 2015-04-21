@@ -287,7 +287,7 @@ namespace AuthorizeNETtest
 
             var target = new Gateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new EcheckUnlinkedCreditRequest(EcheckType.WEB, (decimal)15.15, "125000024", "123456", BankAccountType.Checking, "Bank of Seattle", "Sue Zhu", "1234");
+            IGatewayRequest request = new EcheckUnlinkedCreditRequest(EcheckType.PPD, (decimal)15.15, "125000024", "123456", BankAccountType.Checking, "Bank of Seattle", "Sue Zhu", "1234");
             request.DuplicateWindow = "0";
             const string description = "UnlinkedCredit transaction approved testing";
 

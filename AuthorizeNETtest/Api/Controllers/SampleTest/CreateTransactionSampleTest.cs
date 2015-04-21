@@ -266,7 +266,6 @@
             Assert.AreEqual("1", response.transactionResponse.messages[0].code);
         }
 
-
         [Test]
         public void SampleCodeCreateTransactionWithPayPal()
         {
@@ -302,7 +301,7 @@
             var response = controller.GetApiResponse();
 
             //validate
-            Assert.AreEqual("1", response.transactionResponse.messages[0].code);
+            Assert.AreEqual("2000", response.transactionResponse.messages[0].code);
         }
 
         [Test]
