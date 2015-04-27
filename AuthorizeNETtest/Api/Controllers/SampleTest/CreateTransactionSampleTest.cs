@@ -300,8 +300,8 @@
             controller.Execute();
             var response = controller.GetApiResponse();
 
-            //validate
-            Assert.AreEqual("1", response.transactionResponse.messages[0].code);
+            //validate. The code 2000 is: Need the payer's consent.
+            Assert.AreEqual("2000", response.transactionResponse.messages[0].code);
         }
 
         [Test]
