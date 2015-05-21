@@ -199,8 +199,8 @@ namespace AuthorizeNet.Api.Controllers.Test
 
             PayPalOne = new payPalType
                 {
-                    successUrl = GetRandomString("http://success.anet.net"),
-                    cancelUrl = GetRandomString("http://cancel.anet.net"),
+                    successUrl = GetRandomString("https://success.anet.net"),
+                    cancelUrl = GetRandomString("https://cancel.anet.net"),
                     paypalLc = GetRandomString("Lc"),
                     paypalHdrImg = GetRandomString("Hdr"),
                     paypalPayflowcolor = GetRandomString("flowClr"),

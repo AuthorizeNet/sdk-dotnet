@@ -228,10 +228,16 @@
         }
 
         [Test]
+        [Ignore("To run this test, use your ApplePay ApiLoginIdKey and TransactionKey to configure this test below.")]
         public void SampleCodeCreateTransactionWithApplePay()
         {
-            //Common code to set for all requests
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            // The test setup.
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType
+                {
+                    name = "????",  // your ApplyPay ApiLoginIdKey
+                    ItemElementName = ItemChoiceType.transactionKey,
+                    Item = "????"   // your ApplyPay TransactionKey
+                };
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
             //set up data based on transaction
@@ -260,10 +266,13 @@
             Assert.AreEqual("1", response.transactionResponse.messages[0].code);
         }
 
-
         [Test]
         public void SampleCodeCreateTransactionWithPayPal()
         {
+            /*
+             * Please enable the PayPal feature of your ANet merchant account.
+             */ 
+
             //Common code to set for all requests
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; //TestEnvironment;
@@ -291,8 +300,8 @@
             controller.Execute();
             var response = controller.GetApiResponse();
 
-            //validate
-            Assert.AreEqual("1", response.transactionResponse.messages[0].code);
+            //validate. The code 2000 is: Need the payer's consent.
+            Assert.AreEqual("2000", response.transactionResponse.messages[0].code);
         }
 
         [Test]
