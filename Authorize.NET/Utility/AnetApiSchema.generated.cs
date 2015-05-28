@@ -20,62 +20,33 @@ namespace AuthorizeNet.APICore {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute("ErrorResponse", Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
-    public partial class ANetApiResponse {
-        
-        /// <remarks/>
-        public string refId;
-        
-        /// <remarks/>
-        public messagesType messages;
-        
-        /// <remarks/>
-        public string sessionToken;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class messagesType {
-        
-        /// <remarks/>
-        public messageTypeEnum resultCode;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("message")]
-        public messagesTypeMessage[] message;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum messageTypeEnum {
-        
-        /// <remarks/>
-        Ok,
-        
-        /// <remarks/>
-        Error,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class messagesTypeMessage {
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class decryptPaymentDataRequest : ANetApiRequest {
         
         /// <remarks/>
-        public string code;
+        public opaqueDataType opaqueData;
         
         /// <remarks/>
-        public string text;
+        public string callId;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class opaqueDataType {
+        
+        /// <remarks/>
+        public string dataDescriptor;
+        
+        /// <remarks/>
+        public string dataValue;
+        
+        /// <remarks/>
+        public string dataKey;
     }
     
     /// <remarks/>
@@ -185,13 +156,6 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string expirationDate;
-        
-        /// <remarks/>
-        public bool paymentToken;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool paymentTokenSpecified;
     }
     
     /// <remarks/>
@@ -204,6 +168,16 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string cardCode;
+        
+        /// <remarks/>
+        public bool isPaymentToken;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isPaymentTokenSpecified;
+        
+        /// <remarks/>
+        public string cryptogram;
     }
     
     /// <remarks/>
@@ -564,6 +538,50 @@ namespace AuthorizeNet.APICore {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class messagesType {
+        
+        /// <remarks/>
+        public messageTypeEnum resultCode;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("message")]
+        public messagesTypeMessage[] message;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum messageTypeEnum {
+        
+        /// <remarks/>
+        Ok,
+        
+        /// <remarks/>
+        Error,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class messagesTypeMessage {
+        
+        /// <remarks/>
+        public string code;
+        
+        /// <remarks/>
+        public string text;
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(emailSettingsType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
@@ -711,6 +729,9 @@ namespace AuthorizeNet.APICore {
         public solutionType solution;
         
         /// <remarks/>
+        public string callId;
+        
+        /// <remarks/>
         public string authCode;
         
         /// <remarks/>
@@ -762,6 +783,9 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public transRetailInfoType retail;
+        
+        /// <remarks/>
+        public string employeeId;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("setting", IsNullable=false)]
@@ -941,21 +965,6 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string Value;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class opaqueDataType {
-        
-        /// <remarks/>
-        public string dataDescriptor;
-        
-        /// <remarks/>
-        public string dataValue;
     }
     
     /// <remarks/>
@@ -1182,6 +1191,9 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string faxNumber;
+        
+        /// <remarks/>
+        public string email;
     }
     
     /// <remarks/>
@@ -1244,27 +1256,6 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string value;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class fingerPrintSupportInformationType {
-        
-        /// <remarks/>
-        public decimal amount;
-        
-        /// <remarks/>
-        public string currencyCode;
-        
-        /// <remarks/>
-        public string sequence;
-        
-        /// <remarks/>
-        public string timestamp;
     }
     
     /// <remarks/>
@@ -1680,6 +1671,33 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string expirationDate;
+        
+        /// <remarks/>
+        public string cardType;
+        
+        /// <remarks/>
+        public cardArt cardArt;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class cardArt {
+        
+        /// <remarks/>
+        public string cardBrand;
+        
+        /// <remarks/>
+        public string cardImageHeight;
+        
+        /// <remarks/>
+        public string cardImageUrl;
+        
+        /// <remarks/>
+        public string cardImageWidth;
         
         /// <remarks/>
         public string cardType;
@@ -2379,6 +2397,45 @@ namespace AuthorizeNet.APICore {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class paymentDetails {
+        
+        /// <remarks/>
+        public string currency;
+        
+        /// <remarks/>
+        public string promoCode;
+        
+        /// <remarks/>
+        public string misc;
+        
+        /// <remarks/>
+        public string giftWrap;
+        
+        /// <remarks/>
+        public string discount;
+        
+        /// <remarks/>
+        public string tax;
+        
+        /// <remarks/>
+        public string shippingHandling;
+        
+        /// <remarks/>
+        public string subTotal;
+        
+        /// <remarks/>
+        public string orderID;
+        
+        /// <remarks/>
+        public string amount;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class fingerPrintType {
         
         /// <remarks/>
@@ -2389,6 +2446,12 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string timestamp;
+        
+        /// <remarks/>
+        public string currencyCode;
+        
+        /// <remarks/>
+        public string amount;
     }
     
     /// <remarks/>
@@ -2469,6 +2532,47 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string refId;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class decryptPaymentDataResponse : ANetApiResponse {
+        
+        /// <remarks/>
+        public customerAddressType shippingInfo;
+        
+        /// <remarks/>
+        public customerAddressType billingInfo;
+        
+        /// <remarks/>
+        public creditCardMaskedType cardInfo;
+        
+        /// <remarks/>
+        public paymentDetails paymentDetails;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute("ErrorResponse", Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class ANetApiResponse {
+        
+        /// <remarks/>
+        public string refId;
+        
+        /// <remarks/>
+        public messagesType messages;
+        
+        /// <remarks/>
+        public string sessionToken;
     }
     
     /// <remarks/>
@@ -2613,6 +2717,10 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public ARBSubscriptionStatusEnum status;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool statusSpecified;
     }
     
     /// <remarks/>
@@ -3173,35 +3281,6 @@ namespace AuthorizeNet.APICore {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
-    public partial class createFingerPrintRequest : ANetApiRequest {
-        
-        /// <remarks/>
-        public fingerPrintSupportInformationType supportInformation;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
-    public partial class createFingerPrintResponse : ANetApiResponse {
-        
-        /// <remarks/>
-        public fingerPrintType fingerPrint;
-        
-        /// <remarks/>
-        public fingerPrintSupportInformationType supportInformation;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
     public partial class createTransactionRequest : ANetApiRequest {
         
         /// <remarks/>
@@ -3721,6 +3800,12 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         hostedProfileValidationMode,
+        
+        /// <remarks/>
+        hostedProfileBillingAddressRequired,
+        
+        /// <remarks/>
+        hostedProfileCardCodeRequired,
     }
     
     /// <remarks/>
