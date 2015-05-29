@@ -217,7 +217,7 @@ namespace AuthorizeNETtest
             Assert.AreEqual(expected.Approved, actual.Approved);
             Assert.AreEqual(expected.Message, actual.Message);
             Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
-            Assert.AreEqual(((GatewayResponse)expected).ReasonResponseCode, ((GatewayResponse)expected).ReasonResponseCode);
+            Assert.AreEqual(((GatewayResponse)expected).ResponseReasonCode, ((GatewayResponse)expected).ResponseReasonCode);
 
             Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
             Assert.AreEqual(expected.TransactionID, actual.TransactionID);

@@ -18,6 +18,7 @@
     /// </summary>
     public static class RequestFactoryWithSpecified
     {
+        public static void decryptPaymentDataType(decryptPaymentDataRequest request) { }
 
         public static void messagesType ( messagesType request) { }
 
@@ -530,8 +531,6 @@
         public static void sendCustomerTransactionReceiptRequest(sendCustomerTransactionReceiptRequest request) { }
 
         public static void ARBGetSubscriptionListRequest(ARBGetSubscriptionListRequest request) { }
-
-        public static void createFingerPrintRequest(createFingerPrintRequest request) { }
 
         public static void authenticateTestType(authenticateTestRequest request) { }
 
