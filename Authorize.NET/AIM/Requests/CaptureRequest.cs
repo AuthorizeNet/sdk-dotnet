@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace AuthorizeNet
 {
@@ -24,7 +25,7 @@ namespace AuthorizeNet
             this.Queue(ApiFields.AuthorizationCode, authCode);
             this.Queue(ApiFields.CreditCardNumber, cardNumber);
             this.Queue(ApiFields.CreditCardExpiration, expirationMonthAndYear);
-            this.Queue(ApiFields.Amount, amount.ToString());
+            this.Queue(ApiFields.Amount, amount.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

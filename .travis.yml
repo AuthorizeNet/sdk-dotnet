@@ -1,8 +1,8 @@
 language:
-    c
+    csharp
 
 install:
-    - sudo apt-get install mono-devel mono-gmcs nunit-console
+    - sudo apt-get install nunit-console
 
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj

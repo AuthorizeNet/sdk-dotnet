@@ -2,137 +2,126 @@
 using AuthorizeNet.APICore;
 using NUnit.Framework;
 using System;
-using System.Configuration;
 using System.IO;
-using System.Xml.Serialization;
 
 namespace AuthorizeNETtest
 {
+    using System.Text;
+
     /// <summary>
     /// This is a test class for CustomerGatewayTest and is intended to contain all CustomerGateway Unit Tests
     /// </summary>
-    [TestFixture()]
+    [TestFixture]
     public class CustomerGatewayTest : BaseTest
     {
-        /// <summary>
-        /// CreateCustomer - success
-        /// </summary>
-        [Test()]
-        public void CreateCustomerTest()
+        private CustomerGateway _target;
+
+        [TestFixtureSetUp]
+        public void CreateSubscription()
         {
             //check login / password
-            string sError = CheckLoginPassword();
+            var sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string responseString ="<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerProfileId>24231938</customerProfileId><customerPaymentProfileIdList /><customerShippingAddressIdList /><validationDirectResponseList /></createCustomerProfileResponse>";
-            LocalRequestObject.ResponseString = responseString;
-
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
-            string email = "suzhu@visa.com";
-            string description = "CreateCustomerTest Success";
-            Customer expected = new Customer()
-                {
-                    Email = email,
-                    Description = description
-                };
-            Customer actual = null;
-
-            // if choose "USELOCAL", the test should pass with no exception
-            // Otherwise, the test might fail for error, i.e. duplicated request.
-            try
-            {
-                actual = target.CreateCustomer(email, description);
-            }
-            catch (Exception e)
-            {
-                string s = e.Message;
-            }
-
-            Assert.AreEqual(expected.Email, actual.Email);
-            Assert.AreEqual(expected.Description, actual.Description);
-            Assert.IsFalse(string.IsNullOrEmpty(actual.ID));
-            Assert.IsTrue(actual.ID.Trim().Length > 0);
-            Assert.IsFalse(string.IsNullOrEmpty(actual.ProfileID));
-            Assert.IsTrue(actual.ProfileID.Trim().Length > 0);
+            _target = new CustomerGateway(ApiLogin, TransactionKey);
         }
 
         /// <summary>
         /// CreateCustomer - success
         /// </summary>
-        [Test()]
-        public void CreateCustomerTest_CustomerID()
+        [Test]
+        public void CreateCustomerTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerProfileId>27092230</customerProfileId><customerPaymentProfileIdList /><customerShippingAddressIdList /><validationDirectResponseList /></createCustomerProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerProfileId>24231938</customerProfileId><customerPaymentProfileIdList /><customerShippingAddressIdList /><validationDirectResponseList /></createCustomerProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
-            string email = "suzhu@visa.com";
-            string description = "CreateCustomerTest Success";
-            string customerID = "Cust ID 1234";
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
 
-            Customer expected = new Customer()
-            {
-                ID = customerID,
-                Email = email,
-                Description = description
-            };
-            Customer actual = null;
+            var actual = CreateCustomer(email, description);
 
-            // if choose "USELOCAL", the test should pass with no exception
-            // Otherwise, the test might fail for error, i.e. duplicated request.
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(email, actual.Email);
+            Assert.AreEqual(description, actual.Description);
+            Assert.IsFalse(string.IsNullOrEmpty(actual.ID));
+            Assert.Greater(actual.ID.Trim().Length,  0);
+            Assert.IsFalse(string.IsNullOrEmpty(actual.ProfileID));
+            Assert.Greater(actual.ProfileID.Trim().Length,  0);
+        }
+
+        private Customer CreateCustomer(string email, string description, string custId = "")
+        {
+            Customer customer = null;
             try
             {
-                actual = target.CreateCustomer(email, description, customerID);
+                customer = _target.CreateCustomer(email, description, custId);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.CreateCustomer() failed: " + e.Message);
             }
+	    Assert.IsNotNull(customer);
+            return customer;
+        }
 
-            Assert.AreEqual(expected.Email, actual.Email);
-            Assert.AreEqual(expected.Description, actual.Description);
-            Assert.AreEqual(expected.ID, actual.ID);
+        /// <summary>
+        /// CreateCustomer - success
+        /// </summary>
+        [Test]
+        public void CreateCustomerTest_CustomerID()
+        {
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerProfileId>27092230</customerProfileId><customerPaymentProfileIdList /><customerShippingAddressIdList /><validationDirectResponseList /></createCustomerProfileResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "CreateCustomerTest Success";
+            const string customerId = "CustomerId 1234";
+
+            var actual = CreateCustomer(email, description, customerId);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(email, actual.Email);
+            Assert.AreEqual(description, actual.Description);
+            Assert.AreEqual(customerId, actual.ID);
             Assert.IsFalse(string.IsNullOrEmpty(actual.ProfileID));
-            Assert.IsTrue(actual.ProfileID.Trim().Length > 0);
+            Assert.Greater(actual.ProfileID.Trim().Length,  0);
         }
 
         /// <summary>
         /// UpdateCustomer - successful
         /// </summary>
-        [Test()]
+        [Test]
         public void UpdateCustomerTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            Customer customer = new Customer()
-            {
-                ID = "",
-                ProfileID = "24231938",
-                Email = "suzhu@visa.com",
-                Description = "UpdateCustomerTest Success"
-            };
-            bool actual = false;
+            var newEmail = Path.GetRandomFileName() + "@visa.com";
+            const string newDescription = "Update the Customer";
+
+            var updateCustomer = new Customer
+                {
+                    ID = "",
+                    ProfileID = customer.ProfileID,
+                    Email = newEmail,
+                    Description = newDescription
+                };
+	    
+            var actual = false;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.UpdateCustomer(customer);
+                actual = _target.UpdateCustomer(updateCustomer);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.UpdateCustomer() failed: " + e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -141,352 +130,350 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AddCreditCard - success
         /// </summary>
-        [Test()]
+        [Test]
         public void AddCreditCardTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24232683";
-            string cardNumber = "4111111111111111";
-            int expirationMonth = 1;
-            int expirationYear = 16;
+            const string cardNumber = "4111111111111111";
+            const int expirationMonth = 1;
+            const int expirationYear = 2030;
 
-            string expected = "22219473";
-            string actual = "";
+            var custPaymentProfileId = "";
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.AddCreditCard(profileID, cardNumber, expirationMonth, expirationYear);
+                custPaymentProfileId = _target.AddCreditCard(customer.ProfileID, cardNumber, expirationMonth, expirationYear);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.AddCreditCard() failed: " + e.Message);
             }
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(string.IsNullOrEmpty(custPaymentProfileId));
+            Assert.Greater(custPaymentProfileId.Trim().Length, 0);
+            Assert.Greater(long.Parse(custPaymentProfileId), 0);
         }
 
         /// <summary>
         /// AddCreditCard set validationMode - success
         /// </summary>
-        [Test()]
+        [Test]
         public void AddCreditCardTest_ValidationMode()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
-            LocalRequestObject.ResponseString = responseString;
-
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey, ServiceMode.Test);
-
-            string profileID = "24231938";
-            string cardNumber = "4111111111111111";
-            int expirationMonth = 1;
-            int expirationYear = 16;
-
-            string expected = "22219473";
-            string actual = "";
-
-            // if choose "USELOCAL", the test should pass with no exception
-            // Otherwise, the test might fail for error, i.e. duplicated request.
+            var target = _target;
             try
             {
-                actual = target.AddCreditCard(profileID, cardNumber, expirationMonth, expirationYear);
-            }
-            catch (Exception e)
-            {
-                string s = e.Message;
-            }
+                const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
+                LocalRequestObject.ResponseString = responseString;
 
-            Assert.AreEqual(expected, actual);
+                _target = new CustomerGateway(ApiLogin, TransactionKey, ServiceMode.Test);
+
+                var email = Path.GetRandomFileName() + "@visa.com";
+                const string description = "Create a new customer";
+                var customer = CreateCustomer(email, description);
+
+                const string cardNumber = "4111111111111111";
+                const int expirationMonth = 1;
+                const int expirationYear = 2030;
+
+                var custPaymentProfileId = "";
+
+                // if choose "USELOCAL", the test should pass with no exception
+                // Otherwise, the test might fail for error, i.e. duplicated request.
+                try
+                {
+                    custPaymentProfileId = target.AddCreditCard(customer.ProfileID, cardNumber, expirationMonth, expirationYear);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("CustomerGateway.AddCreditCard() failed: " + e.Message);
+                }
+
+                Assert.IsFalse(string.IsNullOrEmpty(custPaymentProfileId));
+                Assert.Greater(custPaymentProfileId.Trim().Length, 0);
+                Assert.Greater(long.Parse(custPaymentProfileId), 0);
+            }
+            finally
+            {
+                _target = target;
+            }
         }
 
         /// <summary>
         /// AddECheckBankAccount required data only to success- success
         /// </summary>
-        [Test()]
+        [Test]
         public void AddECheckBankAccountTest_Required()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>24287597</customerPaymentProfileId><validationDirectResponse>1,1,1,(TESTMODE) This transaction has been approved.,000000,P,0,none,Test transaction for ValidateCustomerPaymentProfile.,1.00,ECHECK,auth_only,none,,,,,,,,,,,email@example.com,,,,,,,,,0.00,0.00,0.00,FALSE,none,ACD21540D94325D06FDC81558F3196AD,,,,,,,,,,,,,XXXX3458,Bank Account,,,,,,,,,,,,,,,,</validationDirectResponse></createCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>24287597</customerPaymentProfileId><validationDirectResponse>1,1,1,(TESTMODE) This transaction has been approved.,000000,P,0,none,Test transaction for ValidateCustomerPaymentProfile.,1.00,ECHECK,auth_only,none,,,,,,,,,,,email@example.com,,,,,,,,,0.00,0.00,0.00,FALSE,none,ACD21540D94325D06FDC81558F3196AD,,,,,,,,,,,,,XXXX3458,Bank Account,,,,,,,,,,,,,,,,</validationDirectResponse></createCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24232683";
-
-            string expected = "24287597";
-            string actual = "";
+            var custPaymentProfileId = "";
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.AddECheckBankAccount(profileID, BankAccountType.Checking, "125000024", "123458", "Sue Zhu");
+                custPaymentProfileId = _target.AddECheckBankAccount(customer.ProfileID, BankAccountType.Checking, "125000024", "123458", "Sue Zhu");
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
             }
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(string.IsNullOrEmpty(custPaymentProfileId));
+            Assert.Greater(long.Parse(custPaymentProfileId), 0);
         }
 
         /// <summary>
         /// AddECheckBankAccount all data success- success
         /// </summary>
-        [Test()]
+        [Test]
         public void AddECheckBankAccountTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>24282439</customerPaymentProfileId><validationDirectResponse>1,1,1,(TESTMODE) This transaction has been approved.,000000,P,0,none,Test transaction for ValidateCustomerPaymentProfile.,1.00,ECHECK,auth_only,none,,,,,,,,,,,email@example.com,,,,,,,,,0.00,0.00,0.00,FALSE,none,ACD21540D94325D06FDC81558F3196AD,,,,,,,,,,,,,XXXX4587,Bank Account,,,,,,,,,,,,,,,,</validationDirectResponse></createCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>24282439</customerPaymentProfileId><validationDirectResponse>1,1,1,(TESTMODE) This transaction has been approved.,000000,P,0,none,Test transaction for ValidateCustomerPaymentProfile.,1.00,ECHECK,auth_only,none,,,,,,,,,,,email@example.com,,,,,,,,,0.00,0.00,0.00,FALSE,none,ACD21540D94325D06FDC81558F3196AD,,,,,,,,,,,,,XXXX4587,Bank Account,,,,,,,,,,,,,,,,</validationDirectResponse></createCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24232683";
-
-            string expected = "24282439";
-            string actual = "";
+            var custPaymentProfileId = "";
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.AddECheckBankAccount(profileID, BankAccountType.Savings, "125000024", "1234588", "Sue Zhu", "Bank of Seattle", EcheckType.WEB, null);
+                custPaymentProfileId = _target.AddECheckBankAccount(customer.ProfileID, BankAccountType.Savings, "125000024", "1234588", "Sue Zhu", "Bank of Seattle", EcheckType.WEB, null);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
             }
 
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(string.IsNullOrEmpty(custPaymentProfileId));
+            Assert.Greater(long.Parse(custPaymentProfileId), 0);
         }
 
         /// <summary>
         /// GetCustomer - success
         /// </summary>
-        [Test()]
+        [Test]
         public void GetCustomerTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><profile><merchantCustomerId /><description>UpdateCustomerTest Success</description><email>suzhu@visa.com</email><customerProfileId>24231938</customerProfileId><paymentProfiles><customerType>individual</customerType><customerPaymentProfileId>22219473</customerPaymentProfileId><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate></creditCard></payment></paymentProfiles></profile></getCustomerProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><profile><merchantCustomerId /><description>UpdateCustomerTest Success</description><email>suzhu@visa.com</email><customerProfileId>24231938</customerProfileId><paymentProfiles><customerType>individual</customerType><customerPaymentProfileId>22219473</customerPaymentProfileId><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate></creditCard></payment></paymentProfiles></profile></getCustomerProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer0 = CreateCustomer(email, description);
 
-            string profileID = "24231938";
-
-            Customer expected = new Customer()
+            const string expectedCardExpiration = "XXXX";
+            const string expectedCardNumber = "XXXX1111";
+            string expectedCustPaymentProfileId = null;
+            try
             {
-                ProfileID = "24231938",
-                Email = "suzhu@visa.com",
-                Description = "UpdateCustomerTest Success",
-                PaymentProfiles =
-                    {
-                        new PaymentProfile(new customerPaymentProfileMaskedType())
-                            {
-                                CardExpiration = "XXXX",
-                                CardNumber = "XXXX1111",
-                                ProfileID = "22219473"
-                            }
-                    }
-            };
+                expectedCustPaymentProfileId = _target.AddCreditCard(customer0.ProfileID, "4111111111111111", 1, 2030);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
+            }
+	    Assert.IsNotNull(expectedCustPaymentProfileId);
 
-            Customer actual = null;
+            Customer customer1 = null;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.GetCustomer(profileID);
+                customer1 = _target.GetCustomer(customer0.ProfileID);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.GetCustomer() failed: " + e.Message);
             }
 
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.ProfileID, actual.ProfileID);
-            Assert.AreEqual(expected.Email, actual.Email);
-            Assert.AreEqual(expected.Description, actual.Description);
-            Assert.AreEqual(expected.PaymentProfiles.Count, actual.PaymentProfiles.Count);
-            Assert.AreEqual(expected.PaymentProfiles[0].CardExpiration, actual.PaymentProfiles[0].CardExpiration);
-            Assert.AreEqual(expected.PaymentProfiles[0].CardNumber, actual.PaymentProfiles[0].CardNumber);
-            Assert.AreEqual(expected.PaymentProfiles[0].ProfileID, actual.PaymentProfiles[0].ProfileID);
+            Assert.IsNotNull(customer1);
+            Assert.AreEqual(customer0.ProfileID, customer1.ProfileID);
+            Assert.AreEqual(email, customer1.Email);
+            Assert.AreEqual(description, customer1.Description);
+            Assert.AreEqual(1, customer1.PaymentProfiles.Count);
+            Assert.AreEqual(expectedCardExpiration, customer1.PaymentProfiles[0].CardExpiration);
+            Assert.AreEqual(expectedCardNumber, customer1.PaymentProfiles[0].CardNumber);
+            Assert.AreEqual(expectedCustPaymentProfileId, customer1.PaymentProfiles[0].ProfileID);
         }
 
         /// <summary>
         /// GetCustomer eCheck Bank Account - success
         /// </summary>
-        [Test()]
+        [Test]
         public void GetCustomerTest_eCheck()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString1 = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><profile><description>UpdateCustomerTest Success</description><email>suzhu2@visa.com</email><customerProfileId>24236276</customerProfileId><paymentProfiles><customerPaymentProfileId>24287458</customerPaymentProfileId><payment><bankAccount><accountType>checking</accountType><routingNumber>XXXX0024</routingNumber><accountNumber>XXXX3456</accountNumber><nameOnAccount>Sue Zhu</nameOnAccount></bankAccount></payment></paymentProfiles></profile></getCustomerProfileResponse>";
-            string responseString = responseString1;
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getCustomerProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><profile><description>UpdateCustomerTest Success</description><email>suzhu2@visa.com</email><customerProfileId>24236276</customerProfileId><paymentProfiles><customerPaymentProfileId>24287458</customerPaymentProfileId><payment><bankAccount><accountType>checking</accountType><routingNumber>XXXX0024</routingNumber><accountNumber>XXXX3456</accountNumber><nameOnAccount>Sue Zhu</nameOnAccount></bankAccount></payment></paymentProfiles></profile></getCustomerProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer0 = CreateCustomer(email, description);
 
-            string profileID = "24236276";
-
-            Customer expected = new Customer()
+            const string expectedRoutingNumber = "XXXX0024";
+            const string expectedAccountNumber = "XXXX4588";
+            try
             {
-                ProfileID = "24236276",
-                Email = "suzhu2@visa.com",
-                Description = "UpdateCustomerTest Success",
-                PaymentProfiles =
-                    {
-                        new PaymentProfile(new customerPaymentProfileMaskedType())
-                            {
-                                eCheckBankAccount = new BankAccount()
-                                    {
-                                        accountTypeSpecified = true,
-                                        accountType = BankAccountType.Checking, 
-                                        routingNumber = "XXXX0024", 
-                                        accountNumber = "XXXX3456", 
-                                        nameOnAccount = "Sue Zhu", 
-                                        bankName = "Bank of Seattle", 
-                                        echeckType = EcheckType.WEB,
-                                        echeckTypeSpecified = true
-                                    }
-                            }
-                    }
-            };
+                _target.AddECheckBankAccount(customer0.ProfileID, BankAccountType.Checking, "125000024", "1234588", "Sue Zhu", "Bank of Seattle", EcheckType.WEB, null);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
+            }
 
-            Customer actual = null;
+            Customer customer1 = null;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.GetCustomer(profileID);
+                customer1 = _target.GetCustomer(customer0.ProfileID);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.GetCustomer() failed: " + e.Message);
             }
 
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.ProfileID, actual.ProfileID);
-            Assert.AreEqual(expected.Email, actual.Email);
-            Assert.AreEqual(expected.Description, actual.Description);
-            Assert.AreEqual(expected.PaymentProfiles.Count, actual.PaymentProfiles.Count);
-            Assert.AreEqual(expected.PaymentProfiles[0].eCheckBankAccount.accountNumber, actual.PaymentProfiles[0].eCheckBankAccount.accountNumber);
-            Assert.AreEqual(expected.PaymentProfiles[0].eCheckBankAccount.routingNumber, actual.PaymentProfiles[0].eCheckBankAccount.routingNumber);
-            Assert.AreEqual(expected.PaymentProfiles[0].eCheckBankAccount.accountNumber, actual.PaymentProfiles[0].eCheckBankAccount.accountNumber);
+            Assert.IsNotNull(customer1);
+            Assert.AreEqual(customer0.ProfileID, customer1.ProfileID);
+            Assert.AreEqual(email, customer1.Email);
+            Assert.AreEqual(description, customer1.Description);
+            Assert.AreEqual(1, customer1.PaymentProfiles.Count);
+            Assert.AreEqual(expectedAccountNumber, customer1.PaymentProfiles[0].eCheckBankAccount.accountNumber);
+            Assert.AreEqual(expectedRoutingNumber, customer1.PaymentProfiles[0].eCheckBankAccount.routingNumber);
         }
 
         /// <summary>
         /// UpdatePaymentProfile - success
         /// Minimum parameters to ensure a successful response
         /// </summary>
-        [Test()]
+        [Test]
         public void UpdatePaymentProfileMinTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24232683";
-            customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
+            const string cardNumber = "4111111111111111";
+            const int expirationMonth = 1;
+            const int expirationYear = 2030;
 
-            PaymentProfile profile = new PaymentProfile(apiType);
-            profile.ProfileID = "22804148";
-            profile.CardNumber = "4111111111111112";
-            profile.CardExpiration = "2016-02";
+            var custPaymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID, cardNumber, expirationMonth, expirationYear);
 
-            bool actual = false;
+            var profile = new PaymentProfile(new customerPaymentProfileMaskedType())
+                {
+                    ProfileID = custPaymentProfileId,
+                    CardNumber = "4111111111111112",
+                    CardExpiration = "2029-02"
+                };
+
+            var actual = false;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.UpdatePaymentProfile(profileID, profile);
+                actual = _target.UpdatePaymentProfile(customer.ProfileID, profile);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.UpdatePaymentProfile() failed: " + e.Message);
             }
 
             Assert.IsTrue(actual);
+        }
+
+	private string CreateCustomerPaymentProfile(string custProfileId, string cardNumber, int expirationMonth, int expirationYear)
+	{
+            string custPaymentProfileId = null;
+            try
+            {
+                custPaymentProfileId = _target.AddCreditCard(custProfileId, cardNumber, expirationMonth, expirationYear);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.AddCreditCard() failed: " + e.Message);
+            }
+	    Assert.IsNotNull(custPaymentProfileId);
+            return custPaymentProfileId;
         }
 
         /// <summary>
         /// UpdatePaymentProfile - success
         /// no mask and with billing
         /// </summary>
-        [Test()]
+        [Test]
         public void UpdatePaymentProfileTest_NotMask()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24231938";
-            customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
+            string custPaymentProfileId = null;
+            try
+            {
+                custPaymentProfileId = _target.AddCreditCard(customer.ProfileID, "4111111111111111", 1, 2030);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
+            }
+            Assert.IsNotNull(custPaymentProfileId);
 
-            PaymentProfile profile = new PaymentProfile(apiType);
-            profile.ProfileID = "22219473";
-            profile.CardNumber = "4111111111111112";
-            profile.CardExpiration = "2016-03";
-            profile.BillingAddress = new Address()
+            var profile = new PaymentProfile(new customerPaymentProfileMaskedType())
                 {
-                    First = "Sue",
-                    Last = "Zhu",
-                    Company = "Visa",
-                    Street = "123 Elm Street",
-                    City = "Bellevue",
-                    State = "WA",
-                    Country = "US",
-                    Zip = "98006"
+                    ProfileID = custPaymentProfileId,
+                    CardNumber = "4111111111111112",
+                    CardExpiration = "2016-03",
+                    BillingAddress = new Address
+                        {
+                            First = "Sue",
+                            Last = "Zhu",
+                            Company = "Visa",
+                            Street = "123 Elm Street",
+                            City = "Bellevue",
+                            State = "WA",
+                            Country = "US",
+                            Zip = "98006"
+                        }
                 };
 
-            bool actual = false;
+            var actual = false;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.UpdatePaymentProfile(profileID, profile);
+                actual = _target.UpdatePaymentProfile(customer.ProfileID, profile);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.UpdatePaymentProfile() failed: " + e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -496,48 +483,56 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile - success
         /// with mask
         /// </summary>
-        [Test()]
+        [Test]
         public void UpdatePaymentProfileTest_Mask()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24232683";
-            customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
+            string custPaymentProfileId = null;
+            try
+            {
+                custPaymentProfileId = _target.AddCreditCard(customer.ProfileID, "4111111111111111", 1, 2030);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
+            }
+            Assert.IsNotNull(custPaymentProfileId);
 
-            PaymentProfile profile = new PaymentProfile(apiType);
-            profile.ProfileID = "22804148";
-            profile.CardNumber = "XXXX1112";
-            profile.CardExpiration = "XXXX";
-            profile.BillingAddress = new Address()
+            var profile = new PaymentProfile(new customerPaymentProfileMaskedType())
                 {
-                    First = "Sue",
-                    Last = "Zhu",
-                    Company = "Visa",
-                    Street = "123 Elm Street",
-                    City = "Bellevue",
-                    State = "WA",
-                    Country = "US",
-                    Zip = "98006"
+                    ProfileID = custPaymentProfileId,
+                    CardNumber = "XXXX1111",
+                    CardExpiration = "XXXX",
+                    BillingAddress = new Address
+                        {
+                            First = "Sue",
+                            Last = "Zhu",
+                            Company = "Visa",
+                            Street = "123 Elm Street",
+                            City = "Bellevue",
+                            State = "WA",
+                            Country = "US",
+                            Zip = "98006"
+                        }
                 };
 
-            bool actual = false;
+            var actual = false;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.UpdatePaymentProfile(profileID, profile);
+                actual = _target.UpdatePaymentProfile(customer.ProfileID, profile);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.UpdatePaymentProfile() failed: " + e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -547,53 +542,60 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile eCheck - success
         /// with mask
         /// </summary>
-        [Test()]
+        [Test]
         public void UpdatePaymentProfileTest_eCheckMask()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24236276";
-            customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
-
-            PaymentProfile profile = new PaymentProfile(apiType);
-            profile.ProfileID = "24287458";
-            profile.eCheckBankAccount = new BankAccount()
+            string custPaymentProfileId = null;
+            try
+            {
+                custPaymentProfileId = _target.AddECheckBankAccount(customer.ProfileID, BankAccountType.Checking, "125000024", "1234588", "Sue Zhu", "Bank of Seattle", EcheckType.WEB, null);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
+            }
+            Assert.IsNotNull(custPaymentProfileId);
+	    
+            var profile = new PaymentProfile(new customerPaymentProfileMaskedType())
                 {
-                    routingNumber = "XXXX0024",
-                    accountNumber = "XXXX3456",
-                    nameOnAccount = "Sue Zhu"
+                    ProfileID = custPaymentProfileId,
+                    eCheckBankAccount = new BankAccount
+                        {
+                            routingNumber = "XXXX0024",
+                            accountNumber = "XXXX4588",
+                            nameOnAccount = "Sue Zhu"
+                        },
+                    BillingAddress = new Address
+                        {
+                            First = "Sue",
+                            Last = "Zhu",
+                            Company = "Visa",
+                            Street = "123 Elm Street",
+                            City = "Bellevue",
+                            State = "WA",
+                            Country = "US",
+                            Zip = "98006"
+                        }
                 };
 
-            profile.BillingAddress = new Address()
-            {
-                First = "Sue",
-                Last = "Zhu",
-                Company = "Visa",
-                Street = "123 Elm Street",
-                City = "Bellevue",
-                State = "WA",
-                Country = "US",
-                Zip = "98006"
-            };
-
-            bool actual = false;
+            var actual = false;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.UpdatePaymentProfile(profileID, profile);
+                actual = _target.UpdatePaymentProfile(customer.ProfileID, profile);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.UpdatePaymentProfile() failed: " + e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -603,41 +605,49 @@ namespace AuthorizeNETtest
         /// UpdatePaymentProfile eCheck - success
         /// with mask
         /// </summary>
-        [Test()]
+        [Test]
         public void UpdatePaymentProfileTest_eCheck()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><updateCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages></updateCustomerPaymentProfileResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24236276";
-            customerPaymentProfileMaskedType apiType = new customerPaymentProfileMaskedType();
-
-            PaymentProfile profile = new PaymentProfile(apiType);
-            profile.ProfileID = "24287458";
-            profile.eCheckBankAccount = new BankAccount()
+            string custPaymentProfileId = null;
+            try
             {
-                routingNumber = "125000025",
-                accountNumber = "1234567",
-                nameOnAccount = "Sue Zhu"
-            };
+                custPaymentProfileId = _target.AddECheckBankAccount(customer.ProfileID, BankAccountType.Checking, "125000024", "1234588", "Sue Zhu", "Bank of Seattle", EcheckType.WEB, null);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.AddECheckBankAccount() failed: " + e.Message);
+            }
+            Assert.IsNotNull(custPaymentProfileId);
+	    
+            var paymentProfile = new PaymentProfile(new customerPaymentProfileMaskedType())
+                {
+                    ProfileID = custPaymentProfileId,
+                    eCheckBankAccount = new BankAccount
+                        {
+                            routingNumber = "125000025",
+                            accountNumber = "1234567",
+                            nameOnAccount = "Sue Zhu"
+                        }
+                };
 
-            bool actual = false;
+            var actual = false;
 
             // if choose "USELOCAL", the test should pass with no exception
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.UpdatePaymentProfile(profileID, profile);
+                actual = _target.UpdatePaymentProfile(customer.ProfileID, paymentProfile);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.UpdatePaymentProfile() failed: " + e.Message);
             }
 
             Assert.IsTrue(actual);
@@ -646,26 +656,22 @@ namespace AuthorizeNETtest
         /// <summary>
         /// AuthorizeAndCapture Transaction - Approved
         /// </summary>
-        [Test()]
+        [Test]
         public void AuthorizeAndCaptureTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
+            var txnAmount = getValidAmount();
 
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2C99N3,Y,2207640586,,,25.10,CC,auth_capture,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,C40BBCC10984A7A95471323B34FD4FFB,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            var responseString = string.Format("<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2C99N3,Y,2207640586,,,{0},CC,auth_capture,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,C40BBCC10984A7A95471323B34FD4FFB,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>", txnAmount);
             LocalRequestObject.ResponseString = responseString;
-            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
-            StringReader reader = new StringReader(responseString);
-            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
-            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@viscom";
+            const string description = "CreateCustomerTest Success";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24231938";
-            string paymentProfileID = "22219473";
-            Order order = new Order(profileID, paymentProfileID, "");
-            order.Amount = (decimal) 25.10;
+            const string expectedCardNumber = "XXXX1111";
+            var paymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID,  "4111111111111111", 1, 2030);
+
+            var order = new Order(customer.ProfileID, paymentProfileId, "") {Amount = txnAmount};
 
             IGatewayResponse actual = null;
             
@@ -673,50 +679,50 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.AuthorizeAndCapture(order);
+                actual = _target.AuthorizeAndCapture(order);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.AuthorizeAndCapture() failed: " + e.Message);
             }
 
-            Assert.AreEqual(expected.Amount, actual.Amount);
-            Assert.AreEqual(expected.Approved, actual.Approved);
-            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
-            Assert.AreEqual(expected.Message, actual.Message);
-            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
-
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(txnAmount, actual.Amount);
+            Assert.AreEqual(true, actual.Approved);
+            Assert.AreEqual(expectedCardNumber, actual.CardNumber);
+            Assert.AreEqual("This transaction has been approved.", actual.Message);
+            Assert.AreEqual("1", actual.ResponseCode);
+	    
             Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
-            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+            Assert.Greater(long.Parse(actual.TransactionID), 0);
         }
 
         /// <summary>
         /// AuthorizeAndCapture Transaction with Invoice, Description and PONumber - Approved
         /// </summary>
-        [Test()]
+        [Test]
         public void AuthorizeAndCaptureTest_InvoiceDescriptionPONumber()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,Q5G0UI,Y,2207641147,Invoice#123,Testing InvoiceDescriptionPONumber,25.10,CC,auth_capture,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,PO23456,BEEEB7C9F2F22B9955338A7E19427369,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,Q5G0UI,Y,2207641147,Invoice#123,Testing InvoiceDescriptionPONumber,25.10,CC,auth_capture,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,PO23456,BEEEB7C9F2F22B9955338A7E19427369,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
             LocalRequestObject.ResponseString = responseString;
-            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
-            StringReader reader = new StringReader(responseString);
-            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
-            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@viscom";
+            const string description = "CreateCustomerTest Success";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24231938";
-            string paymentProfileID = "22219473";
-            Order order = new Order(profileID, paymentProfileID, "");
-            order.Amount = (decimal)25.10;
-            order.InvoiceNumber = "Invoice#123";
-            order.Description = "Testing InvoiceDescriptionPONumber";
-            order.PONumber = "PO23456";
+            const string expectedCardNumber = "XXXX1111";
+            var paymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID,  "4111111111111111", 1, 2030);
+
+            var txnAmount = getValidAmount();
+            const string invoiceNumber = "Invoice#123";
+
+            var order = new Order(customer.ProfileID, paymentProfileId, "")
+                {
+                    Amount = txnAmount,
+                    InvoiceNumber = invoiceNumber,
+                    Description = "Testing InvoiceDescriptionPONumber",
+                    PONumber = "PO23456"
+                };
 
             IGatewayResponse actual = null;
 
@@ -724,49 +730,48 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.AuthorizeAndCapture(order);
+                actual = _target.AuthorizeAndCapture(order);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.AuthorizeAndCapture() failed: " + e.Message);
             }
+            Assert.IsNotNull(actual);
 
-            Assert.AreEqual(expected.Amount, actual.Amount);
-            Assert.AreEqual(expected.Approved, actual.Approved);
-            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
-            Assert.AreEqual(expected.Message, actual.Message);
-            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
-            Assert.AreEqual(expected.InvoiceNumber, actual.InvoiceNumber);
+            Assert.AreEqual(txnAmount, actual.Amount);
+            Assert.AreEqual(true, actual.Approved);
+            Assert.AreEqual(expectedCardNumber, actual.CardNumber);
+            Assert.AreEqual("This transaction has been approved.", actual.Message);
+            Assert.AreEqual("1", actual.ResponseCode);
+            Assert.AreEqual(invoiceNumber, actual.InvoiceNumber);
 
             Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
             Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
         }
 
         /// <summary>
         /// AuthorizeAndCapture Transaction - Approved
         /// </summary>
-        [Test()]
+        [Test]
         public void AuthorizeAndCaptureTest_ExtraOptions()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,0PI2II,Y,2210620905,,,25.10,CC,auth_capture,Testing Extra Option,Sue,Zhu,Visa,123 Elm Street,Bellevue,WA,98006,US,,,suzhu@visa.com,,,,,,,,,,,,,,070CC74A6FDD5EA7951444C547FE7829,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,0PI2II,Y,2210620905,,,25.10,CC,auth_capture,Testing Extra Option,Sue,Zhu,Visa,123 Elm Street,Bellevue,WA,98006,US,,,suzhu@visa.com,,,,,,,,,,,,,,070CC74A6FDD5EA7951444C547FE7829,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
             LocalRequestObject.ResponseString = responseString;
-            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
-            StringReader reader = new StringReader(responseString);
-            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
-            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            var email = Path.GetRandomFileName() + "@viscom";
+            const string description = "CreateCustomerTest Success";
+            var customer = CreateCustomer(email, description);
 
-            string profileID = "24231938";
-            string paymentProfileID = "22219473";
-            Order order = new Order(profileID, paymentProfileID, "");
-            order.Amount = (decimal)25.10;
-            order.ExtraOptions = "x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options";
+            const string expectedCardNumber = "XXXX1111";
+            var paymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID,  "4111111111111111", 1, 2030);
+
+            var txnAmount = getValidAmount();
+	    
+            var order = new Order(customer.ProfileID, paymentProfileId, "")
+                {
+                    Amount = txnAmount,
+                    ExtraOptions = "x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options"
+                };
 
             IGatewayResponse actual = null;
 
@@ -774,51 +779,40 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.AuthorizeAndCapture(order);
+                actual = _target.AuthorizeAndCapture(order);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.AuthorizeAndCapture() failed: " + e.Message);
             }
-
-            Assert.AreEqual(expected.Amount, actual.Amount);
-            Assert.AreEqual(expected.Approved, actual.Approved);
-            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
-            Assert.AreEqual(expected.Message, actual.Message);
-            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+            Assert.IsNotNull(actual);
+	    
+            Assert.AreEqual(txnAmount, actual.Amount);
+            Assert.AreEqual(true, actual.Approved);
+            Assert.AreEqual(expectedCardNumber, actual.CardNumber);
+            Assert.AreEqual("This transaction has been approved.", actual.Message);
+            Assert.AreEqual("1", actual.ResponseCode);
 
             Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
             Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
         }
 
         /// <summary>
         /// Capture Transaction - Approved
         /// </summary>
-        [Test()]
+        [Test]
         public void SendTest_Capture_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            //setup
-            decimal amount = (decimal)25.12;
-            string authCode = SendAuthOnly(amount + 1, false);
-            Assert.IsTrue(authCode.Trim().Length > 0);
-
-            //start testing
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2JM6IE,P,2207702175,,,25.12,CC,capture_only,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,5BB96CB66C1E0BCE123915E970D70166,,,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2JM6IE,P,2207702175,,,25.12,CC,capture_only,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,5BB96CB66C1E0BCE123915E970D70166,,,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
             LocalRequestObject.ResponseString = responseString;
-            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
-            StringReader reader = new StringReader(responseString);
-            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
-            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            Customer customer;
+            string paymentProfileId;
+            const string expectedCardNumber = "XXXX1111";
 
-            string profileID = "24231938";
-            string paymentProfileID = "22219473";
+            var txnAmount = getValidAmount();
+            var authCode = SendAuthOnly(txnAmount + 1, false, out customer, out paymentProfileId);
+            Assert.Greater(authCode.Trim().Length, 0);
 
             IGatewayResponse actual = null;
 
@@ -826,49 +820,40 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.Capture(profileID, paymentProfileID, "", amount, authCode);
+                actual = _target.Capture(customer.ProfileID, paymentProfileId, "", txnAmount, authCode);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.Capture() failed: " + e.Message);
             }
+            Assert.IsNotNull(actual);
 
-            Assert.AreEqual(expected.Amount, actual.Amount);
-            Assert.AreEqual(expected.Approved, actual.Approved);
-            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
-            Assert.AreEqual(expected.Message, actual.Message);
-            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+            Assert.AreEqual(txnAmount, actual.Amount);
+            Assert.AreEqual(true, actual.Approved);
+            Assert.AreEqual(expectedCardNumber, actual.CardNumber);
+            Assert.AreEqual("This transaction has been approved.", actual.Message);
+            Assert.AreEqual("1", actual.ResponseCode);
 
             Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
-            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+            Assert.Greater(long.Parse(actual.TransactionID), 0);
         }
 
         /// <summary>
         /// PriorAuthCapture Transaction - Approved
         /// </summary>
-        [Test()]
+        [Test]
         public void SendTest_PriorAuthCapture_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,MFSOM8,P,2207702374,,,25.13,CC,prior_auth_capture,,,,,,,,,,,,,,,,,,,,,,,,,,E0DF3A88533C1F9CBE3B55159C514513,,,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            LocalRequestObject.ResponseString = responseString;
 
             //setup
-            decimal amount = (decimal)25.13;
-            string transID = SendAuthOnly(amount + 1, true);
-            Assert.IsTrue(transID.Trim().Length > 0);
-            Assert.IsTrue(long.Parse(transID) > 0);
+            var txnAmount = getValidAmount();
+            var transId = SendAuthOnly(txnAmount + 1, true);
+            Assert.IsTrue(transId.Trim().Length > 0);
+            Assert.Greater(long.Parse(transId), 0);
 
-            //start testing
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,MFSOM8,P,2207702374,,,25.13,CC,prior_auth_capture,,,,,,,,,,,,,,,,,,,,,,,,,,E0DF3A88533C1F9CBE3B55159C514513,,,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
-            LocalRequestObject.ResponseString = responseString;
-            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
-            StringReader reader = new StringReader(responseString);
-            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
-            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
-
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            const string expectedCardNumber = "XXXX1111";
 
             IGatewayResponse actual = null;
 
@@ -876,33 +861,34 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.PriorAuthCapture(transID, amount);
+                actual = _target.PriorAuthCapture(transId, txnAmount);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.PriorAuthCapture() failed: " + e.Message);
             }
+            Assert.IsNotNull(actual);
 
-            Assert.AreEqual(expected.Amount, actual.Amount);
-            Assert.AreEqual(expected.Approved, actual.Approved);
-            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
-            Assert.AreEqual(expected.Message, actual.Message);
-            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+            Assert.AreEqual(txnAmount, actual.Amount);
+            Assert.AreEqual(true, actual.Approved);
+            Assert.AreEqual(expectedCardNumber, actual.CardNumber);
+            Assert.AreEqual("This transaction has been approved.", actual.Message);
+            Assert.AreEqual("1", actual.ResponseCode);
 
             Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
             Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
         }
 
-        private string SendAuthOnly(decimal amount, bool returnTransID)
+        private string SendAuthOnly(decimal amount, bool returnTransId, out Customer customer, out string paymentProfileId)
         {
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2JM6IE,Y,2207702136,,,11.21,CC,auth_only,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,C8E9860C9B9DF58A73FFD9D7A8BFB82F,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2JM6IE,Y,2207702136,,,11.21,CC,auth_only,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,C8E9860C9B9DF58A73FFD9D7A8BFB82F,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
             LocalRequestObject.ResponseString = responseString;
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
-
-            string profileID = "24231938";
-            string paymentProfileID = "22219473";
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            customer = CreateCustomer(email, description);
+	    
+            paymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID,  "4111111111111111", 1, 2030);
 
             IGatewayResponse response = null;
 
@@ -910,23 +896,50 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                response = target.Authorize(profileID, paymentProfileID, amount);
+                response = _target.Authorize(customer.ProfileID, paymentProfileId, amount);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.Authorize() failed: " + e.Message);
             }
 
             if (response != null && response.Approved)
             {
-                if (returnTransID)
-                {
-                    return response.TransactionID;
-                }
-                else
-                {
-                    return response.AuthorizationCode;
-                }
+                return returnTransId ? response.TransactionID : response.AuthorizationCode;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        private string SendAuthOnly(decimal amount, bool returnTransId)
+        {
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,2JM6IE,Y,2207702136,,,11.21,CC,auth_only,,,,,,,,,,,,suzhu@visa.com,,,,,,,,,,,,,,C8E9860C9B9DF58A73FFD9D7A8BFB82F,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
+	    
+            var paymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID,  "4111111111111111", 1, 2030);
+
+            IGatewayResponse response = null;
+
+            // if choose "USELOCAL", the test should pass with no exception
+            // Otherwise, the test might fail for error, i.e. duplicated request.
+            try
+            {
+                response = _target.Authorize(customer.ProfileID, paymentProfileId, amount);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("CustomerGateway.Authorize() failed: " + e.Message);
+            }
+
+            if (response != null && response.Approved)
+            {
+                return returnTransId ? response.TransactionID : response.AuthorizationCode;
             }
             else
             {
@@ -937,27 +950,27 @@ namespace AuthorizeNETtest
         /// <summary>
         /// PriorAuthCapture Transaction - Approved
         /// </summary>
-        [Test()]
+        [Test]
         public void SendTest_AuthOnly_ExtraOptions()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
-            Assert.IsTrue(sError == "", sError);
-
-            string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,E4CGH9,Y,2210636215,,,25.15,CC,auth_only,Testing Extra Option,Sue,Zhu,Visa,123 Elm Street,Bellevue,WA,98006,US,,,suzhu@visa.com,,,,,,,,,,,,,,3445C1C7DFFB2F32357A316DE94C13D1,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerProfileTransactionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><directResponse>1,1,1,This transaction has been approved.,E4CGH9,Y,2210636215,,,25.15,CC,auth_only,Testing Extra Option,Sue,Zhu,Visa,123 Elm Street,Bellevue,WA,98006,US,,,suzhu@visa.com,,,,,,,,,,,,,,3445C1C7DFFB2F32357A316DE94C13D1,,2,,,,,,,,,,,XXXX1111,Visa,,,,,,,,,,,,,,,,</directResponse></createCustomerProfileTransactionResponse>";
             LocalRequestObject.ResponseString = responseString;
-            XmlSerializer serializer = new XmlSerializer(typeof(createCustomerProfileTransactionResponse));
-            StringReader reader = new StringReader(responseString);
-            createCustomerProfileTransactionResponse apiResponse = (createCustomerProfileTransactionResponse)serializer.Deserialize(reader);
-            IGatewayResponse expected = new GatewayResponse(apiResponse.directResponse.Split(','));
 
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+            const string expectedCardNumber = "XXXX1111";
 
-            string profileID = "24231938";
-            string paymentProfileID = "22219473";
-            Order order = new Order(profileID, paymentProfileID, "");
-            order.Amount = (decimal)25.15;
-            order.ExtraOptions = "x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options";
+            var email = Path.GetRandomFileName() + "@visa.com";
+            const string description = "Create a new customer";
+            var customer = CreateCustomer(email, description);
+	    
+            var paymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID,  "4111111111111111", 1, 2030);
+
+            var txnAmount = getValidAmount();
+
+            var order = new Order(customer.ProfileID, paymentProfileId, "")
+                {
+                    Amount = txnAmount,
+                    ExtraOptions = "x_customer_ip=100.0.0.1&x_cust_id=Testing Extra Options"
+                };
 
             IGatewayResponse actual = null;
 
@@ -965,21 +978,21 @@ namespace AuthorizeNETtest
             // Otherwise, the test might fail for error, i.e. duplicated request.
             try
             {
-                actual = target.Authorize(order);
+                actual = _target.Authorize(order);
             }
             catch (Exception e)
             {
-                string s = e.Message;
+                Console.WriteLine("CustomerGateway.Authorize() failed: " + e.Message);
             }
+            Assert.IsNotNull(actual);
 
-            Assert.AreEqual(expected.Amount, actual.Amount);
-            Assert.AreEqual(expected.Approved, actual.Approved);
-            Assert.AreEqual(expected.CardNumber, actual.CardNumber);
-            Assert.AreEqual(expected.Message, actual.Message);
-            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+            Assert.AreEqual(txnAmount, actual.Amount);
+            Assert.AreEqual(true, actual.Approved);
+            Assert.AreEqual(expectedCardNumber, actual.CardNumber);
+            Assert.AreEqual("This transaction has been approved.", actual.Message);
+            Assert.AreEqual("1", actual.ResponseCode);
 
             Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
             Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
         }
 
@@ -992,6 +1005,107 @@ namespace AuthorizeNETtest
             var order = new Order(profileId, paymentProfileId, "") {Amount = (decimal) 25.10};
             var response = gateway.AuthorizeAndCapture(order);
             Assert.IsNotNull(response);
+        }
+
+        [Test]
+        public void TestSdkUpgradeCustomerOrder()
+        {
+            var random = new Random();
+            var counter = random.Next(1, (int)(Math.Pow(2, 24)));
+            const int maxAmount = 10000;// 214747;
+            var amount = new decimal(counter > maxAmount ? (counter % maxAmount) : counter);
+            var email = string.Format("user.{0}@authorize.net", counter);
+            var description = string.Format("Description for Customer: {0}", counter);
+            var merchantCustomerId = string.Format("CustomerId: {0}", counter);
+            const string cardNumber = "4111111111111111";
+            const string  cvv = "";
+            var address = new Address
+                {
+                    First = string.Format("FName:{0}", counter),
+                    Last = string.Format("LName:{0}", counter),
+                    Company = "Visa",
+                    Street = "123 Elm Street",
+                    City = "Bellevue",
+                    State = "WA",
+                    Country = "US",
+                    Zip = "98006"
+                };
+
+            //Save the customer first
+            var gw = new CustomerGateway(ApiLogin, TransactionKey);
+
+            var customer = gw.CreateCustomer(email, description, merchantCustomerId);
+            var creditCardToken = gw.AddCreditCard(customer.ProfileID, cardNumber, DateTime.UtcNow.Month, DateTime.UtcNow.AddYears(1).Year, cvv, address);
+
+            //Create order
+            var order = new Order(customer.ProfileID, creditCardToken, "")
+                {
+                    Amount = amount,
+                    CardCode = cvv,
+                    ExtraOptions = "x_duplicate_window=0"
+                };
+
+            var result = (GatewayResponse)gw.AuthorizeAndCapture(order);
+            Assert.IsNotNull(result, "GateWay response for Order AuthCapture is null");
+
+            var buffer = new StringBuilder();
+
+            buffer.Append( "IGateWayResponse->");
+            buffer.AppendFormat( "  SplitTenderId:{0}", result.SplitTenderId);
+            buffer.AppendFormat( ", MD5Hash:{0}", result.MD5Hash);
+            buffer.AppendFormat( ", CCVResponse:{0}", result.CCVResponse);
+            buffer.AppendFormat( ", Code:{0}", result.Code);
+            buffer.AppendFormat( ", TransactionType:{0}", result.TransactionType);
+            buffer.AppendFormat( ", AuthorizationCode:{0}", result.AuthorizationCode);
+            buffer.AppendFormat( ", Method:{0}", result.Method);
+            buffer.AppendFormat( ", Amount:{0}", result.Amount);
+            buffer.AppendFormat( ", Tax:{0}", result.Tax);
+            buffer.AppendFormat( ", TransactionID:{0}", result.TransactionID);
+            buffer.AppendFormat( ", InvoiceNumber:{0}", result.InvoiceNumber);
+            buffer.AppendFormat( ", Description:{0}", result.Description);
+            buffer.AppendFormat( ", ResponseCode:{0}", result.ResponseCode);
+            buffer.AppendFormat( ", CardNumber:{0}", result.CardNumber);
+            buffer.AppendFormat( ", CardType:{0}", result.CardType);
+            buffer.AppendFormat( ", CAVResponse:{0}", result.CAVResponse);
+            buffer.AppendFormat( ", AVSResponse:{0}", result.AVSResponse);
+            buffer.AppendFormat( ", SubCode:{0}", result.SubCode);
+            buffer.AppendFormat( ", Message:{0}", result.Message);
+            buffer.AppendFormat( ", Approved:{0}", result.Approved);
+            buffer.AppendFormat( ", Declined:{0}", result.Declined);
+            buffer.AppendFormat( ", Error:{0}", result.Error);
+            buffer.AppendFormat( ", HeldForReview:{0}", result.HeldForReview);
+            buffer.AppendFormat( ", FirstName:{0}", result.FirstName);
+            buffer.AppendFormat( ", LastName:{0}", result.LastName);
+            buffer.AppendFormat( ", Email:{0}", result.Email);
+            buffer.AppendFormat( ", Company:{0}", result.Company);
+            buffer.AppendFormat( ", Address:{0}", result.Address);
+            buffer.AppendFormat( ", City:{0}", result.City);
+            buffer.AppendFormat( ", State:{0}", result.State);
+            buffer.AppendFormat( ", ZipCode:{0}", result.ZipCode);
+            buffer.AppendFormat( ", Country:{0}", result.Country);
+            buffer.AppendFormat( ", ShipFirstName:{0}", result.ShipFirstName);
+            buffer.AppendFormat( ", ShipLastName:{0}", result.ShipLastName);
+            buffer.AppendFormat( ", ShipCompany:{0}", result.ShipCompany);
+            buffer.AppendFormat( ", ShipAddress:{0}", result.ShipAddress);
+            buffer.AppendFormat( ", ShipCity:{0}", result.ShipCity);
+            buffer.AppendFormat( ", ShipState:{0}", result.ShipState);
+            buffer.AppendFormat( ", ShipZipCode:{0}", result.ShipZipCode);
+            buffer.AppendFormat( ", ShipCountry:{0}", result.ShipCountry);
+
+            Console.WriteLine(buffer);
+
+            Assert.IsNotNull(result.MD5Hash);
+            Assert.IsNotNullOrEmpty(result.TransactionType);
+            Assert.IsNotNullOrEmpty(result.AuthorizationCode);
+            Assert.IsNotNullOrEmpty(result.Method);
+            Assert.AreEqual("CC", result.Method);
+            Assert.IsNotNullOrEmpty(result.TransactionID);
+            Assert.AreEqual("1", result.ResponseCode);
+            Assert.AreEqual( "XXXX1111", result.CardNumber);
+            Assert.AreEqual( "Visa", result.CardType);
+            Assert.AreEqual("This transaction has been approved.", result.Message);
+            Assert.IsTrue(result.Approved);
+            Assert.IsFalse(result.Declined);
         }
     }
 }

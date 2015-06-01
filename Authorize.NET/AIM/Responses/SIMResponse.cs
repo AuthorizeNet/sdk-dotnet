@@ -36,6 +36,12 @@ namespace AuthorizeNet {
                 return FindKey("x_response_code");
             }
         }
+
+        public string ResponseReasonCode
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public string Message {
             get {
                 return FindKey("x_response_reason_text");
@@ -98,6 +104,21 @@ namespace AuthorizeNet {
                 result = _post[key];
             }
 
+            return result;
+        }
+
+        public string GetValueByIndex(int position)
+        {
+            return ParseResponse(position);
+        }
+
+        internal string ParseResponse(int index)
+        {
+            var result = "";
+            if (_post.AllKeys.Count() > index)
+            {
+                result = _post[index];
+            }
             return result;
         }
 

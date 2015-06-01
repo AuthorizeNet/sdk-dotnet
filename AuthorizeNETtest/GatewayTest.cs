@@ -20,7 +20,7 @@ namespace AuthorizeNETtest
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string responseString = "1|1|1|This transaction has been approved.|7339F5|Y|2207176015||testing|20.10|CC|auth_capture||||||||||||||||||||||||||7639D026F54F4DF70EA3F7DE5A350929||2|||||||||||XXXX1111|Visa||||||||||||||||";
+            string responseString = "1|1|1|This transaction has been approved.|7339F5|Y|2207176015||testing|20.10|CC|auth_capture||||||||||||||||||||||||||7639D026F54F4DF70EA3F7DE5A350929||2|||||||||||XXXX0015|Visa||||||||||||||||";
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
 
@@ -156,22 +156,27 @@ namespace AuthorizeNETtest
         /// Credit Transaction - Approved
         /// </summary>
         [Test()]
+        [Ignore("To run this test, find a settled credit-card transaction and configure this test below.")]
         public void SendTest_Credit_Approved()
         {
+            // Test setup.
+            const string transId = "????";               // A settled transaction id
+            const decimal creditAmount = (decimal) 1.50; // Amount to request credit for; less than the settled amount minus refunded amounts.
+            const string accountType = "????";           // The account type used in the transaction, such as Visa
+            const string accountLast4Digits = "????";    // The last 4 digitals of the account number used in the transaction, such as 1111
+
             //check login / password
             string sError = CheckLoginPassword();
             Assert.IsTrue(sError == "", sError);
 
-            string transID = "2207700297";
-
-            string responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|6.14|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX1111|Visa||||||||||||||||";
+            var responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|"+creditAmount+"|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX"+accountLast4Digits+"|"+accountType+"||||||||||||||||";
             LocalRequestObject.ResponseString = responseString;
             IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
 
-            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+            var target = new Gateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new CreditRequest(transID, (decimal)6.14, "1111");
-            string description = "Credit transaction approved testing";
+            IGatewayRequest request = new CreditRequest(transId, creditAmount, accountLast4Digits);
+            const string description = "Credit transaction approved testing";
 
             IGatewayResponse actual = target.Send(request, description);
 
@@ -182,7 +187,40 @@ namespace AuthorizeNETtest
             Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
 
             Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
-            Assert.IsTrue(long.Parse(actual.TransactionID) > 0);
+            Assert.Greater(long.Parse(actual.TransactionID),  0);
+        }
+
+        /// <summary>
+        /// Credit Transaction - Approved
+        /// </summary>
+        [Test()]
+        public void SendTest_FailedCredit_ReasonResponseCode()
+        {
+            //check login / password
+            string sError = CheckLoginPassword();
+            Assert.IsTrue(sError == "", sError);
+
+            string transID = "1";
+
+            string responseString = "3|1|54|The referenced transaction does not meet the criteria for issuing a credit.|||0||Fail to Credit invalid transaction|6.14|CC|credit||||||||||||||||||||||||||E5FBFF01C6A66AA75C1EE966943CAEAC|||||||||||||XXXX1111|Visa||||||||||||||||";
+            LocalRequestObject.ResponseString = responseString;
+            IGatewayResponse expected = new GatewayResponse(responseString.Split('|'));
+
+            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+
+            IGatewayRequest request = new CreditRequest(transID, (decimal)6.14, "1111");
+            string description = "Fail to Credit invalid transaction";
+
+            IGatewayResponse actual = target.Send(request, description);
+
+            Assert.AreEqual(expected.Amount, actual.Amount);
+            Assert.AreEqual(expected.Approved, actual.Approved);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.ResponseCode, actual.ResponseCode);
+            Assert.AreEqual(((GatewayResponse)expected).ResponseReasonCode, ((GatewayResponse)expected).ResponseReasonCode);
+
+            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            Assert.AreEqual(expected.TransactionID, actual.TransactionID);
         }
 
         /// <summary>

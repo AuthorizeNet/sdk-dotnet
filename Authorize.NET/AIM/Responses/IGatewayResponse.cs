@@ -9,5 +9,7 @@ namespace AuthorizeNet {
         string ResponseCode { get; }
         string Message { get; }
         string TransactionID { get; }
+        string ResponseReasonCode { get; }
+        string GetValueByIndex(int position);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Configuration;
 
 namespace AuthorizeNETtest
@@ -54,6 +55,13 @@ namespace AuthorizeNETtest
         {
             ApiLogin = ConfigurationManager.AppSettings["ApiLogin"];
             TransactionKey = ConfigurationManager.AppSettings["TransactionKey"];
+        }
+
+        protected decimal getValidAmount()
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+
+            return (decimal)rnd.Next(9999) / 100;
         }
     }
 }

@@ -159,6 +159,14 @@ namespace AuthorizeNet {
         }
 
         /// <summary>
+        /// Gets the response reason code.
+        /// </summary>
+        /// <value>The response reason code.</value>
+        public string ResponseReasonCode {
+            get { return ParseResponse(2); }
+        }
+
+        /// <summary>
         /// Gets the message.
         /// </summary>
         /// <value>The message.</value>
@@ -172,6 +180,16 @@ namespace AuthorizeNet {
         /// <value>The transaction ID.</value>
         public string TransactionID {
             get { return ParseResponse(7); }
+        }
+
+        /// <summary>
+        /// Gets the value by index
+        /// </summary>
+        /// <param name="position">position of the response to be returned</param>
+        /// <returns>Returns index value.</returns>
+        public string GetValueByIndex(int position)
+        {
+            return ParseResponse(position);
         }
 
         #endregion
