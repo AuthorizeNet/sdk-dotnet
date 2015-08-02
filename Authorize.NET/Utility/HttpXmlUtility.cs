@@ -30,7 +30,7 @@ namespace AuthorizeNet {
         }
 
         public const string TEST_URL = "https://apitest.authorize.net/xml/v1/request.api";
-        public const string URL = "https://api.authorize.net/xml/v1/request.api";
+        public const string URL = "https://api2.authorize.net/xml/v1/request.api";
 
         /// <summary>
         /// Adds authentication information to the request.

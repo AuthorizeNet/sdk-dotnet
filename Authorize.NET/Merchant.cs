@@ -33,7 +33,7 @@ namespace AuthorizeNet
 
 	    public bool IsSandboxEnvironment() {
 		    return (Environment !=null &&
-			    (Environment.SANDBOX == Environment || Environment.SANDBOX_TESTMODE == Environment));
+			    (Environment.SANDBOX == Environment));
 	    }
     }
 #pragma warning restore 1591
