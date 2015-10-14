@@ -1107,5 +1107,24 @@ namespace AuthorizeNETtest
             Assert.IsTrue(result.Approved);
             Assert.IsFalse(result.Declined);
         }
+        /// <summary>
+        /// GetCustomerProfileIds - success
+        /// </summary>
+        [Test]
+        public void GetCustomerProfileIds()
+        {
+            string[] customerIds = null;
+            try
+            {
+                customerIds = _target.GetCustomerIDs();
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("CustomerGateway.GetCustomerIDs() failed: " + e.Message);
+            }
+            
+            Assert.IsNotNull(customerIds);
+        }
     }
 }
