@@ -33,14 +33,46 @@ For reporting tests, go to https://sandbox.authorize.net/ under Account tab->Tra
 ### Advanced Merchant Integration (AIM)
 
 ````csharp
-            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
+            {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
 
-            IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
-            string description = "AuthCap transaction approved testing";
-            IGatewayResponse actual = target.Send(request, description);
+            var creditCard = new creditCardType
+            {
+                cardNumber = "4111111111111111",
+                expirationDate = "0718"
+            };
 
-            Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            var paymentType = new paymentType { Item = creditCard };
+
+            var transactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),    // authorize only
+                amount = 35.45m,
+                payment = paymentType
+            };
+
+            var request = new createTransactionRequest { transactionRequest = transactionRequest };
+
+            var controller = new createTransactionController(request);
+            controller.Execute();
+
+            var response = controller.GetApiResponse();
+            
+            if (response.messages.resultCode == messageTypeEnum.Ok)
+            {
+                if (response.transactionResponse != null)
+                {
+                    Console.WriteLine("Success, Auth Code : " + response.transactionResponse.authCode);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+            }
 ````
 
 ### Direct Post Method (DPM)
