@@ -138,15 +138,34 @@ Place the following code in the default action of a simple MVC application to di
 ````
 ### Customer Information Manager (CIM)
 ````csharp
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
+            {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
 
-            try
+            customerProfileType customerProfile = new customerProfileType();
+            customerProfile.merchantCustomerId = "TestCustomerID";
+            customerProfile.email = "john@doe.com";
+
+            var request = new createCustomerProfileRequest { profile = customerProfile, validationMode = validationModeEnum.none};
+
+            var controller = new createCustomerProfileController(request);          
+            controller.Execute();
+
+            createCustomerProfileResponse response = controller.GetApiResponse(); 
+
+            if (response != null && response.messages.resultCode == messageTypeEnum.Ok)
             {
-                actual = target.CreateCustomer("john@doe.com", "new customer profile");
+                if (response != null && response.messages.message != null)
+                {
+                    Console.WriteLine("Success, CustomerProfileID : " + response.customerProfileId);
+                }
             }
-            catch (Exception e)
+            else
             {
-                string s = e.Message;
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
             }
 
 ````
