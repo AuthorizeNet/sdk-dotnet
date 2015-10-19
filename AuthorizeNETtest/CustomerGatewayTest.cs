@@ -192,8 +192,8 @@ namespace AuthorizeNETtest
                     custPaymentProfileId = target.AddCreditCard(customer.ProfileID, cardNumber, expirationMonth, expirationYear);
                   //   _target.ValidateProfile(customer.ProfileID, custPaymentProfileId);
                     // _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.None);
-                  // _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.TestMode);
-                    _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.LiveMode);
+                   _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.TestMode);
+                  //  _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.LiveMode);
                 }
                 catch (Exception e)
                 {
