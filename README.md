@@ -33,14 +33,46 @@ For reporting tests, go to https://sandbox.authorize.net/ under Account tab->Tra
 ### Advanced Merchant Integration (AIM)
 
 ````csharp
-            Gateway target = new Gateway(ApiLogin, TransactionKey, true);
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
+            {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
 
-            IGatewayRequest request = new AuthorizationRequest("5424000000000015", "0224", (decimal)20.10, "AuthCap transaction approved testing", true);
-            string description = "AuthCap transaction approved testing";
-            IGatewayResponse actual = target.Send(request, description);
+            var creditCard = new creditCardType
+            {
+                cardNumber = "4111111111111111",
+                expirationDate = "0718"
+            };
 
-            Assert.IsTrue(actual.AuthorizationCode.Trim().Length > 0);
-            Assert.IsTrue(actual.TransactionID.Trim().Length > 0);
+            var paymentType = new paymentType { Item = creditCard };
+
+            var transactionRequest = new transactionRequestType
+            {
+                transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),    // authorize only
+                amount = 35.45m,
+                payment = paymentType
+            };
+
+            var request = new createTransactionRequest { transactionRequest = transactionRequest };
+
+            var controller = new createTransactionController(request);
+            controller.Execute();
+
+            var response = controller.GetApiResponse();
+            
+            if (response.messages.resultCode == messageTypeEnum.Ok)
+            {
+                if (response.transactionResponse != null)
+                {
+                    Console.WriteLine("Success, Auth Code : " + response.transactionResponse.authCode);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+            }
 ````
 
 ### Direct Post Method (DPM)
@@ -71,46 +103,101 @@ Place the following code in the default action of a simple MVC application to di
 
 ### Automated Recurring Billing (ARB)
 ````csharp
-            SubscriptionGateway target = new SubscriptionGateway(ApiLogin, TransactionKey);
-
-            ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly("john@doe.com",
-                                                                                  "ARB Subscription Test 5", (decimal)5.50,
-                                                                                  12);
-            subscription.CardNumber = "4111111111111111";
-            subscription.CardExpirationMonth = 1;
-            subscription.CardExpirationYear = 20;
-
-
-
-            Address billToAddress = new Address();
-            billToAddress.First = "John";
-            billToAddress.Last = "Doe";
-            subscription.BillingAddress = billToAddress;
-
-            ISubscriptionRequest actual = null;
-
-            try
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
             {
-                actual = target.CreateSubscription(subscription);
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
+
+            paymentScheduleTypeInterval interval = new paymentScheduleTypeInterval();
+
+            interval.length = 1;   
+            interval.unit = ARBSubscriptionUnitEnum.months;
+
+            paymentScheduleType schedule = new paymentScheduleType
+            {
+                interval = interval,
+                startDate = DateTime.Now.AddDays(1),      
+                totalOccurrences = 9999,      // 9999 indicates no end date
+                trialOccurrences = 3
+            };
+
+            #region Payment Information
+            var creditCard = new creditCardType
+            {
+                cardNumber = "4111111111111111",
+                expirationDate = "0718"
+            };
+
+            paymentType cc = new paymentType { Item = creditCard };
+            #endregion
+
+            nameAndAddressType addressInfo = new nameAndAddressType()
+            {
+                firstName = "John",
+                lastName = "Doe"
+            };
+
+            ARBSubscriptionType subscriptionType = new ARBSubscriptionType()
+            {
+                amount = 35.55m,
+                trialAmount = 0.00m,
+                paymentSchedule = schedule,
+                billTo = addressInfo,
+                payment = cc
+            };
+
+            var request = new ARBCreateSubscriptionRequest { subscription = subscriptionType };
+
+            var controller = new ARBCreateSubscriptionController(request);  
+            controller.Execute();
+
+            ARBCreateSubscriptionResponse response = controller.GetApiResponse();  
+
+            if (response != null && response.messages.resultCode == messageTypeEnum.Ok)
+            {
+                if (response != null && response.messages.message != null)
+                {
+                    Console.WriteLine("Success, Subscription ID : " + response.subscriptionId.ToString());
+                }
             }
-            catch (Exception e)
+            else
             {
-                string s = e.Message;
-                Console.WriteLine("Failed to create SUB: "+e.ToString());
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
             }
             
 ````
 ### Customer Information Manager (CIM)
 ````csharp
-            CustomerGateway target = new CustomerGateway(ApiLogin, TransactionKey);
+ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
+            {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
 
-            try
+            customerProfileType customerProfile = new customerProfileType();
+            customerProfile.merchantCustomerId = "TestCustomerID";
+            customerProfile.email = "john@doe.com";
+
+            var request = new createCustomerProfileRequest { profile = customerProfile, validationMode = validationModeEnum.none};
+
+            var controller = new createCustomerProfileController(request);          
+            controller.Execute();
+
+            createCustomerProfileResponse response = controller.GetApiResponse(); 
+
+            if (response != null && response.messages.resultCode == messageTypeEnum.Ok)
             {
-                actual = target.CreateCustomer("john@doe.com", "new customer profile");
+                if (response != null && response.messages.message != null)
+                {
+                    Console.WriteLine("Success, CustomerProfileID : " + response.customerProfileId);
+                }
             }
-            catch (Exception e)
+            else
             {
-                string s = e.Message;
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
             }
 
 ````
