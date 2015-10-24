@@ -44,13 +44,23 @@
 
         public static void creditCardSimpleType ( creditCardSimpleType request) { }
 
-        public static void creditCardType ( creditCardType request) { }
+        public static void creditCardType(creditCardType request) 
+        { 
+           if (request != null)
+           {
+               if (request.isPaymentToken)
+               {
+                   request.isPaymentTokenSpecified = true;
+               }    
+           }
+            
+        }
 
         public static void searchCriteriaCustomerProfileType ( searchCriteriaCustomerProfileType request) { }
 
         public static void customerProfileSummaryType ( customerProfileSummaryType request) { }
     
-        public static void subscriptionDetail ( SubscriptionDetail request) { }
+        public static void subscriptionDetail ( SubscriptionDetail request) {}
     
         public static void paging ( Paging request) { }
     
@@ -76,21 +86,30 @@
             }
         }
 
-        public static void subscriptionPaymentType ( subscriptionPaymentType request) { }
+        public static void subscriptionPaymentType ( subscriptionPaymentType request) {}
     
         public static void ArrayOfSetting ( ArrayOfSetting request) { }
     
         public static void settingType ( settingType request) { }
     
-        public static void emailSettingsType ( emailSettingsType request) { }
+        public static void emailSettingsType ( emailSettingsType request) {}
     
-        public static void transRetailInfoType ( transRetailInfoType request) { }
+        public static void transRetailInfoType ( transRetailInfoType request) {}
     
         public static void ccAuthenticationType ( ccAuthenticationType request) { }
     
         public static void paymentProfile ( paymentProfile request) { }
     
-        public static void customerProfilePaymentType ( customerProfilePaymentType request) { }
+        public static void customerProfilePaymentType(customerProfilePaymentType request)
+        {
+            if (null != request)
+            {
+                if (request.createProfile)
+                {
+                    request.createProfileSpecified = true;
+                }
+            }
+        }
 
         public static void transactionRequestType(transactionRequestType request)
         {
@@ -98,6 +117,7 @@
             {
                 if (0 <= request.amount) { request.amountSpecified = true; }
                 if (request.taxExempt) { request.taxExemptSpecified = true; }
+                customerProfilePaymentType(request.profile);
                 lineItemType(request.lineItems);
             }
         }
