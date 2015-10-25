@@ -102,11 +102,14 @@
     
         public static void customerProfilePaymentType(customerProfilePaymentType request)
         {
-            if (request.createProfile)
+            if (null != request)
             {
-                request.createProfileSpecified = true;
+                if (request.createProfile)
+                {
+                    request.createProfileSpecified = true;
+                }
             }
-         }
+        }
 
         public static void transactionRequestType(transactionRequestType request)
         {

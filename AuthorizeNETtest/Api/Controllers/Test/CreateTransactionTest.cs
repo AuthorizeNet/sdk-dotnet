@@ -56,7 +56,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 order = OrderType,
                 customer = CustomerDataOne,
                 billTo = CustomerAddressOne,
-              //  shipTo = CustomerAddressOne,
+                shipTo = CustomerAddressOne,
                 profile = new customerProfilePaymentType
                     {
                         createProfile = true,
