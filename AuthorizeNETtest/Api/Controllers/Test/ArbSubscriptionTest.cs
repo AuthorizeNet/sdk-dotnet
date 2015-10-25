@@ -57,7 +57,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
             var createResponse = ExecuteTestRequestWithSuccess<createTransactionRequest, createTransactionResponse, createTransactionController >(createRequest, TestEnvironment);
 
-            string referenceTxnId = createResponse.transactionResponse.transId;
+            var referenceTxnId = createResponse.transactionResponse.transId;
 
 		    var subscriptionId = CreateSubscription( CustomMerchantAuthenticationType, referenceTxnId);
 		    var newStatus = GetSubscription( CustomMerchantAuthenticationType, subscriptionId);
@@ -202,6 +202,116 @@ namespace AuthorizeNet.Api.Controllers.Test
             }
 
         }
+
+        /// <summary>
+        /// Repro issue ARBSubscriptionList SearchType of "cardExpiringThisMonth" doesn't work
+        /// commenting the test attribute because issue is fixed.
+        /// @Zalak
+        /// </summary>
+       // [Test]
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "SearchType cannot be null")]
+        public void GetSubscriptionSearchCardExpiringThisMonthIssueTest()
+        {
+           var getSubscriptionList = new ARBGetSubscriptionListRequest()
+                {
+                   searchType = ARBGetSubscriptionListSearchTypeEnum.cardExpiringThisMonth,
+                    
+                };
+
+           ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+           ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+            var nullController = new ARBGetSubscriptionListController(getSubscriptionList);
+            Assert.IsNull( nullController, "Controller should not be instantiated.");
+        }
+
+        /// <summary>
+        /// Fix the issue ARBSubscriptionList SearchType of "cardExpiringThisMonth" doesn't work
+        /// @Zalak
+        /// </summary>
+        [Test]
+        public void GetSubscriptionSearchCardExpiringThisMonthFixTest()
+        {
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            var createSubscription = new ARBSubscriptionType()
+            {
+                paymentSchedule = new paymentScheduleType
+                {
+                    interval = new paymentScheduleTypeInterval
+                    {
+                        length = 8,
+                        unit = ARBSubscriptionUnitEnum.months
+                    },
+                    startDate = DateTime.UtcNow,
+                    totalOccurrences = 3,
+                },
+                amount = 19.29M,
+
+                billTo = new nameAndAddressType
+                {
+                    address = "1234 Elm St NE",
+                    city = "Bellevue",
+                    state = "WA",
+                    zip = "98007",
+                    firstName = "First",
+                    lastName = "Last"
+                },
+
+                payment = new paymentType
+                {
+                    Item = new creditCardType
+                    {
+                        cardCode = "123",
+                        cardNumber = "5105105105105100",
+                        // cardNumber = "4111111111111111",
+                        expirationDate = "102015",
+                    }
+                },
+
+                customer = new customerType { email = "somecustomer@test.org", id = "5", },
+
+                order = new orderType { description = string.Format("member monthly {0}", rnd.Next(99999)) },
+            };
+            var arbCreateSubscriptionController = CreateSubscriptionRequestTest(createSubscription);
+            var arbCreateSubscriptionResponse = arbCreateSubscriptionController.ExecuteWithApiResponse();
+
+            if (null == arbCreateSubscriptionResponse)
+            {
+                throw new ArgumentNullException("arbCreateSubscriptionResponse");
+            }
+
+            var getSubscriptionList = new ARBGetSubscriptionListRequest()
+            {
+                searchType = ARBGetSubscriptionListSearchTypeEnum.cardExpiringThisMonth,
+
+            };
+
+            var arbGetSubscriptionListController = new ARBGetSubscriptionListController(getSubscriptionList);
+            var arbGetSubscriptionListResponse = arbGetSubscriptionListController.ExecuteWithApiResponse();
+
+            Assert.IsNotNull(arbGetSubscriptionListResponse);
+        }
+
+
+
+
+        private ARBCreateSubscriptionController CreateSubscriptionRequestTest(ARBSubscriptionType subscriptionRequestParameter)
+        {
+            if (subscriptionRequestParameter == null)
+            {
+                throw new ArgumentNullException("subscriptionRequestParameter");
+            }
+            LogHelper.info(Logger, "CreateSubscriptionRequestTest");
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            var arbRequest = new ARBCreateSubscriptionRequest { subscription = subscriptionRequestParameter };
+            var arbController = new ARBCreateSubscriptionController(arbRequest);
+            
+            return arbController;
+        }
+
+
 
 	    private ARBGetSubscriptionListRequest SetupSubscriptionListRequest(merchantAuthenticationType merchantAuthentication) {
 		
