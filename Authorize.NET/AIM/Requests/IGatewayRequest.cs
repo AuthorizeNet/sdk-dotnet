@@ -81,5 +81,6 @@ namespace AuthorizeNet {
         string Type { get; set; }
         string Version { get; set; }
         string Zip { get; set; }
+        string SolutionID { get; set; }
     }
 }
