@@ -68,6 +68,11 @@ namespace AuthorizeNet
 		/// The relay response - leave this set as TRUE
 		/// </summary>
 		public const string RelayResponse = "x_relay_response";
+		
+		/// <summary>
+		/// The solution ID of your product or integration used for better reporting
+		/// </summary>
+		public const string SolutionID = "x_solution_id";
 
         public ApiFields() {
             ApiKeys = new List<string>();
@@ -167,6 +172,7 @@ namespace AuthorizeNet
             ApiKeys.Add("x_duty");
             ApiKeys.Add("x_tax_exempt");
             ApiKeys.Add("x_po_num");
+            ApiKeys.Add("x_solution_id");
 
 
         }
