@@ -866,7 +866,15 @@ namespace AuthorizeNet {
             get { return Get(ApiFields.Zip); }
             set { Queue(ApiFields.Zip, value); }
         }
-
+        /// <summary>
+        /// Gets or sets the solution id.
+        /// </summary>
+        /// <value>The solution id.</value>
+        public string SolutionID
+        {
+            get { return Get(ApiFields.SolutionID); }
+            set { Queue(ApiFields.SolutionID, value); }
+        }
 
 
         #endregion
