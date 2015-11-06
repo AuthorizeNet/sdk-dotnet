@@ -26,23 +26,23 @@ IF EXIST "%OUTFILE%" (
 @ECHO namespace AuthorizeNet.Api.Contracts.V1 > %OUTFILE%
 @ECHO { >> %OUTFILE%
 @rem replacing using System; with HTHT### because it is causing problem for one the regular expression
-@ECHO    HTHT### >> %OUTFILE%
+@ECHO   HTHT### >> %OUTFILE%
 
 @ECHO #pragma warning disable 169 >> %OUTFILE%
 @ECHO #pragma warning disable 1591 >> %OUTFILE%
 @ECHO // ReSharper disable InconsistentNaming >> %OUTFILE%
-@ECHO    /// ^<summary^> >> %OUTFILE%
-@ECHO    /// Special case handlers >> %OUTFILE%
-@ECHO    /// >> %OUTFILE%
-@ECHO    /// validated on ????/??/?? for objects listed at the end >> %OUTFILE%
-@ECHO    /// should be validated after each update of AnetApiSchema.cs >> %OUTFILE%
-@ECHO    /// for fields/properties that are minOccurs="0" since xsd.exe >> %OUTFILE%
+@ECHO   /// ^<summary^> >> %OUTFILE%
+@ECHO   /// Special case handlers >> %OUTFILE%
+@ECHO   /// >> %OUTFILE%
+@ECHO   /// validated on ????/??/?? for objects listed at the end >> %OUTFILE%
+@ECHO   /// should be validated after each update of AnetApiSchema.cs >> %OUTFILE%
+@ECHO   /// for fields/properties that are minOccurs="0" since xsd.exe >> %OUTFILE%
 @rem replacing the word specified with WWWW because further in script we are greping all the parameters having specified word - this was creating a problem
-@ECHO    /// generates "WWWW" property for such fields and requires >> %OUTFILE%
-@ECHO    /// special handling to set them seamlessly >> %OUTFILE%
-@ECHO    /// Make sure to update the respective controllers to call the respective request hand >> %OUTFILE%
-@ECHO    ///  >> %OUTFILE%
-@ECHO    /// ^</summary^> >> %OUTFILE%
+@ECHO   /// generates "WWWW" property for such fields and requires >> %OUTFILE%
+@ECHO   /// special handling to set them seamlessly >> %OUTFILE%
+@ECHO   /// Make sure to update the respective controllers to call the respective request hand >> %OUTFILE%
+@ECHO   ///  >> %OUTFILE%
+@ECHO   /// ^</summary^> >> %OUTFILE%
 @ECHO     public static class RequestFactoryWithSpecified >> %OUTFILE%
 @ECHO     {>> %OUTFILE%
 
@@ -127,7 +127,7 @@ FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
 )
  
 @rem replace xyz in "XYZ paymentMaskedType ABCpaymentMaskedType argumentXXX" with public static void
-"%DEVKIT%\perl.exe" -p -i -e 's/XYZ/        public static void /g' %OUTFILE%
+"%DEVKIT%\perl.exe" -p -i -e 's/XYZ/        public static void/g' %OUTFILE%
 @rem replace ABC with (
 "%DEVKIT%\perl.exe" -p -i -e 's/ABC/(/g' %OUTFILE%
 @rem replace XXX with )
