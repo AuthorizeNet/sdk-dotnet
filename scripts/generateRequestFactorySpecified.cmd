@@ -1,11 +1,12 @@
+@rem Creating RequestFactoryWithSpecified file which handles the elements having minoccurs=0 in XSD
+@rem It generates specified property for such element and sets them true if the required condition is met
 @ECHO OFF
 SET DEVKIT=C:\DevKit\bin
-SET OUTDIR=C:\TestScript
+SET OUTDIR=%Temp%
 SET SRCDIR=Authorize.NET\Api\Contracts\V1
-SET OUTFILE=%OUTDIR%\RequestFactoryWithSpecified.generated.org
+SET OUTFILE=%SRCDIR%\RequestFactoryWithSpecified.generated.org
 SET INFILE=%SRCDIR%\AnetApiSchema.generated.cs
 SET BACKUPFILE=%OUTDIR%\RequestFactoryWithSpecified_Backup.generated.org
-SET FUNCTIONNAMEFILE=%OUTDIR%\fnlst.txt 
 SET SPECIFIEDFILE=%OUTDIR%\splst.txt 
 
 IF NOT EXIST "%DEVKIT%" (
@@ -17,9 +18,6 @@ IF NOT EXIST "%SRCDIR%" (
 	EXIT /B 1
 )
 
-IF NOT EXIST "%OUTDIR%" (
-	"%DEVKIT%\mkdir.exe" %OUTDIR%
-)
 IF EXIST "%OUTFILE%" (
 	"%DEVKIT%\rm.exe" %OUTFILE%
 )
@@ -39,7 +37,7 @@ IF EXIST "%OUTFILE%" (
 @ECHO    /// validated on ????/??/?? for objects listed at the end >> %OUTFILE%
 @ECHO    /// should be validated after each update of AnetApiSchema.cs >> %OUTFILE%
 @ECHO    /// for fields/properties that are minOccurs="0" since xsd.exe >> %OUTFILE%
-@rem replacing the word specified with WWWW because further in script we greping all the parameters having specified word - this was creating a problem
+@rem replacing the word specified with WWWW because further in script we are greping all the parameters having specified word - this was creating a problem
 @ECHO    /// generates "WWWW" property for such fields and requires >> %OUTFILE%
 @ECHO    /// special handling to set them seamlessly >> %OUTFILE%
 @ECHO    /// Make sure to update the respective controllers to call the respective request hand >> %OUTFILE%
@@ -117,13 +115,13 @@ rem creating a back up file
 @rem removing specified word
 "%DEVKIT%\perl.exe" -p -i -e 's/Specified;*//g' %SPECIFIEDFILE%
 
-@ECHO ### Processing function name - creating functions
+@ECHO ### Processing function name - Creating functions
 @rem replacing "public static void ARBGetSubscriptionListRequest" with "XYZ ARBGetSubscriptionListRequest ABC ARBGetSubscriptionListRequest argument XXX"
 "%DEVKIT%\perl.exe" -pi -w -e 's/^ *public *static *void *([A-Za-z0-9]*)/XYZ $1ABC$1 argumentXXX/g' %OUTFILE% 
 
 @ECHO ### Processing Specified List - Adding if block also may take time
 FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
-	@ECHO %%i
+	@rem @ECHO %%i
 	"%DEVKIT%\perl.exe" -p -i -e 's/ ^ *%%i;//g if ! /specified/' %OUTFILE%
 	"%DEVKIT%\perl.exe" -p -i -e 's/^ %%iSpecified;/                ifABCargument.%%iXXX { argument.%%iSpecified123=true;}/g if /%%iSpecified/' %OUTFILE%
 )
@@ -209,7 +207,17 @@ FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
 "%DEVKIT%\perl.exe" -p -i -e 's/WWWW/specified/g' %OUTFILE%
 @rem command to replace HTHT### to using System;
 "%DEVKIT%\perl.exe" -p -i -e 's/HTHT###/using System;/g' %OUTFILE%
+
+@rem deleting the .bak file created by perl command
+del /S /Q *.bak > NUL
 @ECHO The RequestFactoryWithSpecified file is generated @location: "%OUTFILE%"
+ 
+@ECHO ************************************************************************
+@ECHO Next Steps: 
+@ECHO 1. Compare the generated file with the previous version of file on Github (.org)
+@ECHO 2. Run the diff on both the files and apply the differences in RequestFactoryWithSpecified.cs file.
+@ECHO 3. Commit the new .org file and RequestFactoryWithSpecified.cs file on Github.
+@ECHO ************************************************************************
 EXIT /B 0
 @REM EOF!
 
