@@ -23,7 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.logoutType(request);
+            RequestFactoryWithSpecified.logoutRequest(request);
         }
     }
 #pragma warning restore 1591
