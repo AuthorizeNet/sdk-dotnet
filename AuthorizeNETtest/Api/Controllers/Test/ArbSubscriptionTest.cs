@@ -292,6 +292,33 @@ namespace AuthorizeNet.Api.Controllers.Test
         }
 
 
+        /// <summary>
+        /// @Zalak
+        /// Test case for Pagination issue reported in Jira:
+        ///  C# - ARBSubscriptionList SearchType of "cardExpiringThisMonth" doesn't work  
+        /// </summary>
+        [Test]
+        public void ARBGetSubscriptionListCheckPagination()
+        {
+            var getSubscriptionList = new ARBGetSubscriptionListRequest()
+            {
+                searchType = ARBGetSubscriptionListSearchTypeEnum.subscriptionActive,
+                paging = new Paging()
+                    {
+                        limit = 10,
+                        offset = 1
+                    },
+
+            };
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+            var arbGetSubscriptionListController = new ARBGetSubscriptionListController(getSubscriptionList);
+            var arbGetSubscriptionListResponse = arbGetSubscriptionListController.ExecuteWithApiResponse();
+            Assert.IsNotNull(arbGetSubscriptionListResponse);
+            Assert.AreEqual(10, arbGetSubscriptionListResponse.subscriptionDetails.Count());
+
+        }
 
 
         private ARBCreateSubscriptionController CreateSubscriptionRequestTest(ARBSubscriptionType subscriptionRequestParameter)
