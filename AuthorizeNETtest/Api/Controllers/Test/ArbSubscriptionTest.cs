@@ -322,8 +322,8 @@ namespace AuthorizeNet.Api.Controllers.Test
 
             var arbGetSubscriptionListResponse = GetSubscriptionListResponse(1, 1);
             ARBGetSubscriptionListResponse response = null;
-            int limitNo = 1;
-            int offSetNo = 46;
+            int limitNo = 3;
+            int offSetNo = 2;
             
             if (arbGetSubscriptionListResponse != null)
             {
