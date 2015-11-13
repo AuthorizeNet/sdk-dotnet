@@ -291,7 +291,63 @@ namespace AuthorizeNet.Api.Controllers.Test
             Assert.IsNotNull(arbGetSubscriptionListResponse);
         }
 
+        private ARBGetSubscriptionListResponse GetSubscriptionListResponse(int limitNo, int offSetNo)
+        {
+            var getSubscriptionList = new ARBGetSubscriptionListRequest()
+            {
+                searchType = ARBGetSubscriptionListSearchTypeEnum.subscriptionActive,
+                paging = new Paging()
+                {
+                    limit = limitNo,
+                    offset = offSetNo
+                },
 
+            };
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+            var arbGetSubscriptionListController = new ARBGetSubscriptionListController(getSubscriptionList);
+            var arbGetSubscriptionListResponse = arbGetSubscriptionListController.ExecuteWithApiResponse();
+            return arbGetSubscriptionListResponse;
+
+        }
+        /// <summary>
+        /// @Zalak
+        /// Test case for Pagination issue reported in Jira:
+        ///  C# - ARBSubscriptionList SearchType of "cardExpiringThisMonth" doesn't work  
+        /// </summary>
+        [Test]
+        public void ARBGetSubscriptionListCheckPagination()
+        {
+
+            var arbGetSubscriptionListResponse = GetSubscriptionListResponse(1, 1);
+            ARBGetSubscriptionListResponse response = null;
+            int limitNo = 3;
+            int offSetNo = 2;
+            
+            if (arbGetSubscriptionListResponse != null)
+            {
+                int subcriptionNumber = arbGetSubscriptionListResponse.totalNumInResultSet;
+                int expectedSubscriptionNo = 0;
+                int nPages = subcriptionNumber/limitNo;
+                int subscriptionDetailsOnLastPage = subcriptionNumber%limitNo;
+                if (offSetNo <= nPages)
+                    expectedSubscriptionNo = limitNo;
+                else if (offSetNo > (nPages + 1))
+                    expectedSubscriptionNo = 0;
+                else
+                {
+                    expectedSubscriptionNo = subscriptionDetailsOnLastPage;
+                }
+                response = GetSubscriptionListResponse(limitNo, offSetNo);
+                Assert.AreEqual(expectedSubscriptionNo, response.subscriptionDetails.Count());
+            }
+            else
+            {
+                Assert.Null(arbGetSubscriptionListResponse);
+            }   
+            
+        }
 
 
         private ARBCreateSubscriptionController CreateSubscriptionRequestTest(ARBSubscriptionType subscriptionRequestParameter)
