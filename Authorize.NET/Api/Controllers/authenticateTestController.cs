@@ -23,7 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.authenticateTestType(request);
+            RequestFactoryWithSpecified.authenticateTestRequest(request);
         }
     }
 #pragma warning restore 1591

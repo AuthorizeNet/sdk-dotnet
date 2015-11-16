@@ -1,4 +1,6 @@
-﻿namespace AuthorizeNet.Api.Controllers.Test
+﻿using System.Diagnostics;
+
+namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
     using NUnit.Framework;
@@ -34,6 +36,8 @@
         {
             base.TearDown();
         }
+
+
 
         [Test]
         public void CreateProfileWithCreateTransactionRequestTest()
@@ -103,6 +107,173 @@
 
             Assert.AreEqual(1, profileResponse.customerShippingAddressIdList.Length);
             Assert.AreNotEqual("0", profileResponse.customerShippingAddressIdList[0]);
+        }
+        
+        /// <summary>
+        /// @Zalak 
+        /// For issue #62 Github Dot.net SDK
+        /// </summary>
+        /// <param name="transactionRequestParameter"></param>
+        /// <returns></returns>
+        private createTransactionController CreateTransactionRequestTest(transactionRequestType transactionRequestParameter)
+        {
+            if (transactionRequestParameter == null)
+            {
+                throw new ArgumentNullException("transactionRequestParameter");
+            }
+            LogHelper.info(Logger, "CreateTransactionRequestTest");
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            //create a transaction
+            var transactionRequestType = transactionRequestParameter;
+            var createRequest = new createTransactionRequest
+                {
+                    refId = RefId,
+                    transactionRequest = transactionRequestType,
+                };
+            //create controller
+            var createController = new createTransactionController(createRequest);
+         
+            return createController;
+        }
+
+        
+
+        //@Zalak
+        /// <summary>
+        /// Issue number #62 github dot-net sdk
+        /// </summary>
+        [Test]
+        public void CreateRefundWithCustomerProfileRequestTest()
+        {
+            LogHelper.info(Logger, "CreateRefundWithCustomerProfileRequestTest");
+
+            //created a new transaction 
+            var chargedTransactionRequest = new transactionRequestType
+                {
+                    transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
+                    amount = SetValidTransactionAmount(Counter),
+                    payment = PaymentOne,
+                    customer = CustomerDataOne,
+                    billTo = CustomerAddressOne,
+                    profile = new customerProfilePaymentType
+                        {
+                            createProfile = true,
+                            //createProfileSpecified = true, //TODO : Update RequestFactory for Specified
+                        },
+                };
+            
+            var createController = CreateTransactionRequestTest(chargedTransactionRequest);
+            if(createController == null)
+                throw new ArgumentNullException("createController");
+
+            var createResponse = createController.ExecuteWithApiResponse();
+            if (createResponse == null)
+            {
+                throw new ArgumentNullException("createResponse");
+            }
+
+            if (createResponse.transactionResponse.transId == null)
+            {
+                throw new ArgumentNullException("TransId is null");
+            }
+            chargedTransactionRequest.refTransId = createResponse.transactionResponse.transId;
+
+            if (createResponse.profileResponse == null)
+            {
+                throw new ArgumentNullException("profileResponse");
+            }
+            var profileResponse = createResponse.profileResponse;
+            
+            // creating a refund transaction request for above transaction using customer profile id and customer payment profile id
+            chargedTransactionRequest.transactionType = transactionTypeEnum.refundTransaction.ToString();
+           chargedTransactionRequest.profile = new customerProfilePaymentType();
+           chargedTransactionRequest.profile.customerProfileId = profileResponse.customerProfileId;
+            chargedTransactionRequest.profile.paymentProfile = new paymentProfile()
+            {
+                 paymentProfileId = profileResponse.customerPaymentProfileIdList[0],
+            };
+         
+            chargedTransactionRequest.customer = null;
+            chargedTransactionRequest.billTo = null;
+            chargedTransactionRequest.payment = null;
+
+            createController = CreateTransactionRequestTest(chargedTransactionRequest);
+            createResponse = createController.ExecuteWithApiResponse();
+            Assert.IsNotNull(createResponse);
+            //currently the transaction is failing because the bug fix is on server end
+            var errorResponse = createResponse.messages;
+            Assert.AreEqual(1, errorResponse.message.Length);
+            Assert.AreEqual("E00051", errorResponse.message[0].code);
+            Assert.AreEqual(errorResponse.message[0].text, "The original transaction was not issued for this payment profile.");
+       }
+
+        /// <summary>
+        /// @Zalak
+        /// Issue #62: If shipping address is not included in request then it will be empty it will not be same as billing address
+        /// </summary>
+        [Test]
+        public void CreateTransactionShippingAddressTest()
+        {
+            LogHelper.info(Logger, "CreateRefundWithCustomerProfileRequestTest");
+
+            //created a new transaction 
+            var chargedTransactionRequest = new transactionRequestType
+                {
+                    transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),
+                    amount = SetValidTransactionAmount(Counter),
+                    payment = PaymentOne,
+                    customer = CustomerDataOne,
+                    billTo = CustomerAddressOne,
+                    profile = new customerProfilePaymentType
+                        {
+                            createProfile = true,
+                            createProfileSpecified = true, 
+                        },
+                };
+            
+            var createController = CreateTransactionRequestTest(chargedTransactionRequest);
+            var createResponse = createController.ExecuteWithApiResponse();
+            if (createResponse == null)
+                throw new ArgumentNullException("createResponse");
+
+            Assert.IsNotNull(createResponse.transactionResponse);
+            LogHelper.info(Logger, "Response: {0}", createResponse);
+            DisplayResponse(createResponse, "Create Transaction Response");
+            LogHelper.info(Logger, "Created Transaction: {0}", createResponse.transactionResponse);
+            Assert.IsNotNull(createResponse.transactionResponse.transId);
+            long transId;
+            Assert.IsTrue(long.TryParse(createResponse.transactionResponse.transId, out transId));
+            
+            if (0 == transId)
+            {
+                ValidateFailure<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
+                Assert.IsNotNull(createResponse.transactionResponse.errors);
+                foreach (var error in createResponse.transactionResponse.errors)
+                {
+                    LogHelper.info(Logger, "Error-> Code:{0}, Text:{1}", error.errorCode, error.errorText);
+                }
+            }
+            else
+            {
+                ValidateSuccess<createTransactionRequest, createTransactionResponse, createTransactionController>(createController, createResponse);
+                Assert.AreNotEqual(0, transId);
+            }
+
+            var profileResponse = createResponse.profileResponse;
+            Assert.IsNotNull(profileResponse);
+            Assert.IsNotNull(profileResponse.customerProfileId);
+            Assert.IsNotNull(profileResponse.customerPaymentProfileIdList);
+            Assert.AreEqual("",profileResponse.customerShippingAddressIdList);
+            Assert.AreNotEqual("0", profileResponse.customerProfileId);
+
+            Assert.AreEqual(1, profileResponse.customerPaymentProfileIdList.Length);
+            Assert.AreNotEqual("0", profileResponse.customerPaymentProfileIdList[0]);
+
+            Assert.AreEqual(0, profileResponse.customerShippingAddressIdList.Length);
+           
         }
 
         [Test]
