@@ -23,7 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.decryptPaymentDataType(request);
+            RequestFactoryWithSpecified.decryptPaymentDataRequest(request);
         }
     }
 #pragma warning restore 1591

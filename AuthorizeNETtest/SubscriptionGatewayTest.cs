@@ -110,6 +110,37 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
+        /// CreateSubscription with Zero Trial Amount - success
+        /// </summary>
+        [Test]
+        public void CreateSubscriptionTest_zeroTrial()
+        {
+            var random = new Random();
+            var counter = random.Next(1, (int)(Math.Pow(2, 24)));
+            var amount = ComputeRandomAmount();
+            var email = string.Format("user.{0}@authorize.net", counter);
+
+            const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBCreateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><subscriptionId>2074569</subscriptionId></ARBCreateSubscriptionResponse>";
+            LocalRequestObject.ResponseString = responseString;
+
+            var target = new SubscriptionGateway(ApiLogin, TransactionKey);
+
+            var billToAddress = new Address { First = "SomeOneCool", Last = "MoreCoolPerson" };
+            ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly(email, "ARB Subscription Test", amount, 10);
+            subscription.CardNumber = "4111111111111111";
+            subscription.CardExpirationMonth = 3;
+            subscription.CardExpirationYear = 16;
+            subscription.BillingAddress = billToAddress;
+
+            //setting Trial amount/ Trial Ocurances to 0 
+            subscription.SetTrialPeriod(3, 0M);
+
+            ISubscriptionRequest actual = null;
+            actual = target.CreateSubscription(subscription);
+            Assert.NotNull(actual);
+        }
+
+        /// <summary>
         /// UpdateSubscription - success
         /// </summary>
         [Test]

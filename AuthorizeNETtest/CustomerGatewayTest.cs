@@ -161,6 +161,54 @@ namespace AuthorizeNETtest
             Assert.Greater(custPaymentProfileId.Trim().Length, 0);
             Assert.Greater(long.Parse(custPaymentProfileId), 0);
         }
+        
+        /// <summary>
+        /// Reproducing the issue number 97 reported in github
+        /// @Zalak
+        /// </summary>
+        [Test]
+        public void ValidateProfileTest ()
+        {
+            var target = _target;
+            try
+            {
+                const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><createCustomerPaymentProfileResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><customerPaymentProfileId>22219473</customerPaymentProfileId></createCustomerPaymentProfileResponse>";
+                LocalRequestObject.ResponseString = responseString;
+
+                _target = new CustomerGateway(ApiLogin, TransactionKey, ServiceMode.Test);
+                var email = Path.GetRandomFileName() + "@visa.com";
+                const string description = "Create a new customer";
+                var customer = CreateCustomer(email, description);
+
+                const string cardNumber = "4111111111111111";
+                const int expirationMonth = 1;
+                const int expirationYear = 2030;
+                
+                var custPaymentProfileId = "";
+                // if choose "USELOCAL", the test should pass with no exception
+                // Otherwise, the test might fail for error, i.e. duplicated request.
+                try
+                {
+                    custPaymentProfileId = target.AddCreditCard(customer.ProfileID, cardNumber, expirationMonth, expirationYear);
+                  //   _target.ValidateProfile(customer.ProfileID, custPaymentProfileId);
+                    // _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.None);
+                   _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.TestMode);
+                  //  _target.ValidateProfile(customer.ProfileID, custPaymentProfileId, ValidationMode.LiveMode);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("CustomerGateway.AddCreditCard() failed: " + e.Message);
+                }
+
+                Assert.IsFalse(string.IsNullOrEmpty(custPaymentProfileId));
+                Assert.Greater(custPaymentProfileId.Trim().Length, 0);
+                Assert.Greater(long.Parse(custPaymentProfileId), 0);
+            }
+            finally
+            {
+                _target = target;
+            }
+        }
 
         /// <summary>
         /// AddCreditCard set validationMode - success

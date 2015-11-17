@@ -269,12 +269,12 @@ namespace AuthorizeNet {
             sub.paymentSchedule.totalOccurrencesSpecified = true;
 
             // free 1 month trial
-            if (this.TrialBillingCycles > 0) {
+            if (this.TrialBillingCycles >= 0) {
                 sub.paymentSchedule.trialOccurrences = this.TrialBillingCycles;
                 sub.paymentSchedule.trialOccurrencesSpecified = true;
             }
 
-            if (this.TrialAmount > 0) {
+            if (this.TrialAmount >= 0) {
                 sub.trialAmount = this.TrialAmount;
                 sub.trialAmountSpecified = true;
             }
