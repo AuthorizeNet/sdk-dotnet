@@ -31,6 +31,21 @@
             }
         }
 
+        public static void webCheckOutDataType(webCheckOutDataType argument)
+        {
+            if (null != argument)
+            {
+                webCheckOutDataTypeToken(argument.token);
+            }
+        }
+
+        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+
         public static void customerPaymentProfileListItemType(customerPaymentProfileListItemType argument)
         {
             if (null != argument)
@@ -53,9 +68,9 @@
             if (null != argument)
             {
                 paymentScheduleType(argument.paymentSchedule);
-                if (argument.amount == null) { argument.amountSpecified = true; }
-                if (argument.trialAmount == null) { argument.trialAmountSpecified = true; }
-                if (argument.status == null) { argument.statusSpecified = true; }
+                if (0 <= argument.amount) { argument.amountSpecified = true; }
+                if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
+                if (0 <= argument.status) { argument.statusSpecified = true; }
                 subscriptionCustomerProfileType(argument.profile);
                 orderType(argument.order);
             }
@@ -101,17 +116,10 @@
                 if (argument.isPaymentToken) { argument.isPaymentTokenSpecified = true; }
             }
         }
-        public static void searchCriteriaCustomerProfileType(customerProfileSummaryType argument)
-        {
-            if (null != argument)
-            {
-            }
-        }
         public static void customerProfileSummaryType(customerProfileSummaryType argument)
         {
             if (null != argument)
             {
-                searchCriteriaCustomerProfileType(argument);
             }
         }
         public static void SubscriptionDetail(SubscriptionDetail argument)
@@ -1283,6 +1291,21 @@
             if (null != argument)
             {
                 ARBSubscriptionMaskedType(argument.subscription);
+            }
+        }
+
+        public static void securePaymentContainerRequest(securePaymentContainerRequest argument)
+        {
+            if (null != argument)
+            {
+                webCheckOutDataType(argument.data);
+            }
+        }
+        public static void securePaymentContainerResponse(securePaymentContainerResponse argument)
+        {
+            if (null != argument)
+            {
+                opaqueDataType(argument.opaqueData);
             }
         }
 

@@ -20,11 +20,11 @@
 		    //validate not-required fields		
 	    }
 
-        //protected override void BeforeExecute()
-        //{
-        //    var request = GetApiRequest();
-        //    RequestFactoryWithSpecified.securePaymentContainerType(request);
-        //}
+        protected override void BeforeExecute()
+        {
+            var request = GetApiRequest();
+            RequestFactoryWithSpecified.securePaymentContainerRequest(request);
+        }
     }
 #pragma warning restore 1591
 }
