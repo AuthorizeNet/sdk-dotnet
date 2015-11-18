@@ -76,6 +76,7 @@
     <Compile Include="*.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getCustomerPaymentProfileListControllerTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\CustomerProfileSampleTest.cs" />
     <Compile Include="Api\Controllers\Test\*.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBCancelSubscriptionControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBCreateSubscriptionControllerTest.cs" />
@@ -115,7 +116,11 @@
     <Compile Include="Api\Controllers\MockTest\updateCustomerShippingAddressControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\updateSplitTenderGroupControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\validateCustomerPaymentProfileControllerTest.cs" />
-    <Compile Include="Api\Controllers\SampleTest\*.cs" />
+    <Compile Include="Api\Controllers\SampleTest\ArbSubscriptionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\CreateCustomerProfileFromTransactionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\CreateTransactionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\eCheckTransactionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\ErrorMessagesSampleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
