@@ -31,21 +31,6 @@
             }
         }
 
-        public static void webCheckOutDataType(webCheckOutDataType argument)
-        {
-            if (null != argument)
-            {
-                webCheckOutDataTypeToken(argument.token);
-            }
-        }
-
-        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument)
-        {
-            if (null != argument)
-            {
-            }
-        }
-
         public static void customerPaymentProfileListItemType(customerPaymentProfileListItemType argument)
         {
             if (null != argument)
@@ -1291,21 +1276,6 @@
             if (null != argument)
             {
                 ARBSubscriptionMaskedType(argument.subscription);
-            }
-        }
-
-        public static void securePaymentContainerRequest(securePaymentContainerRequest argument)
-        {
-            if (null != argument)
-            {
-                webCheckOutDataType(argument.data);
-            }
-        }
-        public static void securePaymentContainerResponse(securePaymentContainerResponse argument)
-        {
-            if (null != argument)
-            {
-                opaqueDataType(argument.opaqueData);
             }
         }
 
