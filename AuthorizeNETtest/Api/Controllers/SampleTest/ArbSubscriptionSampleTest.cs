@@ -108,5 +108,53 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
             Assert.IsNotNull(cancelResponse.messages);
             Logger.info(String.Format("Subscription Cancelled: {0}", subscriptionId));
         }
+
+        [Test]
+        public void ARBGetSubscriptionSampleTest()
+        {
+            LogHelper.info(Logger, "Sample GetSubscriptionList");
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
+
+            //create a subscription
+            var createRequest = new ARBCreateSubscriptionRequest
+            {
+                refId = RefId,
+                subscription = ArbSubscriptionOne,
+            };
+
+            var createController = new ARBCreateSubscriptionController(createRequest);
+            createController.Execute();
+            var createResponse = createController.GetApiResponse();
+            Assert.IsNotNull(createResponse.subscriptionId);
+            LogHelper.info(Logger, "Created Subscription: {0}", createResponse.subscriptionId);
+            var subscriptionId = createResponse.subscriptionId;
+
+            //get subscription details
+            var getRequest = new ARBGetSubscriptionRequest
+            {
+                refId = RefId,
+                subscriptionId = subscriptionId
+            };
+            var getController = new ARBGetSubscriptionController(getRequest);
+            var getResponse = getController.ExecuteWithApiResponse();
+            Assert.IsNotNull(getResponse.subscription);
+            Logger.info(String.Format("Subscription Name : {0}", getResponse.subscription.name));
+            Assert.AreEqual(ArbSubscriptionOne.name, getResponse.subscription.name);
+            Assert.AreEqual(ArbSubscriptionOne.amountSpecified, getResponse.subscription.amountSpecified);
+
+            //cancel subscription
+            var cancelRequest = new ARBCancelSubscriptionRequest
+            {
+                merchantAuthentication = CustomMerchantAuthenticationType,
+                refId = RefId,
+                subscriptionId = subscriptionId
+            };
+            var cancelController = new ARBCancelSubscriptionController(cancelRequest);
+            var cancelResponse = cancelController.ExecuteWithApiResponse(TestEnvironment);
+            Assert.IsNotNull(cancelResponse.messages);
+            Logger.info(String.Format("Subscription Cancelled: {0}", subscriptionId));
+        }
     }
 }
