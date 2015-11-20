@@ -39,7 +39,9 @@ namespace AuthorizeNet {
 
         public string ResponseReasonCode
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return FindKey("x_response_reason_code");
+            }
         }
 
         public string Message {

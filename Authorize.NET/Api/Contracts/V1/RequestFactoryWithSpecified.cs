@@ -30,6 +30,47 @@
             {
             }
         }
+
+        public static void customerPaymentProfileListItemType(customerPaymentProfileListItemType argument)
+        {
+            if (null != argument)
+            {
+                customerAddressType(argument.billTo);
+                paymentMaskedType(argument.payment);
+            }
+        }
+
+        public static void CustomerPaymentProfileSorting(CustomerPaymentProfileSorting argument)
+        {
+            if (null != argument)
+            {
+                //(argument.orderDescending);
+            }
+        }
+
+        public static void ARBSubscriptionMaskedType(ARBSubscriptionMaskedType argument)
+        {
+            if (null != argument)
+            {
+                paymentScheduleType(argument.paymentSchedule);
+                if (0 <= argument.amount) { argument.amountSpecified = true; }
+                if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
+                if (0 <= argument.status) { argument.statusSpecified = true; }
+                subscriptionCustomerProfileType(argument.profile);
+                orderType(argument.order);
+            }
+        }
+
+        public static void subscriptionCustomerProfileType(subscriptionCustomerProfileType argument)
+        {
+            if (null != argument)
+            {
+                customerProfileExType(argument);
+                customerPaymentProfileMaskedType(argument.paymentProfile);
+                customerAddressExType(argument.shippingProfile);
+            }
+        }
+
         public static void paymentSimpleType(paymentSimpleType argument)
         {
             if (null != argument)
@@ -60,17 +101,10 @@
                 if (argument.isPaymentToken) { argument.isPaymentTokenSpecified = true; }
             }
         }
-        public static void searchCriteriaCustomerProfileType(searchCriteriaCustomerProfileType argument)
-        {
-            if (null != argument)
-            {
-            }
-        }
         public static void customerProfileSummaryType(customerProfileSummaryType argument)
         {
             if (null != argument)
             {
-                searchCriteriaCustomerProfileType(argument);
             }
         }
         public static void SubscriptionDetail(SubscriptionDetail argument)
@@ -1215,6 +1249,36 @@
                 if (null != argument.subscriptionDetails) { foreach (var value in argument.subscriptionDetails) { SubscriptionDetail(value); } }
             }
         }
+
+        public static void getCustomerPaymentProfileListRequest(getCustomerPaymentProfileListRequest argument)
+        {
+            if (null != argument)
+            {
+                CustomerPaymentProfileSorting(argument.sorting);
+                Paging(argument.paging);
+            }
+        }
+        public static void getCustomerPaymentProfileListResponse(getCustomerPaymentProfileListResponse argument)
+        {
+            if (null != argument)
+            {
+                if (null != argument.paymentProfiles) { foreach (var value in argument.paymentProfiles) { customerPaymentProfileListItemType(value); } }
+            }
+        }
+        public static void ARBGetSubscriptionRequest(ARBGetSubscriptionRequest argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+        public static void ARBGetSubscriptionResponse(ARBGetSubscriptionResponse argument)
+        {
+            if (null != argument)
+            {
+                ARBSubscriptionMaskedType(argument.subscription);
+            }
+        }
+
         public static void EnumCollection(EnumCollection argument)
         {
             if (null != argument)

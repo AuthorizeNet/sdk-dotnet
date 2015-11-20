@@ -236,6 +236,22 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
+
+            foreach (var anEnum in Enum.GetValues(typeof(CustomerPaymentProfileSearchTypeEnum)))
+            {
+                var aValue = anEnum.ToString();
+                CustomerPaymentProfileSearchTypeEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
+
+            foreach (var anEnum in Enum.GetValues(typeof(CustomerPaymentProfileOrderFieldEnum)))
+            {
+                var aValue = anEnum.ToString();
+                CustomerPaymentProfileOrderFieldEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
         } 
 
         /*

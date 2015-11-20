@@ -57,6 +57,7 @@
     <Compile Include="Api\Contracts\V1\*.cs" />
     <Compile Include="Api\Controllers\ARBCancelSubscriptionController.cs" />
     <Compile Include="Api\Controllers\ARBCreateSubscriptionController.cs" />
+    <Compile Include="Api\Controllers\ARBGetSubscriptionController.cs" />
     <Compile Include="Api\Controllers\ARBGetSubscriptionListController.cs" />
     <Compile Include="Api\Controllers\ARBGetSubscriptionStatusController.cs" />
     <Compile Include="Api\Controllers\ARBUpdateSubscriptionController.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Api\Controllers\deleteCustomerShippingAddressController.cs" />
     <Compile Include="Api\Controllers\getBatchStatisticsController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileController.cs" />
+    <Compile Include="Api\Controllers\getCustomerPaymentProfileListController.cs" />
     <Compile Include="Api\Controllers\getCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\getCustomerProfileIdsController.cs" />
     <Compile Include="Api\Controllers\getCustomerShippingAddressController.cs" />
