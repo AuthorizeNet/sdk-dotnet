@@ -2,11 +2,28 @@ language:
     csharp
 
 install:
+    - nuget restore ./AuthorizeNET.sln
+    - chmod +x ./src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe
     - sudo apt-get install nunit-console
+    - sudo apt-get install gtk-sharp2
+    - curl -sS https://api.nuget.org/packages/mono.cecil.0.9.5.4.nupkg > /tmp/mono.cecil.0.9.5.4.nupkg.zip
+    - unzip /tmp/mono.cecil.0.9.5.4.nupkg.zip -d /tmp/cecil
+    - cp /tmp/cecil/lib/net40/Mono.Cecil.dll .
+    - cp /tmp/cecil/lib/net40/Mono.Cecil.dll /tmp/cecil/
+    - git clone --depth=50 git://github.com/csMACnz/monocov.git ../../csMACnz/monocov
+    - cd ../../csMACnz/monocov
+    - cp /tmp/cecil/Mono.Cecil.dll .
+    - ./configure
+    - make
+    - sudo make install
+    - cd ../../csMACnz/Coveralls.net-Samples
 
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
     - xbuild ./AuthorizeNETtest/AuthorizeNETtest.csproj
 #   make mono happy by copying the config file with project name
     - cp AuthorizeNETtest/App.config AuthorizeNETtest/AuthorizeNETtest.config
-    - nunit-console ./AuthorizeNETtest/AuthorizeNETtest.csproj -run=AuthorizeNet.Api.Controllers.MockTest -exclude Integration
+    - nunit-console --debug --profile=monocov:outfile=monocovCoverage.cov,+[AuthorizeNET],+[AuthorizeNet.Api.Controllers.MockTest] ./AuthorizeNETtest/AuthorizeNETtest.csproj -run=AuthorizeNet.Api.Controllers.MockTest -exclude Integration
+    - export LD_LIBRARY_PATH=/usr/local/lib
+    #- mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[AuthorizeNET],+[AuthorizeNet.Api.Controllers.MockTest] ./src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./src/GameOfLife.xUnit.Tests/bin/Release/GameOfLife.xUnit.Tests.dll  /noshadow
+    - monocov --export-xml=monocovCoverage monocovCoverage.cov
