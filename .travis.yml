@@ -3,7 +3,7 @@ language:
 
 install:
     - nuget restore ./AuthorizeNET.sln
-    - chmod +x ./src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe
+    #- chmod +x ./src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe
     - sudo apt-get install nunit-console
     - sudo apt-get install gtk-sharp2
     - curl -sS https://api.nuget.org/packages/mono.cecil.0.9.5.4.nupkg > /tmp/mono.cecil.0.9.5.4.nupkg.zip
