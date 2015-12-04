@@ -16,7 +16,7 @@ install:
     - ./configure
     - make
     - sudo make install
-    - cd ../../csMACnz/Coveralls.net-Samples
+    - cd ../../namanbansal/sdk-dotnet
 
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
