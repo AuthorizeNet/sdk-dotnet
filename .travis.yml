@@ -5,7 +5,7 @@ install:
     - sudo apt-get install nunit-console
 
 before_script:
-  - git submodule update --remote --recursive
+    - git submodule update --recursive
   
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
