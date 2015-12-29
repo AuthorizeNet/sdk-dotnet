@@ -84,7 +84,7 @@ namespace AuthorizeNet {
                 line.quantity += quantity;
             } else {
                 var item = new lineItemType {
-                    description = Description,
+                    description = description,
                     itemId = ID,
                     name = name,
                     quantity = quantity,
