@@ -16,3 +16,5 @@ script:
 
     - cp ./Authorize.NET/bin/Debug/AuthorizeNet.dll ./sample-code-csharp/
     - xbuild ./sample-code-csharp/SampleCode.csproj
+    - xbuild ./sample-code-csharp/SampleCodeTest/SampleCodeTest.csproj
+    - nunit-console ./sample-code-csharp/SampleCodeTest/SampleCodeTest.csproj
