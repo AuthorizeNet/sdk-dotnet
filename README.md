@@ -19,7 +19,15 @@ To install AuthorizeNet, run the following command in the Package Manager Consol
 
 
 ## Usage
+Apart from this README, you can find details and examples of using the SDK in the following places:  
+
+- [Github Sample Code Repository](https://github.com/AuthorizeNet/sample-code-csharp)
+- [Developer Center Reference](http://developer.authorize.net/api/reference/index.html)  
+
+### Charging a Credit Card
 ````csharp
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; 
+            
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
             {
                 name = ApiLoginID,
@@ -62,62 +70,11 @@ To install AuthorizeNet, run the following command in the Package Manager Consol
             }
 ````
 
-## Registration & Configuration
-
-All the tests can be run against a stub backend using the USELOCAL run configuration.
-
-Get a sandbox account at https://developer.authorize.net/sandbox/
-Update app.config in the AuthorizeNetTest folder to run all the tests against your sandbox account
-
-For reporting tests, go to https://sandbox.authorize.net/ under Account tab->Transaction Details API and enable it.
-
-
-## Usage
-
-### Advanced Merchant Integration (AIM)
-
-````csharp
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
-            {
-                name = ApiLoginID,
-                ItemElementName = ItemChoiceType.transactionKey,
-                Item = ApiTransactionKey,
-            };
-
-            var creditCard = new creditCardType
-            {
-                cardNumber = "4111111111111111",
-                expirationDate = "0718"
-            };
-
-            var paymentType = new paymentType { Item = creditCard };
-
-            var transactionRequest = new transactionRequestType
-            {
-                transactionType = transactionTypeEnum.authOnlyTransaction.ToString(),    // authorize only
-                amount = 35.45m,
-                payment = paymentType
-            };
-
-            var request = new createTransactionRequest { transactionRequest = transactionRequest };
-
-            var controller = new createTransactionController(request);
-            controller.Execute();
-
-            var response = controller.GetApiResponse();
-            
-            if (response.messages.resultCode == messageTypeEnum.Ok)
-            {
-                if (response.transactionResponse != null)
-                {
-                    Console.WriteLine("Success, Auth Code : " + response.transactionResponse.authCode);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
-            }
-````
+### Setting the Production Environment
+Set the appropriate environment constant using the ApiOperationBase RunEnvironment.  For example, in the method above, to switch to production environment use:
+```csharp
+ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PRODUCTION;
+```  
 
 ### Direct Post Method (DPM)
 
@@ -145,107 +102,15 @@ Place the following code in the default action of a simple MVC application to di
 
 ````  
 
-### Automated Recurring Billing (ARB)
-````csharp
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
-            {
-                name = ApiLoginID,
-                ItemElementName = ItemChoiceType.transactionKey,
-                Item = ApiTransactionKey,
-            };
 
-            paymentScheduleTypeInterval interval = new paymentScheduleTypeInterval();
+## Running the SDK Tests
 
-            interval.length = 1;   
-            interval.unit = ARBSubscriptionUnitEnum.months;
+All the tests can be run against a stub backend using the USELOCAL run configuration.
 
-            paymentScheduleType schedule = new paymentScheduleType
-            {
-                interval = interval,
-                startDate = DateTime.Now.AddDays(1),      
-                totalOccurrences = 9999,      // 9999 indicates no end date
-                trialOccurrences = 3
-            };
+Get a sandbox account at https://developer.authorize.net/sandbox/
+Update app.config in the AuthorizeNetTest folder to run all the tests against your sandbox account
 
-            #region Payment Information
-            var creditCard = new creditCardType
-            {
-                cardNumber = "4111111111111111",
-                expirationDate = "0718"
-            };
-
-            paymentType cc = new paymentType { Item = creditCard };
-            #endregion
-
-            nameAndAddressType addressInfo = new nameAndAddressType()
-            {
-                firstName = "John",
-                lastName = "Doe"
-            };
-
-            ARBSubscriptionType subscriptionType = new ARBSubscriptionType()
-            {
-                amount = 35.55m,
-                trialAmount = 0.00m,
-                paymentSchedule = schedule,
-                billTo = addressInfo,
-                payment = cc
-            };
-
-            var request = new ARBCreateSubscriptionRequest { subscription = subscriptionType };
-
-            var controller = new ARBCreateSubscriptionController(request);  
-            controller.Execute();
-
-            ARBCreateSubscriptionResponse response = controller.GetApiResponse();  
-
-            if (response != null && response.messages.resultCode == messageTypeEnum.Ok)
-            {
-                if (response != null && response.messages.message != null)
-                {
-                    Console.WriteLine("Success, Subscription ID : " + response.subscriptionId.ToString());
-                }
-            }
-            else
-            {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
-            }
-            
-````
-### Customer Information Manager (CIM)
-````csharp
-ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
-            {
-                name = ApiLoginID,
-                ItemElementName = ItemChoiceType.transactionKey,
-                Item = ApiTransactionKey,
-            };
-
-            customerProfileType customerProfile = new customerProfileType();
-            customerProfile.merchantCustomerId = "TestCustomerID";
-            customerProfile.email = "john@doe.com";
-
-            var request = new createCustomerProfileRequest { profile = customerProfile, validationMode = validationModeEnum.none};
-
-            var controller = new createCustomerProfileController(request);          
-            controller.Execute();
-
-            createCustomerProfileResponse response = controller.GetApiResponse(); 
-
-            if (response != null && response.messages.resultCode == messageTypeEnum.Ok)
-            {
-                if (response != null && response.messages.message != null)
-                {
-                    Console.WriteLine("Success, CustomerProfileID : " + response.customerProfileId);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
-            }
-
-````
-
+For reporting tests, go to https://sandbox.authorize.net/ under Account tab->Transaction Details API and enable it.
 
 
 ## Credit Card Test Numbers
