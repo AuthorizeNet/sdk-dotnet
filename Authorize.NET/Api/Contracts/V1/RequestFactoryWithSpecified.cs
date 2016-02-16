@@ -725,7 +725,7 @@
             if (null != argument)
             {
                 paymentScheduleType(argument.paymentSchedule);
-                if (0 <= argument.amount) { argument.amountSpecified = true; }
+                if (0 < argument.amount) { argument.amountSpecified = true; }
                 if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
                 paymentType(argument.payment);
                 orderType(argument.order);
