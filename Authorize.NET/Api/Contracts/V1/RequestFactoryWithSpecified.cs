@@ -725,8 +725,8 @@
             if (null != argument)
             {
                 paymentScheduleType(argument.paymentSchedule);
-                if (0 <= argument.amount) { argument.amountSpecified = true; }
-                if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
+                if (0 < argument.amount) { argument.amountSpecified = true; }
+
                 paymentType(argument.payment);
                 orderType(argument.order);
                 customerType(argument.customer);
@@ -734,6 +734,15 @@
                 nameAndAddressType(argument.shipTo);
             }
         }
+
+        public static void ARBSubscriptionTypeSetTrialAmountSpecified(ARBSubscriptionType argument)
+        {
+            if (null != argument)
+            {
+                if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
+            }
+        }
+
         public static void paymentDetails(paymentDetails argument)
         {
             if (null != argument)
@@ -826,6 +835,7 @@
             if (null != argument)
             {
                 ARBSubscriptionType(argument.subscription);
+                ARBSubscriptionTypeSetTrialAmountSpecified(argument.subscription);
             }
         }
         public static void ARBCreateSubscriptionResponse(ARBCreateSubscriptionResponse argument)
