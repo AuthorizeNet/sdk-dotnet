@@ -10,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Collections.Specialized;
 using System.Xml.Serialization;
 using System.Xml;
+using AuthorizeNet.Util;
 
 namespace AuthorizeNet {
 
@@ -57,6 +58,14 @@ namespace AuthorizeNet {
             webRequest.Method = "POST";
             webRequest.ContentLength = postData.Length;
             webRequest.ContentType = "application/x-www-form-urlencoded";
+
+            //set the http connection timeout 
+            var httpConnectionTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpConnectionTimeout);
+            webRequest.Timeout = (httpConnectionTimeout != 0 ? httpConnectionTimeout : Constants.HttpConnectionDefaultTimeout);
+
+            //set the time out to read/write from stream
+            var httpReadWriteTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpReadWriteTimeout);
+            webRequest.ReadWriteTimeout = (httpReadWriteTimeout != 0 ? httpReadWriteTimeout : Constants.HttpReadWriteDefaultTimeout);
 
             // post data is sent as a stream
             StreamWriter myWriter = null;

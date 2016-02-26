@@ -46,6 +46,14 @@ namespace AuthorizeNet.Util
             webRequest.KeepAlive = true;
             webRequest.Proxy = SetProxyIfRequested(webRequest.Proxy);
 
+            //set the http connection timeout 
+            var httpConnectionTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpConnectionTimeout);
+            webRequest.Timeout = (httpConnectionTimeout != 0 ? httpConnectionTimeout : Constants.HttpConnectionDefaultTimeout);
+
+            //set the time out to read/write from stream
+            var httpReadWriteTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpReadWriteTimeout);
+            webRequest.ReadWriteTimeout = (httpReadWriteTimeout != 0 ? httpReadWriteTimeout : Constants.HttpReadWriteDefaultTimeout);
+
             var requestType = typeof (TQ);
             var serializer = new XmlSerializer(requestType);
             using (var writer = new XmlTextWriter(webRequest.GetRequestStream(), Encoding.UTF8))
