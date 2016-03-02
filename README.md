@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/AuthorizeNet/sdk-dotnet.png?branch=master)]
 (https://travis-ci.org/AuthorizeNet/sdk-dotnet)
+[![Code Climate](https://codeclimate.com/github/namanbansal/sdk-dotnet/badges/gpa.svg)](https://codeclimate.com/github/namanbansal/sdk-dotnet)
 [![NuGet](https://badge.fury.io/nu/authorizenet.svg)](https://www.nuget.org/packages/authorizenet)
 
 `PM> Install-Package AuthorizeNet`
