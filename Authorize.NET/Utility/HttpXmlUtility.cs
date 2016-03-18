@@ -5,6 +5,7 @@ using System.Xml;
 using System.IO;
 using System.Net;
 using AuthorizeNet.APICore;
+using AuthorizeNet.Util;
 
 namespace AuthorizeNet {
     /// <summary>
@@ -57,6 +58,14 @@ namespace AuthorizeNet {
             webRequest.Method = "POST";
             webRequest.ContentType = "text/xml";
             webRequest.KeepAlive = true;
+
+            //set the http connection timeout 
+            var httpConnectionTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpConnectionTimeout);
+            webRequest.Timeout = (httpConnectionTimeout != 0 ? httpConnectionTimeout : Constants.HttpConnectionDefaultTimeout);
+
+            //set the time out to read/write from stream
+            var httpReadWriteTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpReadWriteTimeout);
+            webRequest.ReadWriteTimeout = (httpReadWriteTimeout != 0 ? httpReadWriteTimeout : Constants.HttpReadWriteDefaultTimeout);
 
             // Serialize the request
             var type = apiRequest.GetType();

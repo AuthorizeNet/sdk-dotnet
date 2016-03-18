@@ -21,7 +21,7 @@ namespace AuthorizeNet
         public static readonly Environment PRODUCTION = new Environment("https://secure2.authorize.net","https://api2.authorize.net","https://cardpresent.authorize.net");
 	    public static readonly Environment LOCAL_VM = new Environment(null, null, null);
 	    public static readonly Environment HOSTED_VM = new Environment(null, null, null);
-        public static readonly Environment CUSTOM = new Environment(null, null, null);
+        public static Environment CUSTOM = new Environment(null, null, null);
 
 	    private String _baseUrl;
 	    private String _xmlBaseUrl;

@@ -18,7 +18,14 @@ namespace AuthorizeNet.Util
 
 	    public const string PropApiLoginid = "api.login.id";
 	    public const string PropTransactionKey = "transaction.key";
-	    public const string PropMd5Hashkey = "md5.hash.key";	
+	    public const string PropMd5Hashkey = "md5.hash.key";
+
+        public const string HttpConnectionTimeout = "http.connectionTimeout";
+        public const string HttpReadWriteTimeout = "http.readWriteTimeout";
+
+        public const int HttpConnectionDefaultTimeout = 30000;
+        public const int HttpReadWriteDefaultTimeout = 30000;
+
     }
 #pragma warning restore 1591
 }
