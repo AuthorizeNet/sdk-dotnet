@@ -1,7 +1,9 @@
 ﻿# Authorize.Net .Net SDK
 
-[![Build Status](https://travis-ci.org/AuthorizeNet/sdk-dotnet.png?branch=master)]
+[![Travis](https://img.shields.io/travis/AuthorizeNet/sdk-dotnet/master.svg)]
 (https://travis-ci.org/AuthorizeNet/sdk-dotnet)
+[![Code Climate](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet/badges/gpa.svg)](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet)
+[![NuGet](https://badge.fury.io/nu/authorizenet.svg)](https://www.nuget.org/packages/authorizenet)
 
 `PM> Install-Package AuthorizeNet`
 
