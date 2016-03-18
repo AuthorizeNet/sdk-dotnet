@@ -248,6 +248,10 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public string taxId;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
+        public string[] subscriptionIds;
     }
     
     /// <remarks/>
@@ -3057,6 +3061,33 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerProfileIdType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+        
+        /// <remarks/>
+        public string customerAddressId;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class customerType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
@@ -3136,6 +3167,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public nameAndAddressType shipTo;
+        
+        /// <remarks/>
+        public customerProfileIdType profile;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -3461,6 +3495,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public string subscriptionId;
+        
+        /// <remarks/>
+        public customerProfileIdType profile;
     }
     
     /// <remarks/>
@@ -3487,6 +3524,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
     public partial class ARBUpdateSubscriptionResponse : ANetApiResponse {
+        
+        /// <remarks/>
+        public customerProfileIdType profile;
     }
     
     /// <remarks/>
@@ -3691,6 +3731,12 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public string transId;
+        
+        /// <remarks/>
+        public customerProfileBaseType customer;
+        
+        /// <remarks/>
+        public string customerProfileId;
     }
     
     /// <remarks/>
@@ -3717,6 +3763,10 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public customerProfileMaskedType profile;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
+        public string[] subscriptionIds;
     }
     
     /// <remarks/>
@@ -3782,6 +3832,10 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public customerAddressExType address;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
+        public string[] subscriptionIds;
     }
     
     /// <remarks/>

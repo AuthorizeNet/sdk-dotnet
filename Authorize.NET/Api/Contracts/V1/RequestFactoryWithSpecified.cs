@@ -714,12 +714,21 @@
                 if (0 <= argument.trialOccurrences) { argument.trialOccurrencesSpecified = true; }
             }
         }
+
         public static void paymentScheduleTypeInterval(paymentScheduleTypeInterval argument)
         {
             if (null != argument)
             {
             }
         }
+
+        public static void customerProfileIdType(customerProfileIdType argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+
         public static void ARBSubscriptionType(ARBSubscriptionType argument)
         {
             if (null != argument)
@@ -732,6 +741,7 @@
                 customerType(argument.customer);
                 nameAndAddressType(argument.billTo);
                 nameAndAddressType(argument.shipTo);
+                customerProfileIdType(argument.profile);
             }
         }
 
@@ -842,6 +852,7 @@
         {
             if (null != argument)
             {
+                customerProfileIdType(argument.profile);
             }
         }
         public static void ARBUpdateSubscriptionRequest(ARBUpdateSubscriptionRequest argument)
@@ -855,6 +866,7 @@
         {
             if (null != argument)
             {
+                customerProfileIdType(argument.profile);
             }
         }
         public static void ARBCancelSubscriptionRequest(ARBCancelSubscriptionRequest argument)
@@ -927,6 +939,7 @@
         {
             if (null != argument)
             {
+                customerProfileBaseType(argument.customer);
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument)
