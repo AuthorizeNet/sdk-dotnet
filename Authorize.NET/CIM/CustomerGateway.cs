@@ -20,7 +20,9 @@ namespace AuthorizeNet {
         /// <param name="apiLogin">The API login.</param>
         /// <param name="transactionKey">The transaction key.</param>
         /// <param name="mode">Test or Live.</param>
-        public CustomerGateway(string apiLogin, string transactionKey, ServiceMode mode) {
+        /// <param name="validationMode">None, Test, or Live.</param>
+        public CustomerGateway(string apiLogin, string transactionKey, ServiceMode mode, validationModeEnum? validationMode = null)
+        {
             
             if (mode == ServiceMode.Live) {
                 _gateway = new HttpXmlUtility(ServiceMode.Live, apiLogin, transactionKey);
@@ -28,6 +30,10 @@ namespace AuthorizeNet {
             } else {
                 _gateway = new HttpXmlUtility(ServiceMode.Test, apiLogin, transactionKey);
                 _mode = validationModeEnum.testMode;
+            }
+            if (validationMode.HasValue)
+            {
+                _mode = validationMode.Value;
             }
         }
         /// <summary>
