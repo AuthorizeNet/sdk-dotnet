@@ -16,5 +16,6 @@
     </metadata>
     <files>
         <file src="Authorize.NET\bin\Release\AuthorizeNet.dll" target="lib\AuthorizeNet.dll" />
+        <file src="Authorize.NET\bin\Release\AuthorizeNet.xml" target="lib\AuthorizeNet.xml" />
     </files>
 </package>
