@@ -17,10 +17,10 @@ namespace AuthorizeNet {
         /// <summary>
         /// Validates that what was passed by Auth.net is valid
         /// </summary>
-        public bool Validate(string merchantHash, string apiLogin) {
-            return Crypto.IsMatch(merchantHash, apiLogin, this.TransactionID, this.Amount, this.MD5Hash);
+        //public bool Validate(string merchantHash, string apiLogin) {
+        //    return Crypto.IsMatch(merchantHash, apiLogin, this.TransactionID, this.Amount, this.MD5Hash);
 
-        }
+        //}
 
 
         public SIMResponse() : this(HttpContext.Current.Request.Form) { }

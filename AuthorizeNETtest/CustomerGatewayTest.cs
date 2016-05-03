@@ -3,6 +3,7 @@ using AuthorizeNet.APICore;
 using NUnit.Framework;
 using System;
 using System.IO;
+using AuthorizeNet.Utility;
 
 namespace AuthorizeNETtest
 {
@@ -19,8 +20,8 @@ namespace AuthorizeNETtest
         [TestFixtureSetUp]
         public void CreateSubscription()
         {
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             _target = new CustomerGateway(ApiLogin, TransactionKey);
@@ -1058,7 +1059,7 @@ namespace AuthorizeNETtest
         [Test]
         public void TestSdkUpgradeCustomerOrder()
         {
-            var random = new Random();
+            var random = new AnetRandom();
             var counter = random.Next(1, (int)(Math.Pow(2, 24)));
             const int maxAmount = 10000;// 214747;
             var amount = new decimal(counter > maxAmount ? (counter % maxAmount) : counter);

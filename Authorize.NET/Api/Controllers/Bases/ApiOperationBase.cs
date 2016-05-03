@@ -180,14 +180,14 @@ namespace AuthorizeNet.Api.Controllers.Bases
 		    //TODO
             /*
 		    if ( null != merchantAuthenticationType.Item.GetType().   sessionToken) throw new IllegalArgumentException("SessionToken needs to be null");
-		    if ( null != merchantAuthenticationType.getPassword()) throw new IllegalArgumentException("Password needs to be null");
+		    if ( null != merchantAuthenticationType.getPass_word()) throw new IllegalArgumentException("Pass_word needs to be null");
 		    if ( null != merchantAuthenticationType.getMobileDeviceId()) throw new IllegalArgumentException("MobileDeviceId needs to be null");
              
 	    
 	        var impersonationAuthenticationType = merchantAuthenticationType.impersonationAuthentication;
 		    if ( null != impersonationAuthenticationType) throw new IllegalArgumentException("ImpersonationAuthenticationType needs to be null");
             */
-    //	    impersonationAuthenticationType.setPartnerLoginId(CnpApiLoginIdKey);
+            //	    impersonationAuthenticationType.setPartnerLoginId(CnpApiLoginIdKey);
     //	    impersonationAuthenticationType.setPartnerTransactionKey(CnpTransactionKey);
     //	    merchantAuthenticationType.setImpersonationAuthentication(impersonationAuthenticationType);
 

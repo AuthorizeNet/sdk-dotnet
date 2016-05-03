@@ -96,6 +96,7 @@
     <Compile Include="Api\Controllers\updateSplitTenderGroupController.cs" />
     <Compile Include="Api\Controllers\validateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\Bases\*.cs" />
+    <Compile Include="Utility\AnetRandom.cs" />
     <Compile Include="Util\*.cs" />
     <Compile Include="AIM\Gateway.cs" />
     <Compile Include="AIM\IGateway.cs" />

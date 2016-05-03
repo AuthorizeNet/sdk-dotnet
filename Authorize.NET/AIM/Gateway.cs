@@ -23,7 +23,8 @@ namespace AuthorizeNet {
 
         public const string TEST_URL = "https://test.authorize.net/gateway/transact.dll";
         public const string LIVE_URL = "https://secure2.authorize.net/gateway/transact.dll";
-
+        //Max response size allowed: 64 MB
+        private const int MaxResponseLength = 67108864;
 		
 		public string ApiLogin { get; set;}
 		public string TransactionKey { get; set;}
@@ -49,7 +50,7 @@ namespace AuthorizeNet {
         protected string SendRequest(string serviceUrl, IGatewayRequest request) {
             
             var postData = request.ToPostString();
-            var result = "";
+            var result = new StringBuilder();
 
             //override the local cert policy - this is for Mono ONLY
             //ServicePointManager.CertificatePolicy = new PolicyOverride();
@@ -75,14 +76,31 @@ namespace AuthorizeNet {
 
             // returned values are returned as a stream, then read into a string
             var response = (HttpWebResponse)webRequest.GetResponse();
-            using (StreamReader responseStream = new StreamReader(response.GetResponseStream())) {
-                result = responseStream.ReadToEnd();
-                responseStream.Close();
+
+            if (response != null)
+            {
+                var stream = response.GetResponseStream();
+
+                if (stream == null) return result.ToString();
+
+                using (var responseStream = new StreamReader(stream))
+                {
+                    while (!responseStream.EndOfStream)
+                    {
+                        result.Append((char)responseStream.Read());
+                        if (result.Length >= MaxResponseLength)
+                        {
+                            throw new Exception("response is too long.");
+                        }
+                    }
+
+                    responseStream.Close();
+                }
             }
 
             // the response string is broken into an array
             // The split character specified here must match the delimiting character specified above
-            return result;
+            return result.ToString();
         }
 
 		public virtual IGatewayResponse Send (IGatewayRequest request, string description)

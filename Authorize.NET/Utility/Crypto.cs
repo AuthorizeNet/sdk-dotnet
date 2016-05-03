@@ -32,17 +32,17 @@ namespace AuthorizeNet {
         /// <param name="amount">amount </param>
         /// <param name="expected">expected string</param>
         /// <returns>string</returns>
-        public static bool IsMatch(string key, string apiLogin, string transactionID,decimal amount, string expected) {
+        //public static bool IsMatch(string key, string apiLogin, string transactionID,decimal amount, string expected) {
 
-            var unencrypted = string.Format("{0}{1}{2}{3}", key, apiLogin, transactionID, amount.ToString());
+        //    var unencrypted = string.Format("{0}{1}{2}{3}", key, apiLogin, transactionID, amount.ToString());
 
-            var md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-            var hashed = Regex.Replace(BitConverter.ToString(md5.ComputeHash(ASCIIEncoding.Default.GetBytes(unencrypted))), "-", "");
+        //    var md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+        //    var hashed = Regex.Replace(BitConverter.ToString(md5.ComputeHash(ASCIIEncoding.Default.GetBytes(unencrypted))), "-", "");
 
-            // And return it
-            return hashed.Equals(expected);
+        //    // And return it
+        //    return hashed.Equals(expected);
 
-        }
+        //}
 
         /// <summary>
         /// Encrypts the key/value pair supplied using HMAC-MD5

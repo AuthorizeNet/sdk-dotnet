@@ -80,7 +80,7 @@ namespace AuthorizeNet {
 
             // Load the response from the API server into an XmlDocument.
             _xmlDoc = new XmlDocument();
-            _xmlDoc.Load(XmlReader.Create(webResponse.GetResponseStream()));
+            _xmlDoc.Load(XmlReader.Create(webResponse.GetResponseStream(), new XmlReaderSettings()));
 
 
             var response = DecideResponse(_xmlDoc);

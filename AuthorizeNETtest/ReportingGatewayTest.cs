@@ -17,8 +17,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetBatchStatisticsTest()
         {
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getBatchStatisticsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><batch><batchId>3260033</batchId><settlementTimeUTC>2014-03-14T15:20:05Z</settlementTimeUTC><settlementTimeLocal>2014-03-14T08:20:05</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product><statistics><statistic><accountType>Visa</accountType><chargeAmount>6.98</chargeAmount><chargeCount>2</chargeCount><refundAmount>0.00</refundAmount><refundCount>0</refundCount><voidCount>0</voidCount><declineCount>0</declineCount><errorCount>0</errorCount></statistic></statistics></batch></getBatchStatisticsResponse>";
@@ -62,8 +62,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetBatchStatisticsTest_NoRecord()
         {
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getBatchStatisticsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00004</code><text>No records found.</text></message></messages></getBatchStatisticsResponse>";
@@ -82,8 +82,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetSettledBatchListTest()
         {
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getSettledBatchListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><batchList><batch><batchId>3319724</batchId><settlementTimeUTC>2014-04-05T15:17:40Z</settlementTimeUTC><settlementTimeLocal>2014-04-05T08:17:40</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3321516</batchId><settlementTimeUTC>2014-04-06T15:20:51Z</settlementTimeUTC><settlementTimeLocal>2014-04-06T08:20:51</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3323130</batchId><settlementTimeUTC>2014-04-07T15:20:19Z</settlementTimeUTC><settlementTimeLocal>2014-04-07T08:20:19</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3332321</batchId><settlementTimeUTC>2014-04-10T15:19:25Z</settlementTimeUTC><settlementTimeLocal>2014-04-10T08:19:25</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3338386</batchId><settlementTimeUTC>2014-04-12T15:15:33Z</settlementTimeUTC><settlementTimeLocal>2014-04-12T08:15:33</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3351463</batchId><settlementTimeUTC>2014-04-17T15:16:33Z</settlementTimeUTC><settlementTimeLocal>2014-04-17T08:16:33</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3357414</batchId><settlementTimeUTC>2014-04-19T15:18:22Z</settlementTimeUTC><settlementTimeLocal>2014-04-19T08:18:22</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3378742</batchId><settlementTimeUTC>2014-04-29T21:32:25Z</settlementTimeUTC><settlementTimeLocal>2014-04-29T14:32:25</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch><batch><batchId>3392423</batchId><settlementTimeUTC>2014-05-03T16:19:54Z</settlementTimeUTC><settlementTimeLocal>2014-05-03T09:19:54</settlementTimeLocal><settlementState>settledSuccessfully</settlementState><paymentMethod>creditCard</paymentMethod><marketType>eCommerce</marketType><product>Card Not Present</product></batch></batchList></getSettledBatchListResponse>";
@@ -121,8 +121,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetSettledBatchListTest_NoRecord()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getSettledBatchListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00004</code><text>No records found.</text></message></messages></getSettledBatchListResponse>";
@@ -158,8 +158,8 @@ namespace AuthorizeNETtest
         [Ignore("To run this test, first revoke the \"Transaction Details API\" permission of your account.")]
         public void Reporting_GetTransactionDetailsTest_AccessDenied()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Error</resultCode><message><code>E00011</code><text>Access denied. You do not have permissions to call the Transaction Details API.</text></message></messages></getTransactionDetailsResponse>";
@@ -196,8 +196,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetTransactionDetailsTest()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transaction><transId>2209067941</transId><submitTimeUTC>2014-03-21T23:16:25.797Z</submitTimeUTC><submitTimeLocal>2014-03-21T16:16:25.797</submitTimeLocal><transactionType>authCaptureTransaction</transactionType><transactionStatus>settledSuccessfully</transactionStatus><responseCode>1</responseCode><responseReasonCode>1</responseReasonCode><responseReasonDescription>Approval</responseReasonDescription><authCode>UUV1S1</authCode><AVSResponse>Y</AVSResponse><cardCodeResponse>P</cardCodeResponse><batch><batchId>3282059</batchId><settlementTimeUTC>2014-03-22T15:21:44.343Z</settlementTimeUTC><settlementTimeLocal>2014-03-22T08:21:44.343</settlementTimeLocal><settlementState>settledSuccessfully</settlementState></batch><authAmount>3.99</authAmount><settleAmount>3.99</settleAmount><taxExempt>false</taxExempt><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate><cardType>Visa</cardType></creditCard></payment><recurringBilling>false</recurringBilling><customerIP>10.1.186.51</customerIP><product>Card Not Present</product><marketType>eCommerce</marketType></transaction></getTransactionDetailsResponse>";
@@ -276,8 +276,8 @@ namespace AuthorizeNETtest
         {
             const string transId = "???"; // A transaction id with subscription
 
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transaction><transId>2210248566</transId><submitTimeUTC>2014-04-07T08:53:45.063Z</submitTimeUTC><submitTimeLocal>2014-04-07T01:53:45.063</submitTimeLocal><transactionType>authCaptureTransaction</transactionType><transactionStatus>settledSuccessfully</transactionStatus><responseCode>1</responseCode><responseReasonCode>1</responseReasonCode><subscription><id>2017665</id><payNum>2</payNum></subscription><responseReasonDescription>Approval</responseReasonDescription><authCode>9QW0L9</authCode><AVSResponse>Y</AVSResponse><batch><batchId>3323130</batchId><settlementTimeUTC>2014-04-07T15:20:19.703Z</settlementTimeUTC><settlementTimeLocal>2014-04-07T08:20:19.703</settlementTimeLocal><settlementState>settledSuccessfully</settlementState></batch><authAmount>1.31</authAmount><settleAmount>1.31</settleAmount><taxExempt>false</taxExempt><payment><creditCard><cardNumber>XXXX1111</cardNumber><expirationDate>XXXX</expirationDate><cardType>Visa</cardType></creditCard></payment><customer><type>individual</type><email>suzhu@visa.com</email></customer><billTo><firstName>Sue</firstName><lastName>Zhu</lastName></billTo><recurringBilling>true</recurringBilling></transaction></getTransactionDetailsResponse>";
@@ -328,8 +328,8 @@ namespace AuthorizeNETtest
         {
             const string transId = "???"; // A transaction id with returned items
 
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?> <getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"> <messages> <resultCode>Ok</resultCode> <message> <code>I00001</code> <text>Successful.</text> </message> </messages> <transaction> <transId>2148382212</transId> <submitTimeUTC>2012-01-12T02:21:53.42Z</submitTimeUTC> <submitTimeLocal>2012-01-11T20:21:53.42</submitTimeLocal> <transactionType>authCaptureTransaction</transactionType> <transactionStatus>settledSuccessfully</transactionStatus> <responseCode>1</responseCode> <responseReasonCode>1</responseReasonCode> <responseReasonDescription>Approval</responseReasonDescription> <AVSResponse>P</AVSResponse> <batch> <batchId>10097820</batchId> <settlementTimeUTC>2012-01-12T02:21:55.237Z</settlementTimeUTC> <settlementTimeLocal>2012-01-11T20:21:55.237</settlementTimeLocal> <settlementState>settledSuccessfully</settlementState> </batch> <order> <invoiceNumber>QaInv01waegphqvlcyj</invoiceNumber> </order> <authAmount>12.10</authAmount> <settleAmount>12.10</settleAmount> <taxExempt>false</taxExempt> <payment> <bankAccount> <routingNumber>XXXX0204</routingNumber> <accountNumber>XXXX2152</accountNumber> <nameOnAccount>Account Owner</nameOnAccount> <echeckType>TEL</echeckType> </bankAccount> </payment> <recurringBilling>false</recurringBilling> <returnedItems> <returnedItem> <id>2148382213</id> <dateUTC>2012-01-12T02:22:15Z</dateUTC> <dateLocal>2012-01-11T20:22:15</dateLocal> <code>R03</code> <description>No account/unable to locate account</description> </returnedItem> </returnedItems> </transaction> </getTransactionDetailsResponse>";
@@ -382,7 +382,7 @@ namespace AuthorizeNETtest
         {
             const string transId = "???"; // A transaction id with solution.
 
-            string sError = CheckLoginPassword();
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?> <getTransactionDetailsResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"> <messages> <resultCode>Ok</resultCode> <message> <code>I00001</code> <text>Successful.</text> </message> </messages> <transaction> <transId>2148855368</transId> <submitTimeUTC>2014-04-26T00:23:36.98Z</submitTimeUTC> <submitTimeLocal>2014-04-25T19:23:36.98</submitTimeLocal> <transactionType>authCaptureTransaction</transactionType> <transactionStatus>settledSuccessfully</transactionStatus> <responseCode>1</responseCode> <responseReasonCode>1</responseReasonCode> <responseReasonDescription>Approval</responseReasonDescription> <AVSResponse>P</AVSResponse> <batch> <batchId>10151391</batchId> <settlementTimeUTC>2014-04-26T00:24:00.99Z</settlementTimeUTC> <settlementTimeLocal>2014-04-25T19:24:00.99</settlementTimeLocal> <settlementState>settledSuccessfully</settlementState> </batch> <order> <invoiceNumber>QaInv01sjijwtbpomd</invoiceNumber> </order> <authAmount>1.00</authAmount> <settleAmount>1.00</settleAmount> <taxExempt>false</taxExempt> <payment> <bankAccount> <routingNumber>XXXX0505</routingNumber> <accountNumber>XXXX7120</accountNumber> <nameOnAccount>Account Owner</nameOnAccount> <echeckType>WEB</echeckType> </bankAccount> </payment> <recurringBilling>false</recurringBilling> <solution> <id>A1000002</id> <name>Miva Merchant 5.5</name> </solution> </transaction> </getTransactionDetailsResponse>";
@@ -429,8 +429,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetTransactionListTest()
         {
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getTransactionListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transactions><transaction><transId>2209067941</transId><submitTimeUTC>2014-03-21T23:16:25Z</submitTimeUTC><submitTimeLocal>2014-03-21T16:16:25</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>3.99</settleAmount><marketType>eCommerce</marketType><product>Card Not Present</product></transaction><transaction><transId>2209067934</transId><submitTimeUTC>2014-03-21T23:16:07Z</submitTimeUTC><submitTimeLocal>2014-03-21T16:16:07</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>2.99</settleAmount><marketType>eCommerce</marketType><product>Card Not Present</product></transaction><transaction><transId>2209067927</transId><submitTimeUTC>2014-03-21T23:15:44Z</submitTimeUTC><submitTimeLocal>2014-03-21T16:15:44</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>1.99</settleAmount><marketType>eCommerce</marketType><product>Card Not Present</product></transaction><transaction><transId>2209060796</transId><submitTimeUTC>2014-03-21T21:20:18Z</submitTimeUTC><submitTimeLocal>2014-03-21T14:20:18</submitTimeLocal><transactionStatus>settledSuccessfully</transactionStatus><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>1.99</settleAmount><marketType>eCommerce</marketType><product>Card Not Present</product></transaction></transactions></getTransactionListResponse>";
@@ -491,8 +491,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetTransactionListTest_DateRange()
         {
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             var responseStrings = new[]
@@ -552,8 +552,8 @@ namespace AuthorizeNETtest
         [Test]
         public void Reporting_GetUnsettledTransactionListTest()
         {
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><getUnsettledTransactionListResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><transactions><transaction><transId>2208803820</transId><submitTimeUTC>2014-03-19T23:40:29Z</submitTimeUTC><submitTimeLocal>2014-03-19T16:40:29</submitTimeLocal><transactionStatus>authorizedPendingCapture</transactionStatus><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>21.12</settleAmount><marketType>eCommerce</marketType><product>Card Not Present</product></transaction><transaction><transId>2208803814</transId><submitTimeUTC>2014-03-19T23:40:19Z</submitTimeUTC><submitTimeLocal>2014-03-19T16:40:19</submitTimeLocal><transactionStatus>authorizedPendingCapture</transactionStatus><accountType>Visa</accountType><accountNumber>XXXX1111</accountNumber><settleAmount>26.12</settleAmount><marketType>eCommerce</marketType><product>Card Not Present</product></transaction><transaction><transId>2208803809</transId><submitTimeUTC>2014-03-19T23:40:12Z</submitTimeUTC><submitTimeLocal>2014-03-19T16:40:12</submitTimeLocal><transactionStatus>voided</transactionStatus><accountType>eCheck</accountType><accountNumber>XXXX3456</accountNumber><settleAmount>0.00</settleAmount><hasReturnedItems>false</hasReturnedItems></transaction><transaction><transId>2208803807</transId><submitTimeUTC>2014-03-19T23:40:11Z</submitTimeUTC><submitTimeLocal>2014-03-19T16:40:11</submitTimeLocal><transactionStatus>underReview</transactionStatus><accountType>eCheck</accountType><accountNumber>XXXX3456</accountNumber><settleAmount>15.15</settleAmount><hasReturnedItems>true</hasReturnedItems></transaction><transaction><transId>2208803806</transId><submitTimeUTC>2014-03-19T23:40:07Z</submitTimeUTC><submitTimeLocal>2014-03-19T16:40:07</submitTimeLocal><transactionStatus>capturedPendingSettlement</transactionStatus><accountType>eCheck</accountType><accountNumber>XXXX3456</accountNumber><settleAmount>15.13</settleAmount><hasReturnedItems>false</hasReturnedItems></transaction></transactions></getUnsettledTransactionListResponse>";

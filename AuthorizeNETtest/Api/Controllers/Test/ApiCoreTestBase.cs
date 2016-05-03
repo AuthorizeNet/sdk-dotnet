@@ -1,3 +1,5 @@
+using AuthorizeNet.Utility;
+
 namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
@@ -64,7 +66,7 @@ namespace AuthorizeNet.Api.Controllers.Test
         protected payPalType PayPalOne;
 
         protected MockFactory MockContext = null;
-        private readonly Random _random = new Random();
+        private readonly AnetRandom _random = new AnetRandom();
 	    static ApiCoreTestBase() {
 
             //now we support Tls only, and .net defaults to TLS
@@ -147,7 +149,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 };
 
             //		merchantAuthenticationType.setSessionToken(GetRandomString("SessionToken"));
-            //		merchantAuthenticationType.setPassword(GetRandomString("Password"));
+            //		merchantAuthenticationType.setPass_word(GetRandomString("Pass_word"));
             //	    merchantAuthenticationType.setMobileDeviceId(GetRandomString("MobileDevice"));
 
             //	    ImpersonationAuthenticationType impersonationAuthenticationType = new ImpersonationAuthenticationType();
@@ -620,19 +622,20 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 		                    var whiteListAssembly = (type.Assembly.FullName.IndexOf("AuthorizeNET", StringComparison.Ordinal) >= 0 );
 
-                            if (null != value && 
+                            if (null != value &&
                                 whiteListAssembly &&
-                                !(value is Enum) && 
+                                !(value is Enum) &&
                                 !value.GetType().IsPrimitive &&
                                 !(value is string))
                             {
                                 ShowProperties(value);
                             }
 
-                            if (bean is INotifyPropertyChanged)
+                            var propertyChanged = bean as INotifyPropertyChanged;
+                            if (propertyChanged != null)
                             {
                                 var changed = false;
-                                (bean as INotifyPropertyChanged).PropertyChanged += (s, e) => { if (e.PropertyName == name) changed = true; };                                      
+                                propertyChanged.PropertyChanged += (s, e) => { if (e.PropertyName == name) changed = true; };
                             }
 		                } catch (Exception e) {
                             LogHelper.info(Logger, "Exception during getting Field value: Type: '{0}', Name:'{1}', Message: {2}, StackTrace: {3}", type, name, e.Message, e.StackTrace);
@@ -648,17 +651,17 @@ namespace AuthorizeNet.Api.Controllers.Test
 
         public static void ProcessCollections( Type type, String name, Object value)
         {
-             if ( null != type) { 
-                if (value is IEnumerable && 
-                    !(value is string)) 
-                 {
-                    LogHelper.info(Logger, "Iterating on Collection: '{0}'", name);  
-                    foreach ( var aValue in (value as IEnumerable))
-                    {
-                        ShowProperties(aValue);
-                    }        	
+            if (null == type) return;
+            var values = value as IEnumerable;
+            if (values != null &&
+                !(value is string))
+            {
+                LogHelper.info(Logger, "Iterating on Collection: '{0}'", name);
+                foreach (var aValue in values)
+                {
+                    ShowProperties(aValue);
                 }
-             }
+            }
         }
 
     }

@@ -16,8 +16,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_AuthCap_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.||P|2207739411||AuthCap transaction approved testing|15.10|ECHECK|auth_capture||||||||||||||||||||||||||D05070D0B41BC42B614A666B05631712|||||||||||||XXXX3456|Bank Account||||||||||||||||";
@@ -47,8 +47,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_AuthCap_PPD_Saving_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.||P|2207739411||AuthCap transaction approved testing|15.18|ECHECK|auth_capture||||||||||||||||||||||||||D05070D0B41BC42B614A666B05631712|||||||||||||XXXX3456|Bank Account||||||||||||||||";
@@ -78,8 +78,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_AuthCap_PPD_BusinessChecking_Denied()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "3|1|244|This eCheck.Net type is not allowed for this Bank Account Type.||P|0||AuthCap transaction approved testing|15.18|ECHECK|auth_capture||||||||||||||||||||||||||CEB5EEB8C910EFD2D8B660A7F0A2A9CD|||||||||||||XXXX3456|Bank Account||||||||||||||||";
@@ -109,8 +109,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_AuthCap_CCD_BusinessChecking_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.||P|2211133545||AuthCap transaction approved testing|15.17|ECHECK|auth_capture||||||||||||||||||||||||||0D5993C7EC85C7C2C67046EF108D5870|||||||||||||XXXX3456|Bank Account||||||||||||||||";
@@ -140,8 +140,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_Auth_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.||P|2207740049||Auth transaction approved testing|15.11|ECHECK|auth_only||||||||||||||||||||||||||C1C4BF36B72CD3D6671063648096D7B7|||||||||||||XXXX3456|Bank Account||||||||||||||||";
@@ -171,8 +171,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_Capture_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.||P|2207740902||Capture transaction approved testing|15.12|ECHECK|capture_only||||||||||||||||||||||||||5ABF0956B17EC73A611AACF31C38E6C5|||||||||||||XXXX3456|Bank Account||||||||||||||||";
@@ -202,8 +202,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_PriorAuthCapture_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             //setup
@@ -246,8 +246,8 @@ namespace AuthorizeNETtest
             const string accountType = "eCheck";         // The account type used in the transaction, such as eCheck
             const string accountLast4Digits = "????";    // The last 4 digitals of the account number used in the transaction, such as 3456
 
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             var responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|"+creditAmount+"|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX"+accountLast4Digits+"|"+accountType+"||||||||||||||||";
@@ -277,8 +277,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_UnlinkedCredit_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "4|1|193|The transaction is currently under review.||P|2207750459||UnlinkedCredit transaction approved testing|15.15|ECHECK|||||||||||||||||||||||||||028371CBD0646BDA25EC4206BF2FC7A5|||||||||||||XXXX3456|Bank Account||||||||||||||||";
@@ -309,8 +309,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_Void_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             //setup

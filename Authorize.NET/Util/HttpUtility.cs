@@ -12,6 +12,8 @@ namespace AuthorizeNet.Util
 #pragma warning disable 1591
     public static class HttpUtility {
 
+        //Max response size allowed: 64 MB
+        private const int MaxResponseLength = 67108864;
 	    private static readonly Log Logger = LogFactory.getLog(typeof(HttpUtility));
         private static bool _proxySet;// = false;
 
@@ -72,9 +74,21 @@ namespace AuthorizeNet.Util
                 {
                     if (null != responseStream)
                     {
+                        var result = new StringBuilder();
+
                         using (var reader = new StreamReader(responseStream))
                         {
-                            responseAsString = reader.ReadToEnd();
+                            while (!reader.EndOfStream)
+                            {
+                                result.Append((char)reader.Read());
+
+                                if (result.Length >= MaxResponseLength)
+                                {
+                                    throw new Exception("response is too long.");
+                                }
+                            }
+
+                            responseAsString = result.Length > 0 ? result.ToString() : null;
                         }
                         Logger.debug(string.Format("Response from Stream: '{0}'", responseAsString));
                     }
@@ -140,11 +154,9 @@ namespace AuthorizeNet.Util
                 {
                     newProxy = new WebProxy(proxyUri);
                 }
-                //if (null != newProxy)
-                {
-                    newProxy.UseDefaultCredentials = true;
-                    newProxy.BypassProxyOnLocal = true;
-                }
+
+                newProxy.UseDefaultCredentials = true;
+                newProxy.BypassProxyOnLocal = true;
             }
             return (newProxy ?? proxy);
         }
