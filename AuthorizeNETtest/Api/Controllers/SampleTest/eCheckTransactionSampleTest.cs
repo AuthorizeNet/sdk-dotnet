@@ -1,4 +1,6 @@
-﻿namespace AuthorizeNet.Api.Controllers.SampleTest
+﻿using AuthorizeNet.Utility;
+
+namespace AuthorizeNet.Api.Controllers.SampleTest
 {
     using System;
     using AuthorizeNet.Api.Contracts.V1;
@@ -98,7 +100,7 @@
         [Test]
         public void CreateCustomerProfileFromECheckTransaction()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             string customerIndx = rnd.Next(99999).ToString();
 
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
@@ -182,7 +184,7 @@
         [Ignore("Requires user to specify settled transaction")]
         public void CreateCreditRequestForSettledECheckTransaction()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
 
 
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
@@ -240,7 +242,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
 
             //Build and submit an Auth only transaction that can later be captured.
             //set up data based on transaction

@@ -21,11 +21,11 @@
 		    //validate not-required fields		
 	    }
 
-        //protected override void BeforeExecute()
-        //{
-        //    var request = GetApiRequest();
-        //    RequestFactoryWithSpecified.ARBGetSubscriptionType(request);
-        //}
+        protected override void BeforeExecute()
+        {
+            var request = GetApiRequest();
+            RequestFactoryWithSpecified.ARBGetSubscriptionRequest(request);
+        }
     }
 #pragma warning restore 1591
 }

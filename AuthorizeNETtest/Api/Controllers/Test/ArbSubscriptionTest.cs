@@ -1,3 +1,5 @@
+using AuthorizeNet.Utility;
+
 namespace AuthorizeNet.Api.Controllers.Test
 {
     using System;
@@ -96,7 +98,7 @@ namespace AuthorizeNet.Api.Controllers.Test
 
 	    [Test]
 	    public void TestSubscription() {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
@@ -138,7 +140,7 @@ namespace AuthorizeNet.Api.Controllers.Test
         [Test]
         public void TestSubscription_ExpiredCC()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
             //create a subscription
@@ -231,7 +233,7 @@ namespace AuthorizeNet.Api.Controllers.Test
         [Test]
         public void GetSubscriptionSearchCardExpiringThisMonthFixTest()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             var createSubscription = new ARBSubscriptionType()
             {
                 paymentSchedule = new paymentScheduleType
@@ -445,7 +447,7 @@ namespace AuthorizeNet.Api.Controllers.Test
         [Test]
         public void TestSubscription_serialization_error()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 

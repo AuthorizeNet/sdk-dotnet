@@ -14,7 +14,7 @@
             var request = GetApiRequest();
 		
 		    //validate required fields		
-            if (request.searchType == null) throw new ArgumentException("SearchType cannot be null");
+            if (request.searchType < 0) throw new ArgumentException("SearchType cannot be null");
             if (request.month == null) throw new ArgumentException("month cannot be null");
 
 		    //if ( null == request.Paging) throw new ArgumentException("Paging cannot be null");
@@ -22,11 +22,11 @@
 		    //validate not-required fields		
 	    }
 
-        //protected override void BeforeExecute()
-        //{
-        //    var request = GetApiRequest();
-        //    RequestFactoryWithSpecified.getCustomerPaymentProfileListType(request);
-        //}
+        protected override void BeforeExecute()
+        {
+            var request = GetApiRequest();
+            RequestFactoryWithSpecified.getCustomerPaymentProfileListRequest(request);
+        }
     }
 #pragma warning restore 1591
 }

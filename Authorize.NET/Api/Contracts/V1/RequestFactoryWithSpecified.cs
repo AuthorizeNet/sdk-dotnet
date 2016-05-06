@@ -53,9 +53,9 @@
             if (null != argument)
             {
                 paymentScheduleType(argument.paymentSchedule);
-                if (argument.amount == null) { argument.amountSpecified = true; }
-                if (argument.trialAmount == null) { argument.trialAmountSpecified = true; }
-                if (argument.status == null) { argument.statusSpecified = true; }
+                if (0 <= argument.amount) { argument.amountSpecified = true; }
+                if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
+                if (0 <= argument.status) { argument.statusSpecified = true; }
                 subscriptionCustomerProfileType(argument.profile);
                 orderType(argument.order);
             }
@@ -101,17 +101,10 @@
                 if (argument.isPaymentToken) { argument.isPaymentTokenSpecified = true; }
             }
         }
-        public static void searchCriteriaCustomerProfileType(customerProfileSummaryType argument)
-        {
-            if (null != argument)
-            {
-            }
-        }
         public static void customerProfileSummaryType(customerProfileSummaryType argument)
         {
             if (null != argument)
             {
-                searchCriteriaCustomerProfileType(argument);
             }
         }
         public static void SubscriptionDetail(SubscriptionDetail argument)
@@ -721,26 +714,45 @@
                 if (0 <= argument.trialOccurrences) { argument.trialOccurrencesSpecified = true; }
             }
         }
+
         public static void paymentScheduleTypeInterval(paymentScheduleTypeInterval argument)
         {
             if (null != argument)
             {
             }
         }
+
+        public static void customerProfileIdType(customerProfileIdType argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+
         public static void ARBSubscriptionType(ARBSubscriptionType argument)
         {
             if (null != argument)
             {
                 paymentScheduleType(argument.paymentSchedule);
-                if (0 <= argument.amount) { argument.amountSpecified = true; }
-                if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
+                if (0 < argument.amount) { argument.amountSpecified = true; }
+
                 paymentType(argument.payment);
                 orderType(argument.order);
                 customerType(argument.customer);
                 nameAndAddressType(argument.billTo);
                 nameAndAddressType(argument.shipTo);
+                customerProfileIdType(argument.profile);
             }
         }
+
+        public static void ARBSubscriptionTypeSetTrialAmountSpecified(ARBSubscriptionType argument)
+        {
+            if (null != argument)
+            {
+                if (0 <= argument.trialAmount) { argument.trialAmountSpecified = true; }
+            }
+        }
+
         public static void paymentDetails(paymentDetails argument)
         {
             if (null != argument)
@@ -833,12 +845,14 @@
             if (null != argument)
             {
                 ARBSubscriptionType(argument.subscription);
+                ARBSubscriptionTypeSetTrialAmountSpecified(argument.subscription);
             }
         }
         public static void ARBCreateSubscriptionResponse(ARBCreateSubscriptionResponse argument)
         {
             if (null != argument)
             {
+                customerProfileIdType(argument.profile);
             }
         }
         public static void ARBUpdateSubscriptionRequest(ARBUpdateSubscriptionRequest argument)
@@ -852,6 +866,7 @@
         {
             if (null != argument)
             {
+                customerProfileIdType(argument.profile);
             }
         }
         public static void ARBCancelSubscriptionRequest(ARBCancelSubscriptionRequest argument)
@@ -924,6 +939,7 @@
         {
             if (null != argument)
             {
+                customerProfileBaseType(argument.customer);
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument)

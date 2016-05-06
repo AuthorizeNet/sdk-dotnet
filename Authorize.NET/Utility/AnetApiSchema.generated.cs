@@ -212,6 +212,10 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string taxId;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
+        public string[] subscriptionIds;
     }
     
     /// <remarks/>
@@ -2436,6 +2440,24 @@ namespace AuthorizeNet.APICore {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerProfileIdType {
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+        
+        /// <remarks/>
+        public string customerAddressId;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class customerType {
         
         /// <remarks/>
@@ -2506,61 +2528,9 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public nameAndAddressType shipTo;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class webCheckOutDataType {
         
         /// <remarks/>
-        public webCheckOutTypeEnum type;
-        
-        /// <remarks/>
-        public string id;
-        
-        /// <remarks/>
-        public webCheckOutDataTypeToken token;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum webCheckOutTypeEnum {
-        
-        /// <remarks/>
-        PAN,
-        
-        /// <remarks/>
-        TOKEN,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class webCheckOutDataTypeToken {
-        
-        /// <remarks/>
-        public string cardNumber;
-        
-        /// <remarks/>
-        public string expirationDate;
-        
-        /// <remarks/>
-        public string cardCode;
-        
-        /// <remarks/>
-        public string zip;
-        
-        /// <remarks/>
-        public string fullName;
+        public customerProfileIdType profile;
     }
     
     /// <remarks/>
@@ -2754,32 +2724,6 @@ namespace AuthorizeNet.APICore {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
-    public partial class securePaymentContainerRequest : ANetApiRequest {
-        
-        /// <remarks/>
-        public webCheckOutDataType data;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
-    public partial class securePaymentContainerResponse : ANetApiResponse {
-        
-        /// <remarks/>
-        public opaqueDataType opaqueData;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
     public partial class isAliveRequest {
         
         /// <remarks/>
@@ -2840,6 +2784,9 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string subscriptionId;
+        
+        /// <remarks/>
+        public customerProfileIdType profile;
     }
     
     /// <remarks/>
@@ -2866,6 +2813,9 @@ namespace AuthorizeNet.APICore {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
     public partial class ARBUpdateSubscriptionResponse : ANetApiResponse {
+        
+        /// <remarks/>
+        public customerProfileIdType profile;
     }
     
     /// <remarks/>
@@ -3070,6 +3020,12 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string transId;
+        
+        /// <remarks/>
+        public customerProfileBaseType customer;
+        
+        /// <remarks/>
+        public string customerProfileId;
     }
     
     /// <remarks/>
@@ -3096,6 +3052,10 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public customerProfileMaskedType profile;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
+        public string[] subscriptionIds;
     }
     
     /// <remarks/>
@@ -3161,6 +3121,10 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public customerAddressExType address;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
+        public string[] subscriptionIds;
     }
     
     /// <remarks/>
