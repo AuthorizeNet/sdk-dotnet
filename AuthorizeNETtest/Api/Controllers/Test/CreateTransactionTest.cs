@@ -326,7 +326,7 @@ namespace AuthorizeNet.Api.Controllers.Test
             {
                 name = "5KP3u95bQpv",
                 ItemElementName = ItemChoiceType.transactionKey,
-                Item = "4Ktq966gC55GAX7S",
+                Item = "346HZ32z3fP4hTG2",
             };
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 

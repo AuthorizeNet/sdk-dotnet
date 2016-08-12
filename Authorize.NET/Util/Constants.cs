@@ -26,6 +26,8 @@ namespace AuthorizeNet.Util
         public const int HttpConnectionDefaultTimeout = 30000;
         public const int HttpReadWriteDefaultTimeout = 30000;
 
+        public const string SDKVersion = "1.8.11";
+
     }
 #pragma warning restore 1591
 }

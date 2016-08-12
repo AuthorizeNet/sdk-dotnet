@@ -252,6 +252,14 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
+			
+			foreach (var anEnum in Enum.GetValues(typeof(AUJobTypeEnum)))
+            {
+                var aValue = anEnum.ToString();
+                AUJobTypeEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
         } 
 
         /*

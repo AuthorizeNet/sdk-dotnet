@@ -39,7 +39,7 @@ namespace AuthorizeNETtest
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly(email, "ARB Subscription Test", amount, 1);
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 3;
-            subscription.CardExpirationYear = 16;
+            subscription.CardExpirationYear = Convert.ToInt32(DateTime.Now.AddYears(3).ToString("yyyy"));
             subscription.BillingAddress = billToAddress;
 
             ISubscriptionRequest actual = target.CreateSubscription(subscription);
@@ -130,7 +130,7 @@ namespace AuthorizeNETtest
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly(email, "ARB Subscription Test", amount, 10);
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 3;
-            subscription.CardExpirationYear = 16;
+            subscription.CardExpirationYear = Convert.ToInt32(DateTime.Now.AddYears(3).ToString("yyyy"));
             subscription.BillingAddress = billToAddress;
 
             //setting Trial amount/ Trial Ocurances to 0 
@@ -169,7 +169,7 @@ namespace AuthorizeNETtest
 
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 4;
-            subscription.CardExpirationYear = 16;
+            subscription.CardExpirationYear = Convert.ToInt32(DateTime.Now.AddYears(3).ToString("yyyy"));
 
             bool actual = _mTarget.UpdateSubscription(subscription);
             Assert.IsTrue(actual);
