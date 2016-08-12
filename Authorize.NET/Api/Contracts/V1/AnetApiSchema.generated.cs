@@ -59,45 +59,35 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(auDeleteType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(auUpdateType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class ARBSubscriptionMaskedType : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class auDetailsType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public string name;
+        public long customerProfileID;
         
         /// <remarks/>
-        public paymentScheduleType paymentSchedule;
+        public long customerPaymentProfileID;
         
         /// <remarks/>
-        public decimal amount;
+        public string firstName;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool amountSpecified;
+        public string lastName;
         
         /// <remarks/>
-        public decimal trialAmount;
+        public string updateTimeUTC;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool trialAmountSpecified;
+        public string auReasonCode;
         
         /// <remarks/>
-        public ARBSubscriptionStatusEnum status;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool statusSpecified;
-        
-        /// <remarks/>
-        public subscriptionCustomerProfileType profile;
-        
-        /// <remarks/>
-        public orderType order;
+        public string reasonDescription;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -115,32 +105,31 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class paymentScheduleType : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class auDeleteType : auDetailsType {
         
         /// <remarks/>
-        public paymentScheduleTypeInterval interval;
+        public creditCardMaskedType creditCard;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class creditCardMaskedType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
-        public System.DateTime startDate;
+        public string cardNumber;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool startDateSpecified;
+        public string expirationDate;
         
         /// <remarks/>
-        public short totalOccurrences;
+        public string cardType;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool totalOccurrencesSpecified;
-        
-        /// <remarks/>
-        public short trialOccurrences;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool trialOccurrencesSpecified;
+        public cardArt cardArt;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -157,14 +146,23 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class paymentScheduleTypeInterval : object, System.ComponentModel.INotifyPropertyChanged {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class cardArt : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public short length;
+        public string cardBrand;
         
         /// <remarks/>
-        public ARBSubscriptionUnitEnum unit;
+        public string cardImageHeight;
+        
+        /// <remarks/>
+        public string cardImageUrl;
+        
+        /// <remarks/>
+        public string cardImageWidth;
+        
+        /// <remarks/>
+        public string cardType;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -179,36 +177,16 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum ARBSubscriptionUnitEnum {
+    public partial class auUpdateType : auDetailsType {
         
         /// <remarks/>
-        days,
+        public creditCardMaskedType newCreditCard;
         
         /// <remarks/>
-        months,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum ARBSubscriptionStatusEnum {
-        
-        /// <remarks/>
-        active,
-        
-        /// <remarks/>
-        expired,
-        
-        /// <remarks/>
-        suspended,
-        
-        /// <remarks/>
-        canceled,
-        
-        /// <remarks/>
-        terminated,
+        public creditCardMaskedType oldCreditCard;
     }
     
     /// <remarks/>
@@ -217,13 +195,25 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class subscriptionCustomerProfileType : customerProfileExType {
+    public partial class auResponseType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public customerPaymentProfileMaskedType paymentProfile;
+        public string auReasonCode;
         
         /// <remarks/>
-        public customerAddressExType shippingProfile;
+        public long profileCount;
+        
+        /// <remarks/>
+        public string reasonDescription;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     /// <remarks/>
@@ -232,7 +222,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerPaymentProfileMaskedType : customerPaymentProfileBaseType {
+    public partial class customerProfileIdType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
         public string customerProfileId;
@@ -241,17 +231,121 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         public string customerPaymentProfileId;
         
         /// <remarks/>
+        public string customerAddressId;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerPaymentProfileListItemType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public int customerPaymentProfileId;
+        
+        /// <remarks/>
+        public int customerProfileId;
+        
+        /// <remarks/>
+        public customerAddressType billTo;
+        
+        /// <remarks/>
         public paymentMaskedType payment;
         
-        /// <remarks/>
-        public driversLicenseMaskedType driversLicense;
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerAddressExType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerAddressType : nameAndAddressType {
         
         /// <remarks/>
-        public string taxId;
+        public string phoneNumber;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
-        public string[] subscriptionIds;
+        public string faxNumber;
+        
+        /// <remarks/>
+        public string email;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerAddressType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerAddressExType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class nameAndAddressType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string firstName;
+        
+        /// <remarks/>
+        public string lastName;
+        
+        /// <remarks/>
+        public string company;
+        
+        /// <remarks/>
+        public string address;
+        
+        /// <remarks/>
+        public string city;
+        
+        /// <remarks/>
+        public string state;
+        
+        /// <remarks/>
+        public string zip;
+        
+        /// <remarks/>
+        public string country;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerAddressExType : customerAddressType {
+        
+        /// <remarks/>
+        public string customerAddressId;
     }
     
     /// <remarks/>
@@ -369,69 +463,6 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class creditCardMaskedType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string cardNumber;
-        
-        /// <remarks/>
-        public string expirationDate;
-        
-        /// <remarks/>
-        public string cardType;
-        
-        /// <remarks/>
-        public cardArt cardArt;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class cardArt : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string cardBrand;
-        
-        /// <remarks/>
-        public string cardImageHeight;
-        
-        /// <remarks/>
-        public string cardImageUrl;
-        
-        /// <remarks/>
-        public string cardImageWidth;
-        
-        /// <remarks/>
-        public string cardType;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class tokenMaskedType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
@@ -459,16 +490,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class driversLicenseMaskedType : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class CustomerPaymentProfileSorting : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public string number;
+        public CustomerPaymentProfileOrderFieldEnum orderBy;
         
         /// <remarks/>
-        public string state;
-        
-        /// <remarks/>
-        public string dateOfBirth;
+        public bool orderDescending;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -481,25 +509,1205 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileMaskedType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileExType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum CustomerPaymentProfileOrderFieldEnum {
+        
+        /// <remarks/>
+        id,
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerPaymentProfileBaseType : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class customerProfileSummaryType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public customerTypeEnum customerType;
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string description;
+        
+        /// <remarks/>
+        public string merchantCustomerId;
+        
+        /// <remarks/>
+        public string email;
+        
+        /// <remarks/>
+        public System.DateTime createdDate;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class SubscriptionDetail : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public int id;
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public ARBSubscriptionStatusEnum status;
+        
+        /// <remarks/>
+        public System.DateTime createTimeStampUTC;
+        
+        /// <remarks/>
+        public string firstName;
+        
+        /// <remarks/>
+        public string lastName;
+        
+        /// <remarks/>
+        public int totalOccurrences;
+        
+        /// <remarks/>
+        public int pastOccurrences;
+        
+        /// <remarks/>
+        public paymentMethodEnum paymentMethod;
+        
+        /// <remarks/>
+        public string accountNumber;
+        
+        /// <remarks/>
+        public string invoice;
+        
+        /// <remarks/>
+        public decimal amount;
+        
+        /// <remarks/>
+        public string currencyCode;
+        
+        /// <remarks/>
+        public int customerProfileId;
+        
+        /// <remarks/>
+        public int customerPaymentProfileId;
+        
+        /// <remarks/>
+        public int customerShippingProfileId;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool customerTypeSpecified;
+        public bool customerShippingProfileIdSpecified;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum ARBSubscriptionStatusEnum {
+        
+        /// <remarks/>
+        active,
+        
+        /// <remarks/>
+        expired,
+        
+        /// <remarks/>
+        suspended,
+        
+        /// <remarks/>
+        canceled,
+        
+        /// <remarks/>
+        terminated,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum paymentMethodEnum {
+        
+        /// <remarks/>
+        creditCard,
+        
+        /// <remarks/>
+        eCheck,
+        
+        /// <remarks/>
+        payPal,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class ARBGetSubscriptionListSorting : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public ARBGetSubscriptionListOrderFieldEnum orderBy;
+        
+        /// <remarks/>
+        public bool orderDescending;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum ARBGetSubscriptionListOrderFieldEnum {
+        
+        /// <remarks/>
+        id,
+        
+        /// <remarks/>
+        name,
+        
+        /// <remarks/>
+        status,
+        
+        /// <remarks/>
+        createTimeStampUTC,
+        
+        /// <remarks/>
+        lastName,
+        
+        /// <remarks/>
+        firstName,
+        
+        /// <remarks/>
+        accountNumber,
+        
+        /// <remarks/>
+        amount,
+        
+        /// <remarks/>
+        pastOccurrences,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class Paging : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public int limit;
+        
+        /// <remarks/>
+        public int offset;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class createProfileResponse : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public messagesType messages;
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("numericString", IsNullable=false)]
+        public string[] customerPaymentProfileIdList;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("numericString", IsNullable=false)]
+        public string[] customerShippingAddressIdList;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class messagesType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public messageTypeEnum resultCode;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("message")]
+        public messagesTypeMessage[] message;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum messageTypeEnum {
+        
+        /// <remarks/>
+        Ok,
+        
+        /// <remarks/>
+        Error,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class messagesTypeMessage : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string code;
+        
+        /// <remarks/>
+        public string text;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionResponse : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string responseCode;
+        
+        /// <remarks/>
+        public string rawResponseCode;
+        
+        /// <remarks/>
+        public string authCode;
+        
+        /// <remarks/>
+        public string avsResultCode;
+        
+        /// <remarks/>
+        public string cvvResultCode;
+        
+        /// <remarks/>
+        public string cavvResultCode;
+        
+        /// <remarks/>
+        public string transId;
+        
+        /// <remarks/>
+        public string refTransID;
+        
+        /// <remarks/>
+        public string transHash;
+        
+        /// <remarks/>
+        public string testRequest;
+        
+        /// <remarks/>
+        public string accountNumber;
+        
+        /// <remarks/>
+        public string entryMode;
+        
+        /// <remarks/>
+        public string accountType;
+        
+        /// <remarks/>
+        public string splitTenderId;
+        
+        /// <remarks/>
+        public transactionResponsePrePaidCard prePaidCard;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("message", IsNullable=false)]
+        public transactionResponseMessage[] messages;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("error", IsNullable=false)]
+        public transactionResponseError[] errors;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("splitTenderPayment", IsNullable=false)]
+        public transactionResponseSplitTenderPayment[] splitTenderPayments;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public userField[] userFields;
+        
+        /// <remarks/>
+        public nameAndAddressType shipTo;
+        
+        /// <remarks/>
+        public transactionResponseSecureAcceptance secureAcceptance;
+        
+        /// <remarks/>
+        public transactionResponseEmvResponse emvResponse;
+        
+        /// <remarks/>
+        public string transHashSha2;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionResponsePrePaidCard : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string requestedAmount;
+        
+        /// <remarks/>
+        public string approvedAmount;
+        
+        /// <remarks/>
+        public string balanceOnCard;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionResponseMessage : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string code;
+        
+        /// <remarks/>
+        public string description;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionResponseError : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string errorCode;
+        
+        /// <remarks/>
+        public string errorText;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionResponseSplitTenderPayment : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string transId;
+        
+        /// <remarks/>
+        public string responseCode;
+        
+        /// <remarks/>
+        public string responseToCustomer;
+        
+        /// <remarks/>
+        public string authCode;
+        
+        /// <remarks/>
+        public string accountNumber;
+        
+        /// <remarks/>
+        public string accountType;
+        
+        /// <remarks/>
+        public string requestedAmount;
+        
+        /// <remarks/>
+        public string approvedAmount;
+        
+        /// <remarks/>
+        public string balanceOnCard;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class userField : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public string value;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionResponseSecureAcceptance : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string SecureAcceptanceUrl;
+        
+        /// <remarks/>
+        public string PayerID;
+        
+        /// <remarks/>
+        public string PayerEmail;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionResponseEmvResponse : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string tlvData;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("tag", IsNullable=false)]
+        public emvTag[] tags;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class emvTag : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public string value;
+        
+        /// <remarks/>
+        public string formatted;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class returnedItemType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string id;
+        
+        /// <remarks/>
+        public System.DateTime dateUTC;
+        
+        /// <remarks/>
+        public System.DateTime dateLocal;
+        
+        /// <remarks/>
+        public string code;
+        
+        /// <remarks/>
+        public string description;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionDetailsType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string transId;
+        
+        /// <remarks/>
+        public string refTransId;
+        
+        /// <remarks/>
+        public string splitTenderId;
+        
+        /// <remarks/>
+        public System.DateTime submitTimeUTC;
+        
+        /// <remarks/>
+        public System.DateTime submitTimeLocal;
+        
+        /// <remarks/>
+        public string transactionType;
+        
+        /// <remarks/>
+        public string transactionStatus;
+        
+        /// <remarks/>
+        public int responseCode;
+        
+        /// <remarks/>
+        public int responseReasonCode;
+        
+        /// <remarks/>
+        public subscriptionPaymentType subscription;
+        
+        /// <remarks/>
+        public string responseReasonDescription;
+        
+        /// <remarks/>
+        public string authCode;
+        
+        /// <remarks/>
+        public string AVSResponse;
+        
+        /// <remarks/>
+        public string cardCodeResponse;
+        
+        /// <remarks/>
+        public string CAVVResponse;
+        
+        /// <remarks/>
+        public string FDSFilterAction;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("FDSFilter", IsNullable=false)]
+        public FDSFilterType[] FDSFilters;
+        
+        /// <remarks/>
+        public batchDetailsType batch;
+        
+        /// <remarks/>
+        public orderExType order;
+        
+        /// <remarks/>
+        public decimal requestedAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool requestedAmountSpecified;
+        
+        /// <remarks/>
+        public decimal authAmount;
+        
+        /// <remarks/>
+        public decimal settleAmount;
+        
+        /// <remarks/>
+        public extendedAmountType tax;
+        
+        /// <remarks/>
+        public extendedAmountType shipping;
+        
+        /// <remarks/>
+        public extendedAmountType duty;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)]
+        public lineItemType[] lineItems;
+        
+        /// <remarks/>
+        public decimal prepaidBalanceRemaining;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool prepaidBalanceRemainingSpecified;
+        
+        /// <remarks/>
+        public bool taxExempt;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool taxExemptSpecified;
+        
+        /// <remarks/>
+        public paymentMaskedType payment;
+        
+        /// <remarks/>
+        public customerDataType customer;
         
         /// <remarks/>
         public customerAddressType billTo;
+        
+        /// <remarks/>
+        public nameAndAddressType shipTo;
+        
+        /// <remarks/>
+        public bool recurringBilling;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool recurringBillingSpecified;
+        
+        /// <remarks/>
+        public string customerIP;
+        
+        /// <remarks/>
+        public string product;
+        
+        /// <remarks/>
+        public string entryMode;
+        
+        /// <remarks/>
+        public string marketType;
+        
+        /// <remarks/>
+        public string mobileDeviceId;
+        
+        /// <remarks/>
+        public string customerSignature;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("returnedItem", IsNullable=false)]
+        public returnedItemType[] returnedItems;
+        
+        /// <remarks/>
+        public solutionType solution;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("tag", IsNullable=false)]
+        public transactionDetailsTypeTag[] emvDetails;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class subscriptionPaymentType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public int id;
+        
+        /// <remarks/>
+        public int payNum;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class FDSFilterType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public string action;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class batchDetailsType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string batchId;
+        
+        /// <remarks/>
+        public System.DateTime settlementTimeUTC;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool settlementTimeUTCSpecified;
+        
+        /// <remarks/>
+        public System.DateTime settlementTimeLocal;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool settlementTimeLocalSpecified;
+        
+        /// <remarks/>
+        public string settlementState;
+        
+        /// <remarks/>
+        public string paymentMethod;
+        
+        /// <remarks/>
+        public string marketType;
+        
+        /// <remarks/>
+        public string product;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("statistic", IsNullable=false)]
+        public batchStatisticType[] statistics;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class batchStatisticType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string accountType;
+        
+        /// <remarks/>
+        public decimal chargeAmount;
+        
+        /// <remarks/>
+        public int chargeCount;
+        
+        /// <remarks/>
+        public decimal refundAmount;
+        
+        /// <remarks/>
+        public int refundCount;
+        
+        /// <remarks/>
+        public int voidCount;
+        
+        /// <remarks/>
+        public int declineCount;
+        
+        /// <remarks/>
+        public int errorCount;
+        
+        /// <remarks/>
+        public decimal returnedItemAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool returnedItemAmountSpecified;
+        
+        /// <remarks/>
+        public int returnedItemCount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool returnedItemCountSpecified;
+        
+        /// <remarks/>
+        public decimal chargebackAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool chargebackAmountSpecified;
+        
+        /// <remarks/>
+        public int chargebackCount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool chargebackCountSpecified;
+        
+        /// <remarks/>
+        public int correctionNoticeCount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool correctionNoticeCountSpecified;
+        
+        /// <remarks/>
+        public decimal chargeChargeBackAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool chargeChargeBackAmountSpecified;
+        
+        /// <remarks/>
+        public int chargeChargeBackCount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool chargeChargeBackCountSpecified;
+        
+        /// <remarks/>
+        public decimal refundChargeBackAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool refundChargeBackAmountSpecified;
+        
+        /// <remarks/>
+        public int refundChargeBackCount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool refundChargeBackCountSpecified;
+        
+        /// <remarks/>
+        public decimal chargeReturnedItemsAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool chargeReturnedItemsAmountSpecified;
+        
+        /// <remarks/>
+        public int chargeReturnedItemsCount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool chargeReturnedItemsCountSpecified;
+        
+        /// <remarks/>
+        public decimal refundReturnedItemsAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool refundReturnedItemsAmountSpecified;
+        
+        /// <remarks/>
+        public int refundReturnedItemsCount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool refundReturnedItemsCountSpecified;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class orderExType : orderType {
+        
+        /// <remarks/>
+        public string purchaseOrderNumber;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(orderExType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class orderType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string invoiceNumber;
+        
+        /// <remarks/>
+        public string description;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class extendedAmountType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public decimal amount;
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public string description;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class lineItemType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string itemId;
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public string description;
+        
+        /// <remarks/>
+        public decimal quantity;
+        
+        /// <remarks/>
+        public decimal unitPrice;
+        
+        /// <remarks/>
+        public bool taxable;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool taxableSpecified;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerDataType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public customerTypeEnum type;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool typeSpecified;
+        
+        /// <remarks/>
+        public string id;
+        
+        /// <remarks/>
+        public string email;
+        
+        /// <remarks/>
+        public driversLicenseType driversLicense;
+        
+        /// <remarks/>
+        public string taxId;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -525,57 +1733,21 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerAddressExType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerAddressType : nameAndAddressType {
+    public partial class driversLicenseType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public string phoneNumber;
-        
-        /// <remarks/>
-        public string faxNumber;
-        
-        /// <remarks/>
-        public string email;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerAddressType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerAddressExType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class nameAndAddressType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string firstName;
-        
-        /// <remarks/>
-        public string lastName;
-        
-        /// <remarks/>
-        public string company;
-        
-        /// <remarks/>
-        public string address;
-        
-        /// <remarks/>
-        public string city;
+        public string number;
         
         /// <remarks/>
         public string state;
         
         /// <remarks/>
-        public string zip;
-        
-        /// <remarks/>
-        public string country;
+        public string dateOfBirth;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -593,29 +1765,442 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerAddressExType : customerAddressType {
+    public partial class solutionType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public string customerAddressId;
+        public string id;
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public string vendorName;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileExType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionDetailsTypeTag : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string tagId;
+        
+        /// <remarks/>
+        public string data;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerPaymentProfileType : customerPaymentProfileBaseType {
+    public partial class profileTransactionType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("profileTransAuthCapture", typeof(profileTransAuthCaptureType))]
+        [System.Xml.Serialization.XmlElementAttribute("profileTransAuthOnly", typeof(profileTransAuthOnlyType))]
+        [System.Xml.Serialization.XmlElementAttribute("profileTransCaptureOnly", typeof(profileTransCaptureOnlyType))]
+        [System.Xml.Serialization.XmlElementAttribute("profileTransPriorAuthCapture", typeof(profileTransPriorAuthCaptureType))]
+        [System.Xml.Serialization.XmlElementAttribute("profileTransRefund", typeof(profileTransRefundType))]
+        [System.Xml.Serialization.XmlElementAttribute("profileTransVoid", typeof(profileTransVoidType))]
+        public object Item;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransAuthCaptureType : profileTransOrderType {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransCaptureOnlyType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthOnlyType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthCaptureType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransOrderType : profileTransAmountType {
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+        
+        /// <remarks/>
+        public string customerShippingAddressId;
+        
+        /// <remarks/>
+        public orderExType order;
+        
+        /// <remarks/>
+        public bool taxExempt;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool taxExemptSpecified;
+        
+        /// <remarks/>
+        public bool recurringBilling;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool recurringBillingSpecified;
+        
+        /// <remarks/>
+        public string cardCode;
+        
+        /// <remarks/>
+        public string splitTenderId;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransRefundType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransPriorAuthCaptureType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransOrderType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransCaptureOnlyType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthOnlyType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthCaptureType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransAmountType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public decimal amount;
+        
+        /// <remarks/>
+        public extendedAmountType tax;
+        
+        /// <remarks/>
+        public extendedAmountType shipping;
+        
+        /// <remarks/>
+        public extendedAmountType duty;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("lineItems")]
+        public lineItemType[] lineItems;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransRefundType : profileTransAmountType {
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+        
+        /// <remarks/>
+        public string customerShippingAddressId;
+        
+        /// <remarks/>
+        public string creditCardNumberMasked;
+        
+        /// <remarks/>
+        public string bankRoutingNumberMasked;
+        
+        /// <remarks/>
+        public string bankAccountNumberMasked;
+        
+        /// <remarks/>
+        public orderExType order;
+        
+        /// <remarks/>
+        public string transId;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransPriorAuthCaptureType : profileTransAmountType {
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+        
+        /// <remarks/>
+        public string customerShippingAddressId;
+        
+        /// <remarks/>
+        public string transId;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransCaptureOnlyType : profileTransOrderType {
+        
+        /// <remarks/>
+        public string approvalCode;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransAuthOnlyType : profileTransOrderType {
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class profileTransVoidType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+        
+        /// <remarks/>
+        public string customerShippingAddressId;
+        
+        /// <remarks/>
+        public string transId;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class paymentProfile : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string paymentProfileId;
+        
+        /// <remarks/>
+        public string cardCode;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerProfilePaymentType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public bool createProfile;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool createProfileSpecified;
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public paymentProfile paymentProfile;
+        
+        /// <remarks/>
+        public string shippingProfileId;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class transactionRequestType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string transactionType;
+        
+        /// <remarks/>
+        public decimal amount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool amountSpecified;
+        
+        /// <remarks/>
+        public string currencyCode;
         
         /// <remarks/>
         public paymentType payment;
         
         /// <remarks/>
-        public driversLicenseType driversLicense;
+        public customerProfilePaymentType profile;
         
         /// <remarks/>
-        public string taxId;
+        public solutionType solution;
+        
+        /// <remarks/>
+        public string callId;
+        
+        /// <remarks/>
+        public string terminalNumber;
+        
+        /// <remarks/>
+        public string authCode;
+        
+        /// <remarks/>
+        public string refTransId;
+        
+        /// <remarks/>
+        public string splitTenderId;
+        
+        /// <remarks/>
+        public orderType order;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)]
+        public lineItemType[] lineItems;
+        
+        /// <remarks/>
+        public extendedAmountType tax;
+        
+        /// <remarks/>
+        public extendedAmountType duty;
+        
+        /// <remarks/>
+        public extendedAmountType shipping;
+        
+        /// <remarks/>
+        public bool taxExempt;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool taxExemptSpecified;
+        
+        /// <remarks/>
+        public string poNumber;
+        
+        /// <remarks/>
+        public customerDataType customer;
+        
+        /// <remarks/>
+        public customerAddressType billTo;
+        
+        /// <remarks/>
+        public nameAndAddressType shipTo;
+        
+        /// <remarks/>
+        public string customerIP;
+        
+        /// <remarks/>
+        public ccAuthenticationType cardholderAuthentication;
+        
+        /// <remarks/>
+        public transRetailInfoType retail;
+        
+        /// <remarks/>
+        public string employeeId;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("setting", IsNullable=false)]
+        public settingType[] transactionSettings;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public userField[] userFields;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     /// <remarks/>
@@ -629,6 +2214,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("bankAccount", typeof(bankAccountType))]
         [System.Xml.Serialization.XmlElementAttribute("creditCard", typeof(creditCardType))]
+        [System.Xml.Serialization.XmlElementAttribute("emv", typeof(paymentEmvType))]
         [System.Xml.Serialization.XmlElementAttribute("encryptedTrackData", typeof(encryptedTrackDataType))]
         [System.Xml.Serialization.XmlElementAttribute("opaqueData", typeof(opaqueDataType))]
         [System.Xml.Serialization.XmlElementAttribute("payPal", typeof(payPalType))]
@@ -728,6 +2314,33 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public string expirationDate;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class paymentEmvType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public object emvData;
+        
+        /// <remarks/>
+        public object emvDescriptor;
+        
+        /// <remarks/>
+        public object emvVersion;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -1047,16 +2660,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class driversLicenseType : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ccAuthenticationType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public string number;
+        public string authenticationIndicator;
         
         /// <remarks/>
-        public string state;
-        
-        /// <remarks/>
-        public string dateOfBirth;
+        public string cardholderAuthenticationValue;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -1074,46 +2684,21 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerPaymentProfileExType : customerPaymentProfileType {
+    public partial class transRetailInfoType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        public string customerPaymentProfileId;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileMaskedType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(subscriptionCustomerProfileType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerProfileExType : customerProfileBaseType {
+        [System.ComponentModel.DefaultValueAttribute("2")]
+        public string marketType;
         
         /// <remarks/>
-        public string customerProfileId;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileExType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileMaskedType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(subscriptionCustomerProfileType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerProfileBaseType : object, System.ComponentModel.INotifyPropertyChanged {
+        public string deviceType;
         
         /// <remarks/>
-        public string merchantCustomerId;
+        public string customerSignature;
         
-        /// <remarks/>
-        public string description;
-        
-        /// <remarks/>
-        public string email;
+        public transRetailInfoType() {
+            this.marketType = "2";
+        }
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -1131,405 +2716,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerProfileType : customerProfileBaseType {
+    public partial class settingType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("paymentProfiles")]
-        public customerPaymentProfileType[] paymentProfiles;
+        public string settingName;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipToList")]
-        public customerAddressType[] shipToList;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerProfileMaskedType : customerProfileExType {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("paymentProfiles")]
-        public customerPaymentProfileMaskedType[] paymentProfiles;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipToList")]
-        public customerAddressExType[] shipToList;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(orderExType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class orderType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string invoiceNumber;
-        
-        /// <remarks/>
-        public string description;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class orderExType : orderType {
-        
-        /// <remarks/>
-        public string purchaseOrderNumber;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerPaymentProfileListItemType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public int customerPaymentProfileId;
-        
-        /// <remarks/>
-        public int customerProfileId;
-        
-        /// <remarks/>
-        public customerAddressType billTo;
-        
-        /// <remarks/>
-        public paymentMaskedType payment;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class CustomerPaymentProfileSorting : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public CustomerPaymentProfileOrderFieldEnum orderBy;
-        
-        /// <remarks/>
-        public bool orderDescending;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum CustomerPaymentProfileOrderFieldEnum {
-        
-        /// <remarks/>
-        id,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class paymentSimpleType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("bankAccount", typeof(bankAccountType))]
-        [System.Xml.Serialization.XmlElementAttribute("creditCard", typeof(creditCardSimpleType))]
-        public object Item;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerProfileSummaryType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        public string description;
-        
-        /// <remarks/>
-        public string merchantCustomerId;
-        
-        /// <remarks/>
-        public string email;
-        
-        /// <remarks/>
-        public System.DateTime createdDate;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class SubscriptionDetail : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public int id;
-        
-        /// <remarks/>
-        public string name;
-        
-        /// <remarks/>
-        public ARBSubscriptionStatusEnum status;
-        
-        /// <remarks/>
-        public System.DateTime createTimeStampUTC;
-        
-        /// <remarks/>
-        public string firstName;
-        
-        /// <remarks/>
-        public string lastName;
-        
-        /// <remarks/>
-        public int totalOccurrences;
-        
-        /// <remarks/>
-        public int pastOccurrences;
-        
-        /// <remarks/>
-        public paymentMethodEnum paymentMethod;
-        
-        /// <remarks/>
-        public string accountNumber;
-        
-        /// <remarks/>
-        public string invoice;
-        
-        /// <remarks/>
-        public decimal amount;
-        
-        /// <remarks/>
-        public string currencyCode;
-        
-        /// <remarks/>
-        public int customerProfileId;
-        
-        /// <remarks/>
-        public int customerPaymentProfileId;
-        
-        /// <remarks/>
-        public int customerShippingProfileId;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool customerShippingProfileIdSpecified;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum paymentMethodEnum {
-        
-        /// <remarks/>
-        creditCard,
-        
-        /// <remarks/>
-        eCheck,
-        
-        /// <remarks/>
-        payPal,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class Paging : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public int limit;
-        
-        /// <remarks/>
-        public int offset;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class ARBGetSubscriptionListSorting : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public ARBGetSubscriptionListOrderFieldEnum orderBy;
-        
-        /// <remarks/>
-        public bool orderDescending;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum ARBGetSubscriptionListOrderFieldEnum {
-        
-        /// <remarks/>
-        id,
-        
-        /// <remarks/>
-        name,
-        
-        /// <remarks/>
-        status,
-        
-        /// <remarks/>
-        createTimeStampUTC,
-        
-        /// <remarks/>
-        lastName,
-        
-        /// <remarks/>
-        firstName,
-        
-        /// <remarks/>
-        accountNumber,
-        
-        /// <remarks/>
-        amount,
-        
-        /// <remarks/>
-        pastOccurrences,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class permissionType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string permissionName;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class merchantContactType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string merchantName;
-        
-        /// <remarks/>
-        public string merchantAddress;
-        
-        /// <remarks/>
-        public string merchantCity;
-        
-        /// <remarks/>
-        public string merchantState;
-        
-        /// <remarks/>
-        public string merchantZip;
-        
-        /// <remarks/>
-        public string merchantPhone;
+        public string settingValue;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -1589,6 +2782,531 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         Disable,
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileMaskedType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileExType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerPaymentProfileBaseType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public customerTypeEnum customerType;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool customerTypeSpecified;
+        
+        /// <remarks/>
+        public customerAddressType billTo;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerPaymentProfileMaskedType : customerPaymentProfileBaseType {
+        
+        /// <remarks/>
+        public string customerProfileId;
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+        
+        /// <remarks/>
+        public paymentMaskedType payment;
+        
+        /// <remarks/>
+        public driversLicenseMaskedType driversLicense;
+        
+        /// <remarks/>
+        public string taxId;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
+        public string[] subscriptionIds;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class driversLicenseMaskedType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string number;
+        
+        /// <remarks/>
+        public string state;
+        
+        /// <remarks/>
+        public string dateOfBirth;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerPaymentProfileExType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerPaymentProfileType : customerPaymentProfileBaseType {
+        
+        /// <remarks/>
+        public paymentType payment;
+        
+        /// <remarks/>
+        public driversLicenseType driversLicense;
+        
+        /// <remarks/>
+        public string taxId;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerPaymentProfileExType : customerPaymentProfileType {
+        
+        /// <remarks/>
+        public string customerPaymentProfileId;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileExType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileMaskedType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(subscriptionCustomerProfileType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerProfileBaseType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string merchantCustomerId;
+        
+        /// <remarks/>
+        public string description;
+        
+        /// <remarks/>
+        public string email;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(customerProfileMaskedType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(subscriptionCustomerProfileType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerProfileExType : customerProfileBaseType {
+        
+        /// <remarks/>
+        public string customerProfileId;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerProfileMaskedType : customerProfileExType {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("paymentProfiles")]
+        public customerPaymentProfileMaskedType[] paymentProfiles;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipToList")]
+        public customerAddressExType[] shipToList;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class subscriptionCustomerProfileType : customerProfileExType {
+        
+        /// <remarks/>
+        public customerPaymentProfileMaskedType paymentProfile;
+        
+        /// <remarks/>
+        public customerAddressExType shippingProfile;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerProfileType : customerProfileBaseType {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("paymentProfiles")]
+        public customerPaymentProfileType[] paymentProfiles;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipToList")]
+        public customerAddressType[] shipToList;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class ARBSubscriptionMaskedType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        public paymentScheduleType paymentSchedule;
+        
+        /// <remarks/>
+        public decimal amount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool amountSpecified;
+        
+        /// <remarks/>
+        public decimal trialAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool trialAmountSpecified;
+        
+        /// <remarks/>
+        public ARBSubscriptionStatusEnum status;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool statusSpecified;
+        
+        /// <remarks/>
+        public subscriptionCustomerProfileType profile;
+        
+        /// <remarks/>
+        public orderType order;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class paymentScheduleType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public paymentScheduleTypeInterval interval;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime startDate;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool startDateSpecified;
+        
+        /// <remarks/>
+        public short totalOccurrences;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool totalOccurrencesSpecified;
+        
+        /// <remarks/>
+        public short trialOccurrences;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool trialOccurrencesSpecified;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class paymentScheduleTypeInterval : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public short length;
+        
+        /// <remarks/>
+        public ARBSubscriptionUnitEnum unit;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum ARBSubscriptionUnitEnum {
+        
+        /// <remarks/>
+        days,
+        
+        /// <remarks/>
+        months,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class securePaymentContainerErrorType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string code;
+        
+        /// <remarks/>
+        public string description;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class customerType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public customerTypeEnum type;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool typeSpecified;
+        
+        /// <remarks/>
+        public string id;
+        
+        /// <remarks/>
+        public string email;
+        
+        /// <remarks/>
+        public string phoneNumber;
+        
+        /// <remarks/>
+        public string faxNumber;
+        
+        /// <remarks/>
+        public driversLicenseType driversLicense;
+        
+        /// <remarks/>
+        public string taxId;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class paymentSimpleType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("bankAccount", typeof(bankAccountType))]
+        [System.Xml.Serialization.XmlElementAttribute("creditCard", typeof(creditCardSimpleType))]
+        public object Item;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class merchantContactType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string merchantName;
+        
+        /// <remarks/>
+        public string merchantAddress;
+        
+        /// <remarks/>
+        public string merchantCity;
+        
+        /// <remarks/>
+        public string merchantState;
+        
+        /// <remarks/>
+        public string merchantZip;
+        
+        /// <remarks/>
+        public string merchantPhone;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class permissionType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string permissionName;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(emailSettingsType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class ArrayOfSetting : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("setting")]
+        public settingType[] setting;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class emailSettingsType : ArrayOfSetting {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="integer")]
+        public string version;
     }
     
     /// <remarks/>
@@ -1664,1473 +3382,6 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class subscriptionPaymentType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public int id;
-        
-        /// <remarks/>
-        public int payNum;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class createProfileResponse : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public messagesType messages;
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("numericString", IsNullable=false)]
-        public string[] customerPaymentProfileIdList;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("numericString", IsNullable=false)]
-        public string[] customerShippingAddressIdList;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class messagesType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public messageTypeEnum resultCode;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("message")]
-        public messagesTypeMessage[] message;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum messageTypeEnum {
-        
-        /// <remarks/>
-        Ok,
-        
-        /// <remarks/>
-        Error,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class messagesTypeMessage : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string code;
-        
-        /// <remarks/>
-        public string text;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(emailSettingsType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class ArrayOfSetting : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("setting")]
-        public settingType[] setting;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class settingType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string settingName;
-        
-        /// <remarks/>
-        public string settingValue;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class emailSettingsType : ArrayOfSetting {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="integer")]
-        public string version;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transRetailInfoType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        [System.ComponentModel.DefaultValueAttribute("2")]
-        public string marketType;
-        
-        /// <remarks/>
-        public string deviceType;
-        
-        public transRetailInfoType() {
-            this.marketType = "2";
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class ccAuthenticationType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string authenticationIndicator;
-        
-        /// <remarks/>
-        public string cardholderAuthenticationValue;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class paymentProfile : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string paymentProfileId;
-        
-        /// <remarks/>
-        public string cardCode;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerProfilePaymentType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public bool createProfile;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool createProfileSpecified;
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        public paymentProfile paymentProfile;
-        
-        /// <remarks/>
-        public string shippingProfileId;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionRequestType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string transactionType;
-        
-        /// <remarks/>
-        public decimal amount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool amountSpecified;
-        
-        /// <remarks/>
-        public string currencyCode;
-        
-        /// <remarks/>
-        public paymentType payment;
-        
-        /// <remarks/>
-        public customerProfilePaymentType profile;
-        
-        /// <remarks/>
-        public solutionType solution;
-        
-        /// <remarks/>
-        public string callId;
-        
-        /// <remarks/>
-        public string authCode;
-        
-        /// <remarks/>
-        public string refTransId;
-        
-        /// <remarks/>
-        public string splitTenderId;
-        
-        /// <remarks/>
-        public orderType order;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)]
-        public lineItemType[] lineItems;
-        
-        /// <remarks/>
-        public extendedAmountType tax;
-        
-        /// <remarks/>
-        public extendedAmountType duty;
-        
-        /// <remarks/>
-        public extendedAmountType shipping;
-        
-        /// <remarks/>
-        public bool taxExempt;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool taxExemptSpecified;
-        
-        /// <remarks/>
-        public string poNumber;
-        
-        /// <remarks/>
-        public customerDataType customer;
-        
-        /// <remarks/>
-        public customerAddressType billTo;
-        
-        /// <remarks/>
-        public nameAndAddressType shipTo;
-        
-        /// <remarks/>
-        public string customerIP;
-        
-        /// <remarks/>
-        public ccAuthenticationType cardholderAuthentication;
-        
-        /// <remarks/>
-        public transRetailInfoType retail;
-        
-        /// <remarks/>
-        public string employeeId;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("setting", IsNullable=false)]
-        public settingType[] transactionSettings;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
-        public userField[] userFields;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class solutionType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string id;
-        
-        /// <remarks/>
-        public string name;
-        
-        /// <remarks/>
-        public string vendorName;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class lineItemType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string itemId;
-        
-        /// <remarks/>
-        public string name;
-        
-        /// <remarks/>
-        public string description;
-        
-        /// <remarks/>
-        public decimal quantity;
-        
-        /// <remarks/>
-        public decimal unitPrice;
-        
-        /// <remarks/>
-        public bool taxable;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool taxableSpecified;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class extendedAmountType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public decimal amount;
-        
-        /// <remarks/>
-        public string name;
-        
-        /// <remarks/>
-        public string description;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerDataType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public customerTypeEnum type;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool typeSpecified;
-        
-        /// <remarks/>
-        public string id;
-        
-        /// <remarks/>
-        public string email;
-        
-        /// <remarks/>
-        public driversLicenseType driversLicense;
-        
-        /// <remarks/>
-        public string taxId;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class userField : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string name;
-        
-        /// <remarks/>
-        public string value;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class returnedItemType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string id;
-        
-        /// <remarks/>
-        public System.DateTime dateUTC;
-        
-        /// <remarks/>
-        public System.DateTime dateLocal;
-        
-        /// <remarks/>
-        public string code;
-        
-        /// <remarks/>
-        public string description;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class batchStatisticType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string accountType;
-        
-        /// <remarks/>
-        public decimal chargeAmount;
-        
-        /// <remarks/>
-        public int chargeCount;
-        
-        /// <remarks/>
-        public decimal refundAmount;
-        
-        /// <remarks/>
-        public int refundCount;
-        
-        /// <remarks/>
-        public int voidCount;
-        
-        /// <remarks/>
-        public int declineCount;
-        
-        /// <remarks/>
-        public int errorCount;
-        
-        /// <remarks/>
-        public decimal returnedItemAmount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool returnedItemAmountSpecified;
-        
-        /// <remarks/>
-        public int returnedItemCount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool returnedItemCountSpecified;
-        
-        /// <remarks/>
-        public decimal chargebackAmount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool chargebackAmountSpecified;
-        
-        /// <remarks/>
-        public int chargebackCount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool chargebackCountSpecified;
-        
-        /// <remarks/>
-        public int correctionNoticeCount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool correctionNoticeCountSpecified;
-        
-        /// <remarks/>
-        public decimal chargeChargeBackAmount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool chargeChargeBackAmountSpecified;
-        
-        /// <remarks/>
-        public int chargeChargeBackCount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool chargeChargeBackCountSpecified;
-        
-        /// <remarks/>
-        public decimal refundChargeBackAmount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool refundChargeBackAmountSpecified;
-        
-        /// <remarks/>
-        public int refundChargeBackCount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool refundChargeBackCountSpecified;
-        
-        /// <remarks/>
-        public decimal chargeReturnedItemsAmount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool chargeReturnedItemsAmountSpecified;
-        
-        /// <remarks/>
-        public int chargeReturnedItemsCount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool chargeReturnedItemsCountSpecified;
-        
-        /// <remarks/>
-        public decimal refundReturnedItemsAmount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool refundReturnedItemsAmountSpecified;
-        
-        /// <remarks/>
-        public int refundReturnedItemsCount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool refundReturnedItemsCountSpecified;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class batchDetailsType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string batchId;
-        
-        /// <remarks/>
-        public System.DateTime settlementTimeUTC;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool settlementTimeUTCSpecified;
-        
-        /// <remarks/>
-        public System.DateTime settlementTimeLocal;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool settlementTimeLocalSpecified;
-        
-        /// <remarks/>
-        public string settlementState;
-        
-        /// <remarks/>
-        public string paymentMethod;
-        
-        /// <remarks/>
-        public string marketType;
-        
-        /// <remarks/>
-        public string product;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("statistic", IsNullable=false)]
-        public batchStatisticType[] statistics;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class FDSFilterType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string name;
-        
-        /// <remarks/>
-        public string action;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionDetailsType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string transId;
-        
-        /// <remarks/>
-        public string refTransId;
-        
-        /// <remarks/>
-        public string splitTenderId;
-        
-        /// <remarks/>
-        public System.DateTime submitTimeUTC;
-        
-        /// <remarks/>
-        public System.DateTime submitTimeLocal;
-        
-        /// <remarks/>
-        public string transactionType;
-        
-        /// <remarks/>
-        public string transactionStatus;
-        
-        /// <remarks/>
-        public int responseCode;
-        
-        /// <remarks/>
-        public int responseReasonCode;
-        
-        /// <remarks/>
-        public subscriptionPaymentType subscription;
-        
-        /// <remarks/>
-        public string responseReasonDescription;
-        
-        /// <remarks/>
-        public string authCode;
-        
-        /// <remarks/>
-        public string AVSResponse;
-        
-        /// <remarks/>
-        public string cardCodeResponse;
-        
-        /// <remarks/>
-        public string CAVVResponse;
-        
-        /// <remarks/>
-        public string FDSFilterAction;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("FDSFilter", IsNullable=false)]
-        public FDSFilterType[] FDSFilters;
-        
-        /// <remarks/>
-        public batchDetailsType batch;
-        
-        /// <remarks/>
-        public orderExType order;
-        
-        /// <remarks/>
-        public decimal requestedAmount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool requestedAmountSpecified;
-        
-        /// <remarks/>
-        public decimal authAmount;
-        
-        /// <remarks/>
-        public decimal settleAmount;
-        
-        /// <remarks/>
-        public extendedAmountType tax;
-        
-        /// <remarks/>
-        public extendedAmountType shipping;
-        
-        /// <remarks/>
-        public extendedAmountType duty;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)]
-        public lineItemType[] lineItems;
-        
-        /// <remarks/>
-        public decimal prepaidBalanceRemaining;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool prepaidBalanceRemainingSpecified;
-        
-        /// <remarks/>
-        public bool taxExempt;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool taxExemptSpecified;
-        
-        /// <remarks/>
-        public paymentMaskedType payment;
-        
-        /// <remarks/>
-        public customerDataType customer;
-        
-        /// <remarks/>
-        public customerAddressType billTo;
-        
-        /// <remarks/>
-        public nameAndAddressType shipTo;
-        
-        /// <remarks/>
-        public bool recurringBilling;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool recurringBillingSpecified;
-        
-        /// <remarks/>
-        public string customerIP;
-        
-        /// <remarks/>
-        public string product;
-        
-        /// <remarks/>
-        public string marketType;
-        
-        /// <remarks/>
-        public string mobileDeviceId;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("returnedItem", IsNullable=false)]
-        public returnedItemType[] returnedItems;
-        
-        /// <remarks/>
-        public solutionType solution;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionResponse : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string responseCode;
-        
-        /// <remarks/>
-        public string rawResponseCode;
-        
-        /// <remarks/>
-        public string authCode;
-        
-        /// <remarks/>
-        public string avsResultCode;
-        
-        /// <remarks/>
-        public string cvvResultCode;
-        
-        /// <remarks/>
-        public string cavvResultCode;
-        
-        /// <remarks/>
-        public string transId;
-        
-        /// <remarks/>
-        public string refTransID;
-        
-        /// <remarks/>
-        public string transHash;
-        
-        /// <remarks/>
-        public string testRequest;
-        
-        /// <remarks/>
-        public string accountNumber;
-        
-        /// <remarks/>
-        public string accountType;
-        
-        /// <remarks/>
-        public string splitTenderId;
-        
-        /// <remarks/>
-        public transactionResponsePrePaidCard prePaidCard;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("message", IsNullable=false)]
-        public transactionResponseMessage[] messages;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("error", IsNullable=false)]
-        public transactionResponseError[] errors;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("splitTenderPayment", IsNullable=false)]
-        public transactionResponseSplitTenderPayment[] splitTenderPayments;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
-        public userField[] userFields;
-        
-        /// <remarks/>
-        public nameAndAddressType shipTo;
-        
-        /// <remarks/>
-        public transactionResponseSecureAcceptance secureAcceptance;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionResponsePrePaidCard : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string requestedAmount;
-        
-        /// <remarks/>
-        public string approvedAmount;
-        
-        /// <remarks/>
-        public string balanceOnCard;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionResponseMessage : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string code;
-        
-        /// <remarks/>
-        public string description;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionResponseError : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string errorCode;
-        
-        /// <remarks/>
-        public string errorText;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionResponseSplitTenderPayment : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string transId;
-        
-        /// <remarks/>
-        public string responseCode;
-        
-        /// <remarks/>
-        public string responseToCustomer;
-        
-        /// <remarks/>
-        public string authCode;
-        
-        /// <remarks/>
-        public string accountNumber;
-        
-        /// <remarks/>
-        public string accountType;
-        
-        /// <remarks/>
-        public string requestedAmount;
-        
-        /// <remarks/>
-        public string approvedAmount;
-        
-        /// <remarks/>
-        public string balanceOnCard;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class transactionResponseSecureAcceptance : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string SecureAcceptanceUrl;
-        
-        /// <remarks/>
-        public string PayerID;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransVoidType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        public string customerPaymentProfileId;
-        
-        /// <remarks/>
-        public string customerShippingAddressId;
-        
-        /// <remarks/>
-        public string transId;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransRefundType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransPriorAuthCaptureType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransOrderType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransCaptureOnlyType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthOnlyType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthCaptureType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransAmountType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public decimal amount;
-        
-        /// <remarks/>
-        public extendedAmountType tax;
-        
-        /// <remarks/>
-        public extendedAmountType shipping;
-        
-        /// <remarks/>
-        public extendedAmountType duty;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("lineItems")]
-        public lineItemType[] lineItems;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransRefundType : profileTransAmountType {
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        public string customerPaymentProfileId;
-        
-        /// <remarks/>
-        public string customerShippingAddressId;
-        
-        /// <remarks/>
-        public string creditCardNumberMasked;
-        
-        /// <remarks/>
-        public string bankRoutingNumberMasked;
-        
-        /// <remarks/>
-        public string bankAccountNumberMasked;
-        
-        /// <remarks/>
-        public orderExType order;
-        
-        /// <remarks/>
-        public string transId;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransPriorAuthCaptureType : profileTransAmountType {
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        public string customerPaymentProfileId;
-        
-        /// <remarks/>
-        public string customerShippingAddressId;
-        
-        /// <remarks/>
-        public string transId;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransCaptureOnlyType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthOnlyType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(profileTransAuthCaptureType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransOrderType : profileTransAmountType {
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        public string customerPaymentProfileId;
-        
-        /// <remarks/>
-        public string customerShippingAddressId;
-        
-        /// <remarks/>
-        public orderExType order;
-        
-        /// <remarks/>
-        public bool taxExempt;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool taxExemptSpecified;
-        
-        /// <remarks/>
-        public bool recurringBilling;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool recurringBillingSpecified;
-        
-        /// <remarks/>
-        public string cardCode;
-        
-        /// <remarks/>
-        public string splitTenderId;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransCaptureOnlyType : profileTransOrderType {
-        
-        /// <remarks/>
-        public string approvalCode;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransAuthOnlyType : profileTransOrderType {
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransAuthCaptureType : profileTransOrderType {
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class profileTransactionType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("profileTransAuthCapture", typeof(profileTransAuthCaptureType))]
-        [System.Xml.Serialization.XmlElementAttribute("profileTransAuthOnly", typeof(profileTransAuthOnlyType))]
-        [System.Xml.Serialization.XmlElementAttribute("profileTransCaptureOnly", typeof(profileTransCaptureOnlyType))]
-        [System.Xml.Serialization.XmlElementAttribute("profileTransPriorAuthCapture", typeof(profileTransPriorAuthCaptureType))]
-        [System.Xml.Serialization.XmlElementAttribute("profileTransRefund", typeof(profileTransRefundType))]
-        [System.Xml.Serialization.XmlElementAttribute("profileTransVoid", typeof(profileTransVoidType))]
-        public object Item;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerProfileIdType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public string customerProfileId;
-        
-        /// <remarks/>
-        public string customerPaymentProfileId;
-        
-        /// <remarks/>
-        public string customerAddressId;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class customerType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public customerTypeEnum type;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool typeSpecified;
-        
-        /// <remarks/>
-        public string id;
-        
-        /// <remarks/>
-        public string email;
-        
-        /// <remarks/>
-        public string phoneNumber;
-        
-        /// <remarks/>
-        public string faxNumber;
-        
-        /// <remarks/>
-        public driversLicenseType driversLicense;
-        
-        /// <remarks/>
-        public string taxId;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class ARBSubscriptionType : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
@@ -3170,6 +3421,79 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public customerProfileIdType profile;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class webCheckOutDataType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public webCheckOutTypeEnum type;
+        
+        /// <remarks/>
+        public string id;
+        
+        /// <remarks/>
+        public webCheckOutDataTypeToken token;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum webCheckOutTypeEnum {
+        
+        /// <remarks/>
+        PAN,
+        
+        /// <remarks/>
+        TOKEN,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class webCheckOutDataTypeToken : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string cardNumber;
+        
+        /// <remarks/>
+        public string expirationDate;
+        
+        /// <remarks/>
+        public string cardCode;
+        
+        /// <remarks/>
+        public string zip;
+        
+        /// <remarks/>
+        public string fullName;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -3298,6 +3622,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         public string name;
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("clientKey", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("fingerPrint", typeof(fingerPrintType))]
         [System.Xml.Serialization.XmlElementAttribute("impersonationAuthentication", typeof(impersonationAuthenticationType))]
         [System.Xml.Serialization.XmlElementAttribute("password", typeof(string))]
@@ -3330,6 +3655,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     public enum ItemChoiceType {
         
         /// <remarks/>
+        clientKey,
+        
+        /// <remarks/>
         fingerPrint,
         
         /// <remarks/>
@@ -3355,6 +3683,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public merchantAuthenticationType merchantAuthentication;
+        
+        /// <remarks/>
+        public string clientId;
         
         /// <remarks/>
         public string refId;
@@ -3417,6 +3748,32 @@ namespace AuthorizeNet.Api.Contracts.V1 {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class securePaymentContainerRequest : ANetApiRequest {
+        
+        /// <remarks/>
+        public webCheckOutDataType data;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class securePaymentContainerResponse : ANetApiResponse {
+        
+        /// <remarks/>
+        public opaqueDataType opaqueData;
     }
     
     /// <remarks/>
@@ -3750,6 +4107,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public string customerProfileId;
+        
+        /// <remarks/>
+        public bool unmaskExpirationDate;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool unmaskExpirationDateSpecified;
     }
     
     /// <remarks/>
@@ -4701,6 +5065,12 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         hostedProfileCardCodeRequired,
+        
+        /// <remarks/>
+        hostedProfileBillingAddressOptions,
+        
+        /// <remarks/>
+        hostedProfileManageOptions,
     }
     
     /// <remarks/>
@@ -4905,5 +5275,93 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public ARBSubscriptionMaskedType subscription;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class getAUJobSummaryRequest : ANetApiRequest {
+        
+        /// <remarks/>
+        public string month;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class getAUJobSummaryResponse : ANetApiResponse {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("auResponse", IsNullable=false)]
+        public auResponseType[] auSummary;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class getAUJobDetailsRequest : ANetApiRequest {
+        
+        /// <remarks/>
+        public string month;
+        
+        /// <remarks/>
+        public AUJobTypeEnum modifiedTypeFilter;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool modifiedTypeFilterSpecified;
+        
+        /// <remarks/>
+        public Paging paging;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum AUJobTypeEnum {
+        
+        /// <remarks/>
+        all,
+        
+        /// <remarks/>
+        updates,
+        
+        /// <remarks/>
+        deletes,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class getAUJobDetailsResponse : ANetApiResponse {
+        
+        /// <remarks/>
+        public int totalNumInResultSet;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool totalNumInResultSetSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("auDelete", typeof(auDeleteType), IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("auUpdate", typeof(auUpdateType), IsNullable=false)]
+        public auDetailsType[] auDetails;
     }
 }

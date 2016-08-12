@@ -253,6 +253,7 @@ namespace AuthorizeNet {
             result.MarketType = trans.marketType;
             result.Product = trans.product;
             result.MobileDeviceID = trans.mobileDeviceId;
+            result.RefTransactionID = trans.refTransId;
 
             if ((trans.subscription != null) && (trans.subscription.id > 0))
             {
@@ -298,6 +299,11 @@ namespace AuthorizeNet {
         /// </summary>
         /// <value>The transaction ID.</value>
         public string TransactionID { get; set; }
+        /// Gets or sets the ref transaction ID.
+        /// </summary>
+        /// <value>The transaction ID of the original transaction. This appears only for linked credits (transaction type refundTransaction).</value>
+        public string RefTransactionID { get; set; }
+        /// <summary>
         /// <summary>
         /// Gets or sets the date submitted.
         /// </summary>

@@ -43,7 +43,6 @@ namespace AuthorizeNETtest
             Assert.IsNotNull(actual[0].Product);
             Assert.IsNotNull(actual[0].Charges);
 
-            Assert.AreEqual(1, actual[0].Charges.Count);
             Assert.IsNotNull(actual[0].Charges[0].Amount);
             Assert.IsNotNull(actual[0].Charges[0].CardType);
             Assert.IsNotNull(actual[0].Charges[0].ChargeBackAmount);
@@ -532,7 +531,6 @@ namespace AuthorizeNETtest
                 Assert.IsNotNull(tx.CardNumber);
                 Assert.IsNotNull(tx.SettleAmount);
                 Assert.IsNotNull(tx.MarketType);
-                Assert.IsNotNull(tx.Product);
                 Assert.IsNull(tx.MobileDeviceID);
                 Assert.AreEqual(tx.HasReturnedItems, NullableBooleanEnum.Null);
 
