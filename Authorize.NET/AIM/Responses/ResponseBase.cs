@@ -6,11 +6,10 @@ using System.Text;
 namespace AuthorizeNet {
     public abstract class ResponseBase {
         public string[] RawResponse;
+        private Dictionary<int, string> _apiKeyDict = new Dictionary<int, string>();
 
         internal Dictionary<int, string> APIResponseKeys {
-            get {
-                return new Dictionary<int, string>();
-            }
+            get { return _apiKeyDict; }
         }
 
         internal int ParseInt(int index) {

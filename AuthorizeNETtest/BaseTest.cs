@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Configuration;
+using AuthorizeNet.Utility;
 
 namespace AuthorizeNETtest
 {
@@ -22,9 +23,9 @@ namespace AuthorizeNETtest
         }
 
         /// <summary>
-        /// CheckLoginPassword - make sure that we are not using the default invalid login and password.
+        /// CheckApiLoginTransactionKey - make sure that we are not using the default invalid ApiLogin and TransactionKey.
         /// </summary>
-        protected string CheckLoginPassword()
+        protected string CheckApiLoginTransactionKey()
         {
             ApiLogin = AuthorizeNet.Test.UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvApiLoginid, AuthorizeNet.Util.Constants.PropApiLoginid);
             TransactionKey = AuthorizeNet.Test.UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvTransactionKey, AuthorizeNet.Util.Constants.PropTransactionKey);
@@ -59,7 +60,7 @@ namespace AuthorizeNETtest
 
         protected decimal getValidAmount()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
 
             return (decimal)rnd.Next(9999) / 100;
         }

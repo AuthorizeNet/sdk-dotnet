@@ -1,6 +1,7 @@
 ﻿using AuthorizeNet;
 using NUnit.Framework;
 using System;
+using AuthorizeNet.Utility;
 
 namespace AuthorizeNETtest
 {
@@ -20,13 +21,13 @@ namespace AuthorizeNETtest
         [TestFixtureSetUp]
         public void CreateSubscription()
         {
-            var random = new Random();
+            var random = new AnetRandom();
             var counter = random.Next(1, (int)(Math.Pow(2, 24)));
             var amount = ComputeRandomAmount();
             var email = string.Format("user.{0}@authorize.net", counter);
 
-            //check login / password
-            var sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            var sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             const string responseString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ARBCreateSubscriptionResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\"><messages><resultCode>Ok</resultCode><message><code>I00001</code><text>Successful.</text></message></messages><subscriptionId>2010573</subscriptionId></ARBCreateSubscriptionResponse>";
@@ -38,7 +39,7 @@ namespace AuthorizeNETtest
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly(email, "ARB Subscription Test", amount, 1);
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 3;
-            subscription.CardExpirationYear = 16;
+            subscription.CardExpirationYear = Convert.ToInt32(DateTime.Now.AddYears(3).ToString("yyyy"));
             subscription.BillingAddress = billToAddress;
 
             ISubscriptionRequest actual = target.CreateSubscription(subscription);
@@ -115,7 +116,7 @@ namespace AuthorizeNETtest
         [Test]
         public void CreateSubscriptionTest_zeroTrial()
         {
-            var random = new Random();
+            var random = new AnetRandom();
             var counter = random.Next(1, (int)(Math.Pow(2, 24)));
             var amount = ComputeRandomAmount();
             var email = string.Format("user.{0}@authorize.net", counter);
@@ -129,7 +130,7 @@ namespace AuthorizeNETtest
             ISubscriptionRequest subscription = SubscriptionRequest.CreateMonthly(email, "ARB Subscription Test", amount, 10);
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 3;
-            subscription.CardExpirationYear = 16;
+            subscription.CardExpirationYear = Convert.ToInt32(DateTime.Now.AddYears(3).ToString("yyyy"));
             subscription.BillingAddress = billToAddress;
 
             //setting Trial amount/ Trial Ocurances to 0 
@@ -168,7 +169,7 @@ namespace AuthorizeNETtest
 
             subscription.CardNumber = "4111111111111111";
             subscription.CardExpirationMonth = 4;
-            subscription.CardExpirationYear = 16;
+            subscription.CardExpirationYear = Convert.ToInt32(DateTime.Now.AddYears(3).ToString("yyyy"));
 
             bool actual = _mTarget.UpdateSubscription(subscription);
             Assert.IsTrue(actual);
@@ -176,7 +177,7 @@ namespace AuthorizeNETtest
 
         private static decimal ComputeRandomAmount()
         {
-            var random = new Random();
+            var random = new AnetRandom();
             var counter = random.Next(1, (int) (Math.Pow(2, 24)));
             const int maxSubscriptionAmount = 1000; //214747;
             var amount = new decimal(counter > maxSubscriptionAmount ? (counter%maxSubscriptionAmount) : counter);

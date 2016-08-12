@@ -1,4 +1,6 @@
-﻿namespace AuthorizeNet.Api.Controllers.SampleTest
+﻿using AuthorizeNet.Utility;
+
+namespace AuthorizeNet.Api.Controllers.SampleTest
 {
     using System;
     using AuthorizeNet.Api.Contracts.V1;
@@ -40,7 +42,7 @@
         [Test]
         public void TestErrorMessages_ARB_ExpiredCard()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 

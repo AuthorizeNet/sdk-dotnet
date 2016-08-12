@@ -74,20 +74,18 @@ namespace AuthorizeNet {
             serializer.Serialize(writer, apiRequest);
             writer.Close();
 
-
             // Get the response
             WebResponse webResponse = webRequest.GetResponse();
 
             // Load the response from the API server into an XmlDocument.
-            _xmlDoc = new XmlDocument();
-            _xmlDoc.Load(XmlReader.Create(webResponse.GetResponseStream()));
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(XmlReader.Create(webResponse.GetResponseStream(), new XmlReaderSettings()));
 
 
-            var response = DecideResponse(_xmlDoc);
-            CheckForErrors(response);
+            var response = DecideResponse(xmlDoc);
+            CheckForErrors(response, xmlDoc);
             return response;
         }
-        XmlDocument _xmlDoc;
 
         string Serialize(object apiRequest) {
             // Serialize the request
@@ -102,7 +100,7 @@ namespace AuthorizeNet {
             return result;
         }
 
-        void CheckForErrors(ANetApiResponse response) {
+        void CheckForErrors(ANetApiResponse response, XmlDocument xmlDoc) {
 
             if (response.GetType() == typeof(createCustomerProfileTransactionResponse)) {
                 //there's a directResponse we need to find...
@@ -110,13 +108,13 @@ namespace AuthorizeNet {
                 //should not initialize directresponse
                 for (var i = 0; i <= 1; i++)
                 {
-                    if (null != _xmlDoc && null != _xmlDoc.ChildNodes[i])
+                    if (null != xmlDoc && null != xmlDoc.ChildNodes[i])
                     {
                         for (var j = 0; j <= 1; j++)
                         {
-                            if (null != _xmlDoc.ChildNodes[i].ChildNodes[j])
+                            if (null != xmlDoc.ChildNodes[i].ChildNodes[j])
                             {
-                                thingy.directResponse = _xmlDoc.ChildNodes[i].ChildNodes[j].InnerText;
+                                thingy.directResponse = xmlDoc.ChildNodes[i].ChildNodes[j].InnerText;
                             }
                             if (null != thingy.directResponse) { break; }
                         }

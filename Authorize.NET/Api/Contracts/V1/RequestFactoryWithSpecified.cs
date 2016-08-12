@@ -203,7 +203,7 @@
         {
             if (null != argument)
             {
-
+                argument.marketType = "2";
             }
         }
         public static void ccAuthenticationType(ccAuthenticationType argument)
@@ -259,6 +259,8 @@
                 {
                     encryptedTrackDataType(argument.Item as encryptedTrackDataType);
                 }
+				
+                if (argument.Item is paymentEmvType) { paymentEmvType(argument.Item as paymentEmvType); }
                 if (argument.Item is opaqueDataType) { opaqueDataType(argument.Item as opaqueDataType); }
                 if (argument.Item is payPalType) { payPalType(argument.Item as payPalType); }
                 if (argument.Item is creditCardTrackType) { creditCardTrackType(argument.Item as creditCardTrackType); }
@@ -271,6 +273,14 @@
                 KeyBlock(argument.FormOfPayment);
             }
         }
+		
+		public static void paymentEmvType(paymentEmvType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+		
         public static void KeyBlock(KeyBlock argument)
         {
             if (null != argument)
@@ -443,6 +453,14 @@
             {
             }
         }
+
+        public static void transactionDetailsTypeTag(transactionDetailsTypeTag argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+
         public static void transactionDetailsType(transactionDetailsType argument)
         {
             if (null != argument)
@@ -465,7 +483,10 @@
                 if (argument.recurringBilling) { argument.recurringBillingSpecified = true; }
                 if (null != argument.returnedItems) { foreach (var value in argument.returnedItems) { returnedItemType(value); } }
                 solutionType(argument.solution);
-            }
+
+				if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
+
+			}
         }
         public static void paymentMaskedType(paymentMaskedType argument)
         {
@@ -520,8 +541,18 @@
                 if (null != argument.userFields) { foreach (var value in argument.userFields) { userField(value); } }
                 nameAndAddressType(argument.shipTo);
                 transactionResponseSecureAcceptance(argument.secureAcceptance);
+                transactionResponseEmvResponse(argument.emvResponse);
+			}
+        }
+
+        public static void transactionResponseEmvResponse(transactionResponseEmvResponse argument)
+        {
+            if (null != argument)
+            {
+                if (null != argument.tags) { foreach (var value in argument.tags) { emvTag(value); } }
             }
         }
+
         public static void transactionResponsePrePaidCard(transactionResponsePrePaidCard argument)
         {
             if (null != argument)
@@ -946,6 +977,7 @@
         {
             if (null != argument)
             {
+				if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
             }
         }
         public static void getCustomerProfileResponse(getCustomerProfileResponse argument)
@@ -1310,7 +1342,77 @@
                 paymentSimpleType(argument.paymentSimpleType);
             }
         }
-    }
+		
+		public static void auDetailsType(auDetailsType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+        public static void auDeleteType(auDeleteType argument) 
+        {
+            if(null != argument) 
+            {
+         auDetailsType (argument);
+                creditCardMaskedType(argument.creditCard);
+            }
+        }
+
+		public static void auUpdateType(auUpdateType argument) 
+        {
+            if(null != argument) 
+            {
+				auDetailsType (argument);
+                creditCardMaskedType(argument.newCreditCard);
+                creditCardMaskedType(argument.oldCreditCard);
+            }
+        }
+        public static void auResponseType(auResponseType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+
+        public static void emvTag(emvTag argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+
+
+        public static void getAUJobSummaryRequest(getAUJobSummaryRequest argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+        public static void getAUJobSummaryResponse(getAUJobSummaryResponse argument) 
+        {
+            if(null != argument) 
+            {
+                if(null != argument.auSummary){ foreach( var value in argument.auSummary) { auResponseType(value);} } 
+            }
+        }
+        public static void getAUJobDetailsRequest(getAUJobDetailsRequest argument) 
+        {
+            if(null != argument) 
+            {
+                if(0 <= argument.modifiedTypeFilter) { argument.modifiedTypeFilterSpecified=true;}
+                Paging(argument.paging);
+            }
+        }
+        public static void getAUJobDetailsResponse(getAUJobDetailsResponse argument) 
+        {
+            if(null != argument) 
+            {
+                if(0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified=true;}
+                if(null != argument.auDetails){ foreach( var value in argument.auDetails) { auDetailsType(value);} } 
+            }
+        }
+
+	}
 
     // ReSharper restore InconsistentNaming 
 #pragma warning restore 1591

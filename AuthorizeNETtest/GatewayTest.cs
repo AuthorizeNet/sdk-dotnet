@@ -16,8 +16,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_AuthCap_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.|7339F5|Y|2207176015||testing|20.10|CC|auth_capture||||||||||||||||||||||||||7639D026F54F4DF70EA3F7DE5A350929||2|||||||||||XXXX0015|Visa||||||||||||||||";
@@ -47,8 +47,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_AuthCap_Approved_CustomerIP()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.|7339F5|Y|2207176015||testing|20.10|CC|auth_capture||||||||||||||||||||||||||7639D026F54F4DF70EA3F7DE5A350929||2|||||||||||XXXX1111|Visa||||||||||||||||";
@@ -80,8 +80,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_Capture_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             //setup
@@ -118,8 +118,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_PriorAuthCapture_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             //setup
@@ -165,8 +165,8 @@ namespace AuthorizeNETtest
             const string accountType = "????";           // The account type used in the transaction, such as Visa
             const string accountLast4Digits = "????";    // The last 4 digitals of the account number used in the transaction, such as 1111
 
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             var responseString = "1|1|1|This transaction has been approved.||P|2207741772||Credit transaction approved testing|"+creditAmount+"|CC|credit||||||||||||suzhu@visa.com||||||||||||||574B2D5282D8A2914AEB7272AECD4B71|||||||||||||XXXX"+accountLast4Digits+"|"+accountType+"||||||||||||||||";
@@ -196,8 +196,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_FailedCredit_ReasonResponseCode()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string transID = "1";
@@ -229,8 +229,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_UnlinkedCredit_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1|1|1|This transaction has been approved.||P|2207179642||UnlinkedCredit transaction approved testing|20.15|CC|credit||||||||||||||||||||||||||1F01159A9561E77E4AD004FF64069B05|||||||||||||XXXX1111|Visa||||||||||||||||";
@@ -261,8 +261,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_UnlinkedCredit_InvalidExpirationDate()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "3|1|7|Credit card expiration date is invalid.||P|0||UnlinkedCredit transaction approved testing|20.15|CC|credit||||||||||||||||||||||||||76688C1759F2A7C3616A595012F99289|||||||||||||XXXX1111|Visa||||||||||||||||";

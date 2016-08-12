@@ -1,4 +1,6 @@
-﻿namespace AuthorizeNet.Api.Controllers.SampleTest
+﻿using AuthorizeNet.Utility;
+
+namespace AuthorizeNet.Api.Controllers.SampleTest
 {
     using System;
     using AuthorizeNet.Api.Contracts.V1;
@@ -159,7 +161,7 @@
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
 
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             string custIndx = rnd.Next(99999).ToString();
 
             var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
@@ -275,7 +277,7 @@
             {
                 name = "5KP3u95bQpv",
                 ItemElementName = ItemChoiceType.transactionKey,
-                Item = "4Ktq966gC55GAX7S",
+                Item = "346HZ32z3fP4hTG2",
             };
 
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = TestEnvironment;
@@ -349,7 +351,7 @@
         [Ignore("Requires user to specify settled transaction")]
         public void SampleCodeCreateCreditRequestForSettledTransaction()
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
 
 
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = CustomMerchantAuthenticationType;

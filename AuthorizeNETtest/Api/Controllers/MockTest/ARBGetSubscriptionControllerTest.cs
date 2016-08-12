@@ -1,3 +1,5 @@
+using AuthorizeNet.Utility;
+
 namespace AuthorizeNet.Api.Controllers.MockTest
 {
     using System;
@@ -52,7 +54,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
                     customerPaymentProfileId = "1234",
                 };
 
-            Random rnd = new Random(DateTime.Now.Millisecond);
+            var rnd = new AnetRandom(DateTime.Now.Millisecond);
             var SubscriptionMaskedType = new ARBSubscriptionMaskedType()
             {
                 name = "Test",

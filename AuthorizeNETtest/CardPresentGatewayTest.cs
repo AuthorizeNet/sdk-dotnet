@@ -17,8 +17,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_Auth_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             string responseString = "1.0|1|1|This transaction has been approved.|N8IV1Z|Y||2207395117|4BA6F435F8046E347710457856F3BAD1||||||||||||XXXX1111|Visa";
@@ -48,8 +48,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_Capture_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             //setup
@@ -85,8 +85,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_PriorAuthCap_Approved()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             //setup
@@ -123,8 +123,8 @@ namespace AuthorizeNETtest
         [Test()]
         public void SendTest_PriorAuthCap_LessAmount_Failed()
         {
-            //check login / password
-            string sError = CheckLoginPassword();
+            //check ApiLoginid / TransactionKey
+            string sError = CheckApiLoginTransactionKey();
             Assert.IsTrue(sError == "", sError);
 
             //setup

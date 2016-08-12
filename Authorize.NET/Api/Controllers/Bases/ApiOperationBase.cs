@@ -89,7 +89,7 @@ namespace AuthorizeNet.Api.Controllers.Bases
         {
             BeforeExecute();
 
-            Logger.debug(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", XmlUtility.GetXml(GetApiRequest())));
+            //Logger.debug(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", XmlUtility.GetXml(GetApiRequest())));
 
             if (null == environment) { environment = ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment; }
             if (null == environment) throw new ArgumentException(NullEnvironmentErrorMessage);
@@ -173,6 +173,9 @@ namespace AuthorizeNet.Api.Controllers.Bases
 		    //validate not nulls
 	        ValidateAndSetMerchantAuthentication();
 
+            //set the client Id
+            SetClientId();
+
 		    //validate nulls
 		    var merchantAuthenticationType = request.merchantAuthentication;
 		    //if ( null != ) throw new IllegalArgumentException(" needs to be null");
@@ -180,14 +183,14 @@ namespace AuthorizeNet.Api.Controllers.Bases
 		    //TODO
             /*
 		    if ( null != merchantAuthenticationType.Item.GetType().   sessionToken) throw new IllegalArgumentException("SessionToken needs to be null");
-		    if ( null != merchantAuthenticationType.getPassword()) throw new IllegalArgumentException("Password needs to be null");
+		    if ( null != merchantAuthenticationType.getPass_word()) throw new IllegalArgumentException("Pass_word needs to be null");
 		    if ( null != merchantAuthenticationType.getMobileDeviceId()) throw new IllegalArgumentException("MobileDeviceId needs to be null");
              
 	    
 	        var impersonationAuthenticationType = merchantAuthenticationType.impersonationAuthentication;
 		    if ( null != impersonationAuthenticationType) throw new IllegalArgumentException("ImpersonationAuthenticationType needs to be null");
             */
-    //	    impersonationAuthenticationType.setPartnerLoginId(CnpApiLoginIdKey);
+            //	    impersonationAuthenticationType.setPartnerLoginId(CnpApiLoginIdKey);
     //	    impersonationAuthenticationType.setPartnerTransactionKey(CnpTransactionKey);
     //	    merchantAuthenticationType.setImpersonationAuthentication(impersonationAuthenticationType);
 
@@ -209,6 +212,12 @@ namespace AuthorizeNet.Api.Controllers.Bases
                     throw new ArgumentException("MerchantAuthentication cannot be null");
                 }
             }
+        }
+
+        private void SetClientId()
+        {
+            ANetApiRequest request = GetApiRequest();
+            request.clientId = "sdk-dotnet-" + Constants.SDKVersion;
         }
     }
 #pragma warning restore 1591
