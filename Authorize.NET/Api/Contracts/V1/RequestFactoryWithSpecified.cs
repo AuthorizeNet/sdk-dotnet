@@ -132,7 +132,7 @@
         {
             if(null != argument) 
             {
-                (argument.orderDescending);
+                //(argument.orderDescending);
             }
         }
         public static void heldTransactionRequestType(heldTransactionRequestType argument) 
@@ -1263,8 +1263,8 @@
             if (null != argument)
             {
                 if (null != argument.transactions) { foreach (var value in argument.transactions) { transactionSummaryType(value); } }
-				if(argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified=true;}
-            }
+                if (0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified = true; }
+			}
         }
         public static void getHostedProfilePageRequest(getHostedProfilePageRequest argument)
         {
@@ -1283,7 +1283,7 @@
         {
             if (null != argument)
             {
-				if(argument.status) { argument.statusSpecified=true;}
+                if (0 <= argument.status) { argument.statusSpecified = true; }
                 TransactionListSorting(argument.sorting);
                 Paging(argument.paging);
             }
@@ -1309,8 +1309,8 @@
             if (null != argument)
             {
                 if (null != argument.transactions) { foreach (var value in argument.transactions) { transactionSummaryType(value); } }
-				if(argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified=true;}
-            }
+                if (0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified = true; }
+			}
         }
         public static void mobileDeviceRegistrationRequest(mobileDeviceRegistrationRequest argument)
         {
