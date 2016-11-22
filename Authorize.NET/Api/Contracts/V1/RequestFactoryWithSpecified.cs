@@ -30,11 +30,19 @@
             {
             }
         }
+		
+		public static void processorType(processorType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
 
         public static void customerPaymentProfileListItemType(customerPaymentProfileListItemType argument)
         {
             if (null != argument)
             {
+				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 customerAddressType(argument.billTo);
                 paymentMaskedType(argument.payment);
             }
@@ -119,6 +127,21 @@
             {
             }
         }
+		
+		public static void TransactionListSorting(TransactionListSorting argument) 
+        {
+            if(null != argument) 
+            {
+                (argument.orderDescending);
+            }
+        }
+        public static void heldTransactionRequestType(heldTransactionRequestType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+		
         public static void ARBGetSubscriptionListSorting(ARBGetSubscriptionListSorting argument)
         {
             if (null != argument)
@@ -151,7 +174,8 @@
             {
                 subscriptionPaymentType(argument.subscription);
                 if (argument.hasReturnedItems) { argument.hasReturnedItemsSpecified = true; }
-            }
+                fraudInformationType(argument.fraudInformation); 
+			}
         }
         public static void subscriptionPaymentType(subscriptionPaymentType argument)
         {
@@ -199,6 +223,14 @@
                 ArrayOfSetting(argument);
             }
         }
+		
+        public static void fraudInformationType(fraudInformationType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+		
         public static void transRetailInfoType(transRetailInfoType argument)
         {
             if (null != argument)
@@ -676,6 +708,7 @@
             if (null != argument)
             {
                 customerPaymentProfileBaseType(argument);
+				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 paymentMaskedType(argument.payment);
                 driversLicenseMaskedType(argument.driversLicense);
             }
@@ -687,6 +720,7 @@
                 customerPaymentProfileBaseType(argument);
                 paymentType(argument.payment);
                 driversLicenseType(argument.driversLicense);
+				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
             }
         }
         public static void customerPaymentProfileExType(customerPaymentProfileExType argument)
@@ -707,6 +741,8 @@
             if (null != argument)
             {
                 customerProfileBaseType(argument);
+				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
             }
         }
         public static void customerProfileMaskedType(customerProfileMaskedType argument)
@@ -1010,6 +1046,7 @@
         {
             if (null != argument)
             {
+				if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
                 customerAddressExType(argument.address);
             }
         }
@@ -1045,7 +1082,8 @@
             if (null != argument)
             {
                 customerAddressExType(argument.address);
-            }
+                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+			}
         }
         public static void updateCustomerShippingAddressResponse(updateCustomerShippingAddressResponse argument)
         {
@@ -1167,6 +1205,22 @@
                 createProfileResponse(argument.profileResponse);
             }
         }
+		
+		        public static void updateHeldTransactionRequest(updateHeldTransactionRequest argument) 
+        {
+            if(null != argument) 
+            {
+                heldTransactionRequestType(argument.heldTransactionRequest);
+            }
+        }
+        public static void updateHeldTransactionResponse(updateHeldTransactionResponse argument) 
+        {
+            if(null != argument) 
+            {
+                transactionResponse(argument.transactionResponse);
+            }
+        }
+		
         public static void getBatchStatisticsRequest(getBatchStatisticsRequest argument)
         {
             if (null != argument)
@@ -1200,6 +1254,8 @@
         {
             if (null != argument)
             {
+				TransactionListSorting(argument.sorting);
+                Paging(argument.paging);
             }
         }
         public static void getTransactionListResponse(getTransactionListResponse argument)
@@ -1207,6 +1263,7 @@
             if (null != argument)
             {
                 if (null != argument.transactions) { foreach (var value in argument.transactions) { transactionSummaryType(value); } }
+				if(argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified=true;}
             }
         }
         public static void getHostedProfilePageRequest(getHostedProfilePageRequest argument)
@@ -1226,13 +1283,33 @@
         {
             if (null != argument)
             {
+				if(argument.status) { argument.statusSpecified=true;}
+                TransactionListSorting(argument.sorting);
+                Paging(argument.paging);
             }
         }
+		
+		public static void getHostedPaymentPageRequest(getHostedPaymentPageRequest argument) 
+        {
+            if(null != argument) 
+            {
+                transactionRequestType(argument.transactionRequest);
+                if(null != argument.hostedPaymentSettings){ foreach( var value in argument.hostedPaymentSettings) { settingType(value);} } 
+            }
+        }
+        public static void getHostedPaymentPageResponse(getHostedPaymentPageResponse argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+		
         public static void getUnsettledTransactionListResponse(getUnsettledTransactionListResponse argument)
         {
             if (null != argument)
             {
                 if (null != argument.transactions) { foreach (var value in argument.transactions) { transactionSummaryType(value); } }
+				if(argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified=true;}
             }
         }
         public static void mobileDeviceRegistrationRequest(mobileDeviceRegistrationRequest argument)
@@ -1412,8 +1489,24 @@
             }
         }
 
+		public static void getMerchantDetailsRequest(getMerchantDetailsRequest argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+        public static void getMerchantDetailsResponse(getMerchantDetailsResponse argument) 
+        {
+            if(null != argument) 
+            {
+                if(argument.isTestMode) { argument.isTestModeSpecified=true;}
+                if(null != argument.processors){ foreach( var value in argument.processors) { processorType(value);} }
+            }
+        }
+		
 	}
-
+	
+	
     // ReSharper restore InconsistentNaming 
 #pragma warning restore 1591
 #pragma warning restore 169
