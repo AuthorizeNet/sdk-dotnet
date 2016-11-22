@@ -741,8 +741,6 @@
             if (null != argument)
             {
                 customerProfileBaseType(argument);
-				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
-                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
             }
         }
         public static void customerProfileMaskedType(customerProfileMaskedType argument)
@@ -1005,8 +1003,10 @@
         public static void createCustomerProfileFromTransactionRequest(createCustomerProfileFromTransactionRequest argument)
         {
             if (null != argument)
-            {
+            {				
                 customerProfileBaseType(argument.customer);
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument)
