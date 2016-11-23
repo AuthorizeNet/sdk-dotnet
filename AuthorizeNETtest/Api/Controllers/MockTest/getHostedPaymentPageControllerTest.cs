@@ -49,7 +49,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
+                    token = "123123"
                 };
 
 		    var errorResponse = new ANetApiResponse();
@@ -64,8 +64,8 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "getHostedPaymentPage: Details:{0}", controllerResponse.Yyyyy);
+            Assert.IsNotNull(controllerResponse.token);
+            LogHelper.info(Logger, "getHostedPaymentPage: Details:{0}", controllerResponse.token);
 	    }
     }
 }

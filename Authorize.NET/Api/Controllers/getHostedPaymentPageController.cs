@@ -23,8 +23,8 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.getHostedPaymentPageType(request);
-        }
+            RequestFactoryWithSpecified.getHostedPaymentPageRequest(request);
+        }    
     }
 #pragma warning restore 1591
 }

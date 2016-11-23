@@ -23,8 +23,8 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.getMerchantDetailsType(request);
-        }
+            RequestFactoryWithSpecified.getMerchantDetailsRequest(request);
+        }    
     }
 #pragma warning restore 1591
 }

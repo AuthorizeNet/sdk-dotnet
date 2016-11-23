@@ -49,7 +49,7 @@ namespace AuthorizeNet.Api.Controllers.MockTest
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
+                    gatewayId = "41234"
                 };
 
 		    var errorResponse = new ANetApiResponse();
@@ -64,8 +64,8 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "getMerchantDetails: Details:{0}", controllerResponse.Yyyyy);
+            Assert.IsNotNull(controllerResponse.gatewayId);
+            LogHelper.info(Logger, "getMerchantDetails: Details:{0}", controllerResponse.gatewayId);
 	    }
     }
 }

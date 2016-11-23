@@ -45,11 +45,17 @@ namespace AuthorizeNet.Api.Controllers.MockTest
                 {
                     merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
                 };
+
+            var transactionResponse = new transactionResponse()
+            {
+                accountNumber = "1234",
+            };
+
             var mockResponse = new updateHeldTransactionResponse
                 {
                     refId = "1234",
                     sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
+                    transactionResponse = transactionResponse
                 };
 
 		    var errorResponse = new ANetApiResponse();
@@ -64,8 +70,8 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "updateHeldTransaction: Details:{0}", controllerResponse.Yyyyy);
+            Assert.IsNotNull(controllerResponse.transactionResponse);
+            LogHelper.info(Logger, "updateHeldTransaction: Details:{0}", controllerResponse.transactionResponse.accountNumber);
 	    }
     }
 }

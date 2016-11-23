@@ -1206,7 +1206,7 @@
             }
         }
 		
-		        public static void updateHeldTransactionRequest(updateHeldTransactionRequest argument) 
+        public static void updateHeldTransactionRequest(updateHeldTransactionRequest argument) 
         {
             if(null != argument) 
             {
@@ -1495,6 +1495,7 @@
             {
             }
         }
+
         public static void getMerchantDetailsResponse(getMerchantDetailsResponse argument) 
         {
             if(null != argument) 

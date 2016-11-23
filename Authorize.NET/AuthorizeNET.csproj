@@ -79,7 +79,9 @@
     <Compile Include="Api\Controllers\getCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\getCustomerProfileIdsController.cs" />
     <Compile Include="Api\Controllers\getCustomerShippingAddressController.cs" />
+    <Compile Include="Api\Controllers\getHostedPaymentPageController.cs" />
     <Compile Include="Api\Controllers\getHostedProfilePageController.cs" />
+    <Compile Include="Api\Controllers\getMerchantDetailsController.cs" />
     <Compile Include="Api\Controllers\getSettledBatchListController.cs" />
     <Compile Include="Api\Controllers\getTransactionDetailsController.cs" />
     <Compile Include="Api\Controllers\getTransactionListController.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Api\Controllers\updateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\updateCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\updateCustomerShippingAddressController.cs" />
+    <Compile Include="Api\Controllers\updateHeldTransactionController.cs" />
     <Compile Include="Api\Controllers\updateSplitTenderGroupController.cs" />
     <Compile Include="Api\Controllers\validateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\Bases\*.cs" />
