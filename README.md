@@ -78,32 +78,6 @@ Set the appropriate environment constant using the ApiOperationBase RunEnvironme
 ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PRODUCTION;
 ```  
 
-### Direct Post Method (DPM)
-
-Direct Post Method allows developers to fully customize the experience of the entire payment flow, while simplifying PCI compliance.
-
-See http://developer.authorize.net/integration/fifteenminutes/csharp/ for a quickstart guide to using the DPM method
-
-
-### Server Integration Method (SIM)
-
-SIM provides a customizable, secure hosted payment form to make integration easy for Web merchants that do not have an SSL certificate.
-
-Place the following code in the default action of a simple MVC application to display a SIM payment button.
-
-````csharp
- public ActionResult Index()
-        {
-
-            String checkoutform = SIMFormGenerator.OpenForm(ApiLogin, TransactionKey, 2.25M, "", true);
-            checkoutform = checkoutform+"<input type = \"submit\" class=\"submit\" value = \"Order with SIM!\" />";
-            checkoutform = checkoutform+SIMFormGenerator.EndForm();
-
-            return Content("<html>" + checkoutform + "</html>");
-        }
-
-````  
-
 
 ## Running the SDK Tests
 
