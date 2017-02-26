@@ -29,7 +29,7 @@ namespace AuthorizeNet.Util
 		    return postUrl;
 	    }
 
-        public static ANetApiResponse PostData<TQ, TS>(AuthorizeNet.Environment env, TQ request) 
+        public static ANetApiResponse PostData<TQ, TS>(AuthorizeNet.Environment env, TQ request, Guid requestId) 
             where TQ : ANetApiRequest 
             where TS : ANetApiResponse
         {
@@ -47,6 +47,10 @@ namespace AuthorizeNet.Util
             webRequest.ContentType = "text/xml";
             webRequest.KeepAlive = true;
             webRequest.Proxy = SetProxyIfRequested(webRequest.Proxy);
+
+            //add corelationId
+            webRequest.Headers[Constants.DCDRequestIdHeaderName] = requestId.ToString();
+            Logger.info( string.Format("Co-relationId for the web-request: {0} ", requestId));
 
             //set the http connection timeout 
             var httpConnectionTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpConnectionTimeout);

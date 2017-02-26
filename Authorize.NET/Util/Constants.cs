@@ -28,6 +28,7 @@ namespace AuthorizeNet.Util
 
         public const string SDKVersion = "1.9.1";
 
+        public static readonly string DCDRequestIdHeaderName = "x-DCD-RequestId";
     }
 #pragma warning restore 1591
 }
