@@ -1,7 +1,6 @@
 ﻿# Authorize.Net .Net SDK
 
-[![Travis](https://img.shields.io/travis/AuthorizeNet/sdk-dotnet/master.svg)]
-(https://travis-ci.org/AuthorizeNet/sdk-dotnet)
+[![Travis](https://img.shields.io/travis/AuthorizeNet/sdk-dotnet/master.svg)](https://travis-ci.org/AuthorizeNet/sdk-dotnet)
 [![Code Climate](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet/badges/gpa.svg)](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet)
 [![NuGet](https://badge.fury.io/nu/authorizenet.svg)](https://www.nuget.org/packages/authorizenet)
 
@@ -27,7 +26,7 @@ Apart from this README, you can find details and examples of using the SDK in th
 - [Developer Center Reference](http://developer.authorize.net/api/reference/index.html)  
 
 ### Charging a Credit Card
-````csharp
+```csharp
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX; 
             
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
@@ -70,7 +69,7 @@ Apart from this README, you can find details and examples of using the SDK in th
             {
                 Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
             }
-````
+```
 
 ### Setting the Production Environment
 Set the appropriate environment constant using the ApiOperationBase RunEnvironment.  For example, in the method above, to switch to production environment use:
