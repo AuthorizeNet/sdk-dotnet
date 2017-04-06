@@ -4019,9 +4019,52 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         public Paging paging;
     }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+	[System.Xml.Serialization.XmlRootAttribute(Namespace = "AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable = false)]
+	public partial class getTransactionListForCustomerRequest : ANetApiRequest
+	{
+		/// <remarks/>
+		public string customerProfileId;
+
+		/// <remarks/>
+		public string customerPaymentProfileId;
+
+		/// <remarks/>
+		public TransactionListSorting sorting;
+
+		/// <remarks/>
+		public Api.Contracts.V1.Paging paging;
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+	[System.Xml.Serialization.XmlRootAttribute(Namespace = "AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable = false)]
+	public partial class getTransactionListForCustomerResponse : ANetApiResponse
+	{
+		/// <remarks/>
+		[System.Xml.Serialization.XmlArrayItemAttribute("transaction", IsNullable = false)]
+		public transactionSummaryType[] transactions;
+
+		/// <remarks/>
+		public int totalNumInResultSet;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlIgnoreAttribute()]
+		public bool totalNumInResultSetSpecified;
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]

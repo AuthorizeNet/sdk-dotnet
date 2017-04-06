@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AuthorizeNet</RootNamespace>
     <AssemblyName>AuthorizeNet</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <FileUpgradeFlags>
@@ -84,6 +84,7 @@
     <Compile Include="Api\Controllers\getMerchantDetailsController.cs" />
     <Compile Include="Api\Controllers\getSettledBatchListController.cs" />
     <Compile Include="Api\Controllers\getTransactionDetailsController.cs" />
+    <Compile Include="Api\Controllers\getTransactionListForCustomerController.cs" />
     <Compile Include="Api\Controllers\getTransactionListController.cs" />
     <Compile Include="Api\Controllers\getUnsettledTransactionListController.cs" />
     <Compile Include="Api\Controllers\isAliveController.cs" />
