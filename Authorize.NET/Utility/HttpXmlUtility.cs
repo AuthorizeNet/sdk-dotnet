@@ -158,8 +158,12 @@ namespace AuthorizeNet {
                         serializer = new XmlSerializer(typeof(getTransactionListResponse));
                         apiResponse = (getTransactionListResponse)serializer.Deserialize(reader);
                         break;
+					case "getTransactionListForCustomerResponse":
+						serializer = new XmlSerializer(typeof(getTransactionListForCustomerResponse));
+						apiResponse = (getTransactionListForCustomerResponse)serializer.Deserialize(reader);
+						break;
 
-                    case "getUnsettledTransactionListResponse":
+					case "getUnsettledTransactionListResponse":
                         serializer = new XmlSerializer(typeof(getUnsettledTransactionListResponse));
                         apiResponse = (getUnsettledTransactionListResponse)serializer.Deserialize(reader);
                         break;

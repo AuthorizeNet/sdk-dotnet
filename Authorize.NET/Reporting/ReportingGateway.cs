@@ -102,15 +102,7 @@ namespace AuthorizeNet {
             return Batch.NewFromResponse(response);
         }
 
-        /// <summary>
-        /// Returns all transaction within a particular batch
-        /// </summary>
-        public List<Transaction> GetTransactionList(string batchId) {
-            var req = new getTransactionListRequest();
-            req.batchId = batchId;
-            var response = (getTransactionListResponse)_gateway.Send(req);
-            return Transaction.NewListFromResponse(response.transactions);
-        }
+       
         /// <summary>
         /// Returns Transaction details for a given transaction ID (transid)
         /// </summary>
@@ -122,11 +114,26 @@ namespace AuthorizeNet {
             return Transaction.NewFromResponse(response.transaction);
         }
 
-        /// <summary>
-        /// Returns all transactions for the last 30 days
-        /// </summary>
-        /// <returns></returns>
-        public List<Transaction> GetTransactionList() {
+		/// <summary>
+		/// Returns all transaction for a Customer Profile
+		/// </summary>
+		public List<Transaction> GetCustomerTransactionList(string customerProfileId)
+		{
+			var req = new getTransactionListForCustomerRequest
+			{
+				customerProfileId = customerProfileId
+			};
+
+			var response = (getTransactionListForCustomerResponse)_gateway.Send(req);
+			return Transaction.NewListFromResponse(response.transactions);
+		}
+		
+
+		/// <summary>
+		/// Returns all transactions for the last 30 days
+		/// </summary>
+		/// <returns></returns>
+		public List<Transaction> GetTransactionList() {
             return GetTransactionList(DateTime.Today.AddDays(-30), DateTime.Today);
 
         }
@@ -142,7 +149,17 @@ namespace AuthorizeNet {
                 result.AddRange(GetTransactionList(batch.ID.ToString()));
             }
             return result;
-        } 
+        }
 
-    }
+		/// <summary>
+		/// Returns all transaction within a particular batch
+		/// </summary>
+		public List<Transaction> GetTransactionList(string batchId)
+		{
+			var req = new getTransactionListRequest();
+			req.batchId = batchId;
+			var response = (getTransactionListResponse)_gateway.Send(req);
+			return Transaction.NewListFromResponse(response.transactions);
+		}
+	}
 }

@@ -1266,7 +1266,29 @@
                 if (0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified = true; }
 			}
         }
-        public static void getHostedProfilePageRequest(getHostedProfilePageRequest argument)
+		public static void getTransactionListForCustomerRequest(getTransactionListForCustomerRequest argument)
+		{
+			if (null == argument)
+				return;
+
+			TransactionListSorting(argument.sorting);
+			Paging(argument.paging);
+		}
+		public static void getTransactionListForCustomerResponse(getTransactionListForCustomerResponse argument)
+		{
+			if (null == argument)
+				return;
+
+			if (null != argument.transactions)
+			{
+				foreach (var value in argument.transactions)
+					transactionSummaryType(value);
+			}
+
+			if (0 <= argument.totalNumInResultSet)
+				argument.totalNumInResultSetSpecified = true;
+		}
+		public static void getHostedProfilePageRequest(getHostedProfilePageRequest argument)
         {
             if (null != argument)
             {
