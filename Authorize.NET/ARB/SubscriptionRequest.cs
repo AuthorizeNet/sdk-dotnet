@@ -333,15 +333,20 @@ namespace AuthorizeNet {
             } else {
                 sub.paymentSchedule.interval.unit = ARBSubscriptionUnitEnum.days;
             }
-            sub.customer = new customerType {email = this.CustomerEmail};
-
+            if (!isProfileValid)
+            {
+                sub.customer = new customerType
+                {
+                    email = this.CustomerEmail,
+                    id = this.CustomerID
+                };
+            }
+            
             sub.order = new orderType
             {
                 description = this.Description,
                 invoiceNumber = this.Invoice
             };
-
-            sub.customer.id = this.CustomerID;
 
             return sub;
 
@@ -403,6 +408,14 @@ namespace AuthorizeNet {
 
                 sub.profile = customerProfile;
             }
+            else
+            {
+                sub.customer = new customerType
+                {
+                    email = this.CustomerEmail,
+                    id = this.CustomerID
+                };
+            }
 
             if (this.BillingAddress != null)
                 sub.billTo = this.BillingAddress.ToAPINameAddressType();
@@ -418,11 +431,7 @@ namespace AuthorizeNet {
             sub.amount = this.Amount;
             sub.amountSpecified = true;
 
-            sub.customer = new customerType
-            {
-                email = this.CustomerEmail,
-                id = this.CustomerID
-            };
+            
 
             sub.order = new orderType
             {
