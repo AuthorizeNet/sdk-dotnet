@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using System.IO;
-using AuthorizeNet.APICore;
+﻿using AuthorizeNet.APICore;
 
 namespace AuthorizeNet {
     public class SubscriptionGateway : ISubscriptionGateway {
