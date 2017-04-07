@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using AuthorizeNet.APICore;
 
@@ -119,7 +117,7 @@ namespace AuthorizeNet {
        /// <param name="cardExpirationYear">The card expiration year.</param>
        /// <param name="cardExpirationMonth">The card expiration month.</param>
        /// <returns></returns>
-        public SubscriptionRequest UsingCreditCard(string firstName, string lastName, string cardNumber, int cardExpirationYear, int cardExpirationMonth) {
+        public ISubscriptionRequest UsingCreditCard(string firstName, string lastName, string cardNumber, int cardExpirationYear, int cardExpirationMonth) {
             this.CardNumber = cardNumber;
             this.CardExpirationYear = cardExpirationYear;
             this.CardExpirationMonth = cardExpirationMonth;
@@ -132,12 +130,22 @@ namespace AuthorizeNet {
             return this;
         }
 
+        public ISubscriptionRequest UsingPaymentProfile(string customerProfileId, string customerPaymentProfileId, string customerAddressId)
+        {
+            this.CustomerProfileId = customerProfileId;
+            this.CustomerPaymentProfileId = customerPaymentProfileId;
+            this.CustomerAddressId = customerAddressId;
+            
+            return this;
+        }
+
         /// <summary>
         /// Adds a full billing address - which is required for a credit card.
         /// </summary>
         /// <param name="add">The add.</param>
         /// <returns></returns>
-        public SubscriptionRequest WithBillingAddress(Address add) {
+        public ISubscriptionRequest WithBillingAddress(Address add)
+        {
             this.BillingAddress = add;
             return this;
         }
@@ -148,7 +156,8 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="add">The address to ship to</param>
         /// <returns></returns>
-        public SubscriptionRequest WithShippingAddress(Address add) {
+        public ISubscriptionRequest WithShippingAddress(Address add)
+        {
             this.ShippingAddress = add;
             return this;
         }
@@ -159,7 +168,8 @@ namespace AuthorizeNet {
         /// <param name="trialBillingCycles">The trial billing cycles.</param>
         /// <param name="trialAmount">The trial amount.</param>
         /// <returns></returns>
-        public SubscriptionRequest SetTrialPeriod(short trialBillingCycles, decimal trialAmount) {
+        public ISubscriptionRequest SetTrialPeriod(short trialBillingCycles, decimal trialAmount)
+        {
             this.TrialBillingCycles = trialBillingCycles;
             this.TrialAmount = trialAmount;
 
@@ -178,7 +188,7 @@ namespace AuthorizeNet {
         public decimal Amount { get; set; }
         public decimal TrialAmount { get; set; }
 
-        //CreditCard
+        // CreditCard
         public string CardNumber { get; set; }
         public int CardExpirationYear { get; set; }
         public int CardExpirationMonth { get; set; }
@@ -186,6 +196,11 @@ namespace AuthorizeNet {
 
         // eCheck
         public BankAccount eCheckBankAccount { get; set; }
+
+        // Customer Profile
+        public string CustomerProfileId { get; set; }
+        public string CustomerPaymentProfileId { get; set; }
+        public string CustomerAddressId { get; set; }
 
         public Address BillingAddress { get; set; }
         public Address ShippingAddress { get; set; }
@@ -202,25 +217,38 @@ namespace AuthorizeNet {
             var sub = new ARBSubscriptionType();
             sub.name = this.SubscriptionName;
 
-            bool isCard = true;
+            bool isCardValid = false;
+            bool isBankValid = false;
+            bool isProfileValid = false;
             StringBuilder sbError = new StringBuilder("");
             bool bError = false;
-            if (String.IsNullOrEmpty(this.CardNumber) || (this.CardNumber.Trim().Length == 0))
+
+
+            if (!String.IsNullOrEmpty(this.CardNumber) && 
+                this.CardNumber.Trim().Length == 0)
             {
-                if ((null == this.eCheckBankAccount) || String.IsNullOrEmpty(this.eCheckBankAccount.accountNumber) ||
-                    (this.eCheckBankAccount.accountNumber.Trim().Length == 0))
-                {
-                    sbError.Append("Need a credit card number or a bank account number to set up this subscription");
-                    bError = true;
-                }
-                else
-                {
-                    isCard = false;
-                }
+                isCardValid = true;
+            }
+            else if (this.eCheckBankAccount != null && 
+                    !String.IsNullOrEmpty(this.eCheckBankAccount.accountNumber) &&
+                    this.eCheckBankAccount.accountNumber.Trim().Length != 0)
+            {
+                isBankValid = true;
+            }
+            else if (!String.IsNullOrEmpty(this.CustomerProfileId) &&
+                     !String.IsNullOrEmpty(this.CustomerPaymentProfileId))
+            {
+                isProfileValid = true;
             }
 
+            if (!(isCardValid || isBankValid || isProfileValid))
+            {
+                sbError.Append("Need a credit card number or a bank account number to set up this subscription");
+                bError = true;
+            }
+            
             DateTime dt = new DateTime();
-            if ( isCard && !CommonFunctions.ParseDateTime(this.CardExpirationYear, this.CardExpirationMonth, 1, out dt))
+            if (isCardValid && !CommonFunctions.ParseDateTime(this.CardExpirationYear, this.CardExpirationMonth, 1, out dt))
             {
                 sbError.Append("Need a valid CardExpirationMonth and CardExpirationYear to set up this subscription");
                 bError = true;
@@ -231,15 +259,17 @@ namespace AuthorizeNet {
                 throw new InvalidOperationException(sbError.ToString());
             }
 
-            if (isCard)
+            if (isCardValid)
             {
-                var creditCard = new creditCardType();
-                creditCard.cardNumber = this.CardNumber;
-                creditCard.expirationDate = dt.ToString("yyyy-MM"); // required format for API is YYYY-MM
-                sub.payment = new paymentType();
-                sub.payment.Item = creditCard;
+                var creditCard = new creditCardType
+                {
+                    cardNumber = this.CardNumber,
+                    // required format for API is YYYY-MM
+                    expirationDate = dt.ToString("yyyy-MM")
+                };
+                sub.payment = new paymentType { Item = creditCard };
             }
-            else
+            else if (isBankValid)
             {
                 var eCheck = new bankAccountType()
                     {
@@ -255,18 +285,31 @@ namespace AuthorizeNet {
                     };
                 sub.payment = new paymentType {Item = eCheck};
             }
+            else if (isProfileValid)
+            {
+                var customerProfile = new customerProfileIdType
+                {
+                    customerProfileId = this.CustomerProfileId,
+                    customerPaymentProfileId = this.CustomerPaymentProfileId,
+                    customerAddressId = this.CustomerAddressId
+                };
+
+                sub.profile = customerProfile;
+            }
 
             if(this.BillingAddress!=null)
                 sub.billTo = this.BillingAddress.ToAPINameAddressType();
             if (this.ShippingAddress != null)
                 sub.shipTo = this.ShippingAddress.ToAPINameAddressType();
 
-            sub.paymentSchedule = new paymentScheduleType();
-            sub.paymentSchedule.startDate = this.StartsOn;
-            sub.paymentSchedule.startDateSpecified = true;
+            sub.paymentSchedule = new paymentScheduleType
+            {
+                startDate = this.StartsOn,
+                startDateSpecified = true,
+                totalOccurrences = this.BillingCycles,
+                totalOccurrencesSpecified = true
+            };
 
-            sub.paymentSchedule.totalOccurrences = this.BillingCycles;
-            sub.paymentSchedule.totalOccurrencesSpecified = true;
 
             // free 1 month trial
             if (this.TrialBillingCycles >= 0) {
@@ -290,12 +333,13 @@ namespace AuthorizeNet {
             } else {
                 sub.paymentSchedule.interval.unit = ARBSubscriptionUnitEnum.days;
             }
-            sub.customer = new customerType();
-            sub.customer.email = this.CustomerEmail;
+            sub.customer = new customerType {email = this.CustomerEmail};
 
-            sub.order = new orderType();
-            sub.order.description = this.Description;
-            sub.order.invoiceNumber = this.Invoice;
+            sub.order = new orderType
+            {
+                description = this.Description,
+                invoiceNumber = this.Invoice
+            };
 
             sub.customer.id = this.CustomerID;
 
@@ -321,11 +365,13 @@ namespace AuthorizeNet {
                     throw new InvalidOperationException("Need a valid CardExpirationMonth and CardExpirationYear to set up this subscription");
                 }
 
-                var creditCard = new creditCardType();
-                creditCard.cardNumber = this.CardNumber;
-                creditCard.expirationDate = dt.ToString("yyyy-MM");//string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
-                sub.payment = new paymentType();
-                sub.payment.Item = creditCard;
+                var creditCard = new creditCardType
+                {
+                    cardNumber = this.CardNumber,
+                    expirationDate = dt.ToString("yyyy-MM")
+                };
+                //string.Format("{0}-{1}", this.CardExpirationYear, this.CardExpirationMonth);  // required format for API is YYYY-MM
+                sub.payment = new paymentType { Item = creditCard };
             }
 
             if ((this.eCheckBankAccount != null) && !String.IsNullOrEmpty(this.eCheckBankAccount.accountNumber) &&
@@ -346,26 +392,44 @@ namespace AuthorizeNet {
                 sub.payment = new paymentType { Item = eCheck };
             }
 
+            if (!String.IsNullOrEmpty(this.CustomerProfileId) && !String.IsNullOrEmpty(this.CustomerPaymentProfileId))
+            {
+                var customerProfile = new customerProfileIdType
+                {
+                    customerProfileId = this.CustomerProfileId,
+                    customerPaymentProfileId = this.CustomerPaymentProfileId,
+                    customerAddressId = this.CustomerAddressId
+                };
+
+                sub.profile = customerProfile;
+            }
+
             if (this.BillingAddress != null)
                 sub.billTo = this.BillingAddress.ToAPINameAddressType();
             if (this.ShippingAddress != null)
                 sub.shipTo = this.ShippingAddress.ToAPINameAddressType();
 
-            sub.paymentSchedule = new paymentScheduleType();
-            sub.paymentSchedule.totalOccurrences = this.BillingCycles;
-            sub.paymentSchedule.totalOccurrencesSpecified = true;
+            sub.paymentSchedule = new paymentScheduleType
+            {
+                totalOccurrences = this.BillingCycles,
+                totalOccurrencesSpecified = true
+            };
 
             sub.amount = this.Amount;
             sub.amountSpecified = true;
 
-            sub.customer = new customerType();
-            sub.customer.email = this.CustomerEmail;
-            sub.customer.id = this.CustomerID;
+            sub.customer = new customerType
+            {
+                email = this.CustomerEmail,
+                id = this.CustomerID
+            };
 
-            sub.order = new orderType();
-            sub.order.description = this.Description;
-            sub.order.invoiceNumber = this.Invoice;
-                                                        
+            sub.order = new orderType
+            {
+                description = this.Description,
+                invoiceNumber = this.Invoice
+            };
+
             return sub;
 
         }
