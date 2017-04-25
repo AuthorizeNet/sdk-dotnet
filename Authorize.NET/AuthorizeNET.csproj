@@ -85,6 +85,7 @@
     <Compile Include="Api\Controllers\getSettledBatchListController.cs" />
     <Compile Include="Api\Controllers\getTransactionDetailsController.cs" />
     <Compile Include="Api\Controllers\getTransactionListController.cs" />
+    <Compile Include="Api\Controllers\getTransactionListForCustomerController.cs" />
     <Compile Include="Api\Controllers\getUnsettledTransactionListController.cs" />
     <Compile Include="Api\Controllers\isAliveController.cs" />
     <Compile Include="Api\Controllers\logoutController.cs" />

@@ -83,12 +83,6 @@ namespace AuthorizeNet.Api.Contracts.V1
                 long(argument.profileCount);
             }
         }
-        public static void customerProfileIdType(customerProfileIdType argument) 
-        {
-            if(null != argument) 
-            {
-            }
-        }
         public static void customerPaymentProfileListItemType(customerPaymentProfileListItemType argument) 
         {
             if(null != argument) 
@@ -219,6 +213,7 @@ namespace AuthorizeNet.Api.Contracts.V1
                 nameAndAddressType(argument.shipTo);
                 transactionResponseSecureAcceptance(argument.secureAcceptance);
                 transactionResponseEmvResponse(argument.emvResponse);
+                customerProfileIdType(argument.profile);
             }
         }
         public static void transactionResponsePrePaidCard(transactionResponsePrePaidCard argument) 
@@ -270,6 +265,12 @@ namespace AuthorizeNet.Api.Contracts.V1
             {
             }
         }
+        public static void customerProfileIdType(customerProfileIdType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void returnedItemType(returnedItemType argument) 
         {
             if(null != argument) 
@@ -299,6 +300,7 @@ namespace AuthorizeNet.Api.Contracts.V1
                 if(null != argument.returnedItems){ foreach( var value in argument.returnedItems) { returnedItemType(value);} } 
                 solutionType(argument.solution);
                 if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
+                customerProfileIdType(argument.profile);
             }
         }
         public static void subscriptionPaymentType(subscriptionPaymentType argument) 
@@ -812,6 +814,7 @@ transRetailInfoType() {
                 subscriptionPaymentType(argument.subscription);
                 if(argument.hasReturnedItems) { argument.hasReturnedItemsSpecified=true;}
                 fraudInformationType(argument.fraudInformation);
+                customerProfileIdType(argument.profile);
             }
         }
         public static void ARBSubscriptionType(ARBSubscriptionType argument) 
@@ -1437,6 +1440,14 @@ transRetailInfoType() {
             if(null != argument) 
             {
                 ARBSubscriptionMaskedType(argument.subscription);
+            }
+        }
+        public static void getTransactionListForCustomerRequest(getTransactionListForCustomerRequest argument) 
+        {
+            if(null != argument) 
+            {
+                TransactionListSorting(argument.sorting);
+                Paging(argument.paging);
             }
         }
         public static void getAUJobSummaryRequest(getAUJobSummaryRequest argument) 

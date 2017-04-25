@@ -27,7 +27,7 @@ namespace AuthorizeNETtest
 
             CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new CardPresentAuthorizationRequest((decimal)30.11, "4111111111111111", "02", "16");
+            IGatewayRequest request = new CardPresentAuthorizationRequest((decimal)30.11, "4111111111111111", "02", "20");
             string description = "CP Auth transaction approved testing";
 
             IGatewayResponse actual = target.Send(request, description);
@@ -162,7 +162,7 @@ namespace AuthorizeNETtest
 
             CardPresentGateway target = new CardPresentGateway(ApiLogin, TransactionKey, true);
 
-            IGatewayRequest request = new CardPresentAuthorizationRequest(amount, "4111111111111111", "02", "16");
+            IGatewayRequest request = new CardPresentAuthorizationRequest(amount, "4111111111111111", "02", "20");
             string description = "CP Auth transaction approved testing";
 
             IGatewayResponse response = target.Send(request, description);
