@@ -62,8 +62,8 @@ IF NOT EXIST %WSDLSRCDIR% (
 )
 
 @ECHO Generating sources from Schema: %XSD% in folder "%XSDSRCDIR%"
-@ECHO: Command Line: xsd.exe  /c /f /l:cs /edb /eld /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
-xsd.exe  /c /f /l:cs /edb /eld /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
+@ECHO: Command Line: xsd.exe  /c /f /l:cs /eld /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
+xsd.exe  /c /f /l:cs /eld /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
 @ECHO Renaming the generated file
 IF EXIST "%XSDSRCDIR%\AnetApiSchema.generated.cs" (DEL /q "%XSDSRCDIR%\AnetApiSchema.generated.cs")
 REN %XSDSRCDIR%\AnetApiSchema.cs AnetApiSchema.generated.cs
@@ -74,9 +74,9 @@ xsd.exe  /c /f /l:cs /out:"Authorize.NET\Utility" /n:"AuthorizeNet.APICore" "%LO
 IF EXIST "Authorize.NET\Utility\AnetApiSchema.generated.cs" (DEL /q "Authorize.NET\Utility\AnetApiSchema.generated.cs")
 REN Authorize.NET\Utility\AnetApiSchema.cs AnetApiSchema.generated.cs
 
-REM xsd.exe  /c /f /l:cs /edb /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
+REM xsd.exe  /c /f /l:cs /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
 REM DATASET 
-REM xsd.exe  /f /l:cs /d /edb /eld /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
+REM xsd.exe  /f /l:cs /d /eld /out:"%XSDSRCDIR%" /n:"%XSDPACKAGE%" "%LOCALXSD%"
 
 @ECHO Generating source from WSDL: %WSDL% in folder "%WSDLSRCDIR%"
 REM wsdl.exe    /f /l:cs      /out:"%WSDLSRCDIR%" /n:"%WSDLPACKAGE%" "%LOCALWSDL%"
