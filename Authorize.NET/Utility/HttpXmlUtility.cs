@@ -54,6 +54,9 @@ namespace AuthorizeNet {
             //Authenticate it
             AuthenticateRequest(apiRequest);
 
+            //Since April 30 2017 we need TLS 1.2
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_serviceUrl);
             webRequest.Method = "POST";
             webRequest.ContentType = "text/xml";
