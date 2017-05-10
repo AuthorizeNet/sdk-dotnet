@@ -27,6 +27,7 @@ namespace AuthorizeNet {
         decimal TrialAmount { get; set; }
         short TrialBillingCycles { get; set; }
         AuthorizeNet.ISubscriptionRequest UsingCreditCard(string firstName, string lastName, string cardNumber, int cardExpirationYear, int cardExpirationMonth);
+        AuthorizeNet.ISubscriptionRequest UsingPaymentProfile(string customerProfileId, string customerPaymentProfileId, string customerAddressId);
         AuthorizeNet.ISubscriptionRequest WithBillingAddress(AuthorizeNet.Address add);
         AuthorizeNet.ISubscriptionRequest WithShippingAddress(AuthorizeNet.Address add);
     }

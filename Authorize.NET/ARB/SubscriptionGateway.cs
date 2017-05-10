@@ -1,4 +1,6 @@
-﻿using AuthorizeNet.APICore;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AuthorizeNet.APICore;
 
 namespace AuthorizeNet {
     public class SubscriptionGateway : ISubscriptionGateway {
@@ -82,7 +84,50 @@ namespace AuthorizeNet {
             return response.status;
         }
 
-        
+        /// <summary>
+        /// Gets the subscription details.
+        /// </summary>
+        /// <param name="subscriptionID">The subscription ID.</param>
+        /// <returns></returns>
+        public ARBGetSubscriptionResponse GetSubscription(string subscriptionID)
+        {
+            var req = new ARBGetSubscriptionRequest();
+            req.subscriptionId = subscriptionID;
+            var response = (ARBGetSubscriptionResponse)_gateway.Send(req);
+            
+            return response;
+        }
 
+        /// <summary>
+        /// Gets a list of all subscriptions
+        /// </summary>
+        /// <returns></returns>
+        public List<SubscriptionDetail> GetSubscriptionList(
+            ARBGetSubscriptionListSearchTypeEnum searchType = ARBGetSubscriptionListSearchTypeEnum.subscriptionActive,
+            int page = 0,
+            int pageSize = 100)
+        {
+            var req = new ARBGetSubscriptionListRequest();
+            req.searchType = searchType;
+            req.paging = new Paging
+            {
+                limit = pageSize,
+                offset = page
+            };
+            req.sorting = new ARBGetSubscriptionListSorting
+            {
+                orderBy = ARBGetSubscriptionListOrderFieldEnum.createTimeStampUTC,
+                orderDescending = true
+            };
+            
+            var response = (ARBGetSubscriptionListResponse)_gateway.Send(req);
+
+            if (response == null || response.subscriptionDetails == null)
+            {
+                return null;
+            }
+            
+            return response.subscriptionDetails.ToList();
+        }
     }
 }

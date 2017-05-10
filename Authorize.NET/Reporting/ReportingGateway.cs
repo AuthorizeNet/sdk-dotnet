@@ -142,7 +142,25 @@ namespace AuthorizeNet {
                 result.AddRange(GetTransactionList(batch.ID.ToString()));
             }
             return result;
-        } 
+        }
 
+        /// <summary>
+        /// Returns all transactions for a given customerProfileId
+        /// </summary>
+        public List<Transaction> GetTransactionList(string customerProfileId)
+        {
+
+            var request = new getTransactionListForCustomerRequest();
+            request.customerProfileId = "1811474252";
+
+
+            var batches = GetSettledBatchList(from, to);
+            var result = new List<Transaction>();
+            foreach (var batch in batches)
+            {
+                result.AddRange(GetTransactionList(batch.ID.ToString()));
+            }
+            return result;
+        } 
     }
 }

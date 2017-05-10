@@ -254,6 +254,16 @@ namespace AuthorizeNet {
                         apiResponse = (ARBGetSubscriptionStatusResponse)serializer.Deserialize(reader);
                         break;
 
+                    case "ARBGetSubscriptionResponse":
+                        serializer = new XmlSerializer(typeof(ARBGetSubscriptionResponse));
+                        apiResponse = (ARBGetSubscriptionResponse)serializer.Deserialize(reader);
+                        break;
+
+                    case "ARBGetSubscriptionListResponse":
+                        serializer = new XmlSerializer(typeof(ARBGetSubscriptionListResponse));
+                        apiResponse = (ARBGetSubscriptionListResponse)serializer.Deserialize(reader);
+                        break;
+
                     case "ErrorResponse":
                         serializer = new XmlSerializer(typeof(ANetApiResponse));
                         apiResponse = (ANetApiResponse)serializer.Deserialize(reader);
