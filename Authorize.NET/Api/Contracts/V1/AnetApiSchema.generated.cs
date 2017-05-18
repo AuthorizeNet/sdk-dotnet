@@ -3775,6 +3775,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         public string name;
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accessToken", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("clientKey", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("fingerPrint", typeof(fingerPrintType))]
         [System.Xml.Serialization.XmlElementAttribute("impersonationAuthentication", typeof(impersonationAuthenticationType))]
@@ -3806,6 +3807,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IncludeInSchema=false)]
     public enum ItemChoiceType {
+        
+        /// <remarks/>
+        accessToken,
         
         /// <remarks/>
         clientKey,

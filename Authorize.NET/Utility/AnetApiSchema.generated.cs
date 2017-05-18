@@ -2983,6 +2983,7 @@ namespace AuthorizeNet.APICore {
         public string name;
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accessToken", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("clientKey", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("fingerPrint", typeof(fingerPrintType))]
         [System.Xml.Serialization.XmlElementAttribute("impersonationAuthentication", typeof(impersonationAuthenticationType))]
@@ -3005,6 +3006,9 @@ namespace AuthorizeNet.APICore {
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IncludeInSchema=false)]
     public enum ItemChoiceType {
+        
+        /// <remarks/>
+        accessToken,
         
         /// <remarks/>
         clientKey,
