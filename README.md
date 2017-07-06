@@ -79,4 +79,4 @@ For additional help in testing your own code, Authorize.Net maintains a [compreh
 
 
 ## License
-This repository is distributed under a proprietary license. See the provided [`LICENSE.txt`](/license.txt) file.
+This repository is distributed under a proprietary license. See the provided [`LICENSE.txt`](/LICENSE.txt) file.
