@@ -66,6 +66,7 @@ namespace AuthorizeNet.Util
             // Get the response
             String responseAsString = null;
             Logger.debug(string.Format("Retreiving Response from Url: '{0}'", postUrl));
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
             using (var webResponse = webRequest.GetResponse())
             {
                 Logger.debug(string.Format("Received Response: '{0}'", webResponse));
