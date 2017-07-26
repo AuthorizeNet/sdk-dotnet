@@ -38,8 +38,8 @@ namespace AuthorizeNet {
         /// Returns all Settled Batches for the last 30 days
         /// </summary>
         public List<Batch> GetSettledBatchList(bool includeStats) {
-            var from = DateTime.Today.AddDays(-30);
-            var to = DateTime.Today;
+            var from = DateTime.Now.AddDays(-30);
+            var to = DateTime.Now;
             return GetSettledBatchList(from, to, includeStats);
         }
 
@@ -57,8 +57,8 @@ namespace AuthorizeNet {
         /// Returns all Settled Batches for the last 30 days
         /// </summary>
         public List<Batch> GetSettledBatchList() {
-            var from = DateTime.Today.AddDays(-30);
-            var to = DateTime.Today;
+            var from = DateTime.Now.AddDays(-30);
+            var to = DateTime.Now;
             return GetSettledBatchList(from, to, false);
         }
 
@@ -127,7 +127,7 @@ namespace AuthorizeNet {
         /// </summary>
         /// <returns></returns>
         public List<Transaction> GetTransactionList() {
-            return GetTransactionList(DateTime.Today.AddDays(-30), DateTime.Today);
+            return GetTransactionList(DateTime.Now.AddDays(-30), DateTime.Now);
 
         }
 
