@@ -6,7 +6,7 @@
         <title>AuthorizeNet</title>
         <authors>Authorize.Net</authors>
         <owners>AuthorizeNet</owners>
-        <licenseUrl>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/license.txt</licenseUrl>
+        <licenseUrl>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/LICENSE.txt</licenseUrl>
         <projectUrl>https://github.com/AuthorizeNet/sdk-dotnet</projectUrl>
         <iconUrl>http://developer.authorize.net/resources/images/favicon.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
