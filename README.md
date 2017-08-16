@@ -7,7 +7,7 @@
 
 ## Requirements
 * .NET 3.5 or later
-* Microsoft&reg; Visual Studio 2008 or 2010
+* Microsoft&reg; Visual Studio 2008 or later
 * Nunit 2.6.3;
 * An Authorize.Net account (see _Registration & Configuration_ section below)
 
