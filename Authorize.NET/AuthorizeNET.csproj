@@ -75,6 +75,8 @@
     <Compile Include="Api\Controllers\deleteCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\deleteCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\deleteCustomerShippingAddressController.cs" />
+    <Compile Include="Api\Controllers\getAUJobDetailsController.cs" />
+    <Compile Include="Api\Controllers\getAUJobSummaryController.cs" />
     <Compile Include="Api\Controllers\getBatchStatisticsController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileListController.cs" />
