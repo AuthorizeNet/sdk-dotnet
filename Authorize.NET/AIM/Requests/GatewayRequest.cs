@@ -250,6 +250,7 @@ namespace AuthorizeNet {
             return this;
         }
 
+#if !NETSTANDARD2_0
         /// <summary>
         /// This method will pull the user's IP address for use with FDS. Only valid for Web-based transactions.
         /// </summary>
@@ -259,6 +260,7 @@ namespace AuthorizeNet {
                 this.CustomerIp = HttpContext.Current.Request.UserHostAddress;
             return this;
         }
+#endif
 
 
         /// <summary>
@@ -364,7 +366,7 @@ namespace AuthorizeNet {
             return this;
         }
 
-        #region All API Props
+#region All API Props
 
 
 
@@ -877,7 +879,7 @@ namespace AuthorizeNet {
         }
 
 
-        #endregion
+#endregion
 
     }
 }

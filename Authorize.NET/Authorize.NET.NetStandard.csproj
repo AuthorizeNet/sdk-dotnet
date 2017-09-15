@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>Authorize.Net API for .NET Standard. Use this SDK to integrate with the Authorize.Net AIM, SIM, ARB and CIM APIs for Payment Transactions, Recurring Billing and Customer Payment Profiles.</Description>
+    <Version>0.1.0</Version>
+    <Authors>Authorize.Net, Clayton Davis</Authors>
+    <Company>Authorize.Net</Company>
+    <AssemblyName>AuthorizeNet.NetStandard</AssemblyName>
+    <RootNamespace>AuthorizeNet</RootNamespace>
+    <PackageReleaseNotes>0.1.0: Targets v 1.9.3 of official package.  
+Items removed/ not supported: 
+-AppSettings configuration. Use environment vars.
+-AddFraudCheck (does not detect IP from HTTPContext)
+-SIMResponse does not populate from form
+-createFingerPrintController
+-getAUJobDetailsController
+-getAUJobSummaryController</PackageReleaseNotes>
+  </PropertyGroup>
+
+</Project>

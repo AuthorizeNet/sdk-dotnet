@@ -5,6 +5,7 @@
     using AuthorizeNet.Api.Controllers.Bases;
 
 #pragma warning disable 1591
+#if !NETSTANDARD2_0
     public class createFingerPrintController : ApiOperationBase<createFingerPrintRequest, createFingerPrintResponse> {
 
 	    public createFingerPrintController(createFingerPrintRequest apiRequest) : base(apiRequest) {
@@ -26,5 +27,6 @@
             RequestFactoryWithSpecified.createFingerPrintRequest(request);
         }
     }
+#endif
 #pragma warning restore 1591
 }

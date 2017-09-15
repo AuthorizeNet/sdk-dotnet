@@ -14,7 +14,11 @@ namespace AuthorizeNet {
             _post = post;
         }
 
-        public SIMResponse() : this(HttpContext.Current.Request.Form) { }
+        public SIMResponse()
+#if !NETSTANDARD2_0
+            : this(HttpContext.Current.Request.Form) 
+#endif
+        { }
 
         public string MD5Hash {
             get {

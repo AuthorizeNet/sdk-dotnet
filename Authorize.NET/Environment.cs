@@ -120,7 +120,7 @@ namespace AuthorizeNet
 
 	    /// <summary>
 	    /// Reads the value from property file and/or the environment 
-	    /// Values in property file supersede the values set in environmen
+	    /// Values in property file supersede the values set in environment
 	    /// </summary>
         /// <param name="propertyName">propertyName name of the property to read</param>
         /// <returns>String property value</returns>
@@ -128,10 +128,13 @@ namespace AuthorizeNet
 		    String stringValue = null;
 
 	        String propValue = null;
+
+#if !NETSTANDARD2_0
             if ( ConfigurationManager.AppSettings.AllKeys.Contains(propertyName))
 	        {
 	            propValue = ConfigurationManager.AppSettings[propertyName];
 	        }
+#endif
 
             var envValue = System.Environment.GetEnvironmentVariable(propertyName);
 		    if ( null != propValue && propValue.Trim().Length > 0 )

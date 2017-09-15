@@ -20,11 +20,14 @@
 		    //validate not-required fields		
 	    }
 
+#if !NETSTANDARD2_0
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
             RequestFactoryWithSpecified.getAUJobSummaryType(request);
         }
+#endif
+
     }
 #pragma warning restore 1591
 }
