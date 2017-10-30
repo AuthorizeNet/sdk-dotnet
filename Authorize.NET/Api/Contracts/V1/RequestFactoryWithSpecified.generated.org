@@ -36,6 +36,7 @@ namespace AuthorizeNet.Api.Contracts.V1
         {
             if(null != argument) 
             {
+        [System.Xml.Serialization.XmlArrayItemAttribute("cardType")]
             }
         }
         public static void auDetailsType(auDetailsType argument) 
@@ -301,6 +302,8 @@ namespace AuthorizeNet.Api.Contracts.V1
                 solutionType(argument.solution);
                 if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
                 customerProfileIdType(argument.profile);
+                extendedAmountType(argument.surcharge);
+                extendedAmountType(argument.tip);
             }
         }
         public static void subscriptionPaymentType(subscriptionPaymentType argument) 
@@ -504,6 +507,9 @@ namespace AuthorizeNet.Api.Contracts.V1
                 transRetailInfoType(argument.retail);
                 if(null != argument.transactionSettings){ foreach( var value in argument.transactionSettings) { settingType(value);} } 
                 if(null != argument.userFields){ foreach( var value in argument.userFields) { userField(value);} } 
+                extendedAmountType(argument.surcharge);
+                subMerchantType(argument.subMerchant);
+                extendedAmountType(argument.tip);
             }
         }
         public static void paymentType(paymentType argument) 
@@ -632,6 +638,12 @@ transRetailInfoType() {
             }
         }
         public static void settingType(settingType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+        public static void subMerchantType(subMerchantType argument) 
         {
             if(null != argument) 
             {
@@ -1042,6 +1054,7 @@ transRetailInfoType() {
             if(null != argument) 
             {
                 if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
             }
         }
         public static void getCustomerProfileResponse(getCustomerProfileResponse argument) 
@@ -1056,6 +1069,7 @@ transRetailInfoType() {
             if(null != argument) 
             {
                 if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
             }
         }
         public static void getCustomerPaymentProfileResponse(getCustomerPaymentProfileResponse argument) 
@@ -1412,6 +1426,7 @@ transRetailInfoType() {
             {
                 customerProfileSummaryType(argument.customerProfileSummaryType);
                 paymentSimpleType(argument.paymentSimpleType);
+        typeEmailReceipt,
             }
         }
         public static void getCustomerPaymentProfileListRequest(getCustomerPaymentProfileListRequest argument) 

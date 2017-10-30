@@ -1017,6 +1017,8 @@
             if (null != argument)
             {
 				if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+				if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+
             }
         }
         public static void getCustomerProfileResponse(getCustomerProfileResponse argument)
@@ -1030,6 +1032,8 @@
         {
             if (null != argument)
             {
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+
             }
         }
         public static void getCustomerPaymentProfileResponse(getCustomerPaymentProfileResponse argument)

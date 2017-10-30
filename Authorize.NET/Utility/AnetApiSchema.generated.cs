@@ -59,6 +59,13 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string name;
+        
+        /// <remarks/>
+        public int id;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("cardType")]
+        public string[] cardTypes;
     }
     
     /// <remarks/>
@@ -124,6 +131,9 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public cardArt cardArt;
+        
+        /// <remarks/>
+        public string issuerNumber;
     }
     
     /// <remarks/>
@@ -1155,6 +1165,15 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public customerProfileIdType profile;
+        
+        /// <remarks/>
+        public extendedAmountType surcharge;
+        
+        /// <remarks/>
+        public string employeeId;
+        
+        /// <remarks/>
+        public extendedAmountType tip;
     }
     
     /// <remarks/>
@@ -1859,6 +1878,18 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
         public userField[] userFields;
+        
+        /// <remarks/>
+        public extendedAmountType surcharge;
+        
+        /// <remarks/>
+        public string merchantDescriptor;
+        
+        /// <remarks/>
+        public subMerchantType subMerchant;
+        
+        /// <remarks/>
+        public extendedAmountType tip;
     }
     
     /// <remarks/>
@@ -2219,6 +2250,9 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         public string customerSignature;
         
+        /// <remarks/>
+        public string terminalNumber;
+        
         public transRetailInfoType() {
             this.marketType = "2";
         }
@@ -2237,6 +2271,48 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string settingValue;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class subMerchantType {
+        
+        /// <remarks/>
+        public string identifier;
+        
+        /// <remarks/>
+        public string doingBusinessAs;
+        
+        /// <remarks/>
+        public string paymentServiceProviderName;
+        
+        /// <remarks/>
+        public string paymentServiceFacilitator;
+        
+        /// <remarks/>
+        public string streetAddress;
+        
+        /// <remarks/>
+        public string phone;
+        
+        /// <remarks/>
+        public string email;
+        
+        /// <remarks/>
+        public string postalCode;
+        
+        /// <remarks/>
+        public string city;
+        
+        /// <remarks/>
+        public string regionCode;
+        
+        /// <remarks/>
+        public string countryCode;
     }
     
     /// <remarks/>
@@ -3470,6 +3546,13 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool unmaskExpirationDateSpecified;
+        
+        /// <remarks/>
+        public bool includeIssuerInfo;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeIssuerInfoSpecified;
     }
     
     /// <remarks/>
@@ -3510,6 +3593,13 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool unmaskExpirationDateSpecified;
+        
+        /// <remarks/>
+        public bool includeIssuerInfo;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeIssuerInfoSpecified;
     }
     
     /// <remarks/>
@@ -4570,6 +4660,12 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         hostedPaymentStyleOptions,
+        
+        /// <remarks/>
+        typeEmailReceipt,
+        
+        /// <remarks/>
+        hostedProfilePaymentOptions,
     }
     
     /// <remarks/>
@@ -4937,6 +5033,9 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("currency")]
         public string[] currencies;
+        
+        /// <remarks/>
+        public string publicClientKey;
     }
     
     /// <remarks/>
