@@ -1,13 +1,13 @@
-﻿# Authorize.Net .Net SDK
+﻿# Authorize.Net .NET SDK
 
-[![Travis](https://img.shields.io/travis/AuthorizeNet/sdk-dotnet/master.svg)](https://travis-ci.org/AuthorizeNet/sdk-dotnet)
+[![Travis CI Status](https://travis-ci.org/AuthorizeNet/sdk-dotnet.svg?branch=master)](https://travis-ci.org/AuthorizeNet/sdk-dotnet)
 [![Code Climate](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet/badges/gpa.svg)](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet)
 [![NuGet](https://badge.fury.io/nu/authorizenet.svg)](https://www.nuget.org/packages/authorizenet)
 
 
 ## Requirements
 * .NET 3.5 or later
-* Microsoft&reg; Visual Studio 2008 or 2010
+* Microsoft&reg; Visual Studio 2008 or later
 * Nunit 2.6.3;
 * An Authorize.Net account (see _Registration & Configuration_ section below)
 
@@ -79,4 +79,4 @@ For additional help in testing your own code, Authorize.Net maintains a [compreh
 
 
 ## License
-This repository is distributed under a proprietary license. See the provided [`LICENSE.txt`](/license.txt) file.
+This repository is distributed under a proprietary license. See the provided [`LICENSE.txt`](/LICENSE.txt) file.
