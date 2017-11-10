@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AuthorizeNet</RootNamespace>
     <AssemblyName>AuthorizeNet</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <FileUpgradeFlags>
@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin/Debug/AuthorizeNet.XML</DocumentationFile>
     <NoWarn>0219,1591,1635</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin/Release/AuthorizeNet.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -73,6 +75,8 @@
     <Compile Include="Api\Controllers\deleteCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\deleteCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\deleteCustomerShippingAddressController.cs" />
+    <Compile Include="Api\Controllers\getAUJobDetailsController.cs" />
+    <Compile Include="Api\Controllers\getAUJobSummaryController.cs" />
     <Compile Include="Api\Controllers\getBatchStatisticsController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileListController.cs" />
