@@ -1436,8 +1436,7 @@
             {
                 customerProfileSummaryType(argument.customerProfileSummaryType);
                 paymentSimpleType(argument.paymentSimpleType);
-				typeEmailReceipt,
-            }
+			}
         }
 		
 		public static void auDetailsType(auDetailsType argument) 
