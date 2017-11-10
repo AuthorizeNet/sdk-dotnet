@@ -35,6 +35,7 @@
         {
             if(null != argument) 
             {
+				[System.Xml.Serialization.XmlArrayItemAttribute("cardType")]
             }
         }
 
@@ -217,6 +218,12 @@
             {
             }
         }
+		public static void subMerchantType(subMerchantType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void emailSettingsType(emailSettingsType argument)
         {
             if (null != argument)
@@ -280,6 +287,9 @@
                 transRetailInfoType(argument.retail);
                 if (null != argument.transactionSettings) { foreach (var value in argument.transactionSettings) { settingType(value); } }
                 if (null != argument.userFields) { foreach (var value in argument.userFields) { userField(value); } }
+				extendedAmountType(argument.surcharge);
+                subMerchantType(argument.subMerchant);
+                extendedAmountType(argument.tip);
             }
         }
         public static void paymentType(paymentType argument)
@@ -520,6 +530,8 @@
 				if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
 				
                 customerProfileIdType(argument.profile);
+				extendedAmountType(argument.surcharge);
+                extendedAmountType(argument.tip);
 			}
         }
         public static void paymentMaskedType(paymentMaskedType argument)
@@ -1424,6 +1436,7 @@
             {
                 customerProfileSummaryType(argument.customerProfileSummaryType);
                 paymentSimpleType(argument.paymentSimpleType);
+				typeEmailReceipt,
             }
         }
 		
