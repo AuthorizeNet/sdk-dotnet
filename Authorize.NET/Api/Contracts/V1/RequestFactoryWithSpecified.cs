@@ -35,7 +35,6 @@
         {
             if(null != argument) 
             {
-				[System.Xml.Serialization.XmlArrayItemAttribute("cardType")]
             }
         }
 
