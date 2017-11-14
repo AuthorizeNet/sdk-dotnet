@@ -175,6 +175,7 @@
                 subscriptionPaymentType(argument.subscription);
                 if (argument.hasReturnedItems) { argument.hasReturnedItemsSpecified = true; }
                 fraudInformationType(argument.fraudInformation); 
+                customerProfileIdType(argument.profile);
 			}
         }
         public static void subscriptionPaymentType(subscriptionPaymentType argument)
@@ -517,7 +518,8 @@
                 solutionType(argument.solution);
 
 				if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
-
+				
+                customerProfileIdType(argument.profile);
 			}
         }
         public static void paymentMaskedType(paymentMaskedType argument)
@@ -574,6 +576,7 @@
                 nameAndAddressType(argument.shipTo);
                 transactionResponseSecureAcceptance(argument.secureAcceptance);
                 transactionResponseEmvResponse(argument.emvResponse);
+                customerProfileIdType(argument.profile);				
 			}
         }
 
@@ -1505,6 +1508,14 @@
             }
         }
 		
+        public static void getTransactionListForCustomerRequest(getTransactionListForCustomerRequest argument) 
+        {
+            if(null != argument) 
+            {
+                TransactionListSorting(argument.sorting);
+                Paging(argument.paging);
+            }
+        }
 	}
 	
 	

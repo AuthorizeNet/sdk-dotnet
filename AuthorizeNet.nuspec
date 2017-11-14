@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>AuthorizeNet</id>
-        <version>1.9.1</version>
+        <version>1.9.3</version>
         <title>AuthorizeNet</title>
         <authors>Authorize.Net</authors>
         <owners>AuthorizeNet</owners>
-        <licenseUrl>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/license.txt</licenseUrl>
+        <licenseUrl>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/LICENSE.txt</licenseUrl>
         <projectUrl>https://github.com/AuthorizeNet/sdk-dotnet</projectUrl>
         <iconUrl>http://developer.authorize.net/resources/images/favicon.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>

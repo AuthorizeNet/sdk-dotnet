@@ -23,7 +23,6 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
-            RequestFactoryWithSpecified.getAUJobSummaryType(request);
         }
     }
 #pragma warning restore 1591
