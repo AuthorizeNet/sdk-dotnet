@@ -91,6 +91,7 @@
     <Compile Include="Api\Controllers\logoutController.cs" />
     <Compile Include="Api\Controllers\mobileDeviceLoginController.cs" />
     <Compile Include="Api\Controllers\mobileDeviceRegistrationController.cs" />
+    <Compile Include="Api\Controllers\securePaymentContainerController.cs" />
     <Compile Include="Api\Controllers\sendCustomerTransactionReceiptController.cs" />
     <Compile Include="Api\Controllers\transactionController.cs" />
     <Compile Include="Api\Controllers\updateCustomerPaymentProfileController.cs" />
