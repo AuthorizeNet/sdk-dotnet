@@ -1565,7 +1565,19 @@
                 Paging(argument.paging);
             }
         }
-	}
+        public static void updateMerchantDetailsRequest(updateMerchantDetailsRequest argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+        public static void updateMerchantDetailsResponse(updateMerchantDetailsResponse argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+    }
 	
 	
     // ReSharper restore InconsistentNaming 

@@ -98,6 +98,7 @@
     <Compile Include="Api\Controllers\updateCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\updateCustomerShippingAddressController.cs" />
     <Compile Include="Api\Controllers\updateHeldTransactionController.cs" />
+    <Compile Include="Api\Controllers\updateMerchantDetailsController.cs" />
     <Compile Include="Api\Controllers\updateSplitTenderGroupController.cs" />
     <Compile Include="Api\Controllers\validateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\Bases\*.cs" />

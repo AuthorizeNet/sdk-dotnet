@@ -747,6 +747,7 @@ transRetailInfoType() {
                 if(argument.status) { argument.statusSpecified=true;}
                 subscriptionCustomerProfileType(argument.profile);
                 orderType(argument.order);
+                if(null != argument.arbTransactions){ foreach( var value in argument.arbTransactions) { arbTransaction(value);} } 
             }
         }
         public static void paymentScheduleType(paymentScheduleType argument) 
@@ -763,6 +764,15 @@ transRetailInfoType() {
         {
             if(null != argument) 
             {
+            }
+        }
+        public static void arbTransaction(arbTransaction argument) 
+        {
+            if(null != argument) 
+            {
+                if(argument.submitTimeUTC) { argument.submitTimeUTCSpecified=true;}
+                if(argument.payNum) { argument.payNumSpecified=true;}
+                if(argument.attemptNum) { argument.attemptNumSpecified=true;}
             }
         }
         public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
@@ -844,17 +854,18 @@ transRetailInfoType() {
                 customerProfileIdType(argument.profile);
             }
         }
+        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void webCheckOutDataType(webCheckOutDataType argument) 
         {
             if(null != argument) 
             {
                 webCheckOutDataTypeToken(argument.token);
-            }
-        }
-        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument) 
-        {
-            if(null != argument) 
-            {
+                bankAccountType(argument.bankToken);
             }
         }
         public static void paymentDetails(paymentDetails argument) 
@@ -1448,6 +1459,7 @@ transRetailInfoType() {
         {
             if(null != argument) 
             {
+                if(argument.includeTransactions) { argument.includeTransactionsSpecified=true;}
             }
         }
         public static void ARBGetSubscriptionResponse(ARBGetSubscriptionResponse argument) 
@@ -1510,6 +1522,18 @@ transRetailInfoType() {
                 if(null != argument.processors){ foreach( var value in argument.processors) { processorType(value);} } 
         [System.Xml.Serialization.XmlArrayItemAttribute("marketType")]
 System.Nullable<
+            }
+        }
+        public static void updateMerchantDetailsRequest(updateMerchantDetailsRequest argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+        public static void updateMerchantDetailsResponse(updateMerchantDetailsResponse argument) 
+        {
+            if(null != argument) 
+            {
             }
         }
     } 
