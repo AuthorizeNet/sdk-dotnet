@@ -80,6 +80,7 @@
     <Compile Include="Api\Controllers\MockTest\getMerchantDetailsControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\securePaymentContainerControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\updateHeldTransactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateMerchantDetailsControllerTest.cs" />
     <Compile Include="Api\Controllers\SampleTest\CustomerProfileSampleTest.cs" />
     <Compile Include="Api\Controllers\Test\*.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBCancelSubscriptionControllerTest.cs" />
