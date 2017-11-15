@@ -59,6 +59,13 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string name;
+        
+        /// <remarks/>
+        public int id;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("cardType")]
+        public string[] cardTypes;
     }
     
     /// <remarks/>
@@ -124,6 +131,9 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public cardArt cardArt;
+        
+        /// <remarks/>
+        public string issuerNumber;
     }
     
     /// <remarks/>
@@ -1155,6 +1165,15 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public customerProfileIdType profile;
+        
+        /// <remarks/>
+        public extendedAmountType surcharge;
+        
+        /// <remarks/>
+        public string employeeId;
+        
+        /// <remarks/>
+        public extendedAmountType tip;
     }
     
     /// <remarks/>
@@ -1859,6 +1878,18 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
         public userField[] userFields;
+        
+        /// <remarks/>
+        public extendedAmountType surcharge;
+        
+        /// <remarks/>
+        public string merchantDescriptor;
+        
+        /// <remarks/>
+        public subMerchantType subMerchant;
+        
+        /// <remarks/>
+        public extendedAmountType tip;
     }
     
     /// <remarks/>
@@ -2219,6 +2250,9 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         public string customerSignature;
         
+        /// <remarks/>
+        public string terminalNumber;
+        
         public transRetailInfoType() {
             this.marketType = "2";
         }
@@ -2237,6 +2271,48 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string settingValue;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class subMerchantType {
+        
+        /// <remarks/>
+        public string identifier;
+        
+        /// <remarks/>
+        public string doingBusinessAs;
+        
+        /// <remarks/>
+        public string paymentServiceProviderName;
+        
+        /// <remarks/>
+        public string paymentServiceFacilitator;
+        
+        /// <remarks/>
+        public string streetAddress;
+        
+        /// <remarks/>
+        public string phone;
+        
+        /// <remarks/>
+        public string email;
+        
+        /// <remarks/>
+        public string postalCode;
+        
+        /// <remarks/>
+        public string city;
+        
+        /// <remarks/>
+        public string regionCode;
+        
+        /// <remarks/>
+        public string countryCode;
     }
     
     /// <remarks/>
@@ -2518,6 +2594,10 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public orderType order;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public arbTransaction[] arbTransactions;
     }
     
     /// <remarks/>
@@ -2580,6 +2660,42 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         months,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class arbTransaction {
+        
+        /// <remarks/>
+        public string transId;
+        
+        /// <remarks/>
+        public string response;
+        
+        /// <remarks/>
+        public System.DateTime submitTimeUTC;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool submitTimeUTCSpecified;
+        
+        /// <remarks/>
+        public int payNum;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool payNumSpecified;
+        
+        /// <remarks/>
+        public int attemptNum;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool attemptNumSpecified;
     }
     
     /// <remarks/>
@@ -2844,37 +2960,6 @@ namespace AuthorizeNet.APICore {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class webCheckOutDataType {
-        
-        /// <remarks/>
-        public webCheckOutTypeEnum type;
-        
-        /// <remarks/>
-        public string id;
-        
-        /// <remarks/>
-        public webCheckOutDataTypeToken token;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum webCheckOutTypeEnum {
-        
-        /// <remarks/>
-        PAN,
-        
-        /// <remarks/>
-        TOKEN,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class webCheckOutDataTypeToken {
         
         /// <remarks/>
@@ -2891,6 +2976,40 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string fullName;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class webCheckOutDataType {
+        
+        /// <remarks/>
+        public webCheckOutTypeEnum type;
+        
+        /// <remarks/>
+        public string id;
+        
+        /// <remarks/>
+        public webCheckOutDataTypeToken token;
+        
+        /// <remarks/>
+        public bankAccountType bankToken;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum webCheckOutTypeEnum {
+        
+        /// <remarks/>
+        PAN,
+        
+        /// <remarks/>
+        TOKEN,
     }
     
     /// <remarks/>
@@ -3470,6 +3589,13 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool unmaskExpirationDateSpecified;
+        
+        /// <remarks/>
+        public bool includeIssuerInfo;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeIssuerInfoSpecified;
     }
     
     /// <remarks/>
@@ -3510,6 +3636,13 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool unmaskExpirationDateSpecified;
+        
+        /// <remarks/>
+        public bool includeIssuerInfo;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeIssuerInfoSpecified;
     }
     
     /// <remarks/>
@@ -4570,6 +4703,15 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         hostedPaymentStyleOptions,
+        
+        /// <remarks/>
+        typeEmailReceipt,
+        
+        /// <remarks/>
+        hostedProfilePaymentOptions,
+        
+        /// <remarks/>
+        hostedProfileSaveButtonText,
     }
     
     /// <remarks/>
@@ -4761,6 +4903,13 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         public string subscriptionId;
+        
+        /// <remarks/>
+        public bool includeTransactions;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeTransactionsSpecified;
     }
     
     /// <remarks/>
@@ -4937,6 +5086,9 @@ namespace AuthorizeNet.APICore {
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("currency")]
         public string[] currencies;
+        
+        /// <remarks/>
+        public string publicClientKey;
     }
     
     /// <remarks/>
@@ -4980,5 +5132,28 @@ namespace AuthorizeNet.APICore {
         
         /// <remarks/>
         AndroidPay,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class updateMerchantDetailsRequest : ANetApiRequest {
+        
+        /// <remarks/>
+        public bool isTestMode;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class updateMerchantDetailsResponse : ANetApiResponse {
     }
 }

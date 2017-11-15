@@ -217,6 +217,12 @@
             {
             }
         }
+		public static void subMerchantType(subMerchantType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void emailSettingsType(emailSettingsType argument)
         {
             if (null != argument)
@@ -280,6 +286,9 @@
                 transRetailInfoType(argument.retail);
                 if (null != argument.transactionSettings) { foreach (var value in argument.transactionSettings) { settingType(value); } }
                 if (null != argument.userFields) { foreach (var value in argument.userFields) { userField(value); } }
+				extendedAmountType(argument.surcharge);
+                subMerchantType(argument.subMerchant);
+                extendedAmountType(argument.tip);
             }
         }
         public static void paymentType(paymentType argument)
@@ -520,6 +529,8 @@
 				if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
 				
                 customerProfileIdType(argument.profile);
+				extendedAmountType(argument.surcharge);
+                extendedAmountType(argument.tip);
 			}
         }
         public static void paymentMaskedType(paymentMaskedType argument)
@@ -764,6 +775,12 @@
                 if (null != argument.shipToList) { foreach (var value in argument.shipToList) { customerAddressType(value); } }
             }
         }
+		public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void customerType(customerType argument)
         {
             if (null != argument)
@@ -839,6 +856,7 @@
             {
             }
         }
+
         public static void merchantAuthenticationType(merchantAuthenticationType argument)
         {
             if (null != argument)
@@ -872,6 +890,33 @@
             if (null != argument)
             {
                 messagesType(argument.messages);
+            }
+        }        
+        public static void securePaymentContainerRequest(securePaymentContainerRequest argument) 
+        {
+            if(null != argument) 
+            {
+                webCheckOutDataType(argument.data);
+            }
+        }
+        public static void securePaymentContainerResponse(securePaymentContainerResponse argument) 
+        {
+            if(null != argument) 
+            {
+                opaqueDataType(argument.opaqueData);
+            }
+        }
+        public static void webCheckOutDataType(webCheckOutDataType argument)
+        {
+            if (null != argument)
+            {
+                webCheckOutDataTypeToken(argument.token);
+            }
+        }
+        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument)
+        {
+            if (null != argument)
+            {
             }
         }
         public static void isAliveRequest(isAliveRequest argument)
@@ -1017,6 +1062,8 @@
             if (null != argument)
             {
 				if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+				if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+
             }
         }
         public static void getCustomerProfileResponse(getCustomerProfileResponse argument)
@@ -1030,6 +1077,8 @@
         {
             if (null != argument)
             {
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+
             }
         }
         public static void getCustomerPaymentProfileResponse(getCustomerPaymentProfileResponse argument)
@@ -1420,7 +1469,7 @@
             {
                 customerProfileSummaryType(argument.customerProfileSummaryType);
                 paymentSimpleType(argument.paymentSimpleType);
-            }
+			}
         }
 		
 		public static void auDetailsType(auDetailsType argument) 
@@ -1516,7 +1565,19 @@
                 Paging(argument.paging);
             }
         }
-	}
+        public static void updateMerchantDetailsRequest(updateMerchantDetailsRequest argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+        public static void updateMerchantDetailsResponse(updateMerchantDetailsResponse argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+    }
 	
 	
     // ReSharper restore InconsistentNaming 
