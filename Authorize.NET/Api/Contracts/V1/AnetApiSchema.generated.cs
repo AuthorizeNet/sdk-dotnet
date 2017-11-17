@@ -69,6 +69,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         public string name;
         
+        /// <remarks/>
+        public int id;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("cardType")]
+        public string[] cardTypes;
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -151,6 +158,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public cardArt cardArt;
+        
+        /// <remarks/>
+        public string issuerNumber;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -1444,6 +1454,15 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         public customerProfileIdType profile;
         
+        /// <remarks/>
+        public extendedAmountType surcharge;
+        
+        /// <remarks/>
+        public string employeeId;
+        
+        /// <remarks/>
+        public extendedAmountType tip;
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -2301,6 +2320,18 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
         public userField[] userFields;
         
+        /// <remarks/>
+        public extendedAmountType surcharge;
+        
+        /// <remarks/>
+        public string merchantDescriptor;
+        
+        /// <remarks/>
+        public subMerchantType subMerchant;
+        
+        /// <remarks/>
+        public extendedAmountType tip;
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -2804,6 +2835,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         public string customerSignature;
         
+        /// <remarks/>
+        public string terminalNumber;
+        
         public transRetailInfoType() {
             this.marketType = "2";
         }
@@ -2831,6 +2865,57 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public string settingValue;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class subMerchantType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string identifier;
+        
+        /// <remarks/>
+        public string doingBusinessAs;
+        
+        /// <remarks/>
+        public string paymentServiceProviderName;
+        
+        /// <remarks/>
+        public string paymentServiceFacilitator;
+        
+        /// <remarks/>
+        public string streetAddress;
+        
+        /// <remarks/>
+        public string phone;
+        
+        /// <remarks/>
+        public string email;
+        
+        /// <remarks/>
+        public string postalCode;
+        
+        /// <remarks/>
+        public string city;
+        
+        /// <remarks/>
+        public string regionCode;
+        
+        /// <remarks/>
+        public string countryCode;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -3158,6 +3243,10 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         public orderType order;
         
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public arbTransaction[] arbTransactions;
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -3246,6 +3335,51 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         months,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class arbTransaction : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public string transId;
+        
+        /// <remarks/>
+        public string response;
+        
+        /// <remarks/>
+        public System.DateTime submitTimeUTC;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool submitTimeUTCSpecified;
+        
+        /// <remarks/>
+        public int payNum;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool payNumSpecified;
+        
+        /// <remarks/>
+        public int attemptNum;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool attemptNumSpecified;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     /// <remarks/>
@@ -3591,46 +3725,6 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public partial class webCheckOutDataType : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        /// <remarks/>
-        public webCheckOutTypeEnum type;
-        
-        /// <remarks/>
-        public string id;
-        
-        /// <remarks/>
-        public webCheckOutDataTypeToken token;
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
-    public enum webCheckOutTypeEnum {
-        
-        /// <remarks/>
-        PAN,
-        
-        /// <remarks/>
-        TOKEN,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
     public partial class webCheckOutDataTypeToken : object, System.ComponentModel.INotifyPropertyChanged {
         
         /// <remarks/>
@@ -3656,6 +3750,49 @@ namespace AuthorizeNet.Api.Contracts.V1 {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class webCheckOutDataType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public webCheckOutTypeEnum type;
+        
+        /// <remarks/>
+        public string id;
+        
+        /// <remarks/>
+        public webCheckOutDataTypeToken token;
+        
+        /// <remarks/>
+        public bankAccountType bankToken;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum webCheckOutTypeEnum {
+        
+        /// <remarks/>
+        PAN,
+        
+        /// <remarks/>
+        TOKEN,
     }
     
     /// <remarks/>
@@ -4298,6 +4435,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool unmaskExpirationDateSpecified;
+        
+        /// <remarks/>
+        public bool includeIssuerInfo;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeIssuerInfoSpecified;
     }
     
     /// <remarks/>
@@ -4338,6 +4482,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool unmaskExpirationDateSpecified;
+        
+        /// <remarks/>
+        public bool includeIssuerInfo;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeIssuerInfoSpecified;
     }
     
     /// <remarks/>
@@ -5407,6 +5558,15 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         hostedPaymentStyleOptions,
+        
+        /// <remarks/>
+        typeEmailReceipt,
+        
+        /// <remarks/>
+        hostedProfilePaymentOptions,
+        
+        /// <remarks/>
+        hostedProfileSaveButtonText,
     }
     
     /// <remarks/>
@@ -5598,6 +5758,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public string subscriptionId;
+        
+        /// <remarks/>
+        public bool includeTransactions;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool includeTransactionsSpecified;
     }
     
     /// <remarks/>
@@ -5774,6 +5941,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("currency")]
         public string[] currencies;
+        
+        /// <remarks/>
+        public string publicClientKey;
     }
     
     /// <remarks/>
@@ -5817,5 +5987,28 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         AndroidPay,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class updateMerchantDetailsRequest : ANetApiRequest {
+        
+        /// <remarks/>
+        public bool isTestMode;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd", IsNullable=false)]
+    public partial class updateMerchantDetailsResponse : ANetApiResponse {
     }
 }

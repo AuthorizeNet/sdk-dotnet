@@ -165,6 +165,13 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.AreEqual(anEnum, enumFromValue);
             }
 
+			foreach (var anEnum in Enum.GetValues(typeof(webCheckOutTypeEnum)))
+            {
+                var aValue = anEnum.ToString();
+                webCheckOutTypeEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }														   
             foreach (var anEnum in Enum.GetValues(typeof(ItemChoiceType)))
             {
                 var aValue = anEnum.ToString();
@@ -306,4 +313,5 @@ namespace AuthorizeNet.Api.Controllers.Test
         }
         */
     }
-}
+}        
+
