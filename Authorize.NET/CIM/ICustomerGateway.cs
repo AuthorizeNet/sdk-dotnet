@@ -11,24 +11,29 @@ namespace AuthorizeNet {
         string AddShippingAddress(string profileID, AuthorizeNet.Address address);
         string AddShippingAddress(string profileID, string first, string last, string street, string city, string state, string zip, string country, string phone);
         
-        IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping);
         IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount);
+        IGatewayResponse AuthorizeAndCapture(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping);
         IGatewayResponse AuthorizeAndCapture(AuthorizeNet.Order order);
 
-        IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping);
         IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount);
+        IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping);
         IGatewayResponse Authorize(AuthorizeNet.Order order);
+
         IGatewayResponse Capture(string profileID, string paymentProfileId, string cardCode, decimal amount, string approvalCode);
 
+        IGatewayResponse PriorAuthCapture(string profileID, string paymentProfileId, string shippingProfileId, string transId, decimal amount);
+        IGatewayResponse PriorAuthCapture(string profileID, string paymentProfileId, string transId, decimal amount);
+        IGatewayResponse PriorAuthCapture(string transId, decimal amount);
+
         [Obsolete("This method has been deprecated, instead use the overloaded method without the appoval code")]
-        IGatewayResponse Refund(string profileID, string paymentProfileId, string approvalCode,string transactionId, decimal amount);
+        IGatewayResponse Refund(string profileID, string paymentProfileId, string transactionId, string approvalCode, decimal amount);
 
         [Obsolete("This method has been deprecated, instead use the overloaded method without the appoval code")]
         IGatewayResponse Void(string profileID, string paymentProfileId, string approvalCode, string transactionId);
 
-
         IGatewayResponse Refund(string profileID, string paymentProfileId, string transactionId, decimal amount);
         IGatewayResponse Void(string profileID, string paymentProfileId, string transactionId);
+
 
         AuthorizeNet.Customer CreateCustomer(string email, string description);
         bool DeleteCustomer(string profileID);

@@ -10,13 +10,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AuthorizeNETtest</RootNamespace>
     <AssemblyName>AuthorizeNETtest</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -28,6 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0219,1591,1635</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +39,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NMock3">
@@ -78,7 +81,9 @@
     <Compile Include="Api\Controllers\MockTest\getCustomerPaymentProfileListControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getHostedPaymentPageControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getMerchantDetailsControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\securePaymentContainerControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\updateHeldTransactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateMerchantDetailsControllerTest.cs" />
     <Compile Include="Api\Controllers\SampleTest\CustomerProfileSampleTest.cs" />
     <Compile Include="Api\Controllers\Test\*.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBCancelSubscriptionControllerTest.cs" />
@@ -133,9 +138,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\AuthorizeNet.accessor" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Api\ControllerTemplateTest.cst" />
     <None Include="App.config">
       <SubType>Designer</SubType>
@@ -143,6 +145,9 @@
     <None Include="NMock3\NMock3 Cheat Sheet.pdf" />
     <None Include="NMock3\NMockTest.cs" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

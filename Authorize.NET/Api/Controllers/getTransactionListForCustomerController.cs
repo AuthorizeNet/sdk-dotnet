@@ -5,9 +5,9 @@
     using AuthorizeNet.Api.Controllers.Bases;
 
 #pragma warning disable 1591
-    public class getAUJobDetailsController : ApiOperationBase<getAUJobDetailsRequest, getAUJobDetailsResponse> {
+    public class getTransactionListForCustomerController : ApiOperationBase<getTransactionListForCustomerRequest, getTransactionListResponse> {
 
-	    public getAUJobDetailsController(getAUJobDetailsRequest apiRequest) : base(apiRequest) {
+	    public getTransactionListForCustomerController(getTransactionListForCustomerRequest apiRequest) : base(apiRequest) {
 	    }
 
 	    override protected void ValidateRequest() {
@@ -23,6 +23,7 @@
         protected override void BeforeExecute()
         {
             var request = GetApiRequest();
+            RequestFactoryWithSpecified.getTransactionListForCustomerRequest(request);
         }
     }
 #pragma warning restore 1591

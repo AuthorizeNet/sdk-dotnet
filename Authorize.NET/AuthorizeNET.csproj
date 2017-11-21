@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AuthorizeNet</RootNamespace>
     <AssemblyName>AuthorizeNet</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <FileUpgradeFlags>
@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin/Debug/AuthorizeNet.XML</DocumentationFile>
     <NoWarn>0219,1591,1635</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin/Release/AuthorizeNet.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -73,6 +75,8 @@
     <Compile Include="Api\Controllers\deleteCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\deleteCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\deleteCustomerShippingAddressController.cs" />
+    <Compile Include="Api\Controllers\getAUJobDetailsController.cs" />
+    <Compile Include="Api\Controllers\getAUJobSummaryController.cs" />
     <Compile Include="Api\Controllers\getBatchStatisticsController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileListController.cs" />
@@ -85,17 +89,20 @@
     <Compile Include="Api\Controllers\getSettledBatchListController.cs" />
     <Compile Include="Api\Controllers\getTransactionDetailsController.cs" />
     <Compile Include="Api\Controllers\getTransactionListController.cs" />
+    <Compile Include="Api\Controllers\getTransactionListForCustomerController.cs" />
     <Compile Include="Api\Controllers\getUnsettledTransactionListController.cs" />
     <Compile Include="Api\Controllers\isAliveController.cs" />
     <Compile Include="Api\Controllers\logoutController.cs" />
     <Compile Include="Api\Controllers\mobileDeviceLoginController.cs" />
     <Compile Include="Api\Controllers\mobileDeviceRegistrationController.cs" />
+    <Compile Include="Api\Controllers\securePaymentContainerController.cs" />
     <Compile Include="Api\Controllers\sendCustomerTransactionReceiptController.cs" />
     <Compile Include="Api\Controllers\transactionController.cs" />
     <Compile Include="Api\Controllers\updateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\updateCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\updateCustomerShippingAddressController.cs" />
     <Compile Include="Api\Controllers\updateHeldTransactionController.cs" />
+    <Compile Include="Api\Controllers\updateMerchantDetailsController.cs" />
     <Compile Include="Api\Controllers\updateSplitTenderGroupController.cs" />
     <Compile Include="Api\Controllers\validateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\Bases\*.cs" />
