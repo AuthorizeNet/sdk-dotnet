@@ -8,6 +8,7 @@ namespace AuthorizeNet.Util
     using System.Xml.Serialization;
     using AuthorizeNet.Api.Contracts.V1;
     using AuthorizeNet.Api.Controllers.Bases;
+    using System.Security.Authentication;
 
 #pragma warning disable 1591
     public static class HttpUtility {
@@ -68,7 +69,10 @@ namespace AuthorizeNet.Util
             Logger.debug(string.Format("Retreiving Response from Url: '{0}'", postUrl));
             
             // Set Tls to Tls1.2
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            const SslProtocols _Tls12 = (SslProtocols)0x00000C00;
+            const SecurityProtocolType Tls12 = (SecurityProtocolType)_Tls12;
+            ServicePointManager.SecurityProtocol = Tls12;
+		  
 
             using (var webResponse = webRequest.GetResponse())
             {
