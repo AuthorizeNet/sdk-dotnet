@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -15,14 +16,14 @@ namespace AuthorizeNet {
         internal int ParseInt(int index) {
             int result = 0;
             if (RawResponse.Length > index)
-                int.TryParse(RawResponse[index].ToString(), out result);
+                int.TryParse(RawResponse[index].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out result);
             return result;
         }
 
         internal decimal ParseDecimal(int index) {
             decimal result = 0;
             if (RawResponse.Length > index)
-                decimal.TryParse(RawResponse[index].ToString(), out result);
+                decimal.TryParse(RawResponse[index].ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out result);
             return result;
         }
 
