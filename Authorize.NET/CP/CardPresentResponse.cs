@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AuthorizeNet {
     /// <summary>
-    /// Parses the response from the transaction (a piped string) into a represenational class
+    /// Parses the response from the transaction (a piped string) into a representational class
     /// </summary>
     public class CardPresentResponse:ResponseBase, IGatewayResponse {
 
