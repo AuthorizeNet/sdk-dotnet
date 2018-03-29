@@ -56,7 +56,7 @@ namespace AuthorizeNet {
             //ServicePointManager.CertificatePolicy = new PolicyOverride();
 
             ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
             var webRequest = (HttpWebRequest)WebRequest.Create(serviceUrl);
             webRequest.Method = "POST";
