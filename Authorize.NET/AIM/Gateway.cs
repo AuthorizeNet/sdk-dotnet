@@ -55,6 +55,9 @@ namespace AuthorizeNet {
             //override the local cert policy - this is for Mono ONLY
             //ServicePointManager.CertificatePolicy = new PolicyOverride();
 
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
             var webRequest = (HttpWebRequest)WebRequest.Create(serviceUrl);
             webRequest.Method = "POST";
             webRequest.ContentLength = postData.Length;
