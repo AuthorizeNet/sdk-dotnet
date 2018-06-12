@@ -60,6 +60,7 @@ namespace AuthorizeNet.Api.Contracts.V1
             if(null != argument) 
             {
                 cardArt(argument.cardArt);
+                if(argument.isPaymentToken) { argument.isPaymentTokenSpecified=true;}
             }
         }
         public static void cardArt(cardArt argument) 
@@ -717,6 +718,15 @@ transRetailInfoType() {
          customerProfileExType (argument);
                 if(null != argument.paymentProfiles){ foreach( var value in argument.paymentProfiles) { customerPaymentProfileMaskedType(value);} } 
                 if(null != argument.shipToList){ foreach( var value in argument.shipToList) { customerAddressExType(value);} } 
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
+            }
+        }
+        public static void customerProfileInfoExType(customerProfileInfoExType argument) 
+        {
+            if(null != argument) 
+            {
+                customerProfileExType (argument);
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void subscriptionCustomerProfileType(subscriptionCustomerProfileType argument) 
@@ -735,6 +745,7 @@ transRetailInfoType() {
          customerProfileBaseType (argument);
                 if(null != argument.paymentProfiles){ foreach( var value in argument.paymentProfiles) { customerPaymentProfileType(value);} } 
                 if(null != argument.shipToList){ foreach( var value in argument.shipToList) { customerAddressType(value);} } 
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void ARBSubscriptionMaskedType(ARBSubscriptionMaskedType argument) 
@@ -1058,6 +1069,7 @@ transRetailInfoType() {
                 customerProfileBaseType(argument.customer);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument) 
