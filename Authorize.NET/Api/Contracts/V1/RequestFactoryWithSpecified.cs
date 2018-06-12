@@ -1116,15 +1116,17 @@
         }
         public static void updateCustomerProfileRequest(updateCustomerProfileRequest argument)
         {
-            if (argument.profile.GetType() == typeof(customerProfileInfoExType))
+            if (null != argument)
             {
-                customerProfileInfoExType((customerProfileInfoExType)argument.profile);
+                if (null != argument.profile && argument.profile.GetType() == typeof(customerProfileInfoExType))
+                {
+                    customerProfileInfoExType((customerProfileInfoExType)argument.profile);
+                }
+                else
+                {
+                    customerProfileExType(argument.profile);
+                }
             }
-            else
-            {
-                customerProfileExType(argument.profile);
-            }
-
         }
         public static void updateCustomerProfileResponse(updateCustomerProfileResponse argument)
         {
