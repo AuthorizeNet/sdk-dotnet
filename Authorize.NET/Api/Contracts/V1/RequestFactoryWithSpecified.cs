@@ -242,7 +242,8 @@
         {
             if (null != argument)
             {
-                argument.marketType = "2";
+		//marketType should not be assigned here    
+                //argument.marketType = "2";
             }
         }
         public static void ccAuthenticationType(ccAuthenticationType argument)
