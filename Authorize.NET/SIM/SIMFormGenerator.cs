@@ -1,10 +1,15 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace AuthorizeNet
 {
     /// <summary>
     /// A class that builds out a SIM-ready form for submission to Auth.net.
     /// </summary>
+
+    //@deprecated since version 1.9.8  
+    //@deprecated SIM is replaced by Accept Hosted https://developer.authorize.net/content/developer/en_us/api/reference/features/accept_hosted.html  
+    [Obsolete("AuthorizeNetSIM is deprecated, use Accept Hosted instead: https://developer.authorize.net/content/developer/en_us/api/reference/features/accept_hosted.html.", false)]
     public static class SIMFormGenerator
     {
         public static string OpenForm(string apiLogin, string transactionKey, decimal amount, string returnUrl,

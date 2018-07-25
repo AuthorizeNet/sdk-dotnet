@@ -3,6 +3,9 @@ using System.Text;
 
 namespace AuthorizeNet.Util
 {
+    //@deprecated since version 1.9.8  
+    //@deprecated Since it is not using by New model Code
+    [Obsolete("Since it is not using by New model Code", false)]
     class HtmlHelper
     {
         /// <summary>
