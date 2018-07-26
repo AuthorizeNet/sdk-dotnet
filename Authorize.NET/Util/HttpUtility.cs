@@ -38,8 +38,8 @@ namespace AuthorizeNet.Util
             {
                 throw new ArgumentNullException("request");
             }
-            Logger.debug(string.Format("MerchantInfo->LoginId/TransactionKey: '{0}':'{1}'->{2}", 
-                request.merchantAuthentication.name, request.merchantAuthentication.ItemElementName, request.merchantAuthentication.Item));
+            //Logger.debug(string.Format("MerchantInfo->LoginId/TransactionKey: '{0}':'{1}'->{2}", 
+                //request.merchantAuthentication.name, request.merchantAuthentication.ItemElementName, request.merchantAuthentication.Item));
 		    
 	        var postUrl = GetPostUrl(env);
             var webRequest = (HttpWebRequest) WebRequest.Create(postUrl);

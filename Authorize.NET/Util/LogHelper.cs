@@ -1,6 +1,7 @@
 namespace AuthorizeNet.Util
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
 
     /// <summary>
@@ -45,15 +46,30 @@ namespace AuthorizeNet.Util
 
     public class Log
     {
-        public void error(string logMessage) { System.Diagnostics.Trace.WriteLine(logMessage); }
-        public void info(string logMessage)  { System.Diagnostics.Trace.WriteLine(logMessage); }
-        public void debug(string logMessage) { System.Diagnostics.Trace.WriteLine(logMessage); }
-        public void warn(string logMessage)  { System.Diagnostics.Trace.WriteLine(logMessage); }
+        private static TraceSource traceSource = new TraceSource("AnetDotNetSdkTrace", SourceLevels.All);
+
+        public void error(string logMessage) { Trace(TraceEventType.Error, logMessage); }
+        public void info(string logMessage) { Trace(TraceEventType.Information, logMessage); }
+        public void debug(string logMessage) { Trace(TraceEventType.Verbose, logMessage); }
+        public void warn(string logMessage) { Trace(TraceEventType.Warning, logMessage); }
 
         public void error(object logMessage) { error(logMessage.ToString()); }
         public void info(object logMessage)  { info(logMessage.ToString());  }
         public void debug(object logMessage) { debug(logMessage.ToString()); }
         public void warn(object logMessage)  { warn(logMessage.ToString());  }
+
+        public static void Trace(TraceEventType eventType, string message)
+        {
+            if (traceSource.Switch.ShouldTrace(eventType))
+            {
+                string tracemessage = string.Format("{0}\t[{1}]\t{2}", DateTime.Now.ToString("MM/dd/yy HH:mm:ss"), eventType, message);
+                foreach (TraceListener listener in traceSource.Listeners)
+                {
+                    listener.WriteLine(tracemessage);
+                    listener.Flush();
+                }
+            }
+        }
     }
 
     public class LogFactory
@@ -64,4 +80,5 @@ namespace AuthorizeNet.Util
             return Logger;
         }
     }
+
 }
