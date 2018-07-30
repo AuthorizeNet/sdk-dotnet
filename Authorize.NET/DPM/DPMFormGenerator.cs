@@ -8,6 +8,11 @@ namespace AuthorizeNet
     /// <summary>
     /// A class that builds out a DPM-ready form for submission to Auth.net.
     /// </summary>
+
+    //@deprecated since version 1.9.8  
+    //@deprecated Direct Post Method is replaced by Accept.JS https://developer.authorize.net/api/reference/features/acceptjs.html  
+    //@deprecated Refer sample accept application: https://github.com/AuthorizeNet/accept-sample-app
+    [Obsolete("AuthorizeNetDPM is deprecated, use Accept.JS instead. Refer sample accept application: https://github.com/AuthorizeNet/accept-sample-app.", false)]
     public static class DPMFormGenerator
     {
         public static string OpenForm(string apiLogin, string transactionKey, decimal amount, string returnUrl,
