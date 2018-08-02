@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AuthorizeNet Client SDK")]
+[assembly: AssemblyTitle("Official .NET SDK for Authorize.Net")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Visa Inc")]
-[assembly: AssemblyProduct("AuthorizeNet Client SDK")]
+[assembly: AssemblyProduct("Official .NET SDK for Authorize.Net")]
 [assembly: AssemblyCopyright("Copyright © Visa Inc 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
