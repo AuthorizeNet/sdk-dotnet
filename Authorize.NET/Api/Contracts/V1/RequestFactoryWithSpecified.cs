@@ -242,7 +242,8 @@
         {
             if (null != argument)
             {
-                argument.marketType = "2";
+		//marketType should not be assigned here    
+                //argument.marketType = "2";
             }
         }
         public static void ccAuthenticationType(ccAuthenticationType argument)
@@ -561,6 +562,7 @@
             if (null != argument)
             {
                 cardArt(argument.cardArt);
+                if(argument.isPaymentToken) { argument.isPaymentTokenSpecified=true;}
             }
         }
         public static void cardArt(cardArt argument)
@@ -764,6 +766,15 @@
                 customerProfileExType(argument);
                 if (null != argument.paymentProfiles) { foreach (var value in argument.paymentProfiles) { customerPaymentProfileMaskedType(value); } }
                 if (null != argument.shipToList) { foreach (var value in argument.shipToList) { customerAddressExType(value); } }
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
+            }
+        }
+        public static void customerProfileInfoExType(customerProfileInfoExType argument) 
+        {
+            if(null != argument) 
+            {
+                customerProfileExType (argument);
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void customerProfileType(customerProfileType argument)
@@ -773,6 +784,7 @@
                 customerProfileBaseType(argument);
                 if (null != argument.paymentProfiles) { foreach (var value in argument.paymentProfiles) { customerPaymentProfileType(value); } }
                 if (null != argument.shipToList) { foreach (var value in argument.shipToList) { customerAddressType(value); } }
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
 		public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
@@ -1055,6 +1067,7 @@
                 customerProfileBaseType(argument.customer);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument)
@@ -1106,7 +1119,14 @@
         {
             if (null != argument)
             {
-                customerProfileExType(argument.profile);
+                if (null != argument.profile && argument.profile.GetType() == typeof(customerProfileInfoExType))
+                {
+                    customerProfileInfoExType((customerProfileInfoExType)argument.profile);
+                }
+                else
+                {
+                    customerProfileExType(argument.profile);
+                }
             }
         }
         public static void updateCustomerProfileResponse(updateCustomerProfileResponse argument)
