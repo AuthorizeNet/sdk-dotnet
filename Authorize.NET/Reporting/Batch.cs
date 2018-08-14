@@ -4,23 +4,37 @@ using System.Linq;
 using System.Text;
 using AuthorizeNet.APICore;
 
-namespace AuthorizeNet {
+namespace AuthorizeNet
+{
 
     /// <summary>
     /// A helper class for representing a charge
     /// </summary>
-    public class Charge {
+
+    //@deprecated since version 1.9.8  
+    //@deprecated We have reorganized and simplified the Authorize.Net API to ease integration and to focus on merchants' needs.  
+    //@deprecated We have deprecated AIM, ARB, CIM, and Reporting as separate options, in favor of AuthorizeNet::API.
+    //@deprecated We have also deprecated SIM as a separate option, in favor of Accept Hosted. See https://developer.authorize.net/api/reference/features/accept_hosted.html for details on Accept Hosted.  
+    //@deprecated For details on the deprecation and replacement of legacy Authorize.Net methods, visit https://developer.authorize.net/api/upgrade_guide/.   
+    //@deprecated For AIM, refer examples in https://github.com/AuthorizeNet/sample-code-php/tree/master/Reporting 
+    [Obsolete("AuthorizeNetREPORTING is deprecated, use AuthorizeNet::API instead. For REPORTING, see examples in https://github.com/AuthorizeNet/sample-code-php/tree/master/Reporting.", false)]
+    public class Charge
+    {
         /// <summary>
         /// Creates a List of Charges from the Statistics return from the batch.
         /// </summary>
         /// <param name="stats">The stats.</param>
         /// <returns></returns>
-        public static List<Charge> NewFromStat(batchStatisticType[] stats){
+        public static List<Charge> NewFromStat(batchStatisticType[] stats)
+        {
             var result = new List<Charge>();
-            if (stats != null) {
-                for (int i = 0; i < stats.Length; i++) {
+            if (stats != null)
+            {
+                for (int i = 0; i < stats.Length; i++)
+                {
                     var stat = stats[i];
-                    result.Add(new Charge {
+                    result.Add(new Charge
+                    {
                         Amount = stat.chargeAmount,
                         CardType = stat.accountType,
                         ChargeBackAmount = stat.chargebackAmount,
@@ -92,7 +106,8 @@ namespace AuthorizeNet {
     /// <summary>
     /// A class representing a batch-settlement
     /// </summary>
-    public class Batch {
+    public class Batch
+    {
 
 
         /// <summary>
@@ -126,7 +141,8 @@ namespace AuthorizeNet {
         /// </summary>
         /// <param name="batches">The batches.</param>
         /// <returns></returns>
-        public static List<Batch> NewFromResponse(getSettledBatchListResponse batches){
+        public static List<Batch> NewFromResponse(getSettledBatchListResponse batches)
+        {
             var result = new List<Batch>();
             if (null != batches && null != batches.batchList)
             {
