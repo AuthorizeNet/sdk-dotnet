@@ -1,4 +1,4 @@
-+ Thanks for contributing to the Authorize.Net Java SDK.
++ Thanks for contributing to the Authorize.Net Dotnet SDK.
 
 + Before you submit a pull request, we ask that you consider the following:
 
