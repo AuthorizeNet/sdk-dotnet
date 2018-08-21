@@ -16,7 +16,7 @@ Authorize.Net no longer supports several legacy classes, including AIM, ARB and 
 | DPM (Authorize.NET/DPM)             |[Accept.JS](https://developer.authorize.net/api/reference/features/acceptjs.html)                                                           | [Sample Accept Application](https://github.com/AuthorizeNet/accept-sample-app)    |
 
 ## Example 
-#### Corresponding new model code (charge-credit-card):
+#### Sample new model code for (charge-credit-card)
    ```Dotnet
 using System;
 using AuthorizeNet.Api.Controllers;
@@ -89,6 +89,5 @@ namespace net.authorize.sample
 			
 		}
 	}
-}		
-
+}	
 ```
