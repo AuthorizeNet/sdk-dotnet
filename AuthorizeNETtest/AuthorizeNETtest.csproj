@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="*.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getAUJobDetailsControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getCustomerPaymentProfileListControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getHostedPaymentPageControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getMerchantDetailsControllerTest.cs" />

@@ -137,6 +137,10 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public creditCardMaskedType creditCard;
+        //Declared  subscriptionIdsList for auDeleteType
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable = false)]
+        public string[] SubscriptionIdList;
     }
     
     /// <remarks/>
@@ -225,6 +229,10 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public creditCardMaskedType oldCreditCard;
+        //Declared  subscriptionIdsList for auUpdateType
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable = false)]
+        public string[] SubscriptionIdList;
     }
     
     /// <remarks/>
