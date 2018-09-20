@@ -36,6 +36,7 @@ namespace AuthorizeNet.Api.Contracts.V1
         {
             if(null != argument) 
             {
+        [System.Xml.Serialization.XmlArrayItemAttribute("cardType")]
             }
         }
         public static void auDetailsType(auDetailsType argument) 
@@ -59,6 +60,7 @@ namespace AuthorizeNet.Api.Contracts.V1
             if(null != argument) 
             {
                 cardArt(argument.cardArt);
+                if(argument.isPaymentToken) { argument.isPaymentTokenSpecified=true;}
             }
         }
         public static void cardArt(cardArt argument) 
@@ -301,6 +303,8 @@ namespace AuthorizeNet.Api.Contracts.V1
                 solutionType(argument.solution);
                 if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
                 customerProfileIdType(argument.profile);
+                extendedAmountType(argument.surcharge);
+                extendedAmountType(argument.tip);
             }
         }
         public static void subscriptionPaymentType(subscriptionPaymentType argument) 
@@ -504,6 +508,9 @@ namespace AuthorizeNet.Api.Contracts.V1
                 transRetailInfoType(argument.retail);
                 if(null != argument.transactionSettings){ foreach( var value in argument.transactionSettings) { settingType(value);} } 
                 if(null != argument.userFields){ foreach( var value in argument.userFields) { userField(value);} } 
+                extendedAmountType(argument.surcharge);
+                subMerchantType(argument.subMerchant);
+                extendedAmountType(argument.tip);
             }
         }
         public static void paymentType(paymentType argument) 
@@ -637,6 +644,12 @@ transRetailInfoType() {
             {
             }
         }
+        public static void subMerchantType(subMerchantType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void mobileDeviceType(mobileDeviceType argument) 
         {
             if(null != argument) 
@@ -705,6 +718,15 @@ transRetailInfoType() {
          customerProfileExType (argument);
                 if(null != argument.paymentProfiles){ foreach( var value in argument.paymentProfiles) { customerPaymentProfileMaskedType(value);} } 
                 if(null != argument.shipToList){ foreach( var value in argument.shipToList) { customerAddressExType(value);} } 
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
+            }
+        }
+        public static void customerProfileInfoExType(customerProfileInfoExType argument) 
+        {
+            if(null != argument) 
+            {
+                customerProfileExType (argument);
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void subscriptionCustomerProfileType(subscriptionCustomerProfileType argument) 
@@ -723,6 +745,7 @@ transRetailInfoType() {
          customerProfileBaseType (argument);
                 if(null != argument.paymentProfiles){ foreach( var value in argument.paymentProfiles) { customerPaymentProfileType(value);} } 
                 if(null != argument.shipToList){ foreach( var value in argument.shipToList) { customerAddressType(value);} } 
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void ARBSubscriptionMaskedType(ARBSubscriptionMaskedType argument) 
@@ -735,6 +758,7 @@ transRetailInfoType() {
                 if(argument.status) { argument.statusSpecified=true;}
                 subscriptionCustomerProfileType(argument.profile);
                 orderType(argument.order);
+                if(null != argument.arbTransactions){ foreach( var value in argument.arbTransactions) { arbTransaction(value);} } 
             }
         }
         public static void paymentScheduleType(paymentScheduleType argument) 
@@ -751,6 +775,15 @@ transRetailInfoType() {
         {
             if(null != argument) 
             {
+            }
+        }
+        public static void arbTransaction(arbTransaction argument) 
+        {
+            if(null != argument) 
+            {
+                if(argument.submitTimeUTC) { argument.submitTimeUTCSpecified=true;}
+                if(argument.payNum) { argument.payNumSpecified=true;}
+                if(argument.attemptNum) { argument.attemptNumSpecified=true;}
             }
         }
         public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
@@ -832,17 +865,18 @@ transRetailInfoType() {
                 customerProfileIdType(argument.profile);
             }
         }
+        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void webCheckOutDataType(webCheckOutDataType argument) 
         {
             if(null != argument) 
             {
                 webCheckOutDataTypeToken(argument.token);
-            }
-        }
-        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument) 
-        {
-            if(null != argument) 
-            {
+                bankAccountType(argument.bankToken);
             }
         }
         public static void paymentDetails(paymentDetails argument) 
@@ -1035,6 +1069,7 @@ transRetailInfoType() {
                 customerProfileBaseType(argument.customer);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+                if(argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument) 
@@ -1042,6 +1077,7 @@ transRetailInfoType() {
             if(null != argument) 
             {
                 if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
             }
         }
         public static void getCustomerProfileResponse(getCustomerProfileResponse argument) 
@@ -1056,6 +1092,7 @@ transRetailInfoType() {
             if(null != argument) 
             {
                 if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
             }
         }
         public static void getCustomerPaymentProfileResponse(getCustomerPaymentProfileResponse argument) 
@@ -1412,6 +1449,7 @@ transRetailInfoType() {
             {
                 customerProfileSummaryType(argument.customerProfileSummaryType);
                 paymentSimpleType(argument.paymentSimpleType);
+        typeEmailReceipt,
             }
         }
         public static void getCustomerPaymentProfileListRequest(getCustomerPaymentProfileListRequest argument) 
@@ -1433,6 +1471,7 @@ transRetailInfoType() {
         {
             if(null != argument) 
             {
+                if(argument.includeTransactions) { argument.includeTransactionsSpecified=true;}
             }
         }
         public static void ARBGetSubscriptionResponse(ARBGetSubscriptionResponse argument) 
@@ -1495,6 +1534,18 @@ transRetailInfoType() {
                 if(null != argument.processors){ foreach( var value in argument.processors) { processorType(value);} } 
         [System.Xml.Serialization.XmlArrayItemAttribute("marketType")]
 System.Nullable<
+            }
+        }
+        public static void updateMerchantDetailsRequest(updateMerchantDetailsRequest argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
+        public static void updateMerchantDetailsResponse(updateMerchantDetailsResponse argument) 
+        {
+            if(null != argument) 
+            {
             }
         }
     } 

@@ -217,6 +217,12 @@
             {
             }
         }
+		public static void subMerchantType(subMerchantType argument) 
+        {
+            if(null != argument) 
+            {
+            }
+        }
         public static void emailSettingsType(emailSettingsType argument)
         {
             if (null != argument)
@@ -236,7 +242,8 @@
         {
             if (null != argument)
             {
-                argument.marketType = "2";
+		//marketType should not be assigned here    
+                //argument.marketType = "2";
             }
         }
         public static void ccAuthenticationType(ccAuthenticationType argument)
@@ -280,6 +287,9 @@
                 transRetailInfoType(argument.retail);
                 if (null != argument.transactionSettings) { foreach (var value in argument.transactionSettings) { settingType(value); } }
                 if (null != argument.userFields) { foreach (var value in argument.userFields) { userField(value); } }
+				extendedAmountType(argument.surcharge);
+                subMerchantType(argument.subMerchant);
+                extendedAmountType(argument.tip);
             }
         }
         public static void paymentType(paymentType argument)
@@ -520,6 +530,8 @@
 				if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
 				
                 customerProfileIdType(argument.profile);
+				extendedAmountType(argument.surcharge);
+                extendedAmountType(argument.tip);
 			}
         }
         public static void paymentMaskedType(paymentMaskedType argument)
@@ -550,6 +562,7 @@
             if (null != argument)
             {
                 cardArt(argument.cardArt);
+                if(argument.isPaymentToken) { argument.isPaymentTokenSpecified=true;}
             }
         }
         public static void cardArt(cardArt argument)
@@ -753,6 +766,15 @@
                 customerProfileExType(argument);
                 if (null != argument.paymentProfiles) { foreach (var value in argument.paymentProfiles) { customerPaymentProfileMaskedType(value); } }
                 if (null != argument.shipToList) { foreach (var value in argument.shipToList) { customerAddressExType(value); } }
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
+            }
+        }
+        public static void customerProfileInfoExType(customerProfileInfoExType argument) 
+        {
+            if(null != argument) 
+            {
+                customerProfileExType (argument);
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void customerProfileType(customerProfileType argument)
@@ -762,6 +784,13 @@
                 customerProfileBaseType(argument);
                 if (null != argument.paymentProfiles) { foreach (var value in argument.paymentProfiles) { customerPaymentProfileType(value); } }
                 if (null != argument.shipToList) { foreach (var value in argument.shipToList) { customerAddressType(value); } }
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
+            }
+        }
+		public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
+        {
+            if(null != argument) 
+            {
             }
         }
         public static void customerType(customerType argument)
@@ -839,6 +868,7 @@
             {
             }
         }
+
         public static void merchantAuthenticationType(merchantAuthenticationType argument)
         {
             if (null != argument)
@@ -872,6 +902,33 @@
             if (null != argument)
             {
                 messagesType(argument.messages);
+            }
+        }        
+        public static void securePaymentContainerRequest(securePaymentContainerRequest argument) 
+        {
+            if(null != argument) 
+            {
+                webCheckOutDataType(argument.data);
+            }
+        }
+        public static void securePaymentContainerResponse(securePaymentContainerResponse argument) 
+        {
+            if(null != argument) 
+            {
+                opaqueDataType(argument.opaqueData);
+            }
+        }
+        public static void webCheckOutDataType(webCheckOutDataType argument)
+        {
+            if (null != argument)
+            {
+                webCheckOutDataTypeToken(argument.token);
+            }
+        }
+        public static void webCheckOutDataTypeToken(webCheckOutDataTypeToken argument)
+        {
+            if (null != argument)
+            {
             }
         }
         public static void isAliveRequest(isAliveRequest argument)
@@ -1010,6 +1067,7 @@
                 customerProfileBaseType(argument.customer);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument)
@@ -1017,6 +1075,8 @@
             if (null != argument)
             {
 				if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+				if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+
             }
         }
         public static void getCustomerProfileResponse(getCustomerProfileResponse argument)
@@ -1030,6 +1090,8 @@
         {
             if (null != argument)
             {
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+
             }
         }
         public static void getCustomerPaymentProfileResponse(getCustomerPaymentProfileResponse argument)
@@ -1057,7 +1119,14 @@
         {
             if (null != argument)
             {
-                customerProfileExType(argument.profile);
+                if (null != argument.profile && argument.profile.GetType() == typeof(customerProfileInfoExType))
+                {
+                    customerProfileInfoExType((customerProfileInfoExType)argument.profile);
+                }
+                else
+                {
+                    customerProfileExType(argument.profile);
+                }
             }
         }
         public static void updateCustomerProfileResponse(updateCustomerProfileResponse argument)
@@ -1420,7 +1489,7 @@
             {
                 customerProfileSummaryType(argument.customerProfileSummaryType);
                 paymentSimpleType(argument.paymentSimpleType);
-            }
+			}
         }
 		
 		public static void auDetailsType(auDetailsType argument) 
@@ -1516,7 +1585,19 @@
                 Paging(argument.paging);
             }
         }
-	}
+        public static void updateMerchantDetailsRequest(updateMerchantDetailsRequest argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+        public static void updateMerchantDetailsResponse(updateMerchantDetailsResponse argument)
+        {
+            if (null != argument)
+            {
+            }
+        }
+    }
 	
 	
     // ReSharper restore InconsistentNaming 

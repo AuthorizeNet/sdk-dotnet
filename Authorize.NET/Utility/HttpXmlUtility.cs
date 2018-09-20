@@ -74,6 +74,9 @@ namespace AuthorizeNet {
             serializer.Serialize(writer, apiRequest);
             writer.Close();
 
+            // Set Tls to Tls1.2
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
             // Get the response
             WebResponse webResponse = webRequest.GetResponse();
 
