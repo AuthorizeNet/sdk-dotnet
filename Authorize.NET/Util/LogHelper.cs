@@ -46,7 +46,7 @@ namespace AuthorizeNet.Util
 
     public class Log
     {
-        private static TraceSource traceSource = new TraceSource("AnetDotNetSdkTrace", SourceLevels.All);
+        private static TraceSource traceSource = new TraceSource("AnetDotNetSdkTrace");
 
         public void error(string logMessage) { Trace(TraceEventType.Error, logMessage); }
         public void info(string logMessage) { Trace(TraceEventType.Information, logMessage); }
@@ -60,14 +60,21 @@ namespace AuthorizeNet.Util
 
         public static void Trace(TraceEventType eventType, string message)
         {
-            if (traceSource.Switch.ShouldTrace(eventType))
+            try
             {
-                string tracemessage = string.Format("{0}\t[{1}]\t{2}", DateTime.Now.ToString("MM/dd/yy HH:mm:ss"), eventType, message);
-                foreach (TraceListener listener in traceSource.Listeners)
+                if (traceSource.Switch.ShouldTrace(eventType))
                 {
-                    listener.WriteLine(tracemessage);
-                    listener.Flush();
+                    string tracemessage = string.Format("{0}\t[{1}]\t{2}", DateTime.Now.ToString("MM/dd/yy HH:mm:ss"), eventType, message);
+                    foreach (TraceListener listener in traceSource.Listeners)
+                    {
+                        listener.WriteLine(tracemessage);
+                        listener.Flush();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

@@ -77,6 +77,81 @@ For reporting tests, go to https://sandbox.authorize.net/ under Account tab->Tra
 ### Testing Guide
 For additional help in testing your own code, Authorize.Net maintains a [comprehensive testing guide](http://developer.authorize.net/hello_world/testing_guide/) that includes test credit card numbers to use and special triggers to generate certain responses from the sandbox environment.
 
+## Logging Sensitive Data
+A new sensitive data logger has been introduced with the Authorize.Net .NET SDK, which is an enhancement on the existing logging framework. 
+
+The logger uses `System.Diagnostics` namespace in .NET Framework. No external libraries need to be installed along with the application to use the logger. 
+
+The logger can be enabled by providing the following configuration in the `app.config/web.config` files of your application. The log levels supported are `'Verbose','Information','Warning'` and `'Error'`.
+
+If you have previously enabled logging in your application, configurations will need to be updated as below:
+```
+<configuration>
+  <system.diagnostics>
+    <sources>
+      <source name="AnetDotNetSdkTrace"
+              switchName="sourceSwitch"
+              switchType="System.Diagnostics.SourceSwitch">
+        <listeners>
+          <add name="myListener"
+              type="AuthorizeNet.Util.SensitiveDataTextLogger, AuthorizeNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              initializeData="logfile.log">
+          </add>
+          <add name="myConsoleListener"
+                        type="AuthorizeNet.Util.SensitiveDataConsoleLogger, AuthorizeNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          </add>          
+          <remove name="Default" />
+        </listeners>
+      </source>
+    </sources>
+    <switches>
+      <add name="sourceSwitch" value="Warning"/>
+    </switches>
+  </system.diagnostics>
+</configuration>
+```
+As of now, two types of listeners, viz. `TextListener` and `ConsoleListener` are supported with the logger. The corresponding listener types `AuthorizeNet.Util.SensitiveDataTextLogger` and `AuthorizeNet.Util.SensitiveDataConsoleLogger` mask the sensitive data before logging into log file and console respectively.
+
+The list of sensitive fields which can be masked during logging are:
+* Card Number,
+* Card Code,
+* Expiration Date,
+* Name on Account,
+* Transaction Key, and
+* Account Number. 
+
+There is a list of regular expressions which the SensitiveFilterLayout uses to mask credit card numbers while logging. 
+
+Further information on the sensitive data logging and regular expressions can be found at this [location](https://github.com/AuthorizeNet/sdk-dotnet/blob/master/Authorize.NET/Util/SensitiveDataConfigType.cs).
+
+If you don't want to mask any sensitive data, you can use the default `TextWriterTraceListener` and `ConsoleTraceListener`.
+```
+<configuration>
+  <system.diagnostics>
+    <sources>
+      <source name="AnetDotNetSdkTrace"
+              switchName="sourceSwitch"
+              switchType="System.Diagnostics.SourceSwitch">
+        <listeners>
+          <add name="myListener"
+              type="System.Diagnostics.TextWriterTraceListener"
+              initializeData="logFile.log">
+          </add>
+          <add name="myConsoleListener"
+                        type="System.Diagnostics.ConsoleTraceListener">
+          </add>          
+          <remove name="Default" />
+        </listeners>
+      </source>
+    </sources>
+    <switches>
+      <add name="sourceSwitch" value="Warning"/>
+    </switches>
+  </system.diagnostics>
+</configuration>
+```
+`AnetDotNetSdkTrace` should be used as the source name, as it is being used by the TraceSource inside logger framework code.
+
 
 ## License
 This repository is distributed under a proprietary license. See the provided [`LICENSE.txt`](/LICENSE.txt) file.
