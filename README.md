@@ -93,11 +93,11 @@ If you have previously enabled logging in your application, configurations will 
               switchName="sourceSwitch"
               switchType="System.Diagnostics.SourceSwitch">
         <listeners>
-          <add name="myListener"
+          <add name="textListener"
               type="AuthorizeNet.Util.SensitiveDataTextLogger, AuthorizeNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
               initializeData="logfile.log">
           </add>
-          <add name="myConsoleListener"
+          <add name="consoleListener"
                         type="AuthorizeNet.Util.SensitiveDataConsoleLogger, AuthorizeNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           </add>          
           <remove name="Default" />
@@ -133,11 +133,11 @@ If you don't want to mask any sensitive data, you can use the default `TextWrite
               switchName="sourceSwitch"
               switchType="System.Diagnostics.SourceSwitch">
         <listeners>
-          <add name="myListener"
+          <add name="textListener"
               type="System.Diagnostics.TextWriterTraceListener"
               initializeData="logFile.log">
           </add>
-          <add name="myConsoleListener"
+          <add name="consoleListener"
                         type="System.Diagnostics.ConsoleTraceListener">
           </add>          
           <remove name="Default" />
