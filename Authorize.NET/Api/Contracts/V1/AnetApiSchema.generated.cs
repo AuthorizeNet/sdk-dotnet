@@ -140,7 +140,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         //Declared  subscriptionIdsList for auDeleteType
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable = false)]
-        public string[] SubscriptionIdList;
+        public string[] subscriptionIdList;
     }
     
     /// <remarks/>
@@ -232,7 +232,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         //Declared  subscriptionIdsList for auUpdateType
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable = false)]
-        public string[] SubscriptionIdList;
+        public string[] subscriptionIdList;
     }
     
     /// <remarks/>
