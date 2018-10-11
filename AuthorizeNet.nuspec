@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>AuthorizeNet</id>
-        <version>1.9.5</version>
+        <version>1.9.6</version>
         <title>AuthorizeNet</title>
         <authors>Authorize.Net</authors>
         <owners>AuthorizeNet</owners>
