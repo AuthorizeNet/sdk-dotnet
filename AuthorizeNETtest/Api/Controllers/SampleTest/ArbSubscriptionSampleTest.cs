@@ -49,6 +49,8 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
             };
 
             var createController = new ARBCreateSubscriptionController(createRequest);
+            createController.RequestId = Guid.NewGuid();
+
             createController.Execute();
             var createResponse = createController.GetApiResponse();
             Assert.IsNotNull(createResponse.subscriptionId);

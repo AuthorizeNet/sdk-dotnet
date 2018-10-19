@@ -61,6 +61,8 @@ namespace AuthorizeNet.Api.Controllers.Bases
 		    _apiRequest = apiRequest;
 	    }
 
+        public Guid RequestId { set; get; }
+
 	    public TS GetApiResponse() {
 		    return _apiResponse;
 	    }
@@ -88,13 +90,18 @@ namespace AuthorizeNet.Api.Controllers.Bases
         public void Execute(AuthorizeNet.Environment environment = null)
         {
             BeforeExecute();
+            
+            if ( Guid.Empty == this.RequestId)
+            {
+                this.RequestId = Guid.NewGuid();
+            }
 
             //Logger.debug(string.Format(CultureInfo.InvariantCulture, "Executing Request:'{0}'", XmlUtility.GetXml(GetApiRequest())));
 
             if (null == environment) { environment = ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment; }
             if (null == environment) throw new ArgumentException(NullEnvironmentErrorMessage);
 
-            var httpApiResponse = HttpUtility.PostData<TQ, TS>(environment, GetApiRequest());
+            var httpApiResponse = HttpUtility.PostData<TQ, TS>(environment, GetApiRequest(), this.RequestId);
 
             if (null != httpApiResponse)
 		    {
@@ -190,7 +197,7 @@ namespace AuthorizeNet.Api.Controllers.Bases
 	        var impersonationAuthenticationType = merchantAuthenticationType.impersonationAuthentication;
 		    if ( null != impersonationAuthenticationType) throw new IllegalArgumentException("ImpersonationAuthenticationType needs to be null");
             */
-            //	    impersonationAuthenticationType.setPartnerLoginId(CnpApiLoginIdKey);
+    //	    impersonationAuthenticationType.setPartnerLoginId(CnpApiLoginIdKey);
     //	    impersonationAuthenticationType.setPartnerTransactionKey(CnpTransactionKey);
     //	    merchantAuthenticationType.setImpersonationAuthentication(impersonationAuthenticationType);
 
