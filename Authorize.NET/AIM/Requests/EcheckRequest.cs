@@ -17,6 +17,14 @@ namespace AuthorizeNet {
         /// <param name="bankName">The name of the bank that holds the customer’s account</param>
         /// <param name="acctName">The name associated with the bank account</param>
         /// <param name="bankCheckNumber">The check number on the customer’s paper check</param>
+
+        //@deprecated since version 1.9.8  
+        //@deprecated We have reorganized and simplified the Authorize.Net API to ease integration and to focus on merchants' needs.  
+        //@deprecated We have deprecated AIM, ARB, CIM, and Reporting as separate options, in favor of AuthorizeNet::API.
+        //@deprecated We have also deprecated SIM as a separate option, in favor of Accept Hosted. See https://developer.authorize.net/api/reference/features/accept_hosted.html for details on Accept Hosted.  
+        //@deprecated For details on the deprecation and replacement of legacy Authorize.Net methods, visit https://developer.authorize.net/api/upgrade_guide/.   
+        //@deprecated For AIM, refer examples in https://github.com/AuthorizeNet/sample-code-php/tree/master/PaymentTransactions
+        [Obsolete("AuthorizeNetAIM is deprecated, use AuthorizeNet::API instead. For AIM, see examples in https://github.com/AuthorizeNet/sample-code-php/tree/master/PaymentTransactions.", false)]
         public EcheckRequest(decimal amount, string bankABACode, string bankAccountNumber,
             BankAccountType acctType, string bankName, string acctName, string bankCheckNumber) :
             this(EcheckType.WEB, amount, bankABACode, bankAccountNumber, acctType, bankName, acctName, bankCheckNumber) { }
