@@ -1178,7 +1178,7 @@ transRetailInfoType() {
         {
             if(null != argument) 
             {
-                customerProfileInfoExType(argument.profile);
+                customerProfileExType(argument.profile);
             }
         }
         public static void updateCustomerProfileResponse(updateCustomerProfileResponse argument) 
