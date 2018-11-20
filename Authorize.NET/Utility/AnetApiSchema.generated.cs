@@ -4125,7 +4125,7 @@ namespace AuthorizeNet.APICore {
     public partial class updateCustomerProfileRequest : ANetApiRequest {
         
         /// <remarks/>
-        public customerProfileInfoExType profile;
+        public customerProfileExType profile;
     }
     
     /// <remarks/>

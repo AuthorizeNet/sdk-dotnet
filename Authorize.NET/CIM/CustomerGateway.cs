@@ -744,7 +744,7 @@ namespace AuthorizeNet {
         public bool UpdateCustomer(Customer customer) {
 
             var req = new updateCustomerProfileRequest();
-            req.profile = new customerProfileInfoExType();
+            req.profile = new customerProfileExType();
             req.profile.customerProfileId = customer.ProfileID;
             req.profile.description = customer.Description;
             req.profile.email = customer.Email;
