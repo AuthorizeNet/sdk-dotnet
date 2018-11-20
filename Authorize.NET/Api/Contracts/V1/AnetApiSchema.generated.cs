@@ -5007,7 +5007,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     public partial class updateCustomerProfileRequest : ANetApiRequest {
         
         /// <remarks/>
-        public customerProfileInfoExType profile;
+        public customerProfileExType profile;
     }
     
     /// <remarks/>
