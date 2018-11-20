@@ -1180,7 +1180,7 @@
         {
             if (null != argument)
             {
-                if (null != argument.profile && argument.profile.GetType() == typeof(customerProfileExType))
+                if (null != argument.profile && argument.profile.GetType() == typeof(customerProfileInfoExType))
                 {
                     customerProfileInfoExType((customerProfileInfoExType)argument.profile);
                 }
