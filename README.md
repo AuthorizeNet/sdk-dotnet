@@ -101,11 +101,11 @@ If you have previously enabled logging in your application, configurations will 
               switchType="System.Diagnostics.SourceSwitch">
         <listeners>
           <add name="textListener"
-              type="AuthorizeNet.Util.SensitiveDataTextLogger, AuthorizeNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              type="AuthorizeNet.Util.SensitiveDataTextLogger, AuthorizeNet"
               initializeData="logfile.log">
           </add>
           <add name="consoleListener"
-                        type="AuthorizeNet.Util.SensitiveDataConsoleLogger, AuthorizeNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                        type="AuthorizeNet.Util.SensitiveDataConsoleLogger, AuthorizeNet">
           </add>          
           <remove name="Default" />
         </listeners>
