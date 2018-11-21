@@ -597,7 +597,6 @@
             {
                 cardArt(argument.cardArt);
                 if(argument.isPaymentToken) { argument.isPaymentTokenSpecified=true;}
-               // if (argument.isPaymentToken) { argument.isPaymentTokenSpecified = true; }
             }
         }
         public static void cardArt(cardArt argument)
@@ -844,9 +843,7 @@
         }
         public static void ContactDetailType(ContactDetailType argument)
         {
-            if (null != argument)
-            {
-            }
+            
         }
         public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
         {
@@ -875,9 +872,7 @@
 
         public static void paymentScheduleTypeInterval(paymentScheduleTypeInterval argument)
         {
-            if (null != argument)
-            {
-            }
+            
         }
 
         public static void customerProfileIdType(customerProfileIdType argument)
@@ -1624,9 +1619,7 @@
 
 		public static void getMerchantDetailsRequest(getMerchantDetailsRequest argument) 
         {
-            if(null != argument) 
-            {
-            }
+            
         }
 
         public static void getMerchantDetailsResponse(getMerchantDetailsResponse argument) 
@@ -1662,9 +1655,7 @@
         }
         public static void getCustomerPaymentProfileNonceRequest(getCustomerPaymentProfileNonceRequest argument)
         {
-            if (null != argument)
-            {
-            }
+            
         }
         public static void getCustomerPaymentProfileNonceResponse(getCustomerPaymentProfileNonceResponse argument)
         {
