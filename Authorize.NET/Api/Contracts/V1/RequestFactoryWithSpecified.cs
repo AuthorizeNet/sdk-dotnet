@@ -28,6 +28,7 @@
         {
             if (null != argument)
             {
+                if (argument.expirationTimeStamp!=null) { argument.expirationTimeStampSpecified = true; }
             }
         }
 		
@@ -290,6 +291,10 @@
 				extendedAmountType(argument.surcharge);
                 subMerchantType(argument.subMerchant);
                 extendedAmountType(argument.tip);
+                processingOptions(argument.processingOptions);
+                subsequentAuthInformation(argument.subsequentAuthInformation);
+                otherTaxType(argument.otherTax);
+                nameAndAddressType(argument.shipFrom);
             }
         }
         public static void paymentType(paymentType argument)
@@ -394,6 +399,9 @@
         {
             if (null != argument)
             {
+                if (argument.discountAmount >= 0) { argument.discountAmountSpecified = true; }
+                if (argument.taxIsAfterDiscount) { argument.taxIsAfterDiscountSpecified = true; }
+                if (null != argument.purchaseOrderDateUTC) { argument.purchaseOrderDateUTCSpecified = true; }
             }
         }
         public static void orderExType(orderExType argument)
@@ -407,7 +415,20 @@
         {
             if (null != argument)
             {
-                if (argument.taxable) { argument.taxableSpecified = true; }
+                if (argument.taxable) { argument.taxableSpecified = true;
+                if (argument.taxRate >= 0) { argument.taxRateSpecified = true; }
+                if (argument.taxAmount >= 0) { argument.taxAmountSpecified = true; }
+                if (argument.nationalTax>=0) { argument.nationalTaxSpecified = true; }
+                if (argument.localTax>=0) { argument.localTaxSpecified = true; }
+                if (argument.vatRate>=0) { argument.vatRateSpecified = true; }
+                if (argument.alternateTaxRate>=0) { argument.alternateTaxRateSpecified = true; }
+                if (argument.alternateTaxAmount>=0) { argument.alternateTaxAmountSpecified = true; }
+                if (argument.totalAmount>=0) { argument.totalAmountSpecified = true; }
+                if (argument.discountRate >=0) { argument.discountRateSpecified = true; }
+                if (argument.discountAmount>= 0) { argument.discountAmountSpecified = true; }
+                if (argument.taxIncludedInTotal) { argument.taxIncludedInTotalSpecified = true; }
+                if (argument.taxIsAfterDiscount) { argument.taxIsAfterDiscountSpecified = true; }
+                }
             }
         }
         public static void extendedAmountType(extendedAmountType argument)
@@ -504,6 +525,17 @@
             }
         }
 
+        public static void otherTaxType(otherTaxType argument)
+        {
+            if (null != argument)
+            {
+                if (argument.nationalTaxAmount>=0) { argument.nationalTaxAmountSpecified = true; }
+                if (argument.localTaxAmount >= 0) { argument.localTaxAmountSpecified = true; }
+                if (argument.alternateTaxAmount >= 0) { argument.alternateTaxAmountSpecified = true; }
+                if (argument.vatTaxRate >= 0) { argument.vatTaxRateSpecified = true; }
+                if (argument.vatTaxAmount >= 0) { argument.vatTaxAmountSpecified = true; }
+            }
+        }
         public static void transactionDetailsType(transactionDetailsType argument)
         {
             if (null != argument)
@@ -532,7 +564,9 @@
                 customerProfileIdType(argument.profile);
 				extendedAmountType(argument.surcharge);
                 extendedAmountType(argument.tip);
-			}
+                otherTaxType(argument.otherTax);
+                nameAndAddressType(argument.shipFrom);
+            }
         }
         public static void paymentMaskedType(paymentMaskedType argument)
         {
@@ -669,7 +703,27 @@
                 profileTransAmountType(argument);
                 orderExType(argument.order);
                 if (argument.taxExempt) { argument.taxExemptSpecified = true; }
-                if (argument.recurringBilling) { argument.recurringBillingSpecified = true; }
+                if (argument.recurringBilling) { argument.recurringBillingSpecified = true;
+                    processingOptions(argument.processingOptions);
+                    subsequentAuthInformation(argument.subsequentAuthInformation);
+                }
+            }
+        }
+        public static void processingOptions(processingOptions argument)
+        {
+            if (null != argument)
+            {
+                if (argument.isFirstRecurringPayment) { argument.isFirstRecurringPaymentSpecified = true; }
+                if (argument.isFirstSubsequentAuth) { argument.isFirstSubsequentAuthSpecified = true; }
+                if (argument.isSubsequentAuth) { argument.isSubsequentAuthSpecified = true; }
+                if (argument.isStoredCredentials) { argument.isStoredCredentialsSpecified = true; }
+            }
+        }
+        public static void subsequentAuthInformation(subsequentAuthInformation argument)
+        {
+            if (null != argument)
+            {
+                if (0 <= argument.reason) { argument.reasonSpecified = true; }
             }
         }
         public static void profileTransCaptureOnlyType(profileTransCaptureOnlyType argument)
@@ -787,7 +841,11 @@
                 if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
             }
         }
-		public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
+        public static void ContactDetailType(ContactDetailType argument)
+        {
+            
+        }
+        public static void securePaymentContainerErrorType(securePaymentContainerErrorType argument) 
         {
             if(null != argument) 
             {
@@ -814,9 +872,7 @@
 
         public static void paymentScheduleTypeInterval(paymentScheduleTypeInterval argument)
         {
-            if (null != argument)
-            {
-            }
+            
         }
 
         public static void customerProfileIdType(customerProfileIdType argument)
@@ -1563,9 +1619,7 @@
 
 		public static void getMerchantDetailsRequest(getMerchantDetailsRequest argument) 
         {
-            if(null != argument) 
-            {
-            }
+            
         }
 
         public static void getMerchantDetailsResponse(getMerchantDetailsResponse argument) 
@@ -1574,6 +1628,8 @@
             {
                 if(argument.isTestMode) { argument.isTestModeSpecified=true;}
                 if(null != argument.processors){ foreach( var value in argument.processors) { processorType(value);} }
+                customerAddressType(argument.businessInformation);
+                if (null != argument.contactDetails) { foreach (var value in argument.contactDetails) { ContactDetailType(value); } }
             }
         }
 		
@@ -1595,6 +1651,17 @@
         {
             if (null != argument)
             {
+            }
+        }
+        public static void getCustomerPaymentProfileNonceRequest(getCustomerPaymentProfileNonceRequest argument)
+        {
+            
+        }
+        public static void getCustomerPaymentProfileNonceResponse(getCustomerPaymentProfileNonceResponse argument)
+        {
+            if (null != argument)
+            {
+                opaqueDataType(argument.opaqueData);
             }
         }
     }
