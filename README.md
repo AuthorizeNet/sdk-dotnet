@@ -72,7 +72,7 @@ The API Reference Guide provides examples of what information is needed for a pa
 
 
 ## Create a Chase Pay Transaction
-Use this method to authorize and capture a payment using a tokenized credit card number issued by Chase Pay. Chase Pay is only available to merchants using the Paymentech processor, and you must pass in your request the token, the expiration date, the cryptogram receied from the token provider, the tokenRequestorName, the tokenRequestorId and the tokenRequestorEci.
+Use this method to authorize and capture a payment using a tokenized credit card number issued by Chase Pay. Chase Pay is only available to merchants using the Paymentech processor, and you must pass in your request the token, expiration date, cryptogram receied from the token provider, tokenRequestorName, tokenRequestorId and tokenRequestorEci.
 
 When using the SDK to submit Chase Pay transactions, consider the following Points:
 - TokenRequesterName must be populate with  “CHASE_PAY”
