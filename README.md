@@ -71,6 +71,14 @@ Additionally, you can find details and examples of how our API is structured in 
 The API Reference Guide provides examples of what information is needed for a particular request and how that information would be formatted. Using those examples, you can easily determine what methods would be necessary to include that information in a request using this SDK.
 
 
+## Create a Chase Pay Transaction
+Use this method to authorize and capture a payment using a tokenized credit card number issued by Chase Pay. Chase Pay is only available to merchants using the Paymentech processor, and you must pass in your request the token, the expiration date, the cryptogram receied from the token provider, the tokenRequestorName, the tokenRequestorId and the tokenRequestorEci.
+
+When using the SDK to submit Chase Pay transactions, consider the following Points:
+- TokenRequesterName must be populate with  “CHASE_PAY”
+- TokenRequestorID must be populated with <tokenRequestorID> as provided by Chase Pay services for each transaction during consumer checkout
+- TokenRequesterECI must be populated with <eciIndicator> as provided by Chase Pay services for each transaction during consumer checkout  
+
 ## Building & Testing the SDK
 
 ### Running the SDK Tests
