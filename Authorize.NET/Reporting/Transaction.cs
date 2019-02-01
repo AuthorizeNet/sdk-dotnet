@@ -307,11 +307,11 @@ namespace AuthorizeNet {
         /// </summary>
         /// <value>The transaction ID.</value>
         public string TransactionID { get; set; }
+        /// <summary>
         /// Gets or sets the ref transaction ID.
         /// </summary>
         /// <value>The transaction ID of the original transaction. This appears only for linked credits (transaction type refundTransaction).</value>
         public string RefTransactionID { get; set; }
-        /// <summary>
         /// <summary>
         /// Gets or sets the date submitted.
         /// </summary>

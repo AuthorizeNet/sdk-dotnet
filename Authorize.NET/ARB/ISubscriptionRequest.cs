@@ -23,7 +23,7 @@ namespace AuthorizeNet {
         BankAccount eCheckBankAccount { get; set; }
         string CustomerEmail { get; set; }
         string CustomerID { get; set; }
-        AuthorizeNet.SubscriptionRequest SetTrialPeriod(short trialBillingCycles, decimal trialAmount);
+        AuthorizeNet.ISubscriptionRequest SetTrialPeriod(short trialBillingCycles, decimal trialAmount);
         AuthorizeNet.Address ShippingAddress { get; set; }
         DateTime StartsOn { get; set; }
         string SubscriptionID { get; set; }
@@ -34,8 +34,9 @@ namespace AuthorizeNet {
         ARBSubscriptionType ToUpdateableAPI();
         decimal TrialAmount { get; set; }
         short TrialBillingCycles { get; set; }
-        AuthorizeNet.SubscriptionRequest UsingCreditCard(string firstName, string lastName, string cardNumber, int cardExpirationYear, int cardExpirationMonth);
-        AuthorizeNet.SubscriptionRequest WithBillingAddress(AuthorizeNet.Address add);
-        AuthorizeNet.SubscriptionRequest WithShippingAddress(AuthorizeNet.Address add);
+        AuthorizeNet.ISubscriptionRequest UsingCreditCard(string firstName, string lastName, string cardNumber, int cardExpirationYear, int cardExpirationMonth);
+        AuthorizeNet.ISubscriptionRequest UsingPaymentProfile(string customerProfileId, string customerPaymentProfileId, string customerAddressId);
+        AuthorizeNet.ISubscriptionRequest WithBillingAddress(AuthorizeNet.Address add);
+        AuthorizeNet.ISubscriptionRequest WithShippingAddress(AuthorizeNet.Address add);
     }
 }

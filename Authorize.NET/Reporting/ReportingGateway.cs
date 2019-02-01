@@ -150,7 +150,19 @@ namespace AuthorizeNet {
                 result.AddRange(GetTransactionList(batch.ID.ToString()));
             }
             return result;
-        } 
+        }
 
+        /// <summary>
+        /// Returns all transactions for a given customerProfileId
+        /// </summary>
+        public List<Transaction> GetTransactionList(string customerProfileId, string customerPaymentProfileId)
+        {
+            var request = new getTransactionListForCustomerRequest();
+            request.customerProfileId = customerProfileId;
+            request.customerPaymentProfileId = customerPaymentProfileId;
+            
+            var response = (getTransactionListResponse)_gateway.Send(request);
+            return Transaction.NewListFromResponse(response.transactions);
+        } 
     }
 }
