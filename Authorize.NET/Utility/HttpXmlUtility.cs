@@ -23,12 +23,13 @@ namespace AuthorizeNet {
         /// <param name="mode">The mode.</param>
         /// <param name="apiLogin">The API login.</param>
         /// <param name="transactionKey">The transaction key.</param>
-        public HttpXmlUtility(ServiceMode mode, string apiLogin, string transactionKey) {
-            if (mode == ServiceMode.Live)
-                _serviceUrl = URL;
-            _apiLogin = apiLogin;
-            _transactionKey = transactionKey;
-        }
+        //public HttpXmlUtility(ServiceMode mode, string apiLogin, string transactionKey)
+        //{
+        //    if (mode == ServiceMode.Live)
+        //        _serviceUrl = URL;
+        //    _apiLogin = apiLogin;
+        //    _transactionKey = transactionKey;
+        //}
 
         public const string TEST_URL = "https://apitest.authorize.net/xml/v1/request.api";
         public const string URL = "https://api2.authorize.net/xml/v1/request.api";
