@@ -76,7 +76,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="*.cs" />
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="CommonFunctionsTest.cs" />
+    <Compile Include="UnitTestData.cs" />
+    <Compile Include="WebRequestLocal.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getCustomerPaymentProfileListControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getHostedPaymentPageControllerTest.cs" />
