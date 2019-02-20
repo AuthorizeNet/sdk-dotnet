@@ -6,6 +6,7 @@ install:
 
 before_script:
     - git submodule update --remote --recursive
+    
   
 script:
     - xbuild ./Authorize.NET/AuthorizeNET.csproj
