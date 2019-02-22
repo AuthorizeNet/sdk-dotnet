@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeNET", "Authorize.N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeNETtest", "AuthorizeNETtest\AuthorizeNETtest.csproj", "{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShopWebApp", "CoffeeShopWebApp\CoffeeShopWebApp.csproj", "{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5D52EAEC-42FB-4313-83B8-69E2F55EBF14} = {5D52EAEC-42FB-4313-83B8-69E2F55EBF14}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EBF48A1-8AC1-4E84-BDCC-E0984183D098}"
 	ProjectSection(SolutionItems) = preProject
 		AuthorizeNET.vsmdi = AuthorizeNET.vsmdi
@@ -40,12 +35,6 @@ Global
 		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.USELOCAL|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}.USELOCAL|Any CPU.Build.0 = Release|Any CPU
-		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.USELOCAL|Any CPU.ActiveCfg = Release|Any CPU
-		{79796297-BA7B-4F22-8C53-D9B6EFDD7EB7}.USELOCAL|Any CPU.Build.0 = Release|Any CPU
 		{EE8CB03C-AFF3-4480-AFD5-1C8B51540570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE8CB03C-AFF3-4480-AFD5-1C8B51540570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE8CB03C-AFF3-4480-AFD5-1C8B51540570}.Release|Any CPU.ActiveCfg = Release|Any CPU
