@@ -14,8 +14,7 @@ namespace AuthorizeNet
         protected string Login { get; set; }
         protected string TransactionKey { get; set; }
         protected bool AllowPartialAuth { get; set; }
-        protected MarketType MarketType { get; set; }
-        protected DeviceType DeviceType { get; set; }
+        protected MarketType MarketType { get; set; }       
         protected string UserRef { get; set; }
         protected string Md5Value { get; set; }
 
