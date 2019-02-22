@@ -7,8 +7,7 @@ namespace AuthorizeNet.Api.Controllers.Test
     using System.Collections.Generic;
     using System.ComponentModel;
     using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers.Bases;
-    using AuthorizeNet.Test;
+    using AuthorizeNet.Api.Controllers.Bases;    
     using AuthorizeNet.Util;
     using NUnit.Framework;
     using NMock;
@@ -75,10 +74,7 @@ namespace AuthorizeNet.Api.Controllers.Test
             var config = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
             Logger.error(String.Format("Configuration file used: {0}, Exists:{1}", config.FilePath, config.HasFile));
 
-		    //getPropertyFromNames get the value from properties file or environment
-		    ApiLoginIdKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvApiLoginid, AuthorizeNet.Util.Constants.PropApiLoginid);
-		    TransactionKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvTransactionKey, AuthorizeNet.Util.Constants.PropTransactionKey);
-		    _md5HashKey = UnitTestData.GetPropertyFromNames(AuthorizeNet.Util.Constants.EnvMd5Hashkey, AuthorizeNet.Util.Constants.PropMd5Hashkey);
+		    //getPropertyFromNames get the value from properties file or environment		   
 
             //require only one cnp or cp merchant keys
             if (null != ApiLoginIdKey && null != TransactionKey)

@@ -12,10 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		AuthorizeNET.vsmdi = AuthorizeNET.vsmdi
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCode", "sample-code-csharp\SampleCode.csproj", "{EE8CB03C-AFF3-4480-AFD5-1C8B51540570}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleCodeTest", "sample-code-csharp\SampleCodeTest\SampleCodeTest.csproj", "{71C96893-D93D-469D-A49D-1B3DE4985914}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
