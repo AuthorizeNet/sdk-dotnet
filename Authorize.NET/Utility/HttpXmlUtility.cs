@@ -18,11 +18,7 @@ namespace AuthorizeNet {
         string _transactionKey = "";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpXmlUtility"/> class.
-        /// </summary>
-        /// <param name="mode">The mode.</param>
-        /// <param name="apiLogin">The API login.</param>
-        /// <param name="transactionKey">The transaction key.</param>       
+        /// Initializes a new instance of the <see cref="HttpXmlUtility"/> class.            
 
         public const string TEST_URL = "https://apitest.authorize.net/xml/v1/request.api";
         public const string URL = "https://api2.authorize.net/xml/v1/request.api";
