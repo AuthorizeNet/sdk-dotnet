@@ -54,6 +54,9 @@ namespace AuthorizeNet {
             //Authenticate it
             AuthenticateRequest(apiRequest);
 
+            // Set Tls to Tls1.2
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_serviceUrl);
             webRequest.Method = "POST";
             webRequest.ContentType = "text/xml";
@@ -73,9 +76,6 @@ namespace AuthorizeNet {
             XmlWriter writer = new XmlTextWriter(webRequest.GetRequestStream(), Encoding.UTF8);
             serializer.Serialize(writer, apiRequest);
             writer.Close();
-
-            // Set Tls to Tls1.2
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
             // Get the response
             WebResponse webResponse = webRequest.GetResponse();
