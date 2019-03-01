@@ -80,6 +80,7 @@
     <Compile Include="Api\Controllers\getBatchStatisticsController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\getCustomerPaymentProfileListController.cs" />
+    <Compile Include="Api\Controllers\getCustomerPaymentProfileNonceController.cs" />
     <Compile Include="Api\Controllers\getCustomerProfileController.cs" />
     <Compile Include="Api\Controllers\getCustomerProfileIdsController.cs" />
     <Compile Include="Api\Controllers\getCustomerShippingAddressController.cs" />

@@ -39,9 +39,12 @@ namespace AuthorizeNet.Util
                 throw new ArgumentNullException("request");
             }
             //Logger.debug(string.Format("MerchantInfo->LoginId/TransactionKey: '{0}':'{1}'->{2}", 
-                //request.merchantAuthentication.name, request.merchantAuthentication.ItemElementName, request.merchantAuthentication.Item));
-		    
-	        var postUrl = GetPostUrl(env);
+            //request.merchantAuthentication.name, request.merchantAuthentication.ItemElementName, request.merchantAuthentication.Item));
+		
+            // Set Tls to Tls1.2
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
+	    var postUrl = GetPostUrl(env);
             var webRequest = (HttpWebRequest) WebRequest.Create(postUrl);
             webRequest.Method = "POST";
             webRequest.ContentType = "text/xml";
@@ -67,9 +70,6 @@ namespace AuthorizeNet.Util
             String responseAsString = null;
             Logger.debug(string.Format("Retreiving Response from Url: '{0}'", postUrl));
             
-            // Set Tls to Tls1.2
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-
             using (var webResponse = webRequest.GetResponse())
             {
                 Logger.debug(string.Format("Received Response: '{0}'", webResponse));
