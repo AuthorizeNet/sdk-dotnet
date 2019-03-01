@@ -55,7 +55,9 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="*.cs" />
+    <Compile Include="Environment.cs" />
+    <Compile Include="MarketType.cs" />
+    <Compile Include="TestFriends.cs" />
     <Compile Include="Api\Contracts\V1\*.cs" />
     <Compile Include="Api\Controllers\ARBCancelSubscriptionController.cs" />
     <Compile Include="Api\Controllers\ARBCreateSubscriptionController.cs" />

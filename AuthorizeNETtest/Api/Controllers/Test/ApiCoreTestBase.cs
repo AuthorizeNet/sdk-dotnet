@@ -27,7 +27,6 @@ namespace AuthorizeNet.Api.Controllers.Test
         protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.SANDBOX;
         //protected static AuthorizeNet.Environment TestEnvironment = AuthorizeNet.Environment.HOSTED_VM;
         
-	    static Merchant _merchant ;
 	    static readonly String ApiLoginIdKey ;
 	    static readonly String TransactionKey ;
 	    static String _md5HashKey ;
@@ -90,15 +89,6 @@ namespace AuthorizeNet.Api.Controllers.Test
 			    throw new ArgumentException(
                     "LoginId and/or TransactionKey have not been set. Merchant keys are required.");
 		    }
-
-	        if (null != ApiLoginIdKey && null != TransactionKey)
-	        {
-	            _merchant = Merchant.CreateMerchant(TestEnvironment, ApiLoginIdKey, TransactionKey);
-	        }
-            if (null == _merchant)
-            {
-                Assert.Fail("Merchant logins have been set");
-            }
 
 	        ErrorMessages = new Dictionary<string, string>();
 	    }
