@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
-    <Compile Include="CommonFunctionsTest.cs" />
     <Compile Include="UnitTestData.cs" />
     <Compile Include="WebRequestLocal.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionControllerTest.cs" />

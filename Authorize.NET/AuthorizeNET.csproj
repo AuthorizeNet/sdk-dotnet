@@ -113,9 +113,6 @@
     <Compile Include="Util\*.cs" />
     <Compile Include="Utility\AnetApiSchema.generated.cs" />
     <Compile Include="Utility\ApiFields.cs" />
-    <Compile Include="Utility\CommonFunctions.cs" />
-    <Compile Include="Utility\Crypto.cs" />
-    <Compile Include="Utility\CryptoRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
