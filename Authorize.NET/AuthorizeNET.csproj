@@ -116,7 +116,6 @@
     <Compile Include="Utility\CommonFunctions.cs" />
     <Compile Include="Utility\Crypto.cs" />
     <Compile Include="Utility\CryptoRandom.cs" />
-    <Compile Include="Utility\HttpXmlUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
