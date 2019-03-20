@@ -84,7 +84,14 @@ namespace AuthorizeNet.Util
                         {
                             while (!reader.EndOfStream)
                             {
-                                result.Append((char)reader.Read());
+                                try
+                                {
+                                    result.Append((char)reader.Read());
+                                }
+                                catch (Exception)
+                                {
+                                    throw new Exception("Cannot read response.");
+                                }
 
                                 if (result.Length >= MaxResponseLength)
                                 {
