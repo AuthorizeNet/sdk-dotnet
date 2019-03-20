@@ -1,4 +1,4 @@
-﻿﻿# Authorize.Net .NET SDK
+# Authorize.Net .NET SDK
 
 [![Travis CI Status](https://travis-ci.org/AuthorizeNet/sdk-dotnet.svg?branch=master)](https://travis-ci.org/AuthorizeNet/sdk-dotnet)
 [![Code Climate](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet/badges/gpa.svg)](https://codeclimate.com/github/AuthorizeNet/sdk-dotnet)
@@ -62,7 +62,7 @@ API credentials are different for each environment, so be sure to switch to the 
 When using this SDK, downloading the Authorize.Net sample code repository is recommended.
 * [Authorize.Net C# Sample Code Repository (on GitHub)](https://github.com/AuthorizeNet/sample-code-csharp)
 
-The respository contains comprehensive sample code for common uses of the Authorize.Net API.
+The repository contains comprehensive sample code for common uses of the Authorize.Net API.
 
 The API Reference contains details and examples of the structure and formatting of the Authorize.Net API.
 * [Developer Center API Reference](http://developer.authorize.net/api/reference/index.html)
@@ -142,7 +142,7 @@ The sensitive fields that are masked during logging are:
 
 There is also a list of regular expressions which the sensitive logger uses to mask credit card numbers while logging. 
 
-More information on the regular espressions used during sensitive data logging [can be found here](https://github.com/AuthorizeNet/sdk-dotnet/blob/master/Authorize.NET/Util/SensitiveDataConfigType.cs).
+More information on the regular expressions used during sensitive data logging [can be found here](https://github.com/AuthorizeNet/sdk-dotnet/blob/master/Authorize.NET/Util/SensitiveDataConfigType.cs).
 
 To unmask sensitive data, use the default `TextWriterTraceListener` and `ConsoleTraceListener`.
 ```
