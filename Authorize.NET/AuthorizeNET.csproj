@@ -110,6 +110,7 @@
     <Compile Include="Api\Controllers\validateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\Bases\*.cs" />
     <Compile Include="Utility\AnetRandom.cs" />
+    <Compile Include="Utility\CryptoRandom.cs" />
     <Compile Include="Util\*.cs" />
     <Compile Include="Utility\AnetApiSchema.generated.cs" />
     <Compile Include="Utility\ApiFields.cs" />
