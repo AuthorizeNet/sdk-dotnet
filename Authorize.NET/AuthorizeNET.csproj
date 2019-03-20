@@ -110,13 +110,10 @@
     <Compile Include="Api\Controllers\validateCustomerPaymentProfileController.cs" />
     <Compile Include="Api\Controllers\Bases\*.cs" />
     <Compile Include="Utility\AnetRandom.cs" />
+    <Compile Include="Utility\CryptoRandom.cs" />
     <Compile Include="Util\*.cs" />
     <Compile Include="Utility\AnetApiSchema.generated.cs" />
     <Compile Include="Utility\ApiFields.cs" />
-    <Compile Include="Utility\CommonFunctions.cs" />
-    <Compile Include="Utility\Crypto.cs" />
-    <Compile Include="Utility\CryptoRandom.cs" />
-    <Compile Include="Utility\HttpXmlUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
