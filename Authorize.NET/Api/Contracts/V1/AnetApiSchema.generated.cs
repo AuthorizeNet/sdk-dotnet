@@ -6447,9 +6447,12 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         ApplePay,
-        
+
         /// <remarks/>
         AndroidPay,
+
+        /// <remarks/>
+        GooglePay,
     }
     
     /// <remarks/>
