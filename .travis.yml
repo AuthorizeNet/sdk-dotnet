@@ -1,6 +1,8 @@
 language:
     csharp
 
+dist: trusty
+
 install:
     - sudo apt-get install nunit-console
 
