@@ -144,6 +144,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public creditCardMaskedType creditCard;
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable = false)]
+        public string[] subscriptionIdList;
     }
     
     /// <remarks/>
@@ -232,6 +235,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public creditCardMaskedType oldCreditCard;
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable = false)]
+        public string[] subscriptionIdList;
     }
     
     /// <remarks/>
