@@ -45,12 +45,21 @@ namespace AuthorizeNet.Api.Controllers.MockTest
                 {
                     merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
                 };
+            var audetailsType = new auDetailsType[]
+            {
+              new auDetailsType
+              {
+               customerPaymentProfileID= 1000040162,
+                customerProfileID= 40202794,
+                auReasonCode="NAN"
+              }
+              };
             var mockResponse = new getAUJobDetailsResponse
                 {
-                    refId = "1234",
-                    sessionToken = "sessiontoken",
-                    Yyyyy = Yyyy,
-                };
+                refId = "1234",
+                sessionToken = "sessiontoken",
+                auDetails = audetailsType,
+            };
 
 		    var errorResponse = new ANetApiResponse();
 		    var results = new List<String>();
@@ -64,8 +73,8 @@ namespace AuthorizeNet.Api.Controllers.MockTest
             var controllerResponse = mockController.MockObject.GetApiResponse();
             Assert.IsNotNull(controllerResponse);
 
-		    Assert.IsNotNull(controllerResponse.Yyyyy);
-		    LogHelper.info(Logger, "getAUJobDetails: Details:{0}", controllerResponse.Yyyyy);
+		    Assert.IsNotNull(controllerResponse.auDetails);
+		    LogHelper.info(Logger, "getAUJobDetails: Details:{0}", controllerResponse.auDetails);
 	    }
     }
 }
