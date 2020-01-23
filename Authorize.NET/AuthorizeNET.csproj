@@ -1,49 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AuthorizeNet</RootNamespace>
-    <AssemblyName>AuthorizeNet</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin/Debug/</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin/Debug/AuthorizeNet.XML</DocumentationFile>
-    <NoWarn>0219,1591,1635</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin/Release</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin/Release/AuthorizeNet.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFrameworks>netstandard2.0;net4.5</TargetFrameworks>
+    <Title>Official .NET SDK for Authorize.Net</Title>
+    <Company>Visa Inc</Company>
+    <Product>Official .NET SDK for Authorize.Net</Product>
+    <Copyright>Copyright © Visa Inc 2018</Copyright>
+    <Authors>Visa Inc</Authors>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Api\Controllers\createFingerPrintController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Api\Contracts\V1\RequestFactoryWithSpecified.generated.org" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Configuration.ConfigurationManager">
+      <Version>4.7.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net4.5' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -53,81 +30,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Environment.cs" />
-    <Compile Include="MarketType.cs" />
-    <Compile Include="TestFriends.cs" />
-    <Compile Include="Api\Contracts\V1\*.cs" />
-    <Compile Include="Api\Controllers\ARBCancelSubscriptionController.cs" />
-    <Compile Include="Api\Controllers\ARBCreateSubscriptionController.cs" />
-    <Compile Include="Api\Controllers\ARBGetSubscriptionController.cs" />
-    <Compile Include="Api\Controllers\ARBGetSubscriptionListController.cs" />
-    <Compile Include="Api\Controllers\ARBGetSubscriptionStatusController.cs" />
-    <Compile Include="Api\Controllers\ARBUpdateSubscriptionController.cs" />
-    <Compile Include="Api\Controllers\authenticateTestController.cs" />
-    <Compile Include="Api\Controllers\createCustomerPaymentProfileController.cs" />
-    <Compile Include="Api\Controllers\createCustomerProfileController.cs" />
-    <Compile Include="Api\Controllers\createCustomerProfileFromTransactionController.cs" />
-    <Compile Include="Api\Controllers\createCustomerProfileTransactionController.cs" />
-    <Compile Include="Api\Controllers\createCustomerShippingAddressController.cs" />
-    <Compile Include="Api\Controllers\createProfileController.cs" />
-    <Compile Include="Api\Controllers\createTransactionController.cs" />
-    <Compile Include="Api\Controllers\decryptPaymentDataController.cs" />
-    <Compile Include="Api\Controllers\deleteCustomerPaymentProfileController.cs" />
-    <Compile Include="Api\Controllers\deleteCustomerProfileController.cs" />
-    <Compile Include="Api\Controllers\deleteCustomerShippingAddressController.cs" />
-    <Compile Include="Api\Controllers\getAUJobDetailsController.cs" />
-    <Compile Include="Api\Controllers\getAUJobSummaryController.cs" />
-    <Compile Include="Api\Controllers\getBatchStatisticsController.cs" />
-    <Compile Include="Api\Controllers\getCustomerPaymentProfileController.cs" />
-    <Compile Include="Api\Controllers\getCustomerPaymentProfileListController.cs" />
-    <Compile Include="Api\Controllers\getCustomerPaymentProfileNonceController.cs" />
-    <Compile Include="Api\Controllers\getCustomerProfileController.cs" />
-    <Compile Include="Api\Controllers\getCustomerProfileIdsController.cs" />
-    <Compile Include="Api\Controllers\getCustomerShippingAddressController.cs" />
-    <Compile Include="Api\Controllers\getHostedPaymentPageController.cs" />
-    <Compile Include="Api\Controllers\getHostedProfilePageController.cs" />
-    <Compile Include="Api\Controllers\getMerchantDetailsController.cs" />
-    <Compile Include="Api\Controllers\getSettledBatchListController.cs" />
-    <Compile Include="Api\Controllers\getTransactionDetailsController.cs" />
-    <Compile Include="Api\Controllers\getTransactionListController.cs" />
-    <Compile Include="Api\Controllers\getTransactionListForCustomerController.cs" />
-    <Compile Include="Api\Controllers\getUnsettledTransactionListController.cs" />
-    <Compile Include="Api\Controllers\isAliveController.cs" />
-    <Compile Include="Api\Controllers\logoutController.cs" />
-    <Compile Include="Api\Controllers\mobileDeviceLoginController.cs" />
-    <Compile Include="Api\Controllers\mobileDeviceRegistrationController.cs" />
-    <Compile Include="Api\Controllers\securePaymentContainerController.cs" />
-    <Compile Include="Api\Controllers\sendCustomerTransactionReceiptController.cs" />
-    <Compile Include="Api\Controllers\transactionController.cs" />
-    <Compile Include="Api\Controllers\updateCustomerPaymentProfileController.cs" />
-    <Compile Include="Api\Controllers\updateCustomerProfileController.cs" />
-    <Compile Include="Api\Controllers\updateCustomerShippingAddressController.cs" />
-    <Compile Include="Api\Controllers\updateHeldTransactionController.cs" />
-    <Compile Include="Api\Controllers\updateMerchantDetailsController.cs" />
-    <Compile Include="Api\Controllers\updateSplitTenderGroupController.cs" />
-    <Compile Include="Api\Controllers\validateCustomerPaymentProfileController.cs" />
-    <Compile Include="Api\Controllers\Bases\*.cs" />
-    <Compile Include="Utility\AnetRandom.cs" />
-    <Compile Include="Utility\CryptoRandom.cs" />
-    <Compile Include="Util\*.cs" />
-    <Compile Include="Utility\AnetApiSchema.generated.cs" />
-    <Compile Include="Utility\ApiFields.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Api\ControllerTemplate.cst" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!--Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /-->
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
