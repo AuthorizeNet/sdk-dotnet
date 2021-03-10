@@ -72,7 +72,7 @@ namespace AuthorizeNet.Util
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

@@ -93,6 +93,7 @@ namespace AuthorizeNet.Api.Contracts.V1
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 customerAddressType(argument.billTo);
                 paymentMaskedType(argument.payment);
+                if(argument.originalAuthAmount) { argument.originalAuthAmountSpecified=true;}
             }
         }
         public static void customerAddressType(customerAddressType argument) 
@@ -308,6 +309,7 @@ namespace AuthorizeNet.Api.Contracts.V1
                 extendedAmountType(argument.tip);
                 otherTaxType(argument.otherTax);
                 nameAndAddressType(argument.shipFrom);
+                if(argument.originalAuthAmount) { argument.originalAuthAmountSpecified=true;}
             }
         }
         public static void subscriptionPaymentType(subscriptionPaymentType argument) 
@@ -457,6 +459,7 @@ namespace AuthorizeNet.Api.Contracts.V1
                 if(argument.recurringBilling) { argument.recurringBillingSpecified=true;}
                 processingOptions(argument.processingOptions);
                 subsequentAuthInformation(argument.subsequentAuthInformation);
+                authorizationIndicatorType(argument.authorizationIndicatorType);
             }
         }
         public static void processingOptions(processingOptions argument) 
@@ -473,7 +476,15 @@ namespace AuthorizeNet.Api.Contracts.V1
         {
             if(null != argument) 
             {
+                if(argument.originalAuthAmount) { argument.originalAuthAmountSpecified=true;}
                 if(argument.reason) { argument.reasonSpecified=true;}
+            }
+        }
+        public static void authorizationIndicatorType(authorizationIndicatorType argument) 
+        {
+            if(null != argument) 
+            {
+                if(argument.authorizationIndicator) { argument.authorizationIndicatorSpecified=true;}
             }
         }
         public static void profileTransAmountType(profileTransAmountType argument) 
@@ -563,6 +574,7 @@ namespace AuthorizeNet.Api.Contracts.V1
                 subsequentAuthInformation(argument.subsequentAuthInformation);
                 otherTaxType(argument.otherTax);
                 nameAndAddressType(argument.shipFrom);
+                authorizationIndicatorType(argument.authorizationIndicatorType);
             }
         }
         public static void paymentType(paymentType argument) 
@@ -725,6 +737,7 @@ transRetailInfoType() {
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 paymentMaskedType(argument.payment);
                 driversLicenseMaskedType(argument.driversLicense);
+                if(argument.originalAuthAmount) { argument.originalAuthAmountSpecified=true;}
             }
         }
         public static void driversLicenseMaskedType(driversLicenseMaskedType argument) 
@@ -741,6 +754,7 @@ transRetailInfoType() {
                 paymentType(argument.payment);
                 driversLicenseType(argument.driversLicense);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                subsequentAuthInformation(argument.subsequentAuthInformation);
             }
         }
         public static void customerPaymentProfileExType(customerPaymentProfileExType argument) 
