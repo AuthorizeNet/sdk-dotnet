@@ -288,6 +288,16 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         public paymentMaskedType payment;
         
+        /// <remarks/>
+        public string originalNetworkTransId;
+        
+        /// <remarks/>
+        public decimal originalAuthAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool originalAuthAmountSpecified;
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -1489,6 +1499,22 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         public nameAndAddressType shipFrom;
         
+        /// <remarks/>
+        public string networkTransId;
+        
+        /// <remarks/>
+        public string originalNetworkTransId;
+        
+        /// <remarks/>
+        public decimal originalAuthAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool originalAuthAmountSpecified;
+        
+        /// <remarks/>
+        public string authorizationIndicator;
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -2272,6 +2298,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public subsequentAuthInformation subsequentAuthInformation;
+        
+        /// <remarks/>
+        public authorizationIndicatorType authorizationIndicatorType;
     }
     
     /// <remarks/>
@@ -2332,6 +2361,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         public string originalNetworkTransId;
         
         /// <remarks/>
+        public decimal originalAuthAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool originalAuthAmountSpecified;
+        
+        /// <remarks/>
         public merchantInitTransReasonEnum reason;
         
         /// <remarks/>
@@ -2365,6 +2401,44 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         noShow,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public partial class authorizationIndicatorType : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        /// <remarks/>
+        public authIndicatorEnum authorizationIndicator;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool authorizationIndicatorSpecified;
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="AnetApi/xml/v1/schema/AnetApiSchema.xsd")]
+    public enum authIndicatorEnum {
+        
+        /// <remarks/>
+        pre,
+        
+        /// <remarks/>
+        final,
     }
     
     /// <remarks/>
@@ -2693,6 +2767,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public nameAndAddressType shipFrom;
+        
+        /// <remarks/>
+        public authorizationIndicatorType authorizationIndicatorType;
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -3415,6 +3492,16 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("subscriptionId", IsNullable=false)]
         public string[] subscriptionIds;
+        
+        /// <remarks/>
+        public string originalNetworkTransId;
+        
+        /// <remarks/>
+        public decimal originalAuthAmount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool originalAuthAmountSpecified;
     }
     
     /// <remarks/>
@@ -3468,6 +3555,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool defaultPaymentProfileSpecified;
+        
+        /// <remarks/>
+        public subsequentAuthInformation subsequentAuthInformation;
     }
     
     /// <remarks/>
@@ -6020,6 +6110,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         hostedProfileSaveButtonText,
+        
+        /// <remarks/>
+        hostedPaymentVisaCheckoutOptions,
     }
     
     /// <remarks/>
@@ -6450,6 +6543,9 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         AndroidPay,
+        
+        /// <remarks/>
+        GooglePay,
     }
     
     /// <remarks/>

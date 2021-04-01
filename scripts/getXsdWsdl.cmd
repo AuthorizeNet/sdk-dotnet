@@ -47,28 +47,28 @@ IF NOT "%ERRORLEVEL%"=="0" (
     EXIT /b 1
 )
 
-@ECHO Fetching WSDL:   %WSDL% 
-bitsadmin.exe /transfer "WSDL Download" /DOWNLOAD %WSDL% %LOCALWSDL%
-IF NOT "%ERRORLEVEL%"=="0" (
-    SET ERRORLEVEL=
-    IF EXIST "ANetApiWS.asmx@wsdl" (
-        DEL /Q "ANetApiWS.asmx@wsdl"
-    )
-    @ECHO Unable to fetch "%WSDL%" via bitsadmin, trying wget
-@rem    "%CYGWIN_EXE%\wget.exe" %WSDL% 
-REM     IF "%ERRORLEVEL%"=="1" (
-REM         @ECHO Unable to fetch "%WSDL%" via wget
-REM         EXIT /b 1
-REM     )
-     IF EXIST "ANetApiWS.asmx@wsdl" (
-        COPY "ANetApiWS.asmx@wsdl" "%LOCALWSDL%"
-        DEL /Q "ANetApiWS.asmx@wsdl"
-    ) ELSE (
-@rem        @ECHO Unable to fetch "%WSDL%" via wget
-		@ECHO Escape fetching %WSDL%
-        @REM EXIT /b 1    
-    )
-)
+REM @ECHO Fetching WSDL:   %WSDL% 
+REM bitsadmin.exe /transfer "WSDL Download" /DOWNLOAD %WSDL% %LOCALWSDL%
+REM IF NOT "%ERRORLEVEL%"=="0" (
+    REM SET ERRORLEVEL=
+    REM IF EXIST "ANetApiWS.asmx@wsdl" (
+        REM DEL /Q "ANetApiWS.asmx@wsdl"
+    REM )
+    REM @ECHO Unable to fetch "%WSDL%" via bitsadmin, trying wget
+REM @rem    "%CYGWIN_EXE%\wget.exe" %WSDL% 
+    REM IF "%ERRORLEVEL%"=="1" (
+        REM @ECHO Unable to fetch "%WSDL%" via wget
+        REM EXIT /b 1
+    REM )
+     REM IF EXIST "ANetApiWS.asmx@wsdl" (
+        REM COPY "ANetApiWS.asmx@wsdl" "%LOCALWSDL%"
+        REM DEL /Q "ANetApiWS.asmx@wsdl"
+    REM ) ELSE (
+REM @rem        @ECHO Unable to fetch "%WSDL%" via wget
+        REM @ECHO Escape fetching %WSDL%
+        REM @REM EXIT /b 1    
+    REM )
+REM )
 IF NOT EXIST "%LOCALXSD%" (
     @ECHO Unable to find "%LOCALXSD%"
     EXIT /b 1

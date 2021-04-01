@@ -31,8 +31,8 @@
                 if (argument.expirationTimeStamp!=null) { argument.expirationTimeStampSpecified = true; }
             }
         }
-		
-		public static void processorType(processorType argument) 
+        
+        public static void processorType(processorType argument) 
         {
             if(null != argument) 
             {
@@ -43,7 +43,7 @@
         {
             if (null != argument)
             {
-				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 customerAddressType(argument.billTo);
                 paymentMaskedType(argument.payment);
             }
@@ -128,8 +128,8 @@
             {
             }
         }
-		
-		public static void TransactionListSorting(TransactionListSorting argument) 
+        
+        public static void TransactionListSorting(TransactionListSorting argument) 
         {
             if(null != argument) 
             {
@@ -142,7 +142,7 @@
             {
             }
         }
-		
+        
         public static void ARBGetSubscriptionListSorting(ARBGetSubscriptionListSorting argument)
         {
             if (null != argument)
@@ -177,7 +177,7 @@
                 if (argument.hasReturnedItems) { argument.hasReturnedItemsSpecified = true; }
                 fraudInformationType(argument.fraudInformation); 
                 customerProfileIdType(argument.profile);
-			}
+            }
         }
         public static void subscriptionPaymentType(subscriptionPaymentType argument)
         {
@@ -218,7 +218,7 @@
             {
             }
         }
-		public static void subMerchantType(subMerchantType argument) 
+        public static void subMerchantType(subMerchantType argument) 
         {
             if(null != argument) 
             {
@@ -231,19 +231,19 @@
                 ArrayOfSetting(argument);
             }
         }
-		
+        
         public static void fraudInformationType(fraudInformationType argument) 
         {
             if(null != argument) 
             {
             }
         }
-		
+        
         public static void transRetailInfoType(transRetailInfoType argument)
         {
             if (null != argument)
             {
-		//marketType should not be assigned here    
+        //marketType should not be assigned here    
                 //argument.marketType = "2";
             }
         }
@@ -288,13 +288,14 @@
                 transRetailInfoType(argument.retail);
                 if (null != argument.transactionSettings) { foreach (var value in argument.transactionSettings) { settingType(value); } }
                 if (null != argument.userFields) { foreach (var value in argument.userFields) { userField(value); } }
-				extendedAmountType(argument.surcharge);
+                extendedAmountType(argument.surcharge);
                 subMerchantType(argument.subMerchant);
                 extendedAmountType(argument.tip);
                 processingOptions(argument.processingOptions);
                 subsequentAuthInformation(argument.subsequentAuthInformation);
                 otherTaxType(argument.otherTax);
                 nameAndAddressType(argument.shipFrom);
+                authorizationIndicatorType(argument.authorizationIndicatorType);
             }
         }
         public static void paymentType(paymentType argument)
@@ -307,7 +308,7 @@
                 {
                     encryptedTrackDataType(argument.Item as encryptedTrackDataType);
                 }
-				
+                
                 if (argument.Item is paymentEmvType) { paymentEmvType(argument.Item as paymentEmvType); }
                 if (argument.Item is opaqueDataType) { opaqueDataType(argument.Item as opaqueDataType); }
                 if (argument.Item is payPalType) { payPalType(argument.Item as payPalType); }
@@ -321,14 +322,14 @@
                 KeyBlock(argument.FormOfPayment);
             }
         }
-		
-		public static void paymentEmvType(paymentEmvType argument) 
+        
+        public static void paymentEmvType(paymentEmvType argument) 
         {
             if(null != argument) 
             {
             }
         }
-		
+        
         public static void KeyBlock(KeyBlock argument)
         {
             if (null != argument)
@@ -559,10 +560,10 @@
                 if (null != argument.returnedItems) { foreach (var value in argument.returnedItems) { returnedItemType(value); } }
                 solutionType(argument.solution);
 
-				if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
-				
+                if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
+                
                 customerProfileIdType(argument.profile);
-				extendedAmountType(argument.surcharge);
+                extendedAmountType(argument.surcharge);
                 extendedAmountType(argument.tip);
                 otherTaxType(argument.otherTax);
                 nameAndAddressType(argument.shipFrom);
@@ -623,8 +624,8 @@
                 nameAndAddressType(argument.shipTo);
                 transactionResponseSecureAcceptance(argument.secureAcceptance);
                 transactionResponseEmvResponse(argument.emvResponse);
-                customerProfileIdType(argument.profile);				
-			}
+                customerProfileIdType(argument.profile);                
+            }
         }
 
         public static void transactionResponseEmvResponse(transactionResponseEmvResponse argument)
@@ -706,6 +707,7 @@
                 if (argument.recurringBilling) { argument.recurringBillingSpecified = true;
                     processingOptions(argument.processingOptions);
                     subsequentAuthInformation(argument.subsequentAuthInformation);
+                    authorizationIndicatorType(argument.authorizationIndicatorType);
                 }
             }
         }
@@ -724,6 +726,13 @@
             if (null != argument)
             {
                 if (0 <= argument.reason) { argument.reasonSpecified = true; }
+            }
+        }
+        public static void authorizationIndicatorType(authorizationIndicatorType argument) 
+        {
+            if(null != argument) 
+            {
+                
             }
         }
         public static void profileTransCaptureOnlyType(profileTransCaptureOnlyType argument)
@@ -778,7 +787,7 @@
             if (null != argument)
             {
                 customerPaymentProfileBaseType(argument);
-				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 paymentMaskedType(argument.payment);
                 driversLicenseMaskedType(argument.driversLicense);
             }
@@ -790,7 +799,8 @@
                 customerPaymentProfileBaseType(argument);
                 paymentType(argument.payment);
                 driversLicenseType(argument.driversLicense);
-				if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                subsequentAuthInformation(argument.subsequentAuthInformation);
             }
         }
         public static void customerPaymentProfileExType(customerPaymentProfileExType argument)
@@ -1119,7 +1129,7 @@
         public static void createCustomerProfileFromTransactionRequest(createCustomerProfileFromTransactionRequest argument)
         {
             if (null != argument)
-            {				
+            {                
                 customerProfileBaseType(argument.customer);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
@@ -1130,8 +1140,8 @@
         {
             if (null != argument)
             {
-				if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
-				if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+                if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
 
             }
         }
@@ -1167,7 +1177,7 @@
         {
             if (null != argument)
             {
-				if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
                 customerAddressExType(argument.address);
             }
         }
@@ -1211,7 +1221,7 @@
             {
                 customerAddressExType(argument.address);
                 if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
-			}
+            }
         }
         public static void updateCustomerShippingAddressResponse(updateCustomerShippingAddressResponse argument)
         {
@@ -1333,7 +1343,7 @@
                 createProfileResponse(argument.profileResponse);
             }
         }
-		
+        
         public static void updateHeldTransactionRequest(updateHeldTransactionRequest argument) 
         {
             if(null != argument) 
@@ -1348,7 +1358,7 @@
                 transactionResponse(argument.transactionResponse);
             }
         }
-		
+        
         public static void getBatchStatisticsRequest(getBatchStatisticsRequest argument)
         {
             if (null != argument)
@@ -1382,7 +1392,7 @@
         {
             if (null != argument)
             {
-				TransactionListSorting(argument.sorting);
+                TransactionListSorting(argument.sorting);
                 Paging(argument.paging);
             }
         }
@@ -1392,7 +1402,7 @@
             {
                 if (null != argument.transactions) { foreach (var value in argument.transactions) { transactionSummaryType(value); } }
                 if (0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified = true; }
-			}
+            }
         }
         public static void getHostedProfilePageRequest(getHostedProfilePageRequest argument)
         {
@@ -1416,8 +1426,8 @@
                 Paging(argument.paging);
             }
         }
-		
-		public static void getHostedPaymentPageRequest(getHostedPaymentPageRequest argument) 
+        
+        public static void getHostedPaymentPageRequest(getHostedPaymentPageRequest argument) 
         {
             if(null != argument) 
             {
@@ -1431,14 +1441,14 @@
             {
             }
         }
-		
+        
         public static void getUnsettledTransactionListResponse(getUnsettledTransactionListResponse argument)
         {
             if (null != argument)
             {
                 if (null != argument.transactions) { foreach (var value in argument.transactions) { transactionSummaryType(value); } }
                 if (0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified = true; }
-			}
+            }
         }
         public static void mobileDeviceRegistrationRequest(mobileDeviceRegistrationRequest argument)
         {
@@ -1545,10 +1555,10 @@
             {
                 customerProfileSummaryType(argument.customerProfileSummaryType);
                 paymentSimpleType(argument.paymentSimpleType);
-			}
+            }
         }
-		
-		public static void auDetailsType(auDetailsType argument) 
+        
+        public static void auDetailsType(auDetailsType argument) 
         {
             if(null != argument) 
             {
@@ -1563,11 +1573,11 @@
             }
         }
 
-		public static void auUpdateType(auUpdateType argument) 
+        public static void auUpdateType(auUpdateType argument) 
         {
             if(null != argument) 
             {
-				auDetailsType (argument);
+                auDetailsType (argument);
                 creditCardMaskedType(argument.newCreditCard);
                 creditCardMaskedType(argument.oldCreditCard);
             }
@@ -1617,7 +1627,7 @@
             }
         }
 
-		public static void getMerchantDetailsRequest(getMerchantDetailsRequest argument) 
+        public static void getMerchantDetailsRequest(getMerchantDetailsRequest argument) 
         {
             
         }
@@ -1632,7 +1642,7 @@
                 if (null != argument.contactDetails) { foreach (var value in argument.contactDetails) { ContactDetailType(value); } }
             }
         }
-		
+        
         public static void getTransactionListForCustomerRequest(getTransactionListForCustomerRequest argument) 
         {
             if(null != argument) 
@@ -1665,8 +1675,8 @@
             }
         }
     }
-	
-	
+    
+    
     // ReSharper restore InconsistentNaming 
 #pragma warning restore 1591
 #pragma warning restore 169

@@ -85,6 +85,14 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.AreEqual(anEnum, enumFromValue);
             }
 
+            foreach (var anEnum in Enum.GetValues(typeof(TransactionListOrderFieldEnum)))
+            {
+                var aValue = anEnum.ToString();
+                TransactionListOrderFieldEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
+
             foreach (var anEnum in Enum.GetValues(typeof(deviceActivationEnum)))
             {
                 var aValue = anEnum.ToString();
@@ -100,7 +108,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
-		
+
             foreach (var anEnum in Enum.GetValues(typeof(messageTypeEnum)))
             {
                 var aValue = anEnum.ToString();
@@ -108,11 +116,27 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
-		
+
             foreach (var anEnum in Enum.GetValues(typeof(customerTypeEnum)))
             {
                 var aValue = anEnum.ToString();
                 customerTypeEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
+
+            foreach (var anEnum in Enum.GetValues(typeof(merchantInitTransReasonEnum)))
+            {
+                var aValue = anEnum.ToString();
+                merchantInitTransReasonEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
+
+            foreach (var anEnum in Enum.GetValues(typeof(authIndicatorEnum)))
+            {
+                var aValue = anEnum.ToString();
+                authIndicatorEnum enumFromValue;
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
@@ -149,10 +173,10 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.AreEqual(anEnum, enumFromValue);
             }
 
-            foreach (var anEnum in Enum.GetValues(typeof(customerTypeEnum)))
+            foreach (var anEnum in Enum.GetValues(typeof(customerProfileTypeEnum)))
             {
                 var aValue = anEnum.ToString();
-                customerTypeEnum enumFromValue;
+                customerProfileTypeEnum enumFromValue;
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
@@ -165,7 +189,7 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.AreEqual(anEnum, enumFromValue);
             }
 
-			foreach (var anEnum in Enum.GetValues(typeof(webCheckOutTypeEnum)))
+            foreach (var anEnum in Enum.GetValues(typeof(webCheckOutTypeEnum)))
             {
                 var aValue = anEnum.ToString();
                 webCheckOutTypeEnum enumFromValue;
@@ -291,15 +315,23 @@ namespace AuthorizeNet.Api.Controllers.Test
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
-			
-			foreach (var anEnum in Enum.GetValues(typeof(AUJobTypeEnum)))
+
+            foreach (var anEnum in Enum.GetValues(typeof(AUJobTypeEnum)))
             {
                 var aValue = anEnum.ToString();
                 AUJobTypeEnum enumFromValue;
                 Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
                 Assert.AreEqual(anEnum, enumFromValue);
             }
-        } 
+
+            foreach (var anEnum in Enum.GetValues(typeof(paymentMethodsTypeEnum)))
+            {
+                var aValue = anEnum.ToString();
+                paymentMethodsTypeEnum enumFromValue;
+                Assert.IsTrue(Enum.TryParse(aValue, out enumFromValue));
+                Assert.AreEqual(anEnum, enumFromValue);
+            }
+        }
 
         /*
         private <T extends enum > void XX<T>()
@@ -308,10 +340,9 @@ namespace AuthorizeNet.Api.Controllers.Test
             {
                 String unitValue = anEnum.value();
                 T unitEnum = T.fromValue(unitValue);
-                Assert.assertEquals(anEnum, unitEnum);			
+                Assert.assertEquals(anEnum, unitEnum);
             }
         }
         */
     }
-}        
-
+}
