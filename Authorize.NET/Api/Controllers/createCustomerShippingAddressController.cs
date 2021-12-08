@@ -1,24 +1,26 @@
-﻿namespace AuthorizeNet.Api.Controllers
+﻿using AuthorizeNet.Api.Contracts.V1;
+using AuthorizeNet.Api.Controllers.Bases;
+
+namespace AuthorizeNet.Api.Controllers
 {
-    using System;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers.Bases;
-
 #pragma warning disable 1591
-    public class createCustomerShippingAddressController : ApiOperationBase<createCustomerShippingAddressRequest, createCustomerShippingAddressResponse> {
+	public class CreateCustomerShippingAddressController : ApiOperationBase<createCustomerShippingAddressRequest, createCustomerShippingAddressResponse>
+	{
 
-	    public createCustomerShippingAddressController(createCustomerShippingAddressRequest apiRequest) : base(apiRequest) {
-	    }
+		public CreateCustomerShippingAddressController(createCustomerShippingAddressRequest apiRequest) : base(apiRequest)
+		{
+		}
 
-	    override protected void ValidateRequest() {
-            var request = GetApiRequest();
-		
-		    //validate required fields		
-		    //if ( 0 == request.SearchType) throw new ArgumentException( "SearchType cannot be null");
-		    //if ( null == request.Paging) throw new ArgumentException("Paging cannot be null");
-		
-		    //validate not-required fields		
-	    }
-    }
+		override protected void ValidateRequest()
+		{
+			var request = GetApiRequest();
+
+			//validate required fields
+			//if ( 0 == request.SearchType) throw new ArgumentException( "SearchType cannot be null");
+			//if ( null == request.Paging) throw new ArgumentException("Paging cannot be null");
+
+			//validate not-required fields
+		}
+	}
 #pragma warning restore 1591
 }

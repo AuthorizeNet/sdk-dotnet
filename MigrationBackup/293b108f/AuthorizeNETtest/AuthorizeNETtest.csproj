@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -83,9 +84,9 @@
     <Compile Include="Api\Controllers\MockTest\getCustomerPaymentProfileListControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getHostedPaymentPageControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\getMerchantDetailsControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\securePaymentContainerControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\updateHeldTransactionControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\updateMerchantDetailsControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\SecurePaymentContainerControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\UpdateHeldTransactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\UpdateMerchantDetailsControllerTest.cs" />
     <Compile Include="Api\Controllers\SampleTest\CustomerProfileSampleTest.cs" />
     <Compile Include="Api\Controllers\Test\*.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBCancelSubscriptionControllerTest.cs" />
@@ -93,7 +94,7 @@
     <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionListControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionStatusControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\ARBUpdateSubscriptionControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\authenticateTestControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\AuthenticateTestControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\createCustomerPaymentProfileControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\createCustomerProfileControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\createCustomerProfileFromTransactionControllerTest.cs" />
@@ -118,14 +119,14 @@
     <Compile Include="Api\Controllers\MockTest\isAliveControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\logoutControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\mobileDeviceLoginControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\mobileDeviceRegistrationControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\sendCustomerTransactionReceiptControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\MobileDeviceRegistrationControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\SendCustomerTransactionReceiptControllerTest.cs" />
     <Compile Include="Api\Controllers\MockTest\transactionControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\updateCustomerPaymentProfileControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\updateCustomerProfileControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\updateCustomerShippingAddressControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\updateSplitTenderGroupControllerTest.cs" />
-    <Compile Include="Api\Controllers\MockTest\validateCustomerPaymentProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\UpdateCustomerPaymentProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\UpdateCustomerProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\UpdateCustomerShippingAddressControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\UpdateSplitTenderGroupControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\ValidateCustomerPaymentProfileControllerTest.cs" />
     <Compile Include="Api\Controllers\SampleTest\ArbSubscriptionSampleTest.cs" />
     <Compile Include="Api\Controllers\SampleTest\CreateCustomerProfileFromTransactionSampleTest.cs" />
     <Compile Include="Api\Controllers\SampleTest\CreateTransactionSampleTest.cs" />
@@ -152,7 +153,7 @@
     <Folder Include="Test References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -1,68 +1,68 @@
+using System;
+using System.Collections.Generic;
+
+using AuthorizeNet.Api.Contracts.V1;
+using AuthorizeNet.Api.Controllers.Test;
+
+using NUnit.Framework;
+
 namespace AuthorizeNet.Api.Controllers.MockTest
 {
-    using System;
-    using System.Collections.Generic;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers;
-    using AuthorizeNet.Api.Controllers.Test;
-    using AuthorizeNet.Util;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class SendCustomerTransactionReceiptTest : ApiCoreTestBase 
+	[TestFixture]
+	public class SendCustomerTransactionReceiptTest : ApiCoreTestBase
 	{
 
-	    [SetUp]
-        public new static void SetUpBeforeClass()
-        {
-		    ApiCoreTestBase.SetUpBeforeClass();
-	    }
-
-	    [TearDown]
-        public new static void TearDownAfterClass()
-        {
-		    ApiCoreTestBase.TearDownAfterClass();
-	    }
-
-	    [SetUp]
-	    public new void SetUp() 
+		[SetUp]
+		public new static void SetUpBeforeClass()
 		{
-		    base.SetUp();
-	    }
+			ApiCoreTestBase.SetUpBeforeClass();
+		}
 
-	    [TearDown]
-	    public new void TearDown() 
+		[TearDown]
+		public new static void TearDownAfterClass()
 		{
-		    base.TearDown();
-	    }
+			ApiCoreTestBase.TearDownAfterClass();
+		}
 
-        [Test]
-	    public void MocksendCustomerTransactionReceiptTest()
-	    {
-		    //define all mocked objects as final
-            var mockController = GetMockController<sendCustomerTransactionReceiptRequest, sendCustomerTransactionReceiptResponse>();
-            var mockRequest = new sendCustomerTransactionReceiptRequest
-                {
-                    merchantAuthentication = new merchantAuthenticationType {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
-                };
-            var mockResponse = new sendCustomerTransactionReceiptResponse
-                {
-                    refId = "1234",
-                    sessionToken = "sessiontoken",
-                };
+		[SetUp]
+		public new void SetUp()
+		{
+			base.SetUp();
+		}
 
-		    var errorResponse = new ANetApiResponse();
-		    var results = new List<String>();
-            const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+		[TearDown]
+		public new void TearDown()
+		{
+			base.TearDown();
+		}
 
-            SetMockControllerExpectations<sendCustomerTransactionReceiptRequest, sendCustomerTransactionReceiptResponse, sendCustomerTransactionReceiptController>(
-                mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
-            mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
-            //mockController.MockObject.Execute();
-            // or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
-            var controllerResponse = mockController.MockObject.GetApiResponse();
-            Assert.IsNotNull(controllerResponse);
+		[Test]
+		public void MocksendCustomerTransactionReceiptTest()
+		{
+			//define all mocked objects as final
+			var mockController = GetMockController<sendCustomerTransactionReceiptRequest, sendCustomerTransactionReceiptResponse>();
+			var mockRequest = new sendCustomerTransactionReceiptRequest
+			{
+				merchantAuthentication = new merchantAuthenticationType { name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey },
+			};
+			var mockResponse = new sendCustomerTransactionReceiptResponse
+			{
+				refId = "1234",
+				sessionToken = "sessiontoken",
+			};
 
-	    }
-    }
+			var errorResponse = new ANetApiResponse();
+			var results = new List<String>();
+			const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+
+			SetMockControllerExpectations<sendCustomerTransactionReceiptRequest, sendCustomerTransactionReceiptResponse, SendCustomerTransactionReceiptController>(
+				mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
+			mockController.MockObject.Execute(Environment.CUSTOM);
+			//mockController.MockObject.Execute();
+			// or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
+			var controllerResponse = mockController.MockObject.GetApiResponse();
+			Assert.IsNotNull(controllerResponse);
+
+		}
+	}
 }

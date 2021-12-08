@@ -1,91 +1,96 @@
+using System;
+using System.Diagnostics;
+using System.Globalization;
+
 namespace AuthorizeNet.Util
 {
-    using System;
-    using System.Diagnostics;
-    using System.Globalization;
+	/// <summary>
+	///
+	///
+	/// </summary>
+	public static class LogHelper
+	{
 
-    /// <summary>
-    /// 
-    /// 
-    /// </summary>
-    public static class LogHelper {
+		static LogHelper()
+		{
+		}
 
-	    static LogHelper() {
-	    }
+		public static void Debug(Log logger, string format, params object[] arguments)
+		{
+			var logMessage = GetMessage(logger, format, arguments);
+			if (null != logMessage) { logger.Debug(logMessage); }
+		}
 
-	    public static void debug(Log logger, string format, params object[] arguments) {
-		    string logMessage = getMessage(logger, format, arguments);
-		    if ( null != logMessage) { logger.debug(logMessage); }
-	    }
+		public static void Error(Log logger, string format, params object[] arguments)
+		{
+			var logMessage = GetMessage(logger, format, arguments);
+			if (null != logMessage) { logger.Error(logMessage); }
+		}
 
-	    public static void error(Log logger, string format, params object[]  arguments) {
-		    string logMessage = getMessage(logger, format, arguments);
-		    if ( null != logMessage) { logger.error(logMessage); }
-	    }
-	
-	    public static void info(Log logger, string format, params object[]  arguments) {
-		    string logMessage = getMessage(logger, format, arguments);
-		    if ( null != logMessage) { logger.info(logMessage); }
-	    }
+		public static void Info(Log logger, string format, params object[] arguments)
+		{
+			var logMessage = GetMessage(logger, format, arguments);
+			if (null != logMessage) { logger.Info(logMessage); }
+		}
 
-	    public static void warn(Log logger, string format, params object[]  arguments) {
-		    string logMessage = getMessage(logger, format, arguments);
-		    if ( null != logMessage) { logger.warn(logMessage); }
-	    }
+		public static void Warn(Log logger, string format, params object[] arguments)
+		{
+			var logMessage = GetMessage(logger, format, arguments);
+			if (null != logMessage) { logger.Warn(logMessage); }
+		}
 
-	    private static string getMessage(Log logger, string format, params object[]  arguments) {
-		    string logMessage = null;
-		
-		    if ( null != logger && null != format && 0 < format.Trim().Length) {
-			    logMessage = string.Format(CultureInfo.InvariantCulture, format, arguments);
-			    //do encoding etc here or output neutralization as necessary 
-		    }
-		    return logMessage;
-	    }
-    }
+		private static string GetMessage(Log logger, string format, params object[] arguments)
+		{
+			string logMessage = null;
 
-    public class Log
-    {
-        private static TraceSource traceSource = new TraceSource("AnetDotNetSdkTrace");
+			if (null != logger && null != format && 0 < format.Trim().Length)
+			{
+				logMessage = string.Format(CultureInfo.InvariantCulture, format, arguments);
+				//do encoding etc here or output neutralization as necessary
+			}
+			return logMessage;
+		}
+	}
 
-        public void error(string logMessage) { Trace(TraceEventType.Error, logMessage); }
-        public void info(string logMessage) { Trace(TraceEventType.Information, logMessage); }
-        public void debug(string logMessage) { Trace(TraceEventType.Verbose, logMessage); }
-        public void warn(string logMessage) { Trace(TraceEventType.Warning, logMessage); }
+	public class Log
+	{
+		private static readonly TraceSource traceSource = new("AnetDotNetSdkTrace");
 
-        public void error(object logMessage) { error(logMessage.ToString()); }
-        public void info(object logMessage)  { info(logMessage.ToString());  }
-        public void debug(object logMessage) { debug(logMessage.ToString()); }
-        public void warn(object logMessage)  { warn(logMessage.ToString());  }
+		public void Error(string logMessage) => Trace(TraceEventType.Error, logMessage);
+		public void Info(string logMessage) => Trace(TraceEventType.Information, logMessage);
+		public void Debug(string logMessage) => Trace(TraceEventType.Verbose, logMessage);
+		public void Warn(string logMessage) => Trace(TraceEventType.Warning, logMessage);
 
-        public static void Trace(TraceEventType eventType, string message)
-        {
-            try
-            {
-                if (traceSource.Switch.ShouldTrace(eventType))
-                {
-                    string tracemessage = string.Format("{0}\t[{1}]\t{2}", DateTime.Now.ToString("MM/dd/yy HH:mm:ss"), eventType, message);
-                    foreach (TraceListener listener in traceSource.Listeners)
-                    {
-                        listener.WriteLine(tracemessage);
-                        listener.Flush();
-                    }
-                }
-            }
-            catch (Exception)
-            {
+		public void Error(object logMessage) => this.Error(logMessage.ToString());
+		public void Info(object logMessage) => this.Info(logMessage.ToString());
+		public void Debug(object logMessage) => this.Debug(logMessage.ToString());
+		public void Warn(object logMessage) => this.Warn(logMessage.ToString());
 
-            }
-        }
-    }
+		public static void Trace(TraceEventType eventType, string message)
+		{
+			try
+			{
+				if (traceSource.Switch.ShouldTrace(eventType))
+				{
+					var tracemessage = string.Format("{0}\t[{1}]\t{2}", DateTime.Now.ToString("MM/dd/yy HH:mm:ss"), eventType, message);
+					foreach (TraceListener listener in traceSource.Listeners)
+					{
+						listener.WriteLine(tracemessage);
+						listener.Flush();
+					}
+				}
+			}
+			catch (Exception)
+			{
 
-    public class LogFactory
-    {
-        private static readonly Log Logger = new Log();
-        public static Log getLog(Type classType)
-        {
-            return Logger;
-        }
-    }
+			}
+		}
+	}
+
+	public class LogFactory
+	{
+		private static readonly Log Logger = new();
+		public static Log GetLog(Type classType) => Logger;
+	}
 
 }
