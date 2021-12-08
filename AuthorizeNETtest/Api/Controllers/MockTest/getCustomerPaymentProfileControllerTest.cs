@@ -1,75 +1,77 @@
+using System;
+using System.Collections.Generic;
+
+using AuthorizeNet.Api.Contracts.V1;
+using AuthorizeNet.Api.Controllers;
+using AuthorizeNet.Api.Controllers.Test;
+using AuthorizeNet.Util;
+
+using NUnit.Framework;
+
 namespace AuthorizeNet.Api.Controllers.MockTest
 {
-    using System;
-    using System.Collections.Generic;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers;
-    using AuthorizeNet.Api.Controllers.Test;
-    using AuthorizeNet.Util;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class getCustomerPaymentProfileTest : ApiCoreTestBase 
+	[TestFixture]
+	public class GetCustomerPaymentProfileTest : ApiCoreTestBase
 	{
 
-	    [TestFixtureSetUp]
-        public new static void SetUpBeforeClass()
-        {
-		    ApiCoreTestBase.SetUpBeforeClass();
-	    }
-
-	    [TestFixtureTearDown]
-        public new static void TearDownAfterClass()
-        {
-		    ApiCoreTestBase.TearDownAfterClass();
-	    }
-
-	    [SetUp]
-	    public new void SetUp() 
+		[SetUp]
+		public new static void SetUpBeforeClass()
 		{
-		    base.SetUp();
-	    }
+			ApiCoreTestBase.SetUpBeforeClass();
+		}
 
-	    [TearDown]
-	    public new void TearDown() 
+		[TearDown]
+		public new static void TearDownAfterClass()
 		{
-		    base.TearDown();
-	    }
+			ApiCoreTestBase.TearDownAfterClass();
+		}
 
-        [Test]
-	    public void MockgetCustomerPaymentProfileTest()
-	    {
-		    //define all mocked objects as final
-            var mockController = GetMockController<getCustomerPaymentProfileRequest, getCustomerPaymentProfileResponse>();
-            var mockRequest = new getCustomerPaymentProfileRequest
-                {
-                    merchantAuthentication = new merchantAuthenticationType {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
-                };
-            var customerPaymentProfileMaskedType = new customerPaymentProfileMaskedType
-                {
-                    customerPaymentProfileId = "1234",
-                };
-            var mockResponse = new getCustomerPaymentProfileResponse
-                {
-                    refId = "1234",
-                    sessionToken = "sessiontoken",
-                    paymentProfile = customerPaymentProfileMaskedType,
-                };
+		[SetUp]
+		public new void SetUp()
+		{
+			base.SetUp();
+		}
 
-		    var errorResponse = new ANetApiResponse();
-		    var results = new List<String>();
-            const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+		[TearDown]
+		public new void TearDown()
+		{
+			base.TearDown();
+		}
 
-            SetMockControllerExpectations<getCustomerPaymentProfileRequest, getCustomerPaymentProfileResponse, getCustomerPaymentProfileController>(
-                mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
-            mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
-            //mockController.MockObject.Execute();
-            // or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
-            var controllerResponse = mockController.MockObject.GetApiResponse();
-            Assert.IsNotNull(controllerResponse);
+		[Test]
+		public void MockgetCustomerPaymentProfileTest()
+		{
+			//define all mocked objects as final
+			var mockController = GetMockController<getCustomerPaymentProfileRequest, getCustomerPaymentProfileResponse>();
+			var mockRequest = new getCustomerPaymentProfileRequest
+			{
+				merchantAuthentication = new merchantAuthenticationType { name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey },
+			};
+			var customerPaymentProfileMaskedType = new customerPaymentProfileMaskedType
+			{
+				customerPaymentProfileId = "1234",
+			};
+			var mockResponse = new getCustomerPaymentProfileResponse
+			{
+				refId = "1234",
+				sessionToken = "sessiontoken",
+				paymentProfile = customerPaymentProfileMaskedType,
+			};
 
-            Assert.IsNotNull(controllerResponse.paymentProfile);
-            LogHelper.info(Logger, "getCustomerPaymentProfile: Details:{0}", controllerResponse.paymentProfile);
-	    }
-    }
+			var errorResponse = new ANetApiResponse();
+			var results = new List<String>();
+			const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+
+			SetMockControllerExpectations<getCustomerPaymentProfileRequest, getCustomerPaymentProfileResponse, GetCustomerPaymentProfileController>(
+				mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
+			mockController.MockObject.Execute(Environment.CUSTOM);
+			//mockController.MockObject.Execute();
+			// or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
+			var controllerResponse = mockController.MockObject.GetApiResponse();
+			Assert.IsNotNull(controllerResponse);
+
+			Assert.IsNotNull(controllerResponse.paymentProfile);
+			LogHelper.Info(Logger, "getCustomerPaymentProfile: Details:{0}", controllerResponse.paymentProfile);
+		}
+	}
 }

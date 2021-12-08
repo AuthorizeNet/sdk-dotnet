@@ -13,7 +13,7 @@ SET SRCDIR=Authorize.NET\Api\Contracts\V1
 SET OUTFILE=%SRCDIR%\RequestFactoryWithSpecified.generated.org
 SET INFILE=%SRCDIR%\AnetApiSchema.generated.cs
 SET BACKUPFILE=%OUTDIR%\RequestFactoryWithSpecified_Backup.generated.org
-SET SPECIFIEDFILE=%OUTDIR%\splst.txt 
+SET SPECIFIEDFILE=%OUTDIR%\splst.txt
 
 IF NOT EXIST "%CYGWIN_EXE%" (
 	@ECHO "%CYGWIN_EXE%" DOES NOT EXIST
@@ -52,7 +52,7 @@ IF EXIST "%OUTFILE%" (
 @ECHO     public static class RequestFactoryWithSpecified >> %OUTFILE%
 @ECHO     {>> %OUTFILE%
 
-"%CYGWIN_EXE%\grep.exe" -i "class\|specified\|typeof\|type\|public" %INFILE%  | "%CYGWIN_EXE%\grep.exe" -i -v "string\|event" >> %OUTFILE% 
+"%CYGWIN_EXE%\grep.exe" -i "class\|specified\|typeof\|type\|public" %INFILE%  | "%CYGWIN_EXE%\grep.exe" -i -v "string\|event" >> %OUTFILE%
 
 rem creating a back up file
 "%CYGWIN_EXE%\cp.exe" -f %OUTFILE% %BACKUPFILE%
@@ -60,11 +60,11 @@ rem creating a back up file
 @rem replacing public partial class with public static void
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/public partial class/        }\n        }\n        public static void/g' %OUTFILE%
 
-@ECHO ### Deleting unwanted lines from file - may take sometime 
+@ECHO ### Deleting unwanted lines from file - may take sometime
 @rem remove everything after colon public partial class merchantAuthenticationType : object, System.ComponentModel.INotifyPropertyChanged {
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/:.*/\n        {\n            if(null != argument) \n            {\n/g if /: object/' %OUTFILE%
 
-@rem remove everything after colon  public partial class authenticateTestRequest : ANetApiRequest  
+@rem remove everything after colon  public partial class authenticateTestRequest : ANetApiRequest
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/:.*/\n        {\n            if(null != argument) \n            {\n/g if /: ANetApi/' %OUTFILE%
 
 @ rem remove "public enum bankAccountTypeEnum"
@@ -117,13 +117,13 @@ rem creating a back up file
 "%CYGWIN_EXE%\perl.exe" -pi -w -e 's/^ *([A-Za-z0-9]*)\[\] *([A-Za-z0-9]*);/                if(null != argument.$2){ foreach( var value in argument.$2) { $1(value);} } /g' "%OUTFILE%"
 
 @rem grep all the lines having specified word
-"%CYGWIN_EXE%\grep.exe" -i "Specified" %OUTFILE% | "%CYGWIN_EXE%\grep.exe" -v "class" | "%CYGWIN_EXE%\sort.exe" -u > %SPECIFIEDFILE% 
+"%CYGWIN_EXE%\grep.exe" -i "Specified" %OUTFILE% | "%CYGWIN_EXE%\grep.exe" -v "class" | "%CYGWIN_EXE%\sort.exe" -u > %SPECIFIEDFILE%
 @rem removing specified word
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/Specified;*//g' %SPECIFIEDFILE%
 
 @ECHO ### Processing function name - Creating functions
 @rem replacing "public static void ARBGetSubscriptionListRequest" with "XYZ ARBGetSubscriptionListRequest ABC ARBGetSubscriptionListRequest argument XXX"
-"%CYGWIN_EXE%\perl.exe" -pi -w -e 's/^ *public *static *void *([A-Za-z0-9]*)/XYZ $1ABC$1 argumentXXX/g' %OUTFILE% 
+"%CYGWIN_EXE%\perl.exe" -pi -w -e 's/^ *public *static *void *([A-Za-z0-9]*)/XYZ $1ABC$1 argumentXXX/g' %OUTFILE%
 
 @ECHO ### Processing Specified List - Adding if block also may take time
 FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
@@ -131,14 +131,14 @@ FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
 	"%CYGWIN_EXE%\perl.exe" -p -i -e 's/ ^ *%%i;//g if ! /specified/' %OUTFILE%
 	"%CYGWIN_EXE%\perl.exe" -p -i -e 's/^ %%iSpecified;/                ifABCargument.%%iXXX { argument.%%iSpecified123=true;}/g if /%%iSpecified/' %OUTFILE%
 )
- 
+
 @rem replace xyz in "XYZ paymentMaskedType ABCpaymentMaskedType argumentXXX" with public static void
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/XYZ/        public static void/g' %OUTFILE%
 @rem replace ABC with (
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/ABC/(/g' %OUTFILE%
 @rem replace XXX with )
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/XXX/)/g' %OUTFILE%
-@rem remove 123 from "argument.taxExemptSpecified123=true; " 
+@rem remove 123 from "argument.taxExemptSpecified123=true; "
 "%CYGWIN_EXE%\perl.exe" -p -i -e 's/123//g if /Specified/' %OUTFILE%
 
 @rem replacing the string of type "customerPaymentProfileType paymentProfile;" to "customerPaymentProfileType(argument.paymentProfile);"
@@ -167,7 +167,7 @@ FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
 @ECHO createTransactionRequest  >> %OUTFILE%
 @ECHO getSettledBatchListRequest  >> %OUTFILE%
 @ECHO mobileDeviceRegistrationRequest  >> %OUTFILE%
-@ECHO updateCustomerPaymentProfileRequest  >> %OUTFILE%
+@ECHO UpdateCustomerPaymentProfileRequest  >> %OUTFILE%
 @ECHO XXDoNotUseDummyRequest  >> %OUTFILE%
 @ECHO  >> %OUTFILE%
 @ECHO  */ >> %OUTFILE%
@@ -180,7 +180,7 @@ FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
 @ECHO batchDetailsType  >> %OUTFILE%
 @ECHO batchStatisticType  >> %OUTFILE%
 @ECHO customerDataType  >> %OUTFILE%
-@ECHO customerPaymentProfileBaseType >> %OUTFILE% 
+@ECHO customerPaymentProfileBaseType >> %OUTFILE%
 @ECHO customerPaymentProfileExType  >> %OUTFILE%
 @ECHO customerPaymentProfileMaskedType  >> %OUTFILE%
 @ECHO customerPaymentProfileType  >> %OUTFILE%
@@ -217,9 +217,9 @@ FOR /f %%i IN ( %SPECIFIEDFILE%) DO (
 @rem deleting the .bak file created by perl command
 del /S /Q *.bak > NUL
 @ECHO The RequestFactoryWithSpecified file is generated @location: "%OUTFILE%"
- 
+
 @ECHO ************************************************************************
-@ECHO Next Steps: 
+@ECHO Next Steps:
 @ECHO 1. Compare the generated file with the previous version of file on Github (.org)
 @ECHO 2. Run the diff on both the files and apply the differences in RequestFactoryWithSpecified.cs file.
 @ECHO 3. Commit the new .org file and RequestFactoryWithSpecified.cs file on Github.

@@ -1,46 +1,46 @@
+//using System;
+//using System.Collections.Generic;
+//using AuthorizeNet.Api.Contracts.V1;
+//using AuthorizeNet.Api.Controllers;
+using AuthorizeNet.Api.Controllers.Test;
+//using AuthorizeNet.Util;
+using NUnit.Framework;
+
 namespace AuthorizeNet.Api.Controllers.MockTest
 {
-    //using System;
-    //using System.Collections.Generic;
-    //using AuthorizeNet.Api.Contracts.V1;
-    //using AuthorizeNet.Api.Controllers;
-    using AuthorizeNet.Api.Controllers.Test;
-    //using AuthorizeNet.Util;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class transactionTest : ApiCoreTestBase 
+	[TestFixture]
+	public class TransactionTest : ApiCoreTestBase
 	{
 
-	    [TestFixtureSetUp]
-        public new static void SetUpBeforeClass()
-        {
-		    ApiCoreTestBase.SetUpBeforeClass();
-	    }
-
-	    [TestFixtureTearDown]
-        public new static void TearDownAfterClass()
-        {
-		    ApiCoreTestBase.TearDownAfterClass();
-	    }
-
-	    [SetUp]
-	    public new void SetUp() 
+		[SetUp]
+		public new static void SetUpBeforeClass()
 		{
-		    base.SetUp();
-	    }
+			ApiCoreTestBase.SetUpBeforeClass();
+		}
 
-	    [TearDown]
-	    public new void TearDown() 
+		[TearDown]
+		public new static void TearDownAfterClass()
 		{
-		    base.TearDown();
-	    }
+			ApiCoreTestBase.TearDownAfterClass();
+		}
 
-        [Test]
-	    public void MocktransactionTest()
-	    {
-            //object transactionRequest does not exist
-            /*
+		[SetUp]
+		public new void SetUp()
+		{
+			base.SetUp();
+		}
+
+		[TearDown]
+		public new void TearDown()
+		{
+			base.TearDown();
+		}
+
+		[Test]
+		public void MocktransactionTest()
+		{
+			//object transactionRequest does not exist
+			/*
 		    //define all mocked objects as final
             var mockController = GetMockController<transactionRequest, transactionResponse>();
             var mockRequest = new transactionRequest
@@ -69,6 +69,6 @@ namespace AuthorizeNet.Api.Controllers.MockTest
 		    Assert.IsNotNull(controllerResponse.Yyyyy);
 		    LogHelper.info(Logger, "transaction: Details:{0}", controllerResponse.Yyyyy);
             */
-	    }
-    }
+		}
+	}
 }

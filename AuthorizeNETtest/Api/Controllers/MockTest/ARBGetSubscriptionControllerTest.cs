@@ -1,108 +1,107 @@
 using AuthorizeNet.Utility;
+using System;
+using System.Collections.Generic;
+using AuthorizeNet.Api.Contracts.V1;
+using AuthorizeNet.Api.Controllers;
+using AuthorizeNet.Api.Controllers.Test;
+using AuthorizeNet.Util;
+using NUnit.Framework;
 
 namespace AuthorizeNet.Api.Controllers.MockTest
 {
-    using System;
-    using System.Collections.Generic;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers;
-    using AuthorizeNet.Api.Controllers.Test;
-    using AuthorizeNet.Util;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class ARBGetSubscriptionTest : ApiCoreTestBase 
+	[TestFixture]
+	public class ARBGetSubscriptionTest : ApiCoreTestBase
 	{
 
-	    [TestFixtureSetUp]
-        public new static void SetUpBeforeClass()
-        {
-		    ApiCoreTestBase.SetUpBeforeClass();
-	    }
-
-	    [TestFixtureTearDown]
-        public new static void TearDownAfterClass()
-        {
-		    ApiCoreTestBase.TearDownAfterClass();
-	    }
-
-	    [SetUp]
-	    public new void SetUp() 
+		[SetUp]
+		public new static void SetUpBeforeClass()
 		{
-		    base.SetUp();
-	    }
+			ApiCoreTestBase.SetUpBeforeClass();
+		}
 
-	    [TearDown]
-	    public new void TearDown() 
+		[TearDown]
+		public new static void TearDownAfterClass()
 		{
-		    base.TearDown();
-	    }
+			ApiCoreTestBase.TearDownAfterClass();
+		}
 
-        [Test]
-	    public void MockARBGetSubscriptionTest()
-	    {
-		    //define all mocked objects as final
-            var mockController = GetMockController<ARBGetSubscriptionRequest, ARBGetSubscriptionResponse>();
-            var mockRequest = new ARBGetSubscriptionRequest
-                {
-                    merchantAuthentication = new merchantAuthenticationType() {name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey},
-                    subscriptionId = "1234"
-                };
+		[SetUp]
+		public new void SetUp()
+		{
+			base.SetUp();
+		}
 
-            var customerPaymentProfileMaskedType = new customerPaymentProfileMaskedType
-                {
-                    customerPaymentProfileId = "1234",
-                };
+		[TearDown]
+		public new void TearDown()
+		{
+			base.TearDown();
+		}
 
-            var rnd = new AnetRandom(DateTime.Now.Millisecond);
-            var SubscriptionMaskedType = new ARBSubscriptionMaskedType()
-            {
-                name = "Test",
-                paymentSchedule = new paymentScheduleType
-                {
-                    interval = new paymentScheduleTypeInterval
-                    {
-                        length = 1,
-                        unit = ARBSubscriptionUnitEnum.months,
-                    },
-                    startDate = DateTime.UtcNow,
-                    totalOccurrences = 12
-                },
-                amount = 9.99M,
-                amountSpecified = true,
-                trialAmount = 100,
-                trialAmountSpecified = true,
-                status = ARBSubscriptionStatusEnum.active,
-                statusSpecified = true,
-                profile = new subscriptionCustomerProfileType()
-                {
-                    paymentProfile = customerPaymentProfileMaskedType,
+		[Test]
+		public void MockARBGetSubscriptionTest()
+		{
+			//define all mocked objects as final
+			var mockController = GetMockController<ARBGetSubscriptionRequest, ARBGetSubscriptionResponse>();
+			var mockRequest = new ARBGetSubscriptionRequest
+			{
+				merchantAuthentication = new merchantAuthenticationType() { name = "mocktest", Item = "mockKey", ItemElementName = ItemChoiceType.transactionKey },
+				subscriptionId = "1234"
+			};
 
-                },
-                order = new orderType { description = string.Format("member monthly {0}", rnd.Next(99999)) }               
-            };
+			var customerPaymentProfileMaskedType = new customerPaymentProfileMaskedType
+			{
+				customerPaymentProfileId = "1234",
+			};
 
-            var mockResponse = new ARBGetSubscriptionResponse
-                {
-                    refId = "1234",
-                    sessionToken = "sessiontoken",
-                    subscription = SubscriptionMaskedType
-                };
+			var rnd = new AnetRandom(DateTime.Now.Millisecond);
+			var SubscriptionMaskedType = new ARBSubscriptionMaskedType()
+			{
+				name = "Test",
+				paymentSchedule = new paymentScheduleType
+				{
+					interval = new paymentScheduleTypeInterval
+					{
+						length = 1,
+						unit = ARBSubscriptionUnitEnum.months,
+					},
+					startDate = DateTime.UtcNow,
+					totalOccurrences = 12
+				},
+				amount = 9.99M,
+				amountSpecified = true,
+				trialAmount = 100,
+				trialAmountSpecified = true,
+				status = ARBSubscriptionStatusEnum.active,
+				statusSpecified = true,
+				profile = new subscriptionCustomerProfileType()
+				{
+					paymentProfile = customerPaymentProfileMaskedType,
 
-		    var errorResponse = new ANetApiResponse();
-		    var results = new List<String>();
-            const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+				},
+				order = new orderType { description = string.Format("member monthly {0}", rnd.Next(99999)) }
+			};
 
-            SetMockControllerExpectations<ARBGetSubscriptionRequest, ARBGetSubscriptionResponse, ARBGetSubscriptionController>(
-                mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
-            mockController.MockObject.Execute(AuthorizeNet.Environment.CUSTOM);
-            //mockController.MockObject.Execute();
-            // or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
-            var controllerResponse = mockController.MockObject.GetApiResponse();
-            Assert.IsNotNull(controllerResponse);
+			var mockResponse = new ARBGetSubscriptionResponse
+			{
+				refId = "1234",
+				sessionToken = "sessiontoken",
+				subscription = SubscriptionMaskedType
+			};
 
-            Assert.IsNotNull(controllerResponse.subscription);
-            LogHelper.info(Logger, "ARBGetSubscription: Details:{0}", controllerResponse.subscription);
-	    }
-    }
+			var errorResponse = new ANetApiResponse();
+			var results = new List<String>();
+			const messageTypeEnum messageTypeOk = messageTypeEnum.Ok;
+
+			SetMockControllerExpectations<ARBGetSubscriptionRequest, ARBGetSubscriptionResponse, ARBGetSubscriptionController>(
+				mockController.MockObject, mockRequest, mockResponse, errorResponse, results, messageTypeOk);
+			mockController.MockObject.Execute(Environment.CUSTOM);
+			//mockController.MockObject.Execute();
+			// or var controllerResponse = mockController.MockObject.ExecuteWithApiResponse(AuthorizeNet.Environment.CUSTOM);
+			var controllerResponse = mockController.MockObject.GetApiResponse();
+			Assert.IsNotNull(controllerResponse);
+
+			Assert.IsNotNull(controllerResponse.subscription);
+			LogHelper.Info(Logger, "ARBGetSubscription: Details:{0}", controllerResponse.subscription);
+		}
+	}
 }
