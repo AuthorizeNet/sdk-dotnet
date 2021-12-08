@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CDA0D4D8-E4AA-4BEA-8839-04D69607D914}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AuthorizeNETtest</RootNamespace>
+    <AssemblyName>AuthorizeNETtest</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin/Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0219,1591,1635</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin/Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NMock3">
+      <HintPath>..\packages\NMock3.3.5.44\lib\net40\NMock3.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit-console-runner">
+      <HintPath>..\NUnit-2.6.3\bin\lib\nunit-console-runner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core">
+      <HintPath>..\NUnit-2.6.3\bin\lib\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\NUnit-2.6.3\bin\lib\nunit.core.interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\NUnit-2.6.3\bin\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.util">
+      <HintPath>..\NUnit-2.6.3\bin\lib\nunit.util.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="UnitTestData.cs" />
+    <Compile Include="WebRequestLocal.cs" />
+    <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getCustomerPaymentProfileListControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getHostedPaymentPageControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getMerchantDetailsControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\securePaymentContainerControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateHeldTransactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateMerchantDetailsControllerTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\CustomerProfileSampleTest.cs" />
+    <Compile Include="Api\Controllers\Test\*.cs" />
+    <Compile Include="Api\Controllers\MockTest\ARBCancelSubscriptionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\ARBCreateSubscriptionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionListControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\ARBGetSubscriptionStatusControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\ARBUpdateSubscriptionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\authenticateTestControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\createCustomerPaymentProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\createCustomerProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\createCustomerProfileFromTransactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\createCustomerProfileTransactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\createCustomerShippingAddressControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\createProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\createTransactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\decryptPaymentDataControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\deleteCustomerPaymentProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\deleteCustomerProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\deleteCustomerShippingAddressControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getBatchStatisticsControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getCustomerPaymentProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getCustomerProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getCustomerProfileIdsControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getCustomerShippingAddressControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getHostedProfilePageControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getSettledBatchListControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getTransactionDetailsControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getTransactionListControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\getUnsettledTransactionListControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\isAliveControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\logoutControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\mobileDeviceLoginControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\mobileDeviceRegistrationControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\sendCustomerTransactionReceiptControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\transactionControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateCustomerPaymentProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateCustomerProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateCustomerShippingAddressControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\updateSplitTenderGroupControllerTest.cs" />
+    <Compile Include="Api\Controllers\MockTest\validateCustomerPaymentProfileControllerTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\ArbSubscriptionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\CreateCustomerProfileFromTransactionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\CreateTransactionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\eCheckTransactionSampleTest.cs" />
+    <Compile Include="Api\Controllers\SampleTest\ErrorMessagesSampleTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Authorize.NET\AuthorizeNET.csproj">
+      <Project>{5D52EAEC-42FB-4313-83B8-69E2F55EBF14}</Project>
+      <Name>AuthorizeNET</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Api\ControllerTemplateTest.cst" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NMock3\NMock3 Cheat Sheet.pdf" />
+    <None Include="NMock3\NMockTest.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

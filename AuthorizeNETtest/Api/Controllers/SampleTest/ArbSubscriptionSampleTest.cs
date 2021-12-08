@@ -11,13 +11,13 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
     [TestFixture]
     public class ArbSubscriptionSampleTest : ApiCoreTestBase {
 
-	    [TestFixtureSetUp]
+	    [SetUp]
         public new static void SetUpBeforeClass()
         {
 		    ApiCoreTestBase.SetUpBeforeClass();
 	    }
 
-	    [TestFixtureTearDown]
+	    [TearDown]
         public new static void TearDownAfterClass()
         {
 		    ApiCoreTestBase.TearDownAfterClass();

@@ -9,16 +9,16 @@ namespace AuthorizeNet.Api.Controllers.MockTest
     using NUnit.Framework;
 
     [TestFixture]
-    public class getHostedPaymentPageTest : ApiCoreTestBase 
+    public class GetHostedPaymentPageTest : ApiCoreTestBase 
 	{
 
-	    [TestFixtureSetUp]
+	    [SetUp]
         public new static void SetUpBeforeClass()
         {
 		    ApiCoreTestBase.SetUpBeforeClass();
 	    }
 
-	    [TestFixtureTearDown]
+	    [TearDown]
         public new static void TearDownAfterClass()
         {
 		    ApiCoreTestBase.TearDownAfterClass();

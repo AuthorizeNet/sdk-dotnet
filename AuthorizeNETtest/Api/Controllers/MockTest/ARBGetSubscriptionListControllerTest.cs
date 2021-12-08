@@ -12,13 +12,13 @@ namespace AuthorizeNet.Api.Controllers.MockTest
     public class ARBGetSubscriptionListTest : ApiCoreTestBase 
 	{
 
-	    [TestFixtureSetUp]
+	    [SetUp]
         public new static void SetUpBeforeClass()
         {
 		    ApiCoreTestBase.SetUpBeforeClass();
 	    }
 
-	    [TestFixtureTearDown]
+	    [TearDown]
         public new static void TearDownAfterClass()
         {
 		    ApiCoreTestBase.TearDownAfterClass();

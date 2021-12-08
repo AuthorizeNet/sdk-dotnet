@@ -1,4 +1,4 @@
-﻿using AuthorizeNet.Utility;
+using AuthorizeNet.Utility;
 
 namespace AuthorizeNet.Api.Controllers.SampleTest
 {
@@ -14,13 +14,13 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
     public class CreateTransactionSampleTest : ApiCoreTestBase
     {
 
-        [TestFixtureSetUp]
+        [SetUp]
         public new static void SetUpBeforeClass()
         {
             ApiCoreTestBase.SetUpBeforeClass();
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public new static void TearDownAfterClass()
         {
             ApiCoreTestBase.TearDownAfterClass();
@@ -344,7 +344,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
             var response = controller.GetApiResponse();
 
             //validate. The code 2000 is: Need the payer's consent.
-            Assert.AreEqual("2000", response.transactionResponse.messages[0].code);
+            Assert.AreEqual("2000", response.transactionResponse.responseCode);
         }
 
         [Test]

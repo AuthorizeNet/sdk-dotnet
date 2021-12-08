@@ -15,13 +15,13 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
     public class ErrorMessagesSampleTest : ApiCoreTestBase
     {
 
-        [TestFixtureSetUp]
+        [SetUp]
         public new static void SetUpBeforeClass()
         {
             ApiCoreTestBase.SetUpBeforeClass();
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public new static void TearDownAfterClass()
         {
             ApiCoreTestBase.TearDownAfterClass();

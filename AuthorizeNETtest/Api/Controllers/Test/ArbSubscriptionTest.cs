@@ -1,26 +1,23 @@
 using AuthorizeNet.Utility;
+using System;
+using AuthorizeNet.Api.Contracts.V1;
+using AuthorizeNet.Api.Controllers.Bases;
+using AuthorizeNet.Util;
+using NUnit.Framework;
+using System.Linq;
 
 namespace AuthorizeNet.Api.Controllers.Test
 {
-    using System;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers;
-    using AuthorizeNet.Api.Controllers.Bases;
-    using AuthorizeNet.Api.Controllers.Test;
-    using AuthorizeNet.Util;
-    using NUnit.Framework;
-    using System.Linq;
-
-    [TestFixture]
+	[TestFixture]
     public class ArbSubscriptionTest : ApiCoreTestBase {
 
-	    [TestFixtureSetUp]
+	    [SetUp]
         public new static void SetUpBeforeClass()
         {
 		    ApiCoreTestBase.SetUpBeforeClass();
 	    }
 
-	    [TestFixtureTearDown]
+	    [TearDown]
         public new static void TearDownAfterClass()
         {
 		    ApiCoreTestBase.TearDownAfterClass();
@@ -211,7 +208,7 @@ namespace AuthorizeNet.Api.Controllers.Test
         /// @Zalak
         /// </summary>
        // [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "SearchType cannot be null")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.ExpectedException(typeof(ArgumentException), "SearchType cannot be null")]
         public void GetSubscriptionSearchCardExpiringThisMonthIssueTest()
         {
            var getSubscriptionList = new ARBGetSubscriptionListRequest()
