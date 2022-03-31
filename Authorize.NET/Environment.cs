@@ -116,24 +116,34 @@ namespace AuthorizeNet
 		    }
 		
 		    return value;
-	    }
+		}
 
-	    /// <summary>
-	    /// Reads the value from property file and/or the environment 
-	    /// Values in property file supersede the values set in environmen
-	    /// </summary>
-        /// <param name="propertyName">propertyName name of the property to read</param>
-        /// <returns>String property value</returns>
-	    public static String GetProperty(String propertyName) {
+		private static object mutex = new object();
+
+		/// <summary>
+		/// Reads the value from property file and/or the environment 
+		/// Values in property file supersede the values set in environmen
+		/// </summary>
+		/// <param name="propertyName">propertyName name of the property to read</param>
+		/// <returns>String property value</returns>
+		public static String GetProperty(String propertyName) {
 		    String stringValue = null;
-
 	        String propValue = null;
-            if ( ConfigurationManager.AppSettings.AllKeys.Contains(propertyName))
-	        {
-	            propValue = ConfigurationManager.AppSettings[propertyName];
-	        }
 
-            var envValue = System.Environment.GetEnvironmentVariable(propertyName);
+			lock(mutex) {
+				if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get(propertyName)))
+				{
+					propValue = ConfigurationManager.AppSettings.Get(propertyName);
+				}
+			}
+			
+			// ORIGINAL
+			// if ( ConfigurationManager.AppSettings.AllKeys.Contains(propertyName))
+			// {
+			//     propValue = ConfigurationManager.AppSettings[propertyName];
+			// }
+
+			var envValue = System.Environment.GetEnvironmentVariable(propertyName);
 		    if ( null != propValue && propValue.Trim().Length > 0 )
 		    {
 			    stringValue = propValue;
