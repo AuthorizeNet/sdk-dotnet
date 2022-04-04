@@ -136,12 +136,6 @@ namespace AuthorizeNet
 					propValue = ConfigurationManager.AppSettings.Get(propertyName);
 				}
 			}
-			
-			// ORIGINAL
-			// if ( ConfigurationManager.AppSettings.AllKeys.Contains(propertyName))
-			// {
-			//     propValue = ConfigurationManager.AppSettings[propertyName];
-			// }
 
 			var envValue = System.Environment.GetEnvironmentVariable(propertyName);
 		    if ( null != propValue && propValue.Trim().Length > 0 )
