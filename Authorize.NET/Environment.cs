@@ -19,134 +19,134 @@ namespace AuthorizeNet
     public class Environment {
         public static readonly Environment SANDBOX = new Environment("https://test.authorize.net", "https://apitest.authorize.net", "https://test.authorize.net");
         public static readonly Environment PRODUCTION = new Environment("https://secure2.authorize.net","https://api2.authorize.net","https://cardpresent.authorize.net");
-	    public static readonly Environment LOCAL_VM = new Environment(null, null, null);
-	    public static readonly Environment HOSTED_VM = new Environment(null, null, null);
+        public static readonly Environment LOCAL_VM = new Environment(null, null, null);
+        public static readonly Environment HOSTED_VM = new Environment(null, null, null);
         public static Environment CUSTOM = new Environment(null, null, null);
 
-	    private String _baseUrl;
-	    private String _xmlBaseUrl;
-	    private String _cardPresentUrl;
+        private String _baseUrl;
+        private String _xmlBaseUrl;
+        private String _cardPresentUrl;
 
-	    private Environment(String baseUrl, String xmlBaseUrl, String cardPresentUrl) {
-		    _baseUrl = baseUrl;
-		    _xmlBaseUrl = xmlBaseUrl;
-		    _cardPresentUrl = cardPresentUrl;
-	    }
+        private Environment(String baseUrl, String xmlBaseUrl, String cardPresentUrl) {
+            _baseUrl = baseUrl;
+            _xmlBaseUrl = xmlBaseUrl;
+            _cardPresentUrl = cardPresentUrl;
+        }
 
-	    /**
-	     * @return the baseUrl
-	     */
-	    public String getBaseUrl() {
-		    return _baseUrl;
-	    }
+        /**
+         * @return the baseUrl
+         */
+        public String getBaseUrl() {
+            return _baseUrl;
+        }
 
-	    /**
-	     * @return the xmlBaseUrl
-	     */
-	    public String getXmlBaseUrl() {
-		    return _xmlBaseUrl;
-	    }
+        /**
+         * @return the xmlBaseUrl
+         */
+        public String getXmlBaseUrl() {
+            return _xmlBaseUrl;
+        }
 
-	    /**
-	     * @return the cardPresentUrl
-	     */
-	    public String getCardPresentUrl() {
-		    return _cardPresentUrl;
-	    }
+        /**
+         * @return the cardPresentUrl
+         */
+        public String getCardPresentUrl() {
+            return _cardPresentUrl;
+        }
 
-	    /**
-	     * If a custom environment needs to be supported, this convenience create
-	     * method can be used to pass in a custom baseUrl.
-	     *
-	     * @param baseUrl
-	     * @param xmlBaseUrl
-	     * @return Environment object
-	     */
-	    public static Environment createEnvironment(String baseUrl, String xmlBaseUrl) {
+        /**
+         * If a custom environment needs to be supported, this convenience create
+         * method can be used to pass in a custom baseUrl.
+         *
+         * @param baseUrl
+         * @param xmlBaseUrl
+         * @return Environment object
+         */
+        public static Environment createEnvironment(String baseUrl, String xmlBaseUrl) {
 
-		    return createEnvironment( baseUrl, xmlBaseUrl, null);
-	    }
+            return createEnvironment( baseUrl, xmlBaseUrl, null);
+        }
 
-	    /**
-	     * If a custom environment needs to be supported, this convenience create
-	     * method can be used to pass in a custom baseUrl.
-	     *
-	     * @param baseUrl
-	     * @param xmlBaseUrl
-	     * @param cardPresentUrl
-	     *
-	     * @return Environment object
-	     */
-	    public static Environment createEnvironment(String baseUrl, String xmlBaseUrl, String cardPresentUrl) {
-		    var environment = Environment.CUSTOM;
-		    environment._baseUrl = baseUrl;
-		    environment._xmlBaseUrl = xmlBaseUrl;
-		    environment._cardPresentUrl = cardPresentUrl;
+        /**
+         * If a custom environment needs to be supported, this convenience create
+         * method can be used to pass in a custom baseUrl.
+         *
+         * @param baseUrl
+         * @param xmlBaseUrl
+         * @param cardPresentUrl
+         *
+         * @return Environment object
+         */
+        public static Environment createEnvironment(String baseUrl, String xmlBaseUrl, String cardPresentUrl) {
+            var environment = Environment.CUSTOM;
+            environment._baseUrl = baseUrl;
+            environment._xmlBaseUrl = xmlBaseUrl;
+            environment._cardPresentUrl = cardPresentUrl;
 
-		    return environment;
-	    }
-	
-	    /**
-	     * Reads a integer value from property file and/or the environment
-	     * Values in property file supersede the values set in environment
-	     * @param propertyName name of the integer property to read
-	     * @return int property value
-	     */
-	    public static int getIntProperty( String propertyName) 
-	    {
-	        var stringValue = GetProperty(propertyName);
+            return environment;
+        }
+    
+        /**
+         * Reads a integer value from property file and/or the environment
+         * Values in property file supersede the values set in environment
+         * @param propertyName name of the integer property to read
+         * @return int property value
+         */
+        public static int getIntProperty( String propertyName) 
+        {
+            var stringValue = GetProperty(propertyName);
             var value = (AuthorizeNet.Util.StringUtils.ParseInt(stringValue));
-		
-		    return value;
-	    }
+        
+            return value;
+        }
 
-	    /**
-	     * Reads a boolean value from property file and/or the environment
-	     * Values in property file supersede the values set in environment
-	     * @param propertyName name of the boolean property to read
-	     * @return boolean property value
-	     */
-	    public static bool getBooleanProperty( String propertyName) 
-	    {
-		    var value = false;
-		    var stringValue = GetProperty(propertyName);
-		    if ( null != stringValue)
-		    {
-			    Boolean.TryParse(stringValue.Trim(), out value); 
-		    }
-		
-		    return value;
-		}
+        /**
+         * Reads a boolean value from property file and/or the environment
+         * Values in property file supersede the values set in environment
+         * @param propertyName name of the boolean property to read
+         * @return boolean property value
+         */
+        public static bool getBooleanProperty( String propertyName) 
+        {
+            var value = false;
+            var stringValue = GetProperty(propertyName);
+            if ( null != stringValue)
+            {
+                Boolean.TryParse(stringValue.Trim(), out value); 
+            }
+        
+            return value;
+        }
 
-		private static object mutex = new object();
+        private static object mutex = new object();
 
-		/// <summary>
-		/// Reads the value from property file and/or the environment 
-		/// Values in property file supersede the values set in environmen
-		/// </summary>
-		/// <param name="propertyName">propertyName name of the property to read</param>
-		/// <returns>String property value</returns>
-		public static String GetProperty(String propertyName) {
-		    String stringValue = null;
-	        String propValue = null;
+        /// <summary>
+        /// Reads the value from property file and/or the environment 
+        /// Values in property file supersede the values set in environmen
+        /// </summary>
+        /// <param name="propertyName">propertyName name of the property to read</param>
+        /// <returns>String property value</returns>
+        public static String GetProperty(String propertyName) {
+            String stringValue = null;
+            String propValue = null;
 
-			lock(mutex) {
-				if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get(propertyName)))
-				{
-					propValue = ConfigurationManager.AppSettings.Get(propertyName);
-				}
-			}
+            lock(mutex) {
+                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get(propertyName)))
+                {
+                    propValue = ConfigurationManager.AppSettings.Get(propertyName);
+                }
+            }
 
-			var envValue = System.Environment.GetEnvironmentVariable(propertyName);
-		    if ( null != propValue && propValue.Trim().Length > 0 )
-		    {
-			    stringValue = propValue;
-		    }
-		    else if ( null != envValue && envValue.Trim().Length > 0 )
-		    {
-			    stringValue = envValue;
-		    }
-		    return stringValue;
-	    }
+            var envValue = System.Environment.GetEnvironmentVariable(propertyName);
+            if ( null != propValue && propValue.Trim().Length > 0 )
+            {
+                stringValue = propValue;
+            }
+            else if ( null != envValue && envValue.Trim().Length > 0 )
+            {
+                stringValue = envValue;
+            }
+            return stringValue;
+        }
     }
 }
