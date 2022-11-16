@@ -6,8 +6,8 @@
 
 
 ## Requirements
-* .NET 3.5 or later
-* Microsoft&reg; Visual Studio 2008 or later
+* .NET 4.5 or later, .Net Standard 2.0 and .Net 6.0
+* Microsoft&reg; Visual Studio 2022 or later
 * Nunit 2.6.3;
 * An Authorize.Net account (see _Registration & Configuration_ section below)
 
@@ -25,7 +25,7 @@ The Authorize.Net APIs only support connections using the TLS 1.2 security proto
 ## Installation
 To install the AuthorizeNet .NET SDK, run the following command in the Package Manager Console:
 
-`PM> Install-Package AuthorizeNet`
+`PM> Install-Package AuthorizeNet.MultiFrameworks`
 
 ## Registration & Configuration
 Use of this SDK and the Authorize.Net APIs requires having an account on the Authorize.Net system. You can find these details in the Settings section.
@@ -37,6 +37,7 @@ To authenticate with the Authorize.Net API, use your account's API Login ID and 
 After you have obtained your credentials, load them into the appropriate variables in your code. The below sample code shows how to set the credentials as part of the API request.
 
 #### To set your API credentials for an API request:
+* .Net Framework 4.5 and above
 ```csharp
 ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
 {
@@ -45,16 +46,52 @@ ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new m
     Item = "YOUR_TRANSACTION_KEY",
 };
 ```
+* .Net Core 3.1, .Net 6.0 and above 
+1. Configure AuthorizeNetOptions appsettings.json
+```json
+{
+  "AuthorizeNetOptions": {
+    "Environment": "SANDBOX",
+    "ApiLoginId": "YOUR_API_LOGIN_ID",
+    "TransactionKey": "YOUR_TRANSACTION_KEY"
+  }
+}
+```
+
+2. Configure AuthorizeNetOptions in ConfigureServices, and setup AuthorizeNet with IServiceProvider extension function SetupAuthorizeNet.
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddOptions();
+    services.Configure<AuthorizeNetOptions>(options => Configuration.GetSection(nameof(AuthorizeNetOptions)).Bind(options));
+}
+public void Configure(IApplicationBuilder app)
+{
+    app.ApplicationServices.SetupAuthorizeNet();
+}
+```
+
 
 Never include your API Login ID and Transaction Key directly in a file in a publically accessible portion of your website. As a best practice, define the API Login ID and Transaction Key in a constants file, and reference those constants in your code.
 
 ### Switching between the sandbox environment and the production environment
 Authorize.Net maintains a complete sandbox environment for testing and development purposes. The sandbox environment is an exact replica of our production environment, with simulated transaction authorization and settlement. By default, this SDK is configured to use the sandbox environment. To switch to the production environment, set the appropriate environment constant using ApiOperationBase `RunEnvironment` method.  For example:
+* .Net Framework 4.5 and above
 ```csharp
 // For PRODUCTION use
 ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PRODUCTION;
 ```
-
+* .Net Core 3.1, .Net 6.0 and above  
+ Change appsettings.json
+```json
+{
+  "AuthorizeNetOptions": {
+    "Environment": "PRODUCTION",
+    "ApiLoginId": "YOUR_API_LOGIN_ID",
+    "TransactionKey": "YOUR_TRANSACTION_KEY"
+  }
+}
+```
 API credentials are different for each environment, so be sure to switch to the appropriate credentials when switching environments.
 
 
@@ -100,6 +137,7 @@ For additional help in testing your code, Authorize.Net maintains a [comprehensi
 ## Logging Sensitive Data
 A new sensitive data logger has been introduced with the Authorize.Net .NET SDK, which is an enhancement on the existing logging framework. 
 
+### .Net Framework 4.5 and above
 The logger uses `System.Diagnostics` namespace in .NET Framework. No external libraries need to be installed along with the application to use the logger. 
 
 Enable the logger by providing the following configuration in the `app.config/web.config` files of your application. The log levels supported are `'Verbose','Information','Warning'` and `'Error'`.
@@ -171,6 +209,19 @@ To unmask sensitive data, use the default `TextWriterTraceListener` and `Console
 </configuration>
 ```
 `AnetDotNetSdkTrace` should be used as the source name, as it is being used by the TraceSource inside logger framework code.
+
+### .Net Core 3.1 , .Net 6.0 and above 
+As Defaut, the sensitive data is marked, change the appsettings.json to enable the sensitive data logging. 
+```json
+{
+  "AuthorizeNetOptions": {
+    "Environment": "PRODUCTION",
+    "ApiLoginId": "YOUR_API_LOGIN_ID",
+    "TransactionKey": "YOUR_TRANSACTION_KEY",
+    "LoggingSensitiveData": true
+  }
+}
+```
 
 ### Transaction Hash Upgrade
 Authorize.Net is phasing out the MD5 based `transHash` element in favor of the SHA-512 based `transHashSHA2`. The setting in the Merchant Interface which controlled the MD5 Hash option is no longer available, and the `transHash` element will stop returning values at a later date to be determined. For information on how to use `transHashSHA2`, see the [Transaction Hash Upgrade Guide](https://developer.authorize.net/support/hash_upgrade/).

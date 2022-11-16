@@ -3,7 +3,6 @@ namespace AuthorizeNet.Util
     using System;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Text.RegularExpressions;
 #if NET45
     using System.Diagnostics;
 #endif
@@ -85,43 +84,29 @@ namespace AuthorizeNet.Util
 #endif
 #if NETSTANDARD || NET6_0
         private readonly ILogger _logger;
-        private bool _loggingSensitiveData = false;
-        public Log(ILogger logger, bool loggingSensitiveData)
+        public Log( ILogger logger ) 
         {
             this._logger = logger;
-            this._loggingSensitiveData = loggingSensitiveData;
         }
         public void error(string logMessage)
         {
-            this._logger.LogError(maskSensitiveMessage(logMessage));
+            this._logger.LogError(logMessage);
         }
-        public void info(string logMessage)
-        {
-            this._logger.LogInformation(maskSensitiveMessage(logMessage));
+        public void info(string logMessage) 
+        { 
+            this._logger.LogInformation(logMessage); 
         }
         public void debug(string logMessage)
         {
-            this._logger.LogDebug(maskSensitiveMessage(logMessage));
+            this._logger.LogDebug(logMessage);
         }
         public void warn(string logMessage)
         {
-            this._logger.LogWarning(maskSensitiveMessage(logMessage));
+            this._logger.LogWarning(logMessage);
         }
         public void trace(string logMessage)
         {
-            this._logger.LogTrace(maskSensitiveMessage(logMessage));
-        }
-        private string maskSensitiveMessage(string message)
-        {
-            if (string.IsNullOrWhiteSpace(message))
-                return message;
-
-            if (this._loggingSensitiveData)
-                return message;
-
-            string maskedXmlMessage = SensitiveDataTextLogger.maskSensitiveXmlString(message);
-            string maskedMessage = SensitiveDataTextLogger.maskCreditCards(maskedXmlMessage);
-            return maskedMessage;
+            this._logger.LogTrace(logMessage);
         }
 #endif
         public void error(object logMessage) { error(logMessage.ToString()); }
@@ -142,15 +127,14 @@ namespace AuthorizeNet.Util
 #endif
 #if NETSTANDARD || NET6_0
         public static ILoggerFactory LoggerFactory { get; set; }
-        public static bool LoggingSensitiveData { get; set; }
         public static Log getLog(Type classType)
         {
             if (null == LoggerFactory)
                 throw new Exception($"The static property LogFactory.LoggerFactory is not set.");
 
-            var logger = LoggerFactory.CreateLogger(classType);
+            var logger=LoggerFactory.CreateLogger(classType);
 
-            return new Log(logger, LogFactory.LoggingSensitiveData);
+            return new Log(logger);
 
         }
 #endif
