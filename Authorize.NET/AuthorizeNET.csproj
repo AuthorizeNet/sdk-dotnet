@@ -2,23 +2,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<TargetFrameworks>net45;netstandard2.0;net6.0</TargetFrameworks>
-	<Version>2.0.3</Version>
+	<Version>2.0.3.1</Version>
 	<AssemblyName>AuthorizeNet</AssemblyName>
 	<RootNamespace>AuthorizeNet</RootNamespace>
 	<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 	<Title>AuthorizeNet</Title>
 	<Description>Use this SDK to integrate with the Authorize.Net APIs for Payment Transactions, Recurring Billing, Customer Payment Profiles and Reporting. </Description>
 	<Copyright>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/LICENSE.txt</Copyright>
-	<PackageProjectUrl>https://github.com/wjmirror/AuthorizeNet-sdk-dotnet</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/wjmirror/AuthorizeNet-sdk-dotnet/tree/feature/multi-frameworks</PackageProjectUrl>
 	<RepositoryType>git</RepositoryType>
-	<RepositoryUrl>https://github.com/wjmirror/AuthorizeNet-sdk-dotnet</RepositoryUrl>
-	<PackageTags>Payments API Authorize.Net</PackageTags>
+	<RepositoryUrl>https://github.com/wjmirror/AuthorizeNet-sdk-dotnet/tree/feature/multi-frameworks</RepositoryUrl>
+	<PackageTags>Payments API; Authorize.Net</PackageTags>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<PackageId>AuthorizeNet.MultiFrameworks</PackageId>
 	<iconUrl>http://developer.authorize.net/resources/images/favicon.ico</iconUrl>
 	<licenseUrl>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/LICENSE.txt</licenseUrl>
 	<PackageReleaseNotes>Build with multiple frameworks, .Net framework 4.5, .Net Standard 2.0 and .Net 6.0</PackageReleaseNotes>
+	<Authors>AuthorizeNet, jimwang1014</Authors>
   </PropertyGroup>
  
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
