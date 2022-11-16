@@ -20,6 +20,7 @@
 	<licenseUrl>https://github.com/AuthorizeNet/sdk-dotnet/blob/master/LICENSE.txt</licenseUrl>
 	<PackageReleaseNotes>Build with multiple frameworks, .Net framework 4.5, .Net Standard 2.0 and .Net 6.0</PackageReleaseNotes>
 	<Authors>AuthorizeNet, jimwang1014</Authors>
+	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
  
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
@@ -101,6 +102,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="Api\ControllerTemplate.cst" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
