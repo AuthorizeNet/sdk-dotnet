@@ -17,7 +17,7 @@ Authorize.Net no longer supports several legacy classes, including AIM, ARB and 
 
 ## Example 
 #### Sample new model code for (charge-credit-card)
-   ```Dotnet
+   ```csharp
 using System;
 using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Contracts.V1;

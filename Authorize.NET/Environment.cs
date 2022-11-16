@@ -117,7 +117,7 @@ namespace AuthorizeNet
         
             return value;
         }
-
+#if NET45
         private static object mutex = new object();
 
         /// <summary>
@@ -148,5 +148,36 @@ namespace AuthorizeNet
             }
             return stringValue;
         }
+#else
+
+        public static Func<string, string> GetConfigurationPropertyValue;
+
+        /// <summary>
+        /// Reads the value from property file and/or the environment 
+        /// Values in property file supersede the values set in environmen
+        /// </summary>
+        /// <param name="propertyName">propertyName name of the property to read</param>
+        /// <returns>String property value</returns>
+        public static String GetProperty(String propertyName)
+        {
+            String stringValue = null;
+            String propValue = null;
+
+            if (GetConfigurationPropertyValue != null)
+            {
+                propValue = GetConfigurationPropertyValue(propertyName);
+            }
+            var envValue = System.Environment.GetEnvironmentVariable(propertyName);
+            if (null != propValue && propValue.Trim().Length > 0)
+            {
+                stringValue = propValue;
+            }
+            else if (null != envValue && envValue.Trim().Length > 0)
+            {
+                stringValue = envValue;
+            }
+            return stringValue;
+        }
+#endif
     }
 }
