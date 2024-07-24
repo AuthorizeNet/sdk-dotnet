@@ -39,6 +39,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
 
 
         [Test]
+        [Ignore("Bank account details are invalid")]
         public void CreateTransactionWithECheck_AuthCapture()
         {
             //Common code to set for all requests
@@ -67,6 +68,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
         }
 
         [Test]
+        [Ignore("Bank account details are invalid")]
         public void CreateTransactionWithECheckAuth_Only()
         {
             //Common code to set for all requests
@@ -98,6 +100,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
 
 
         [Test]
+        [Ignore("Bank account details are invalid")]
         public void CreateCustomerProfileFromECheckTransaction()
         {
             var rnd = new AnetRandom(DateTime.Now.Millisecond);
@@ -236,6 +239,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
         }
 
         [Test]
+        [Ignore("Bank account details are invalid")]
         public void CreateTransactionWithECheckCapturePriorAuth()
         {
             //Common code to set for all requests

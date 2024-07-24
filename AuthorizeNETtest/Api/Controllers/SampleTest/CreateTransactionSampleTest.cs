@@ -164,7 +164,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
             var rnd = new AnetRandom(DateTime.Now.Millisecond);
             string custIndx = rnd.Next(99999).ToString();
 
-            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0645" };
             var paymentType = new paymentType {Item = creditCard};
 
             var paymentProfile = new customerPaymentProfileType{ payment = paymentType };
@@ -210,7 +210,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
 
             //set up data for transaction
             var transactionAmount = SetValidTransactionAmount(Counter);
-            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0645" };
 
             //standard api call to retrieve response
             var paymentType = new paymentType {Item = creditCard};
@@ -415,7 +415,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
             decimal txnAmount = SetValidTransactionAmount(Counter) / 100;
 
             //Set payment info for credit
-            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0645" };
             var paymentType = new paymentType { Item = creditCard };
 
             //Create credit request
@@ -445,7 +445,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
 
             //set up data based on transaction
             var transactionAmount = SetValidTransactionAmount(Counter);
-            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0622" };
+            var creditCard = new creditCardType { cardNumber = "4111111111111111", expirationDate = "0645" };
 
             //Build auth only transaction request.
             var paymentType = new paymentType { Item = creditCard };

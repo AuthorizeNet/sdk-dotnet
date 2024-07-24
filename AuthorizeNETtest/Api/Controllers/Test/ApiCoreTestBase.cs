@@ -161,7 +161,7 @@ namespace AuthorizeNet.Api.Controllers.Test
             CreditCardOne = new creditCardType
                 {
                     cardNumber = "4111111111111111",
-                    expirationDate = "2038-12",
+                    expirationDate = "2045-12",
                 };
             //		creditCardOne.setCardCode("");
 

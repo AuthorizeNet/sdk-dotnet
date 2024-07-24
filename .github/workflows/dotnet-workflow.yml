@@ -1,0 +1,103 @@
+name: Authorize.net DotNet CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+env:
+  sdk_dotnet: 'sdk-dotnet'
+  sample_code_csharp: 'sample-code-csharp'
+jobs:
+    workflow-job-build:
+        defaults:
+            run:
+              shell: bash
+        runs-on: windows-2019
+        steps:
+            - name: Checkout authorizenet/sdk-dotnet
+              uses: actions/checkout@v4
+              with:
+                path: ${{env.sdk_dotnet}}
+
+            - name: Setup MSBuild
+              uses: microsoft/setup-msbuild@v2
+
+            - name: Compile the SDK
+              shell: pwsh
+              run: |
+                cd $Env:sdk_dotnet
+                nuget install ./AuthorizeNETtest/packages.config -OutputDirectory packages
+                msbuild -version
+                msbuild "./AuthorizeNET.sln" -property:Configuration=Release -t:rebuild
+                Write-Output "Build Successful"
+
+            - name: Run UnitTests
+              uses: josepho0918/vstest-action@main
+              with:
+                testAssembly: AuthorizeNETtest.dll
+                searchFolder: ${{env.sdk_dotnet}}/AuthorizeNETtest/bin/Release/
+                runInParallel: true
+
+            - name: Upload the SDK
+              uses: actions/upload-artifact@v4
+              with:
+                name: authorizenet-dotnet-build
+                path: ${{env.sdk_dotnet}}
+
+    workflow-job-integration-tests:
+        defaults:
+            run:
+                shell: bash
+        strategy:
+            fail-fast: false
+            matrix:
+                operating-system: [windows-latest, windows-2019]
+                net-framework-version: [4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1]
+                exclude:
+                - operating-system: windows-2019
+                  net-framework-version: 4.8.1
+                - operating-system: windows-latest
+                  net-framework-version: 4.6.1
+        needs: workflow-job-build
+        runs-on: ${{matrix.operating-system}}
+        steps:
+            - name: Download the SDK from previous job
+              uses: actions/download-artifact@v4
+              with:
+                name: authorizenet-dotnet-build
+                path: ${{env.sdk_dotnet}}
+
+            - name: Checkout authorizenet/sample-code-csharp
+              uses: actions/checkout@v4
+              with:
+                repository: 'authorizenet/sample-code-csharp'
+                ref: 'future'
+                path: ${{env.sample_code_csharp}}
+
+            - name: Setup MSBuild
+              uses: microsoft/setup-msbuild@v2
+
+            - name: Compile the Sample Application
+              shell: pwsh
+              run: |
+                cd $Env:sample_code_csharp
+                nuget install ./packages.config -OutputDirectory packages
+                nuget install ./SampleCodeTest/packages.config -OutputDirectory packages
+                
+                (Get-Content ./SampleCode.csproj) | ForEach-Object { $_ -replace "(<HintPath>)(.)+(AuthorizeNet.dll</HintPath>)", "<HintPath>..\\sdk-dotnet\\Authorize.NET\\bin\\Release\\AuthorizeNet.dll</HintPath>" } | Set-Content ./SampleCode.csproj
+                
+                (Get-Content ./SampleCodeTest/SampleCodeTest.csproj) | ForEach-Object { $_ -replace "(<HintPath>)(.)+(AuthorizeNet.dll</HintPath>)", "<HintPath>..\\..\\sdk-dotnet\\Authorize.NET\\bin\\Release\\AuthorizeNet.dll</HintPath>" } | Set-Content ./SampleCodeTest/SampleCodeTest.csproj
+
+                (Get-Content ./SampleCode.csproj) | ForEach-Object { $_ -replace "(<TargetFrameworkVersion>)(.)+(</TargetFrameworkVersion>)", "<TargetFrameworkVersion>v${{matrix.net-framework-version}}</TargetFrameworkVersion>" } | Set-Content ./SampleCode.csproj
+
+                (Get-Content ./SampleCodeTest/SampleCodeTest.csproj) | ForEach-Object { $_ -replace "(<TargetFrameworkVersion>)(.)+(</TargetFrameworkVersion>)", "<TargetFrameworkVersion>v${{matrix.net-framework-version}}</TargetFrameworkVersion>" } | Set-Content ./SampleCodeTest/SampleCodeTest.csproj
+
+                msbuild -version
+                msbuild "./SampleCode.sln" -property:Configuration=Debug -t:rebuild
+                Write-Output "Build Successful"
+
+            - name: Run UnitTests
+              uses: josepho0918/vstest-action@main
+              with:
+                testAssembly: SampleCodeTest.dll
+                searchFolder: ${{env.sample_code_csharp}}/SampleCodeTest/bin/Debug/
+                runInParallel: true
