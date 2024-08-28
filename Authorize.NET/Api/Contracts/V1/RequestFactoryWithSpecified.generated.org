@@ -94,6 +94,7 @@ namespace AuthorizeNet.Api.Contracts.V1
                 customerAddressType(argument.billTo);
                 paymentMaskedType(argument.payment);
                 if(argument.originalAuthAmount) { argument.originalAuthAmountSpecified=true;}
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true;}
             }
         }
         public static void customerAddressType(customerAddressType argument) 
@@ -738,6 +739,7 @@ transRetailInfoType() {
                 paymentMaskedType(argument.payment);
                 driversLicenseMaskedType(argument.driversLicense);
                 if(argument.originalAuthAmount) { argument.originalAuthAmountSpecified=true;}
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true;}
             }
         }
         public static void driversLicenseMaskedType(driversLicenseMaskedType argument) 
@@ -755,6 +757,7 @@ transRetailInfoType() {
                 driversLicenseType(argument.driversLicense);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 subsequentAuthInformation(argument.subsequentAuthInformation);
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true;}
             }
         }
         public static void customerPaymentProfileExType(customerPaymentProfileExType argument) 
@@ -1192,7 +1195,7 @@ transRetailInfoType() {
         {
             if(null != argument) 
             {
-                customerProfileExType(argument.profile);
+                customerProfileInfoExType(argument.profile);
             }
         }
         public static void updateCustomerProfileResponse(updateCustomerProfileResponse argument) 

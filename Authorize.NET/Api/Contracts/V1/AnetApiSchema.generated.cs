@@ -298,6 +298,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool originalAuthAmountSpecified;
         
+        /// <remarks/>
+        public bool excludeFromAccountUpdater;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool excludeFromAccountUpdaterSpecified;
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -3502,6 +3509,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool originalAuthAmountSpecified;
+        
+        /// <remarks/>
+        public bool excludeFromAccountUpdater;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool excludeFromAccountUpdaterSpecified;
     }
     
     /// <remarks/>
@@ -3558,6 +3572,13 @@ namespace AuthorizeNet.Api.Contracts.V1 {
         
         /// <remarks/>
         public subsequentAuthInformation subsequentAuthInformation;
+        
+        /// <remarks/>
+        public bool excludeFromAccountUpdater;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool excludeFromAccountUpdaterSpecified;
     }
     
     /// <remarks/>
@@ -5097,7 +5118,7 @@ namespace AuthorizeNet.Api.Contracts.V1 {
     public partial class updateCustomerProfileRequest : ANetApiRequest {
         
         /// <remarks/>
-        public customerProfileExType profile;
+        public customerProfileInfoExType profile;
     }
     
     /// <remarks/>

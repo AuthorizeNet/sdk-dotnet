@@ -46,6 +46,7 @@
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 customerAddressType(argument.billTo);
                 paymentMaskedType(argument.payment);
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true;}
             }
         }
 
@@ -790,6 +791,7 @@
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 paymentMaskedType(argument.payment);
                 driversLicenseMaskedType(argument.driversLicense);
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true;}
             }
         }
         public static void customerPaymentProfileType(customerPaymentProfileType argument)
@@ -801,6 +803,7 @@
                 driversLicenseType(argument.driversLicense);
                 if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
                 subsequentAuthInformation(argument.subsequentAuthInformation);
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true;}
             }
         }
         public static void customerPaymentProfileExType(customerPaymentProfileExType argument)
