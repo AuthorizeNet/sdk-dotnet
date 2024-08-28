@@ -25,6 +25,7 @@ jobs:
               shell: pwsh
               run: |
                 cd $Env:sdk_dotnet
+                (Get-Content ./AuthorizeNETtest/App.config) | ForEach-Object { $_ -replace "<add key=\"api.login.id\" value=\"API_LOGIN\" />", "<add key=\"api.login.id\" value=\"5KP3u95bQpv\" />" } | ForEach-Object { $_ -replace "<add key=\"transaction.key\" value=\"API_KEY\" />", "<add key=\"transaction.key\" value=\"346HZ32z3fP4hTG2\" />" } | ForEach-Object { $_ -replace "<add key=\"md5.hash.key\" value=\"\" />", "<add key=\"md5.hash.key\" value=\"MD5_TEST\" />" } | Set-Content ./AuthorizeNETtest/App.config
                 nuget install ./AuthorizeNETtest/packages.config -OutputDirectory packages
                 msbuild -version
                 msbuild "./AuthorizeNET.sln" -property:Configuration=Release -t:rebuild
