@@ -32,7 +32,7 @@ jobs:
                 Write-Output "Build Successful"
                 nuget pack AuthorizeNet.nuspec
 
-            - name: Upload Rest Client SDK Nupkg
+            - name: Upload SDK Nupkg
               uses: actions/upload-artifact@v4
               with:
                 name: sdk-nupkg
@@ -44,12 +44,6 @@ jobs:
                 testAssembly: AuthorizeNETtest.dll
                 searchFolder: ${{env.sdk_dotnet}}/AuthorizeNETtest/bin/Release/
                 runInParallel: true
-
-            - name: Upload the SDK
-              uses: actions/upload-artifact@v4
-              with:
-                name: authorizenet-dotnet-build
-                path: ${{env.sdk_dotnet}}/Authorize.NET/bin/Release/AuthorizeNet.dll
 
     workflow-job-integration-tests:
         defaults:
@@ -68,22 +62,11 @@ jobs:
         needs: workflow-job-build
         runs-on: ${{matrix.operating-system}}
         steps:
-            - name: Download the Built Rest Client for Dotnet from previous Job
+            - name: Download SDK from previous job
               uses: actions/download-artifact@v4
               with:
                 name: sdk-nupkg
                 path: sdk-nupkg
-
-            - name: Recreate SDK Folder structure
-              shell: pwsh
-              run: |
-                If(!(Test-Path -PathType container "${{env.sdk_dotnet}}/Authorize.NET/bin/Release")) { md ${{env.sdk_dotnet}}/Authorize.NET/bin/Release }
-
-            - name: Download the SDK from previous job
-              uses: actions/download-artifact@v4
-              with:
-                name: authorizenet-dotnet-build
-                path: ${{env.sdk_dotnet}}/Authorize.NET/bin/Release
 
             - name: Checkout authorizenet/sample-code-csharp
               uses: actions/checkout@v4
