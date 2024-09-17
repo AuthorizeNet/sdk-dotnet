@@ -83,7 +83,7 @@ jobs:
               run: |
                 $clientSdkFolderName = (Get-ChildItem -Path sdk-nupkg -Filter "*nupkg" | Select-Object -First 1).BaseName
                 $clientSdkVersion = $clientSdkFolderName.Substring(13)
-                nuget Sources Add -Name "temperory_nuget_source" -Source ((Get-Location).Path + "\sdk-nupkg")
+                nuget Sources Add -Name "temporary_nuget_source" -Source ((Get-Location).Path + "\sdk-nupkg")
 
                 cd $Env:sample_code_csharp
                 (Get-Content ./packages.config) | ForEach-Object { $_ -replace '.*<package\s*id="AuthorizeNet".*\/>', "<package id=`"AuthorizeNet`" version=`"$clientSdkVersion`" targetFramework=`"net461`" />" } | Set-Content ./packages.config
