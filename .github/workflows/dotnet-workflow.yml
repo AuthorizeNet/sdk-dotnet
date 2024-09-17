@@ -87,14 +87,13 @@ jobs:
 
                 cd $Env:sample_code_csharp
                 (Get-Content ./packages.config) | ForEach-Object { $_ -replace '.*<package\s*id="AuthorizeNet".*\/>', "<package id=`"AuthorizeNet`" version=`"$clientSdkVersion`" targetFramework=`"net461`" />" } | Set-Content ./packages.config
-                (Get-Content ./packages.config) | ForEach-Object { $_ -replace '.*<package\s*id="AuthorizeNet".*\/>', "<package id=`"AuthorizeNet`" version=`"$clientSdkVersion`" targetFramework=`"net461`" />" } | Set-Content ./packages.config
 
                 nuget install ./packages.config -OutputDirectory packages -Source temporary_nuget_source -Source https://api.nuget.org/v3/index.json
                 nuget install ./SampleCodeTest/packages.config -OutputDirectory packages -Source temporary_nuget_source -Source https://api.nuget.org/v3/index.json
 
                 (Get-Content ./SampleCode.csproj) | ForEach-Object { $_ -replace "(<HintPath>)(.)+(AuthorizeNet.dll</HintPath>)", "<HintPath>packages\\$clientSdkFolderName\\lib\\AuthorizeNet.dll</HintPath>" } | Set-Content ./SampleCode.csproj
 
-                (Get-Content ./SampleCodeTest/SampleCodeTest.csproj) | ForEach-Object { $_ -replace "(<HintPath>)(.)+(AuthorizeNet.dll</HintPath>)", "<HintPath>packages\\$clientSdkFolderName\\lib\\AuthorizeNet.dll</HintPath>" } | Set-Content ./SampleCodeTest/SampleCodeTest.csproj
+                (Get-Content ./SampleCodeTest/SampleCodeTest.csproj) | ForEach-Object { $_ -replace "(<HintPath>)(.)+(AuthorizeNet.dll</HintPath>)", "<HintPath>..\\packages\\$clientSdkFolderName\\lib\\AuthorizeNet.dll</HintPath>" } | Set-Content ./SampleCodeTest/SampleCodeTest.csproj
 
                 (Get-Content ./SampleCode.csproj) | ForEach-Object { $_ -replace "(<TargetFrameworkVersion>)(.)+(</TargetFrameworkVersion>)", "<TargetFrameworkVersion>v${{matrix.net-framework-version}}</TargetFrameworkVersion>" } | Set-Content ./SampleCode.csproj
 
