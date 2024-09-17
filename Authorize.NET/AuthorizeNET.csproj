@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Environment.cs" />
     <Compile Include="MarketType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFriends.cs" />
     <Compile Include="Api\Contracts\V1\*.cs" />
     <Compile Include="Api\Controllers\ARBCancelSubscriptionController.cs" />
@@ -115,9 +116,7 @@
     <Compile Include="Utility\AnetApiSchema.generated.cs" />
     <Compile Include="Utility\ApiFields.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Api\ControllerTemplate.cst" />
   </ItemGroup>
