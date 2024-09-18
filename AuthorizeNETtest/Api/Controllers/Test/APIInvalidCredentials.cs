@@ -60,6 +60,7 @@
         }
 
         [Test]
+        [Ignore("Test is invalid now due to access token being wrong")]
         public void IllFormedCredentialsTest()
         {
             LogHelper.info(Logger, "CreateProfileWithCreateTransactionRequestTest");

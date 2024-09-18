@@ -1,0 +1,111 @@
+name: Authorize.net DotNet CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+env:
+  sdk_dotnet: 'sdk-dotnet'
+  sample_code_csharp: 'sample-code-csharp'
+jobs:
+    workflow-job-build:
+        defaults:
+            run:
+              shell: bash
+        runs-on: windows-2019
+        steps:
+            - name: Checkout authorizenet/sdk-dotnet
+              uses: actions/checkout@v4
+              with:
+                path: ${{env.sdk_dotnet}}
+
+            - name: Setup MSBuild
+              uses: microsoft/setup-msbuild@v2
+
+            - name: Compile the SDK
+              shell: pwsh
+              run: |
+                cd $Env:sdk_dotnet
+                (Get-Content ./AuthorizeNETtest/App.config) | ForEach-Object { $_ -replace '<add key="api.login.id" value="API_LOGIN" />', '<add key="api.login.id" value="5KP3u95bQpv" />' } | ForEach-Object { $_ -replace '<add key="transaction.key" value="API_KEY" />', '<add key="transaction.key" value="346HZ32z3fP4hTG2" />' } | ForEach-Object { $_ -replace '<add key="md5.hash.key" value="" />', '<add key="md5.hash.key" value="MD5_TEST" />' } | Set-Content ./AuthorizeNETtest/App.config
+                nuget install ./AuthorizeNETtest/packages.config -OutputDirectory packages
+                msbuild -version
+                msbuild "./AuthorizeNET.sln" -property:Configuration=Release -t:rebuild
+                Write-Output "Build Successful"
+                nuget pack AuthorizeNet.nuspec
+
+            - name: Upload SDK Nupkg
+              uses: actions/upload-artifact@v4
+              with:
+                name: sdk-nupkg
+                path: ${{env.sdk_dotnet}}/*.nupkg
+
+            - name: Run UnitTests
+              uses: josepho0918/vstest-action@main
+              with:
+                testAssembly: AuthorizeNETtest.dll
+                searchFolder: ${{env.sdk_dotnet}}/AuthorizeNETtest/bin/Release/
+                runInParallel: true
+
+    workflow-job-integration-tests:
+        defaults:
+            run:
+                shell: bash
+        strategy:
+            fail-fast: false
+            matrix:
+                operating-system: [windows-latest, windows-2019]
+                net-framework-version: [4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1]
+                exclude:
+                - operating-system: windows-2019
+                  net-framework-version: 4.8.1
+                - operating-system: windows-latest
+                  net-framework-version: 4.6.1
+        needs: workflow-job-build
+        runs-on: ${{matrix.operating-system}}
+        steps:
+            - name: Download SDK from previous job
+              uses: actions/download-artifact@v4
+              with:
+                name: sdk-nupkg
+                path: sdk-nupkg
+
+            - name: Checkout authorizenet/sample-code-csharp
+              uses: actions/checkout@v4
+              with:
+                repository: 'authorizenet/sample-code-csharp'
+                ref: 'future'
+                path: ${{env.sample_code_csharp}}
+
+            - name: Setup MSBuild
+              uses: microsoft/setup-msbuild@v2
+
+            - name: Compile the Sample Application
+              shell: pwsh
+              run: |
+                $clientSdkFolderName = (Get-ChildItem -Path sdk-nupkg -Filter "*nupkg" | Select-Object -First 1).BaseName
+                $clientSdkVersion = $clientSdkFolderName.Substring(13)
+                nuget Sources Add -Name "temporary_nuget_source" -Source ((Get-Location).Path + "\sdk-nupkg")
+
+                cd $Env:sample_code_csharp
+                (Get-Content ./packages.config) | ForEach-Object { $_ -replace '.*<package\s*id="AuthorizeNet".*\/>', "<package id=`"AuthorizeNet`" version=`"$clientSdkVersion`" targetFramework=`"net461`" />" } | Set-Content ./packages.config
+
+                nuget install ./packages.config -OutputDirectory packages -Source temporary_nuget_source -Source https://api.nuget.org/v3/index.json
+                nuget install ./SampleCodeTest/packages.config -OutputDirectory packages -Source temporary_nuget_source -Source https://api.nuget.org/v3/index.json
+
+                (Get-Content ./SampleCode.csproj) | ForEach-Object { $_ -replace "(<HintPath>)(.)+(AuthorizeNet.dll</HintPath>)", "<HintPath>packages\\$clientSdkFolderName\\lib\\AuthorizeNet.dll</HintPath>" } | Set-Content ./SampleCode.csproj
+
+                (Get-Content ./SampleCodeTest/SampleCodeTest.csproj) | ForEach-Object { $_ -replace "(<HintPath>)(.)+(AuthorizeNet.dll</HintPath>)", "<HintPath>..\\packages\\$clientSdkFolderName\\lib\\AuthorizeNet.dll</HintPath>" } | Set-Content ./SampleCodeTest/SampleCodeTest.csproj
+
+                (Get-Content ./SampleCode.csproj) | ForEach-Object { $_ -replace "(<TargetFrameworkVersion>)(.)+(</TargetFrameworkVersion>)", "<TargetFrameworkVersion>v${{matrix.net-framework-version}}</TargetFrameworkVersion>" } | Set-Content ./SampleCode.csproj
+
+                (Get-Content ./SampleCodeTest/SampleCodeTest.csproj) | ForEach-Object { $_ -replace "(<TargetFrameworkVersion>)(.)+(</TargetFrameworkVersion>)", "<TargetFrameworkVersion>v${{matrix.net-framework-version}}</TargetFrameworkVersion>" } | Set-Content ./SampleCodeTest/SampleCodeTest.csproj
+                
+                msbuild -version
+                msbuild "./SampleCode.sln" -property:Configuration=Debug -t:rebuild
+                Write-Output "Build Successful"
+
+            - name: Run UnitTests
+              uses: josepho0918/vstest-action@main
+              with:
+                testAssembly: SampleCodeTest.dll
+                searchFolder: ${{env.sample_code_csharp}}/SampleCodeTest/bin/Debug/
+                runInParallel: true

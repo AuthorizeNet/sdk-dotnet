@@ -81,7 +81,7 @@ namespace AuthorizeNet.Api.Controllers.SampleTest
                                  {
                                      cardCode = "655",
                                      cardNumber = "4111111111111111",
-                                     expirationDate = "122013", //deliberatly set payment to use expired CC
+                                     expirationDate = "122013", // deliberately set payment to use expired CC
                                  }
                 },
 

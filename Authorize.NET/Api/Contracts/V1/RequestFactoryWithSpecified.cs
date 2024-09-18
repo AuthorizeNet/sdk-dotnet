@@ -43,9 +43,10 @@
         {
             if (null != argument)
             {
-                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true; }
                 customerAddressType(argument.billTo);
                 paymentMaskedType(argument.payment);
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true; }
             }
         }
 
@@ -560,7 +561,7 @@
                 if (null != argument.returnedItems) { foreach (var value in argument.returnedItems) { returnedItemType(value); } }
                 solutionType(argument.solution);
 
-                if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value);} } 
+                if(null != argument.emvDetails){ foreach( var value in argument.emvDetails) { transactionDetailsTypeTag(value); } } 
                 
                 customerProfileIdType(argument.profile);
                 extendedAmountType(argument.surcharge);
@@ -597,7 +598,7 @@
             if (null != argument)
             {
                 cardArt(argument.cardArt);
-                if(argument.isPaymentToken) { argument.isPaymentTokenSpecified=true;}
+                if(argument.isPaymentToken) { argument.isPaymentTokenSpecified=true; }
             }
         }
         public static void cardArt(cardArt argument)
@@ -787,9 +788,10 @@
             if (null != argument)
             {
                 customerPaymentProfileBaseType(argument);
-                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true; }
                 paymentMaskedType(argument.payment);
                 driversLicenseMaskedType(argument.driversLicense);
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true; }
             }
         }
         public static void customerPaymentProfileType(customerPaymentProfileType argument)
@@ -799,8 +801,9 @@
                 customerPaymentProfileBaseType(argument);
                 paymentType(argument.payment);
                 driversLicenseType(argument.driversLicense);
-                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true; }
                 subsequentAuthInformation(argument.subsequentAuthInformation);
+                if(argument.excludeFromAccountUpdater) { argument.excludeFromAccountUpdaterSpecified=true; }
             }
         }
         public static void customerPaymentProfileExType(customerPaymentProfileExType argument)
@@ -830,7 +833,7 @@
                 customerProfileExType(argument);
                 if (null != argument.paymentProfiles) { foreach (var value in argument.paymentProfiles) { customerPaymentProfileMaskedType(value); } }
                 if (null != argument.shipToList) { foreach (var value in argument.shipToList) { customerAddressExType(value); } }
-                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true; }
             }
         }
         public static void customerProfileInfoExType(customerProfileInfoExType argument) 
@@ -838,7 +841,7 @@
             if(null != argument) 
             {
                 customerProfileExType (argument);
-                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true; }
             }
         }
         public static void customerProfileType(customerProfileType argument)
@@ -848,7 +851,7 @@
                 customerProfileBaseType(argument);
                 if (null != argument.paymentProfiles) { foreach (var value in argument.paymentProfiles) { customerPaymentProfileType(value); } }
                 if (null != argument.shipToList) { foreach (var value in argument.shipToList) { customerAddressType(value); } }
-                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true; }
             }
         }
         public static void ContactDetailType(ContactDetailType argument)
@@ -1131,17 +1134,17 @@
             if (null != argument)
             {                
                 customerProfileBaseType(argument.customer);
-                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true;}
-                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
-                if(0 <= argument.profileType) { argument.profileTypeSpecified=true;}
+                if(argument.defaultPaymentProfile) { argument.defaultPaymentProfileSpecified=true; }
+                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true; }
+                if(0 <= argument.profileType) { argument.profileTypeSpecified=true; }
             }
         }
         public static void getCustomerProfileRequest(getCustomerProfileRequest argument)
         {
             if (null != argument)
             {
-                if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true;}
-                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+                if(argument.unmaskExpirationDate) { argument.unmaskExpirationDateSpecified=true; }
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true; }
 
             }
         }
@@ -1156,7 +1159,7 @@
         {
             if (null != argument)
             {
-                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true;}
+                if(argument.includeIssuerInfo) { argument.includeIssuerInfoSpecified=true; }
 
             }
         }
@@ -1177,7 +1180,7 @@
         {
             if (null != argument)
             {
-                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true; }
                 customerAddressExType(argument.address);
             }
         }
@@ -1220,7 +1223,7 @@
             if (null != argument)
             {
                 customerAddressExType(argument.address);
-                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true;}
+                if(argument.defaultShippingAddress) { argument.defaultShippingAddressSpecified=true; }
             }
         }
         public static void updateCustomerShippingAddressResponse(updateCustomerShippingAddressResponse argument)
@@ -1432,7 +1435,7 @@
             if(null != argument) 
             {
                 transactionRequestType(argument.transactionRequest);
-                if(null != argument.hostedPaymentSettings){ foreach( var value in argument.hostedPaymentSettings) { settingType(value);} } 
+                if(null != argument.hostedPaymentSettings){ foreach( var value in argument.hostedPaymentSettings) { settingType(value); } } 
             }
         }
         public static void getHostedPaymentPageResponse(getHostedPaymentPageResponse argument) 
@@ -1607,14 +1610,14 @@
         {
             if(null != argument) 
             {
-                if(null != argument.auSummary){ foreach( var value in argument.auSummary) { auResponseType(value);} } 
+                if(null != argument.auSummary){ foreach( var value in argument.auSummary) { auResponseType(value); } } 
             }
         }
         public static void getAUJobDetailsRequest(getAUJobDetailsRequest argument) 
         {
             if(null != argument) 
             {
-                if(0 <= argument.modifiedTypeFilter) { argument.modifiedTypeFilterSpecified=true;}
+                if(0 <= argument.modifiedTypeFilter) { argument.modifiedTypeFilterSpecified=true; }
                 Paging(argument.paging);
             }
         }
@@ -1622,8 +1625,8 @@
         {
             if(null != argument) 
             {
-                if(0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified=true;}
-                if(null != argument.auDetails){ foreach( var value in argument.auDetails) { auDetailsType(value);} } 
+                if(0 <= argument.totalNumInResultSet) { argument.totalNumInResultSetSpecified=true; }
+                if(null != argument.auDetails){ foreach( var value in argument.auDetails) { auDetailsType(value); } } 
             }
         }
 
@@ -1636,8 +1639,8 @@
         {
             if(null != argument) 
             {
-                if(argument.isTestMode) { argument.isTestModeSpecified=true;}
-                if(null != argument.processors){ foreach( var value in argument.processors) { processorType(value);} }
+                if(argument.isTestMode) { argument.isTestModeSpecified=true; }
+                if(null != argument.processors){ foreach( var value in argument.processors) { processorType(value); } }
                 customerAddressType(argument.businessInformation);
                 if (null != argument.contactDetails) { foreach (var value in argument.contactDetails) { ContactDetailType(value); } }
             }

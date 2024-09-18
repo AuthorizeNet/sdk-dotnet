@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>AuthorizeNet</id>
-        <version>2.0.3</version>
+        <version>2.0.4</version>
         <title>AuthorizeNet</title>
         <authors>Authorize.Net</authors>
         <owners>AuthorizeNet</owners>
@@ -16,6 +16,6 @@
     </metadata>
     <files>
         <file src="Authorize.NET\bin\Release\AuthorizeNet.dll" target="lib\AuthorizeNet.dll" />
-	<file src="Authorize.NET\bin\Release\AuthorizeNet.xml" target="lib\AuthorizeNet.xml" />
+        <file src="Authorize.NET\bin\Release\AuthorizeNet.xml" target="lib\AuthorizeNet.xml" />
     </files>
 </package>

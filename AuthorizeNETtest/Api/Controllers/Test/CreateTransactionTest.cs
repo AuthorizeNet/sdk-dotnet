@@ -318,6 +318,7 @@ namespace AuthorizeNet.Api.Controllers.Test
         }
 
         [Test]
+        [Ignore("Blob data is invalid")]
         public void DecryptPaymentDataRequestTest()
         {
             LogHelper.info(Logger, "decryptPaymentDataRequestTest");
